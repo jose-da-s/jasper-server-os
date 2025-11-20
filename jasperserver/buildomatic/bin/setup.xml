@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -362,7 +364,7 @@
                     <then>
                         <create-ks ks="${ks}" ksp="${ksp}" propsFile="${masterPropsSource}"
                                    confirmArg="y"
-                                   confirmMessage="A new encryption key and a new keystore are about to be created. Any previously created key and keystore will become invalid and the corresponding passwords unusable. If you think this JasperReports Server instance already has a keystore configured by another OS user, stop this process and configure the path in keystore.init.properties file, then run this command again. See the JasperReports Server Security Guide for details. Do you want to continue? (%s/N)">
+                                   confirmMessage="A new encryption key and a new keystore are about to be created. Any previously created key and keystore will become invalid and the corresponding passwords unusable. If you think this Jasper Server OS instance already has a keystore configured by another OS user, stop this process and configure the path in keystore.init.properties file, then run this command again. See the Jasper Server OS Security Guide for details. Do you want to continue? (%s/N)">
                             <!--classpath>
                                 <fileset dir="${basedir}/lib">
                                     <include name="js-crypto-*.jar"/>

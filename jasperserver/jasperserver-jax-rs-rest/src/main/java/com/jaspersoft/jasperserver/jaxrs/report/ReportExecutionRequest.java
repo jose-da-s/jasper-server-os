@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -232,7 +234,7 @@ public class ReportExecutionRequest {
 	@Schema(
 			description = "Specifies the desired output format: `pdf`, `html`, `csv`, `xls`, `xlsx`, `docx`, `pptx`, `odt`, `ods`, `rtf`, `xml`, "
 					+ "`jrprint`.\n\n"
-					+ "As of JasperReports Server 6.0, it is also possible to specify `json` if your reports are designed for data "
+					+ "As of Jasper Server OS 6.0, it is also possible to specify `json` if your reports are designed for data "
 					+ "export. For more information, see the JasperReports Library samples documentation.", 
 			required=true,
 			allowableValues =  {"pdf", "html", "csv", "xls", "xlsx", "docx", "pptx", "odt", "ods", "rtf", "xml", "jrprint", "json", "data_csv", "data_xlsx"},

@@ -1,4 +1,4 @@
-If you have obtained the JasperReports Server Community Edition, your use of such software is subject to the Affero General Public License v.3.0, a copy of which is provided below, and the third party notices that follow the TIBCO End User License Agreement in the file Third-Party-Notices.pdf, a copy of which is included in this distribution.  For the avoidance of doubt, the Community Edition is *not* subject to the TIBCO End User License Agreement.
+If you have obtained the Jasper Server OS Community Edition, your use of such software is subject to the Affero General Public License v.3.0, a copy of which is provided below, and the third party notices that follow the TIBCO End User License Agreement in the file Third-Party-Notices.pdf, a copy of which is included in this distribution.  For the avoidance of doubt, the Community Edition is *not* subject to the TIBCO End User License Agreement.
 
 *****
 

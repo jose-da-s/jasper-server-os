@@ -1,6 +1,6 @@
 # jrs-ui
 
-JasperReports Server Community edition WEB UI
+Jasper Server OS Community edition WEB UI
 
 This is *basic* development documentation.
 
@@ -69,7 +69,7 @@ yarn run build
 Build output will be placed here: `jrs-ui/build/overlay/scripts`
 
 Read [Deploy](#deploy) section to learn how to deploy these files to the production instance
-of **JasperReports Server**
+of **Jasper Server OS**
 
 Available build parameters (see [Parametrization](#parametrization) section):
 - `NODE_ENV`: 
@@ -90,10 +90,10 @@ to the JRS deployment folder.
 > If localization bundles and themes also should be deployed - prepare them for deployment first
 > by running `yarn run overlay` in `current folder`
 
-For example, let's assume that our app server is **Tomcat** and **JasperReports Server** deployed here:
+For example, let's assume that our app server is **Tomcat** and **Jasper Server OS** deployed here:
 `c:\tomcat\webapps\jasperserver`.
 
-To deploy our build to JasperReports Server instance we have to do the following:
+To deploy our build to Jasper Server OS instance we have to do the following:
 - set `JRSInstancePath=c:/tomcat/webapps/jasperserver` (see [Parametrization](#parametrization))
 - run command in a `current folder`:
     ```shell script
@@ -122,7 +122,7 @@ Changes in themes (css and images) and i18n bundles might not be visible immedia
 > If your JRS instance is not accessible via file system - ask JRS instance admin about how to deploy WEB UI.
 
 ### Deploy to local maven repository
-If you are developing both frontend and backend of the **JasperReports Server** 
+If you are developing both frontend and backend of the **Jasper Server OS**
 most likely you want updated fronted distribution to be picked up during backend build.
  
 Backend build process expects frontend distribution to be deployed to the maven repository.
@@ -199,12 +199,12 @@ this will copy all bundles to `build/overlay/WEB-INF/bundles` folder
 - restart server
 
 ## Rapid development environment
-**JasperReports Server WEB UI** uses [Webpack](https://webpack.js.org/) as a build system,
+**Jasper Server OS WEB UI** uses [Webpack](https://webpack.js.org/) as a build system,
 so it's possible to use different webpack capabilities to speed up development of WEB UI.
 
 ### Webpack Dev Server
 Webpack provides [dev server](https://webpack.js.org/configuration/dev-server/) to speedup development.
-- Dev Server allows us to develop WEB UI without necessity to set up local instance of JasperReports Server 
+- Dev Server allows us to develop WEB UI without necessity to set up local instance of Jasper Server OS
 - Dev Server allows us to have live reload: once source code (javascript) has been changed dev server
 automatically re-builds source code and reloads browser page 
 so changes automatically become visible
@@ -238,7 +238,7 @@ you can open browser using this url
  
 (where `jasperserver` part of the URL is the value of `ROOT_PATH` parameter).
 
-You should see **JasperReports Server** login page.
+You should see **Jasper Server OS** login page.
 
 > Note that during development using Webpack Dev Server some JRS functionality might not work as expected.
 > In this case to check if everything is OK - use production [build](#build) and [deploy](#deploy) 

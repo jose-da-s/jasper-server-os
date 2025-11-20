@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Start/Stop of JasperReports Server
+# Start/Stop of Jasper Server OS
 #
 
 # CHANGE: change line below to point to your jasperserver installation path

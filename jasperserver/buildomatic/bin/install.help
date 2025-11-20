@@ -1,6 +1,6 @@
     <empty>        Do install with sample databases and full sample data
     minimal        Do minimal install (no sample data and sample databases)
     regen-config   If you edited your configuration, this will recreate your Buildomatic configuration
-    drop-db        Only does a drop of the main JasperReports Server database
+    drop-db        Only does a drop of the main Jasper Server OS database
     test           Do any possible validation, report problems. Don't change anything
     help           Provide some information about what options mean, what will happen by default, etc.

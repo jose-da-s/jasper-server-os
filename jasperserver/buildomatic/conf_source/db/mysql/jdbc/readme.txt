@@ -34,7 +34,7 @@ of the JDBC driver maintained by the MariaDB project, you can do the following:
 
 Updated buildomatic default configurations to specify the MariaDB 
 JDBC driver. So, now, the MariaDB JDBC driver will be used by default
-when installing JasperReports Server to a MySQL database. The MariaDB
+when installing Jasper Server OS to a MySQL database. The MariaDB
 JDBC driver is compatible with the MySQL database.
 
 

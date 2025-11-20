@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -33,7 +35,7 @@ import com.meterware.httpunit.WebResponse;
 
 /**
  * The test cases are for: -
- * Connecting the Jasper Server Startup Page - checking the Jasper Server Wizard
+ * Connecting the Jasper Server OS Startup Page - checking the Jasper Server OS Wizard
  **/
 public abstract class AbstractHttpWizardBaseFlow
 	extends HttpUnitBaseTestCase

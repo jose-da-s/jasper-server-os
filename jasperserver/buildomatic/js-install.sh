@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# JasperReports Server Pro installation script.
+# Jasper Server OS Pro installation script.
 #
 # Usage: js-install.sh {option:(<EMPTY>|minimal|drop-db|regen-config|test)}
 #

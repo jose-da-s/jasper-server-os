@@ -30,8 +30,14 @@
     <!-- these are used to help specify the sql update script to be executed    -->
     <property name="defaultUpgradeFromVersion" value="8.1" />
     <property name="defaultUpgradeToVersion" value="8.2" />
+    <!--  oracle special handling-->
+	<property name="quartz.ddl.default" value="quartz.ddl"/>
+	<property name="quartz.ddl.oracle23plus" value="quartz-oracle23.ddl"/>
+	<condition property="quartz.ddl.current" value="${quartz.ddl.oracle23plus}" else="${quartz.ddl.default}">
+	    <istrue value="${use.oracle23plus.quartz}"/>
+	</condition>
 
-    <target name="create-js-db"
+	<target name="create-js-db"
             description="Create JasperServer metadata DB">
         <echo message=" --- (db-common.xml:create-js-db) js.dbName = ${js.dbName} --- "/>
     	<createDB systemName="js" jdbcUrl="${admin.jdbcUrl}" onerror="abort" />
@@ -205,7 +211,7 @@
           <scripts>
             <fileset dir="${currentSqlDir}">
         	  <include name="js-create.ddl"/>
-              <include name="quartz.ddl"/>
+              <include name="${quartz.ddl.current}"/>
             </fileset>
           </scripts>
         </initDB>
@@ -216,7 +222,7 @@
       <initDB jdbcUrl="${js.jdbcUrl}" print="true" systemName="js">
         <scripts>
           <fileset dir="${currentSqlDir}">
-            <include name="quartz.ddl"/>
+          	<include name="${quartz.ddl.current}"/>
           </fileset>
         </scripts>
       </initDB>

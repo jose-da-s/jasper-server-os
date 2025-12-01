@@ -654,6 +654,7 @@
           <or>
             <equals arg1="${dbType}" arg2="mysql" />
             <equals arg1="${dbType}" arg2="postgresql" />
+            <equals arg1="${dbType}" arg2="oracle" />
           </or>
         </not>
           <equals arg1="${strategy}" arg2="inDatabase" />

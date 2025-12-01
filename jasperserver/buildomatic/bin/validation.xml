@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -494,32 +496,34 @@
      <!-- comment out line below if there is a "hang" error on validateHost step -->
     <validateHostAndPort host="${dbHost}" port="${dbPort}" type="DBMS" />
     <if>
-      <isset property="installType"/>
-      <then>
-        <!-- comment out line below if there is a "hang" error on validateHost step -->
-        <validateHostAndPort host="${audit.dbHost}" port="${audit.dbPort}" type="DBMS" />
-      </then>
-    </if>
-    <if>
       <not>
-        <equals arg1="${dbType}" arg2="db2" />
+      	<or>
+          <equals arg1="${dbType}" arg2="oracle" />
+  		  <equals arg1="${dbType}" arg2="db2" />
+        </or>
       </not>
       <then>
         <validateDB systemName="admin" phase="test" failOnDBNotExists="true" />
+      </then>
+      <else>
         <if>
-          <isset property="installType"/>
+          <and>
+            <isset property="sysPassword" />
+            <not>
+              <equals arg1="${sysPassword}" arg2="" />
+            </not>
+          </and>
           <then>
-            <validateDB systemName="audit.admin" dbUsername="${audit.dbUsername}" dbPassword="${audit.dbPassword}" phase="test" failOnDBNotExists="true" />
+            <validateDB systemName="admin" phase="test" failOnDBNotExists="true"
+                        dbUsername="${sysUsername}" dbPassword="${sysPassword}" />
           </then>
+          <else>
+            <echo>DBA password sysPassword not set.</echo>
+            <echo>Attempting connection with standard dbUsername ${dbUsername}</echo>
+            <validateDB systemName="js" phase="test" failOnDBNotExists="true" />
+          </else>
         </if>
-      </then>
-    </if>
-    <validateDB systemName="js" phase="test" />
-    <if>
-      <isset property="installType"/>
-      <then>
-        <validateDB systemName="audit" dbUsername="${audit.dbUsername}" dbPassword="${audit.dbPassword}" phase="test" />
-      </then>
+      </else>
     </if>
   </target>
 
@@ -532,9 +536,6 @@
   <target name="do-pre-install-test"
       description="Tests system before installing JasperServer"
       depends="do-install-upgrade-test">
-
-    <validateDB systemName="foodmart" phase="test" />
-    <validateDB systemName="sugarcrm" phase="test" />
   </target>
 
   <target name="pre-install-test-ce"
@@ -559,6 +560,7 @@
         <or>
           <equals arg1="${dbType}" arg2="mysql" />
           <equals arg1="${dbType}" arg2="postgresql" />
+          <equals arg1="${dbType}" arg2="oracle" />
         </or>
       </not>
       <then>

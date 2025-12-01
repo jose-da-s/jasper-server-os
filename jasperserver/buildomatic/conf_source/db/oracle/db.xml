@@ -1,0 +1,333 @@
+<!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
+  ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
+  ~ http://www.jaspersoft.com.
+  ~
+  ~ Unless you have purchased a commercial license agreement from Jaspersoft,
+  ~ the following license terms apply:
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<project name="db">
+
+  <import file="${buildBin}/db-common.xml" />
+
+  <property name="admin.dbName" value="${sysUsername}" />
+
+  <macrodef name="createDB">
+    <attribute name="systemName" />
+    <attribute name="jdbcUrl" />
+    <attribute name="dbUsername" default="${dbUsername}" />
+    <attribute name="dbPassword" default="${dbPassword}" />
+    <attribute name="onerror" default="abort" />
+    <sequential>
+      <echo
+        message=" --- (db.xml:createDB) - using DBA credentials sysUsername and sysPassword --- " />
+      <runSQL jdbcUrl="@{jdbcUrl}" dbUsername="${sysUsername}"
+        dbPassword="${sysPassword}" print="true" onerror="@{onerror}">
+        ${@{systemName}.create};
+        ${@{systemName}.privileges};
+      </runSQL>
+      <var name="@{systemName}DBCreated" value="true" />
+    	<echo>@{systemName}DBCreated</echo>
+    </sequential>
+  </macrodef>
+
+    <macrodef name="initDB">
+      <attribute name="systemName"/> <!-- do not remove, is used in Oracle db.xml -->
+      <attribute name="jdbcUrl"/>
+      <attribute name="dbUsername" default="${dbUsername}"/>
+      <attribute name="dbPassword" default="${dbPassword}"/>
+      <attribute name="onerror" default="abort"/>
+      <element name="scripts"/>
+      <sequential>
+        <runSQL jdbcUrl="@{jdbcUrl}" dbUsername="${@{systemName}.dbName}" dbPassword="@{dbPassword}"
+                print="true" onerror="@{onerror}">
+          <scripts/>
+        </runSQL>
+      </sequential>
+    </macrodef>
+
+  <macrodef name="dropDB">
+    <attribute name="systemName" />
+    <attribute name="jdbcUrl" />
+    <attribute name="dbUsername" default="${dbUsername}" />
+    <attribute name="dbPassword" default="${dbPassword}" />
+    <attribute name="onerror" default="abort" />
+    <sequential>
+      <echo
+        message=" --- (db.xml:dropDB) - using DBA credentials sysUsername and sysPassword --- " />
+      <runSQL jdbcUrl="@{jdbcUrl}" dbUsername="${sysUsername}"
+        dbPassword="${sysPassword}" print="true" onerror="@{onerror}">
+        ${@{systemName}.drop}
+      </runSQL>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="recreateDB">
+    <attribute name="systemName" />
+    <attribute name="dbUsername" default="${dbUsername}" />
+    <attribute name="dbPassword" default="${dbPassword}" />
+    <attribute name="prompt" default="true" />
+
+    <sequential>
+      <var name="displayNameOfDBToRecreate"
+        value="${@{systemName}.db.displayName}" />
+      <var name="nameOfDBForDBMSToRecreate"
+        value="${@{systemName}.dbName}" />
+
+      <if>
+        <and>
+          <isset property="sysPassword" />
+          <not>
+            <equals arg1="${sysPassword}" arg2="" />
+          </not>
+        </and>
+        <then>
+        	<!-- begin code from the normal recreateDB macro -->
+          <validateDB systemName="@{systemName}"
+            dbUsername="@{dbUsername}" dbPassword="@{dbPassword}"
+            phase="before" />
+          <if>
+            <istrue value="${dbExists}" />
+            <then>
+              <if>
+                <istrue value="@{prompt}" />
+                <then>
+                  <input
+                    message="Database [${nameOfDBForDBMSToRecreate}] already exists. Drop it and create new? WARNING: All existing data will be lost! This operation may not be rolled back. Enter 'y' to recreate or 'n' to skip this step. Default is 'n'"
+                    validargs="y,n" defaultvalue="n"
+                    addproperty="recreate@{systemName}DB" />
+                </then>
+              </if>
+              <if>
+                <or>
+                  <equals arg1="${recreate@{systemName}DB}"
+                    arg2="y" />
+                  <equals arg1="@{prompt}" arg2="false" />
+                </or>
+                <then>
+                  <antcall target="drop-@{systemName}-db" />
+                  <create-db-set-flag systemName="@{systemName}"/>
+                </then>
+                <else>
+                  <echo>Database recreation skipped. Leaving database
+                    intact</echo>
+                </else>
+              </if>
+            </then>
+            <elseif>
+              <isfalse value="${dbExists}" />
+              <then>
+                <create-db-set-flag systemName="@{systemName}"/>
+              </then>
+            </elseif>
+          </if>
+          <if>
+            <istrue value="${@{systemName}DBCreated}" />
+            <then>
+              <validateDB systemName="@{systemName}"
+                phase="after" failOnDBNotExists="true"
+                failOnUnrecoverableConnectionError="true" />
+              <if>
+                <isfalse value="${dbExists}" />
+                <then>
+                  <fail>Post-creation check for
+                    ${displayNameOfDBToRecreate} database failed:
+                    [${nameOfDBForDBMSToRecreate}] database doesn't
+                    exist</fail>
+                </then>
+              </if>
+            </then>
+          </if>
+        	<!-- end code from the normal recreateDB macro -->
+        </then>
+        <else>
+          <echo>No DBA password provided. Skipping database recreation.</echo>
+        </else>
+      </if>
+    </sequential>
+  </macrodef>
+
+  <!-- Since Oracle databases are always owned by a user of the same name, 
+    this version of the macro does two things differently: 1. use @{systemName}.dbName 
+    as the username 2. if DBA credentials are supplied (sysUsername, sysPassword) 
+    and the connection fails, then additionally check the USERS table to distinguish 
+    between the cases "bad password" and "db does not exist" -->
+  <macrodef name="validateDBMSConnection">
+    <attribute name="jdbcUrl" />
+    <attribute name="systemName" default="before" />
+    <attribute name="phase" default="before" />
+    <attribute name="dbUsername" default="${dbUsername}" />
+    <attribute name="dbPassword" default="${dbPassword}" />
+    <attribute name="failOnConnectionError" default="true" />
+    <attribute name="failOnDBNotExists" default="false" />
+    <attribute name="failOnUnrecoverableConnectionError"
+      default="true" />
+    <attribute name="connectionErrorOccurredProperty"
+      default="connectionErrorOccurredProperty@{phase}" />
+    <attribute name="errorSqlStateCodeProperty"
+      default="errorSqlStateCodeProperty@{phase}" />
+    <attribute name="errorNativeCodeProperty"
+      default="errorNativeCodeProperty@{phase}" />
+    <attribute name="errorMessageProperty"
+      default="errorMessageProperty@{phase}" />
+
+    <sequential>
+      <echo>${@{systemName}.dbName}</echo>
+      <runSQL jdbcUrl="@{jdbcUrl}" print="false"
+        dbUsername="${@{systemName}.dbName}" dbPassword="@{dbPassword}"
+        onerror="abort" failOnConnectionError="@{failOnConnectionError}"
+        connectionErrorOccurredProperty="@{connectionErrorOccurredProperty}"
+        errorSqlStateCodeProperty="@{errorSqlStateCodeProperty}"
+        errorNativeCodeProperty="@{errorNativeCodeProperty}"
+        errorMessageProperty="@{errorMessageProperty}">
+        SELECT 1 FROM DUAL;
+      </runSQL>
+
+      <if>
+        <isset property="@{connectionErrorOccurredProperty}" />
+        <then>
+          <connectionValidationFailureInfoListener
+            errorSqlStateCodeProperty="@{errorSqlStateCodeProperty}"
+            errorNativeCodeProperty="@{errorNativeCodeProperty}"
+            errorMessageProperty="@{errorMessageProperty}" />
+          <if>
+            <and>
+              <equals arg1="${@{errorSqlStateCodeProperty}}"
+                arg2="61000" />
+              <equals arg1="${@{errorNativeCodeProperty}}"
+                arg2="20" />
+            </and>
+            <then>
+              <hostPortValidationFailureListener
+                failOnUnrecoverableConnectionError="@{failOnUnrecoverableConnectionError}" />
+            </then>
+            <elseif>
+              <and>
+                <equals arg1="${@{errorSqlStateCodeProperty}}"
+                  arg2="72000" />
+                <equals arg1="${@{errorNativeCodeProperty}}"
+                  arg2="1017" />
+              </and>
+              <then>
+                <!-- If sysPassword is present, we can also check the users 
+                  table to distinguish between the problems "bad credentials" and "database 
+                  does not exist". If not, we cannot distinguish, so we just throw the "bad 
+                  credentials" error as a default -->
+                <if>
+                  <and>
+                    <isset property="sysPassword" />
+                    <not>
+                      <equals arg1="${sysPassword}" arg2="" />
+                    </not>
+                    <not>
+                      <equals arg1="${sysUsername}"
+                        arg2="${@{systemName}.dbName}" />
+                    </not>
+                  </and>
+                  <then>
+                    <var name="numUsersQuery"
+                      value="SELECT * FROM ALL_USERS WHERE USERNAME = UPPER('${@{systemName}.dbName}');" />
+                    <runSelectSQL jdbcUrl="@{jdbcUrl}"
+                      print="true" dbUsername="${sysUsername}"
+                      dbPassword="${sysPassword}" onerror="abort"
+                      errorNativeCodeProperty="numUsersError"
+                      selectRowCountProperty="numUsersRows">
+                      ${numUsersQuery}
+                    </runSelectSQL>
+                    <if>
+                      <isset property="numUsersError" />
+                      <then>
+                        <var name="dbDoesNotExist" value="false" />
+                      </then>
+                      <elseif>
+                        <equals arg1="${numUsersRows}" arg2="0" />
+                        <then>
+                          <var name="dbDoesNotExist" value="true" />
+                        </then>
+                      </elseif>
+                      <else>
+                        <var name="dbDoesNotExist" value="false" />
+                      </else>
+                    </if>
+                  </then>
+                  <else>
+                    <!-- no DBA credentials provided: throw "bad credentials" -->
+                    <var name="dbDoesNotExist" value="false" />
+                  </else>
+                </if>
+                <if>
+                  <equals arg1="${dbDoesNotExist}" arg2="true" />
+                  <then>
+                    <dBExistsValidationFailureListener
+                      systemName="@{systemName}"
+                      failOnDBNotExists="@{failOnDBNotExists}" />
+                  </then>
+                  <else>
+                    <usernamePasswordValidationFailureListener
+                      failOnUnrecoverableConnectionError="@{failOnUnrecoverableConnectionError}"
+                      userName="${@{systemName}.dbName}"
+                      password="@{dbPassword}" />
+                  </else>
+                </if>
+              </then>
+            </elseif>
+            <else>
+              <genericConnectionValidationFailureListener
+                failOnUnrecoverableConnectionError="@{failOnUnrecoverableConnectionError}"
+                errorMessageProperty="@{errorMessageProperty}" />
+            </else>
+          </if>
+        </then>
+        <else>
+          <connectionOKValidationListener />
+        </else>
+      </if>
+    </sequential>
+  </macrodef>
+    <target name="load-foodmart-db"
+            description="load the foodmart database using the Mondrian loader">
+        <!-- make the ie classpath jar (we can assume that import/export is there) -->
+        <property name="iecpjar" value="${ieLib}/iecp.jar"/>
+        <make-ie-classpath-jar ieLibDir="${ieLib}" classpathjar="${iecpjar}"/>
+        <echo message=" "/>
+        <echo message="Jars loaded from import-export classpath jar: ${iecpjar}"/>
+        <echo message="foodMartData: ${foodMartData}"/>
+        <echo message="jdbcJar: ${jdbcJar}" />
+        <echo message="Using jdbc Jar: ${currentDbJDBCDir}/${jdbcJar}" />
+        <echo message=" "/>
+
+        <java classname="com.jaspersoft.buildomatic.loader.MondrianFoodMartLoader" failonerror="true" fork="true" inputstring="">
+            <arg value="-tables"/>
+            <arg value="-data"/>
+            <arg value="-indexes"/>
+            <arg value="-jdbcDrivers=${jdbcDriverClass}"/>
+            <arg value="-inputFile=${foodMartData}"/>
+            <arg value="-outputJdbcURL=${foodmart.jdbcUrl}"/>
+            <arg value="-outputJdbcUser=${foodmart.dbName}"/> <!-- this line changed -->
+            <arg value="-outputJdbcPassword=${foodmart.dbPassword}"/>
+            <arg value="-outputInitFile=${currentDbDir}/supermart-update.sql"/>
+
+            <classpath>
+                <fileset dir="${basedir}/lib" includes="*.jar"/>
+                <fileset dir="${currentDbJDBCDir}" includes="${jdbcJar}"/>
+                <!-- classpath jar for lib dir -->
+                <pathelement location="${iecpjar}"/>
+            </classpath>
+         </java>
+
+     </target>
+</project>

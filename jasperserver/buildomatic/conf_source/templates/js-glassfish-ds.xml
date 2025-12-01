@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -38,10 +40,9 @@
     </jdbc-connection-pool>
 
     <jdbc-resource enabled="true" jndi-name="${js.jndi}" object-type="user" pool-name="jasperserver_pool"/>
-
-
-    <jdbc-connection-pool 
-        name="sugarcrm_pool" 
+    
+    <jdbc-connection-pool
+        name="sugarcrm_pool"
         datasource-classname="${jdbcDataSourceClass}"
         res-type="javax.sql.ConnectionPoolDataSource"
         max-pool-size="50">
@@ -51,14 +52,14 @@
         <property name="url" value="${sugarcrm.jdbcUrl}"/>
         <property name="databaseName" value="${sugarcrm.dbName}"/>
         <property name="portNumber" value="${dbPort}"/>
-		 <property name="JDBC30DataSource" value="true"/>
+                <property name="JDBC30DataSource" value="true"/>
     </jdbc-connection-pool>
 
     <jdbc-resource enabled="true" jndi-name="${sugarcrm.jndi}" object-type="user" pool-name="sugarcrm_pool"/>
 
 
-    <jdbc-connection-pool 
-        name="foodmart_pool" 
+    <jdbc-connection-pool
+        name="foodmart_pool"
         datasource-classname="${jdbcDataSourceClass}"
         res-type="javax.sql.ConnectionPoolDataSource"
         max-pool-size="50">
@@ -68,10 +69,8 @@
         <property name="url" value="${foodmart.jdbcUrl}"/>
         <property name="databaseName" value="${foodmart.dbName}"/>
         <property name="portNumber" value="${dbPort}"/>
-		<property name="JDBC30DataSource" value="true"/>
+               <property name="JDBC30DataSource" value="true"/>
     </jdbc-connection-pool>
 
     <jdbc-resource enabled="true" jndi-name="${foodmart.jndi}" object-type="user" pool-name="foodmart_pool"/>
-
-
 </resources> 

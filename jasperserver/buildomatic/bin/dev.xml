@@ -644,9 +644,9 @@
            depends="add-jdbc-driver,drop-js-db,create-js-db,build-js-ddl-pro,init-js-db-pro"
            description="drop js db, create js db, build js ddl pro, initialize the js db pro">
     </target>
-
+	<!--             depends="drop-audit-db,create-audit-db,init-audit-db-pro" -->
     <target name="build-init-audit-db-pro"
-            depends="drop-audit-db,create-audit-db,init-audit-db-pro"
+            depends=""
             description="drop audit db, create audit db, initialize the audit db pro">
     </target>
 
@@ -659,9 +659,9 @@
            depends="drop-js-db,create-js-db,init-js-db-pro"
            description="drop js db, create js db, init js db for Pro (handy for dev work)">
     </target>
-
+	<!--             depends="drop-audit-db,create-audit-db,init-audit-db-pro" -->
     <target name="re-init-audit-db-pro"
-            depends="drop-audit-db,create-audit-db,init-audit-db-pro"
+            depends=""
             description="drop audit db, create audit db, init audit db for Pro (handy for dev work)">
     </target>
 
@@ -918,15 +918,15 @@
 
 
     <!-- NOTE: the "*-all" targets are oriented toward executing -pro targets -->
-
+	<!--            depends="build-src-all,build-init-js-db-pro,build-init-audit-db-pro,run-integration-tests-pro" -->
     <target name="build-all"
-           depends="build-src-all,build-init-js-db-pro,build-init-audit-db-pro,run-integration-tests-pro"
+           depends="build-src-all,build-init-js-db-pro,run-integration-tests-pro"
            description="(do not do svn update), clean build all src, drop-recreate db,
                         build ddl pro, init js db pro, run integration tests pro, run production data pro">
     </target>
-
+	<!--            depends="update-all,build-src-all,build-init-js-db-pro,build-init-audit-db-pro,run-integration-tests-pro,run-production-data-pro" -->
     <target name="build-all-svn-update"
-           depends="update-all,build-src-all,build-init-js-db-pro,build-init-audit-db-pro,run-integration-tests-pro,run-production-data-pro"
+           depends="update-all,build-src-all,build-init-js-db-pro,run-integration-tests-pro,run-production-data-pro"
            description="(do not do svn update), clean build all src, drop-recreate db,
                         build ddl pro, init js db pro, run integration tests pro, run production data pro">
     </target>
@@ -1238,17 +1238,13 @@
     <target name="drop-js-db-it" depends="drop-js-db-it-rest"
            description="drop jasperserver repository db for IT">
         <echo message="Dropping database. js.it.dbName = ${js.it.dbName}"/>
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="continue">
-            ${js.it.drop}
-        </runSQL>
+    	<dropDB systemName="js.it" jdbcUrl="${admin.jdbcUrl}" onerror="continue" />
     </target>
 
     <target name="create-js-db-it"
            description="create jasperserver repository db for IT">
         <echo message="Creating database, js.it.dbName = ${js.it.dbName}, ${js.it.create}"/>
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="abort">
-            ${js.it.create}
-        </runSQL>
+    	<createDB systemName="js.it" jdbcUrl="${admin.jdbcUrl}"/>
     </target>
 
     <target name="init-js-db-it-pro"
@@ -1264,13 +1260,15 @@
         </if>
 
         <echo message="Connecting to ${js.it.dbName} ..."/>
-        <runSQL jdbcUrl="${js.it.jdbcUrl}" print="true" onerror="${runSqlOnError}">
+    	<initDB systemName="js.it" jdbcUrl="${js.it.jdbcUrl}" onerror="${runSqlOnError}">
+          <scripts>
             <fileset dir="${currentSqlDir}">
                 <include name="js-pro-create.ddl"/>
                 <include name="js-pro-create-audit.ddl"/>
                 <include name="quartz.ddl"/>
             </fileset>
-        </runSQL>
+          </scripts>
+    	</initDB>
     </target>
 
     <target name="re-create-js-db-it-pro"
@@ -1298,17 +1296,13 @@
     <target name="drop-js-db-it-rest"
             description="drop jasperserver repository db for IT">
         <echo message="Dropping database. js.it.dbName = ${js.it.dbName}"/>
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="continue">
-            ${js.it.rest.drop}
-        </runSQL>
+    	<dropDB systemName="js.it.rest" jdbcUrl="${admin.jdbcUrl}" onerror="continue" />
     </target>
 
     <target name="create-js-db-it-rest"
             description="create jasperserver repository db for IT">
         <echo message="Creating database, js.it.rest.dbName = ${js.it.rest.dbName}, ${js.it.rest.create}"/>
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="abort">
-            ${js.it.rest.create}
-        </runSQL>
+    	<createDB systemName="js.it.rest" jdbcUrl="${admin.jdbcUrl}"/>
     </target>
 
     <target name="init-js-db-it-pro-rest"
@@ -1324,13 +1318,15 @@
         </if>
 
         <echo message="Connecting to ${js.it.rest.dbName} ..."/>
-        <runSQL jdbcUrl="${js.it.rest.jdbcUrl}" print="true" onerror="${runSqlOnError}">
+    	<initDB systemName="js.it.rest" jdbcUrl="${js.it.rest.jdbcUrl}" onerror="${runSqlOnError}">
+          <scripts>
             <fileset dir="${currentSqlDir}">
                 <include name="js-pro-create.ddl"/>
                 <include name="js-pro-create-audit.ddl"/>
                 <include name="quartz.ddl"/>
             </fileset>
-        </runSQL>
+          </scripts>
+    	</initDB>
     </target>
 
     <target name="re-create-js-db-it-pro-rest"

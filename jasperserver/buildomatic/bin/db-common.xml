@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,7 +22,6 @@
   -->
 
 
-
 <project name="defaultTargets">
 
     <!-- property settings -->
@@ -30,27 +31,39 @@
     <property name="defaultUpgradeFromVersion" value="8.1" />
     <property name="defaultUpgradeToVersion" value="8.2" />
 
+    <target name="create-js-db"
+            description="Create JasperServer metadata DB">
+        <echo message=" --- (db-common.xml:create-js-db) js.dbName = ${js.dbName} --- "/>
+    	<createDB systemName="js" jdbcUrl="${admin.jdbcUrl}" onerror="abort" />
+    </target>
     <target name="drop-js-db"
             description="Drop JasperServer metadata DB">
         <echo message=" --- (db-common.xml:drop-js-db) js.dbName = ${js.dbName} --- "/>
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="continue">
-            ${js.drop}
-        </runSQL>
+    	<dropDB systemName="js" jdbcUrl="${admin.jdbcUrl}" onerror="continue" />
     </target>
 
+    <target name="create-audit-db"
+            description="Create JasperServer Audit DB">
+        <echo message=" --- (db-common.xml:create-audit-db) audit.dbName = ${audit.dbName} --- "/>
+    	<if>
+    		<equals arg1="${installType}" arg2="split" />
+    		<then>
+		    	<createDB systemName="audit" jdbcUrl="${audit.admin.jdbcUrl}"
+        		        dbUsername="${audit.dbUsername}" dbPassword="${audit.dbPassword}" onerror="continue" />
+			</then>
+		</if>
+    </target>
     <target name="drop-audit-db"
             description="Drop Audit metadata DB">
         <if>
             <equals arg1="${installType}" arg2="split" />
             <then>
                 <echo message=" --- (db-common.xml:drop-audit-db) audit.dbName = ${audit.dbName} --- "/>
-                <runSQL jdbcUrl="${audit.admin.jdbcUrl}" dbUsername="${audit.dbUsername}" dbPassword="${audit.dbPassword}" print="true" onerror="continue">
-                    ${audit.drop}
-                </runSQL>
+            	<dropDB systemName="audit" jdbcUrl="${admin.jdbcUrl}"
+            		dbUsername="${audit.dbUsername}" dbPassword="${audit.dbPassword}" onerror="continue" />
             </then>
         </if>
     </target>
-    
     <target name="drop-audit-tables"
             description="Drop Audit tables from JasperserverDB">
         <if>
@@ -82,53 +95,26 @@
         </if>
     </target>
 
-    <target name="create-js-db"
-            description="Create JasperServer metadata DB">
-        <echo message=" --- (db-common.xml:create-js-db) js.dbName = ${js.dbName} --- "/>
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="abort">
-        ${js.create}
-        </runSQL>
-    </target>
-
-    <target name="create-audit-db"
-            description="Create JasperServer Audit DB">
-        <if>
-            <equals arg1="${installType}" arg2="split" />
-            <then>
-                <echo message=" --- (db-common.xml:create-audit-db) audit.dbName = ${audit.dbName} --- "/>
-                <runSQL jdbcUrl="${audit.admin.jdbcUrl}" dbUsername="${audit.dbUsername}" dbPassword="${audit.dbPassword}" print="true" onerror="continue">
-                    ${audit.create}
-                </runSQL>
-            </then>
-        </if>
-    </target>
-
-    <target name="drop-foodmart-db"
-            description="drop foodmart db">
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="abort">
-            ${foodmart.drop}
-        </runSQL>
-    </target>
-
     <target name="create-foodmart-db"
             description="create foodmart db">
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="abort">
-            ${foodmart.create}
-        </runSQL>
+        <echo message=" --- (db-common.xml:create-foodmart-db) foodmart.dbName = ${foodmart.dbName} --- "/>
+    	<createDB systemName="foodmart" jdbcUrl="${admin.jdbcUrl}"/>
     </target>
-
-    <target name="drop-sugarcrm-db"
-            description="drop sugarcrm db">
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="abort">
-            ${sugarcrm.drop}
-        </runSQL>
+    <target name="drop-foodmart-db"
+            description="drop foodmart db">
+        <echo message=" --- (db-common.xml:drop-foodmart-db) foodmart.dbName = ${foodmart.dbName} --- "/>
+    	<dropDB systemName="foodmart" jdbcUrl="${admin.jdbcUrl}"/>
     </target>
 
     <target name="create-sugarcrm-db"
             description="create sugarcrm db">
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="abort">
-            ${sugarcrm.create}
-        </runSQL>
+        <echo message=" --- (db-common.xml:create-sugarcrm-db) sugarcrm.dbName = ${sugarcrm.dbName} --- "/>
+    	<createDB systemName="sugarcrm" jdbcUrl="${admin.jdbcUrl}"/>
+    </target>
+    <target name="drop-sugarcrm-db"
+            description="drop sugarcrm db">
+        <echo message=" --- (db-common.xml:drop-sugarcrm-db) sugarcrm.dbName = ${sugarcrm.dbName} --- "/>
+    	<dropDB systemName="sugarcrm" jdbcUrl="${admin.jdbcUrl}"/>
     </target>
 
     <target name="init-js-db-pro"
@@ -180,19 +166,23 @@
                         <equals arg1="${dbType}" arg2="oracle"/>
                     </or>
                     <then>
-                        <runSQL jdbcUrl="${audit.jdbcUrl}" dbUsername="${audit.dbUsername}" dbPassword="${audit.dbPassword}" print="true" onerror="continue">
+                      <initDB systemName="audit" jdbcUrl="${audit.jdbcUrl}" dbUsername="${audit.dbUsername}" dbPassword="${audit.dbPassword}" onerror="continue">
+                        <scripts>
                             <fileset dir="${currentSqlDir}">
                                 <include name="js-sequence-create.ddl"/>
                                 <include name="js-pro-create-audit.ddl"/>
                             </fileset>
-                        </runSQL>
+                        </scripts>
+                      </initDB>
                     </then>
                     <else>
-                        <runSQL jdbcUrl="${audit.jdbcUrl}" dbUsername="${audit.dbUsername}" dbPassword="${audit.dbPassword}" print="true" onerror="continue">
-                            <fileset dir="${currentSqlDir}">
-                                <include name="js-pro-create-audit.ddl"/>
-                            </fileset>
-                        </runSQL>
+                      <initDB systemName="audit" jdbcUrl="${audit.jdbcUrl}" dbUsername="${audit.dbUsername}" dbPassword="${audit.dbPassword}" onerror="continue">
+                        <scripts>
+                          <fileset dir="${currentSqlDir}">
+                              <include name="js-pro-create-audit.ddl"/>
+                          </fileset>
+                        </scripts>
+                      </initDB>
                     </else>
                 </if>
             </then>
@@ -211,22 +201,25 @@
                 <var name="runSqlOnError" value="${runSqlDefaultOnError}" />
             </else>
         </if>
-
-        <runSQL jdbcUrl="${js.jdbcUrl}" print="true" onerror="${runSqlOnError}">
+        <initDB jdbcUrl="${js.jdbcUrl}" onerror="${runSqlOnError}" systemName="js">
+          <scripts>
             <fileset dir="${currentSqlDir}">
-                <include name="js-create.ddl"/>
-                <include name="quartz.ddl"/>
+        	  <include name="js-create.ddl"/>
+              <include name="quartz.ddl"/>
             </fileset>
-        </runSQL>
+          </scripts>
+        </initDB>
     </target>
 
     <target name="init-quartz"
             description="run ddl for js db">
-        <runSQL jdbcUrl="${js.jdbcUrl}" print="true">
-            <fileset dir="${currentSqlDir}">
-                <include name="quartz.ddl"/>
-            </fileset>
-        </runSQL>
+      <initDB jdbcUrl="${js.jdbcUrl}" print="true" systemName="js">
+        <scripts>
+          <fileset dir="${currentSqlDir}">
+            <include name="quartz.ddl"/>
+          </fileset>
+        </scripts>
+      </initDB>
     </target>
 
 
@@ -1455,7 +1448,7 @@
     <!-- load-foodmart-db                                                    -->
     <!--   Runs the java program MondrianFoodMartLoader.java. Source found   -->
     <!--   under the buildomatic/src folder. The classes for this program    -->
-    <!--   are packaged into a jar: buildomatic/lib/buildomatic.jar       -->
+    <!--   are packaged into a jar: buildomatic/lib/buildomatic.jar          -->
     <!--   Database neutral data is provided as input using the the file     -->
     <!--   buildomatic/install_resources/sql/FoodMartCreateData.zip          -->
     <!-- =================================================================== -->
@@ -1493,23 +1486,25 @@
 
      </target>
 
-    <!-- This target is normally not necessary because the load-foodmart-db target also  -->
-    <!-- runs the supermart-update.sql script after populating the foodmart database     -->
     <target name="update-foodmart-db"
             description="update foodmart for supermart additions">
-        <runSQL jdbcUrl="${foodmart.jdbcUrl}" print="true">
-            <fileset dir="${currentSqlDir}">
-                <include name="supermart-update.sql"/>
+    	<initDB systemName="foodmart" jdbcUrl="${foodmart.jdbcUrl}">
+    	  <scripts>
+    	  	<fileset dir="${currentSqlDir}">
+              <include name="supermart-update.sql"/>
             </fileset>
-        </runSQL>
+          </scripts>
+    	</initDB>
     </target>
 
     <target name="load-sugarcrm-db"
             description="load sugarcrm database">
 
-        <runSQL jdbcUrl="${sugarcrm.jdbcUrl}">
-            <zipentry zipfile="${currentSqlDir}/sugarcrm.zip" name="sugarcrm.sql"/>
-        </runSQL>
+      <initDB systemName="sugarcrm" jdbcUrl="${sugarcrm.jdbcUrl}">
+        <scripts>
+          <zipentry zipfile="${currentSqlDir}/sugarcrm.zip" name="sugarcrm.sql"/>
+        </scripts>
+      </initDB>
     </target>
 
     <target name="build-js-ddl-ce"
@@ -1813,27 +1808,28 @@
       <recreateDB systemName="sugarcrm" />
     </target>
 
-
     <macrodef name="createAuditDBIfNotExists">
-        <attribute name="systemName" />
         <attribute name="dbUsername" default="${dbUsername}"/>
         <attribute name="dbPassword" default="${dbPassword}"/>
 
         <sequential>
-            <var name="displayNameOfDBToRecreate" value="${@{systemName}.db.displayName}" />
-            <var name="nameOfDBForDBMSToRecreate" value="${@{systemName}.dbName}" />
+            <var name="displayNameOfDBToRecreate" value="${audit.db.displayName}" />
+            <var name="nameOfDBForDBMSToRecreate" value="${audit.dbName}" />
 
-            <validateDB systemName="@{systemName}"  dbUsername="@{dbUsername}" dbPassword="@{dbPassword}" phase="before" />
+            <validateDB systemName="audit" dbUsername="@{dbUsername}" dbPassword="@{dbPassword}" phase="before" />
             <if>
-                <isfalse value="${dbExists}" />
-                    <then>
-                        <create-db-set-flag systemName="@{systemName}" />
-                    </then>
+            	<and>
+            		<equals arg1="${installType}" arg2="split" />
+	                <isfalse value="${dbExists}" />
+        		</and>
+                <then>
+                	<antcall target="create-audit-db" />
+                </then>
             </if>
             <if>
-                <istrue value="${@{systemName}DBCreated}" />
+                <istrue value="${auditDBCreated}" />
                 <then>
-                    <validateDB systemName="@{systemName}" phase="after" failOnDBNotExists="true"
+                    <validateDB systemName="audit" phase="after" failOnDBNotExists="true"
                                 failOnUnrecoverableConnectionError="true" />
                     <if>
                         <isfalse value="${dbExists}" />
@@ -1851,6 +1847,57 @@
         </sequential>
     </macrodef>
 
+	<macrodef name="createDB">
+		<attribute name="systemName"/> <!-- do not remove, is used in Oracle db.xml -->
+		<attribute name="jdbcUrl"/>
+		<attribute name="dbUsername" default="${dbUsername}"/>
+		<attribute name="dbPassword" default="${dbPassword}"/>
+		<attribute name="onerror" default="abort"/>
+		<sequential>
+			<runSQL jdbcUrl="@{jdbcUrl}" dbUsername="@{dbUsername}" dbPassword="@{dbPassword}"
+					print="true" onerror="@{onerror}">
+				${@{systemName}.create}
+			</runSQL>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="create-db-set-flag">
+      <attribute name="systemName" />
+      <sequential>
+        <antcall target="create-@{systemName}-db" />
+        <var name="@{systemName}DBCreated" value="true" />
+      </sequential>
+	</macrodef>
+
+    <macrodef name="initDB">
+      <attribute name="systemName"/> <!-- do not remove, is used in Oracle db.xml -->
+      <attribute name="jdbcUrl"/>
+      <attribute name="dbUsername" default="${dbUsername}"/>
+      <attribute name="dbPassword" default="${dbPassword}"/>
+      <attribute name="onerror" default="abort"/>
+      <element name="scripts"/>
+      <sequential>
+        <runSQL jdbcUrl="@{jdbcUrl}" dbUsername="@{dbUsername}" dbPassword="@{dbPassword}"
+                print="true" onerror="@{onerror}">
+          <scripts/>
+        </runSQL>
+      </sequential>
+    </macrodef>
+
+    <macrodef name="dropDB">
+		<attribute name="systemName"/> <!-- do not remove, is used in Oracle db.xml -->
+		<attribute name="jdbcUrl"/>
+		<attribute name="dbUsername" default="${dbUsername}"/>
+		<attribute name="dbPassword" default="${dbPassword}"/>
+		<attribute name="onerror" default="abort"/>
+    	<sequential>
+			<runSQL jdbcUrl="@{jdbcUrl}" dbUsername="@{dbUsername}" dbPassword="@{dbPassword}"
+					print="true" onerror="@{onerror}">
+				${@{systemName}.drop}
+			</runSQL>
+    	</sequential>
+    </macrodef>
+
     <macrodef name="recreateDB">
         <attribute name="systemName" />
         <attribute name="dbUsername" default="${dbUsername}"/>
@@ -1861,7 +1908,7 @@
             <var name="displayNameOfDBToRecreate" value="${@{systemName}.db.displayName}" />
             <var name="nameOfDBForDBMSToRecreate" value="${@{systemName}.dbName}" />
 
-            <validateDB systemName="@{systemName}"  dbUsername="@{dbUsername}" dbPassword="@{dbPassword}" phase="before" />
+            <validateDB systemName="@{systemName}"  dbUsername="@{dbUsername}" dbPassword="@{dbPassword}" phase="before"/>
             <if>
                 <istrue value="${dbExists}" />
                 <then>
@@ -1878,8 +1925,8 @@
                             <equals arg1="@{prompt}" arg2="false" />
                         </or>
                         <then>
-                            <drop-db systemName="@{systemName}" />
-                            <create-db-set-flag systemName="@{systemName}" />
+                        	<antcall target="drop-@{systemName}-db" />
+                        	<create-db-set-flag systemName="@{systemName}"/>
                         </then>
                         <else>
                             <echo>Database recreation skipped. Leaving database intact</echo>
@@ -1889,7 +1936,7 @@
                 <elseif>
                     <isfalse value="${dbExists}" />
                     <then>
-                        <create-db-set-flag systemName="@{systemName}" />
+                        <create-db-set-flag systemName="@{systemName}"/>
                     </then>
                 </elseif>
             </if>
@@ -1906,44 +1953,6 @@
                     </if>
                 </then>
             </if>
-        </sequential>
-    </macrodef>
-
-    <macrodef name="create-db-set-flag">
-        <attribute name="systemName" />
-
-        <sequential>
-            <antcall target="create-@{systemName}-db" />
-            <if>
-              <equals arg1="${dbType}" arg2="db2" />
-              <then>
-                <wait-for-db2-manual-operation systemName="@{systemName}" dbOperation="create" />
-              </then>
-            </if>
-            <var name="@{systemName}DBCreated" value="true" />
-        </sequential>
-    </macrodef>
-
-    <macrodef name="drop-db">
-        <attribute name="systemName" />
-
-        <sequential>
-            <antcall target="drop-@{systemName}-db" />
-            <if>
-              <equals arg1="${dbType}" arg2="db2" />
-              <then>
-                <wait-for-db2-manual-operation systemName="@{systemName}" dbOperation="drop" />
-              </then>
-            </if>
-        </sequential>
-    </macrodef>
-
-    <macrodef name="wait-for-db2-manual-operation">
-        <attribute name="systemName" />
-        <attribute name="dbOperation" />
-        <sequential>
-          <input message="Press Enter key once you manually @{dbOperation} database [${@{systemName}.dbName}]"
-              addproperty="@{systemName}@{dbOperation}" />
         </sequential>
     </macrodef>
 
@@ -2066,11 +2075,13 @@
     </target>
 
     <target name="fill-js-ce-db-normal"
-            description="Creates data definition for JasperServer CE database and loads sample data into the database"
-            depends="fill-js-ce-db-minimal">
+            description="Creates data definition for JasperServer CE database and loads sample data into the database">
         <if>
             <istrue value="${jsDBCreated}" />
             <then>
+                <antcall target="init-js-db-ce">
+                    <param name="stopIfError" value="true" />
+                </antcall>
                 <antcall target="import-sample-data-ce" />
             </then>
         </if>

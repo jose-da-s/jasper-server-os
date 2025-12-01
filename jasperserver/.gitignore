@@ -5,6 +5,7 @@ buildomatic/*_master.properties
 buildomatic/build_conf/
 buildomatic/conf_source/ieCe/
 buildomatic/conf_source/iePro/
+buildomatic/conf_source/db/oracle/jdbc/
 buildomatic/install_resources/sql/**/js-pro-create.ddl
 buildomatic/install_resources/sql/**/js-pro-delete.ddl
 buildomatic/install_resources/war/

@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -710,7 +712,6 @@
         </runmaven>
     </target>
 
-
     <target name="run-production-data-pro"
            depends="init-source-paths,install-jdbc-dep"
            description="build and run the pro production data creation">
@@ -885,13 +886,19 @@
     <!-- <run-export-test edition="pro"/>
   </target> -->
 
-    <target name="run-remote-test-ce"
+    <target name="run-remote-tests-ce"
            depends="init-source-paths"
            description="builds and runs the OS remote tests">
         <runmaven dir="${js-path}/jasperserver-remote-tests">
             <arg value="-Dremote.test.host=${remote.test.host}"/>
             <arg value="-Dremote.test.port=${remote.test.port}"/>
             <arg value="-Dremote.test.app-context-path=${remote.test.app-context-path-ce}"/>
+            <arg value="-Dremote.test.dbType=${dbType}"/>
+            <arg value="-Dremote.test.dbHost=${dbHost}"/>
+            <arg value="-Dremote.test.dbPort=${dbPort}"/>
+            <arg value="-Dremote.test.dbName=${js.dbName}"/>
+            <arg value="-Dremote.test.dbUsername=${dbUsername}"/>
+            <arg value="-Dremote.test.dbPassword=${dbPassword}"/>
             <arg value="clean"/>
             <arg value="install"/>
         </runmaven>

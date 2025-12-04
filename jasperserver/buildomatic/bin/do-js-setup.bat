@@ -75,7 +75,7 @@ ENDLOCAL & SET JS_ANT_OPTIONS=%_JS_ANT_OPTIONS% -Djs.setup.mode=%JS_SETUP_MODE% 
 rem
 rem Initializing time variable.
 rem
-for /f "delims=" %%# in ('powershell get-date -format "{dd-MM-yyyy_HH-mm}"') do @set _date=%%#
+for /f "delims=" %%# in ('powershell get-date -format "{yyyy-MM-dd_HH-mm}"') do @set _date=%%#
 SET JS_CURRENT_TIME=%_date%
 
 rem

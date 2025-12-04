@@ -619,6 +619,7 @@ public class RestApiTest {
         switch(constants.DB_TYPE) {
         case "postgresql": return "org.postgresql.Driver";
         case "mysql": return "org.mariadb.jdbc.Driver";
+        case "oracle": return "oracle.jdbc.OracleDriver";
         default: throw new IllegalArgumentException("Unknown dbType: " + constants.DB_TYPE);
         }
     }
@@ -634,6 +635,8 @@ public class RestApiTest {
             return "jdbc:postgresql://" + c.DB_HOST + ":" + c.DB_PORT + "/" + c.DB_NAME;
         case "mysql":
             return "jdbc:mysql://" + c.DB_HOST + ":" + c.DB_PORT + "/" + c.DB_NAME + "?tinyInt1isBit=false";
+        case "oracle":
+            return "jdbc:oracle:thin:@" + c.DB_HOST + ":" + c.DB_PORT + ":" + c.DB_SID;
         default: throw new IllegalArgumentException("Unknown dbType: " + constants.DB_TYPE);
         }
     }
@@ -647,6 +650,8 @@ public class RestApiTest {
         case "postgresql":
         case "mysql":
             return constants.DB_USERNAME;
+        case "oracle":
+            return constants.DB_NAME;
         default: throw new IllegalArgumentException("Unknown dbType: " + constants.DB_TYPE);
         }
     }
@@ -659,6 +664,7 @@ public class RestApiTest {
         switch(constants.DB_TYPE) {
         case "postgresql":
         case "mysql":
+        case "oracle":
             return constants.DB_PASSWORD;
         default: throw new IllegalArgumentException("Unknown dbType: " + constants.DB_TYPE);
         }

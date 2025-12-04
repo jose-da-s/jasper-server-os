@@ -59,7 +59,7 @@ public class JasperServerConstants {
         DB_NAME     = sys.getProperty(PROP_DB_NAME);
         DB_USERNAME = sys.getProperty(PROP_DB_USERNAME);
         DB_PASSWORD = sys.getProperty(PROP_DB_PASSWORD);
-
+        DB_SID      = sys.getProperty(PROP_DB_SID);
     }
 
     protected void setDefaults() {
@@ -103,7 +103,7 @@ public class JasperServerConstants {
     public String PROP_DB_TYPE          = "remote.test.dbType";
     public String PROP_DB_HOST          = "remote.test.dbHost";
     public String PROP_DB_PORT          = "remote.test.dbPort";
-
+    public String PROP_DB_SID           = "remote.test.dbSid";
     public String PROP_DB_NAME          = "remote.test.dbName";
     public String PROP_DB_USERNAME      = "remote.test.dbUsername";
     public String PROP_DB_PASSWORD      = "remote.test.dbPassword";
@@ -114,7 +114,7 @@ public class JasperServerConstants {
     public String DB_TYPE;
     public String DB_HOST;
     public String DB_PORT;
-
+    public String DB_SID;
     public String DB_NAME;
     public String DB_USERNAME;
     public String DB_PASSWORD;

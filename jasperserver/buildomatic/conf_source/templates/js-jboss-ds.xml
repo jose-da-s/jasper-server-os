@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -55,7 +56,7 @@
       <max-pool-size>50</max-pool-size>
       <idle-timeout-minutes>30</idle-timeout-minutes>
    </local-tx-datasource>
-   
+
    <local-tx-datasource>
       <jndi-name>${foodmart.jndi}</jndi-name>
       <connection-url>${foodmart.jdbcUrl}</connection-url>

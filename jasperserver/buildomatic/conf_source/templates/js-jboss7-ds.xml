@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -84,7 +86,6 @@
             <share-prepared-statements>false</share-prepared-statements>
         </statement>
     </datasource>
-
     <datasource jta="false" jndi-name="java:/${foodmart.jndi}" pool-name="${foodmart.dbName}" enabled="true" use-ccm="false">
         <connection-url>${foodmart.jdbcUrl}</connection-url>
         <driver>${maven.jdbc.artifactId}-${maven.jdbc.version}.jar</driver>
@@ -96,8 +97,8 @@
             <min-pool-size>5</min-pool-size>
             <max-pool-size>50</max-pool-size>
             <prefill>true</prefill>
-	</pool>
-	<validation>
+       </pool>
+       <validation>
             <validate-on-match>false</validate-on-match>
             <background-validation>false</background-validation>
             <check-valid-connection-sql>${jdbcTestTableQuery}</check-valid-connection-sql>
@@ -117,8 +118,8 @@
             <min-pool-size>5</min-pool-size>
             <max-pool-size>50</max-pool-size>
             <prefill>true</prefill>
-	</pool>
-	<validation>
+       </pool>
+       <validation>
             <validate-on-match>false</validate-on-match>
             <background-validation>false</background-validation>
             <check-valid-connection-sql>${jdbcTestTableQuery}</check-valid-connection-sql>

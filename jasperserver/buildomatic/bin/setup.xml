@@ -981,13 +981,6 @@
                     <!-- copy and load maven runner -->
                     <filterCopyFile file="${templateDir}/js-mvn" toFile="${mvnRunner}"/>
 
-                    <if>
-                        <equals arg1="${dbType}" arg2="oracle" />
-                        <then>
-                            <filterCopyFile file="${sqlDir}/${dbType}/killSession.sql" toFile="${currentConf}/killSession.sql"/>
-                        </then>
-                    </if>
-
                     <!-- copy the quartz property file to webapp dir (it gets used in both webapp and standalones) -->
                     <copy toDir="${currentConf}/webapp/WEB-INF">
                         <fileset dir="${currentConf}" includes="js.quartz.properties"/>

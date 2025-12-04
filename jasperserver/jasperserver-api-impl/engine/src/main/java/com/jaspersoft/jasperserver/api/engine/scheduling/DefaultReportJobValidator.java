@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.api.engine.scheduling;
 
 import com.jaspersoft.jasperserver.api.JSException;
@@ -52,6 +55,8 @@ public class DefaultReportJobValidator implements ReportJobValidator, Applicatio
 	private static final Pattern PATTERN_CRON_HOURS;
 	private static final Pattern PATTERN_CRON_MONTH_DAYS;
 	private static final Pattern PATTERN_TIMESTAMP_FORMAT;
+
+	private static final int MAIL_NOTIFICATION_SUBJECT_MAX_LENGTH = 255;
 
 	static {
 		String allPattern = "(\\*)";
@@ -334,7 +339,7 @@ public class DefaultReportJobValidator implements ReportJobValidator, Applicatio
 
 	protected void validateMailNotification(ValidationErrors errors, ReportJobMailNotification mailNotification,
 			boolean effective) {
-		checkString(errors, "mailNotification.subject", mailNotification.getSubject(), true, 100);
+		checkString(errors, "mailNotification.subject", mailNotification.getSubject(), true, MAIL_NOTIFICATION_SUBJECT_MAX_LENGTH);
 		checkString(errors, "mailNotification.messageText", mailNotification.getMessageText(), false, 2000);
 		validateAddresses(errors, mailNotification, effective);
 	}
@@ -364,20 +369,18 @@ public class DefaultReportJobValidator implements ReportJobValidator, Applicatio
 	}
 
 	protected boolean checkString(ValidationErrors errors, String field, String value, boolean mandatory, int maxLength) {
-		boolean valid = true;
-		boolean empty = value == null || value.length() == 0;
-		if (empty) {
+		if (value == null || value.isEmpty()) {
 			if (mandatory) {
 				errors.add(new ValidationErrorImpl("error.not.empty", null, "The value cannot be empty", field));
-				valid = false;
+				return false;
 			}
-		} else {
-			if (value.length() > maxLength) {
-				errors.add(new ValidationErrorImpl("error.length", new Object[]{new Integer(maxLength)}, "Maximum length is {0,number,integer}.", field));
-				valid = false;
-			}
+			return true;
 		}
-		return valid;
+		if (value.length() > maxLength) {
+			errors.add(new ValidationErrorImpl("error.length", new Object[]{maxLength}, "Maximum length is {0,number,integer}.", field));
+			return false;
+		}
+		return true;
 	}
 
 	protected void addNotEmpty(ValidationErrors errors, String field) {

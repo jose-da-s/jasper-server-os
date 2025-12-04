@@ -23,10 +23,17 @@ run the following commands in this folder:
 yarn run clean
 yarn run build
 ```
->After success build files will be placed here: `jrs-ui/build/overlay/scripts`.
+run the following commands in `jrs-ui`:
+```shell script
+yarn run overlay
+echo "BUILD_ARTIFACT_VERSION_NAME=master" > .env.local
+yarn run mvnPublish
+```
+Note: `master` is the version of the Maven artifact. You must use `master`
+for `BUILD_ARTIFACT_VERSION_NAME` in backend build also.
 
-## Deploy
-To deploy build result to the Jasper Server OS instance, copy content of `jrs-ui/build/overlay`
+## Update
+To update the UI of a Jasper Server OS instance, copy content of `jrs-ui/build/overlay`
 to the deployment folder of your JRS instance. 
 
 For example if your app server is **Tomcat** and **Jasper Server OS** deployed here:
@@ -36,6 +43,3 @@ folder to `c:\tomcat\webapps\jasperserver` (replace all target files)
 *NOTE:* Read [./jrs-ui/README.md](./jrs-ui/README.md) for more options like
 - automated deployment
 - webpack development server
-
-
-

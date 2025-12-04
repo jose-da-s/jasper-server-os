@@ -95,6 +95,7 @@
             <remote.test.dbName>jasperserver</remote.test.dbName>
             <remote.test.dbUsername>postgres</remote.test.dbUsername>
             <remote.test.dbPassword>postgres</remote.test.dbPassword>
+            <remote.test.dbSid>ORCL</remote.test.dbSid>
           </systemPropertyVariables>
         </configuration>
       </plugin>

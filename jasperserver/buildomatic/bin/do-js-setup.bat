@@ -139,7 +139,10 @@ rem while we also get access to ANT's exit code.
 (CALL %ANT_RUN% -nouserlib -lib . -lib lib -f build.xml %JS_ANT_TARGET% %JS_ANT_OPTIONS% 2>&1 & CALL echo %%^^errorlevel%% ^> %JS_LOG_FILE_PREFIX%-status.txt) | "%~dp0/wtee" -a %JS_LOG_FILE%
 FOR /f %%A IN (%JS_LOG_FILE_PREFIX%-status.txt) DO SET JS_ANT_STATUS=%%A
 DEL %JS_LOG_FILE_PREFIX%-status.txt
-IF %JS_ANT_STATUS% GEQ 1 ( GOTO :runAntFailed )
+IF %JS_ANT_STATUS% GEQ 1 (
+    CALL :log "Checking Ant return code: BAD (1)"
+    EXIT /b 1
+)
 CALL :log "Checking Ant return code: OK"
 CALL :log
 GOTO :end
@@ -163,10 +166,6 @@ GOTO:EOF
 :fail
 IF NOT "%~1" == "" ( ECHO %~1 )
 CALL :showUsage
-EXIT /b 1
-
-:runAntFailed
-CALL :log "Checking Ant return code: BAD (1)"
 EXIT /b 1
 
 :end

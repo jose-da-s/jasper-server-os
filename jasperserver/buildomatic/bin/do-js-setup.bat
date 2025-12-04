@@ -133,9 +133,13 @@ IF "%JS_SETUP_MODE%"=="upgrade" (
 IF "%JS_ANT_TARGET%" == "" ( GOTO :antTargetNotSpecified )
 CALL :log "Running %JS_ANT_TARGET% Ant task"
 CALL :log
-CALL %ANT_RUN% -nouserlib -lib . -lib lib -f build.xml -l %JS_LOG_FILE% %JS_ANT_TARGET% %JS_ANT_OPTIONS% 2>&1
-
-IF ERRORLEVEL 1 ( GOTO :runAntFailed )
+rem This "hack" addresses the problem that a pipe solely returns the status
+rem of the last command. Like this, we can pipe the output into the logfile
+rem while we also get access to ANT's exit code.
+(CALL %ANT_RUN% -nouserlib -lib . -lib lib -f build.xml %JS_ANT_TARGET% %JS_ANT_OPTIONS% 2>&1 & CALL echo %%^^errorlevel%% ^> %JS_LOG_FILE_PREFIX%-status.txt) | "%~dp0/wtee" -a %JS_LOG_FILE%
+FOR /f %%A IN (%JS_LOG_FILE_PREFIX%-status.txt) DO SET JS_ANT_STATUS=%%A
+DEL %JS_LOG_FILE_PREFIX%-status.txt
+IF %JS_ANT_STATUS% GEQ 1 ( GOTO :runAntFailed )
 CALL :log "Checking Ant return code: OK"
 CALL :log
 GOTO :end

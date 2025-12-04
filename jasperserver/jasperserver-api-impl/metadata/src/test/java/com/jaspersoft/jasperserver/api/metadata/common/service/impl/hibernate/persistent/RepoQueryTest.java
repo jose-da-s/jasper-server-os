@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -50,6 +52,11 @@ public class RepoQueryTest {
         Query clientQuery = new QueryImpl();
         repoQuery.copyTo(clientQuery, null);
         String expectedQuery = readFileFromClasspath("js55928.expectedQuery.txt");
+        String actualQuery = clientQuery.getSql();
+
+        expectedQuery = normalizeLineEndings(expectedQuery);
+        actualQuery = normalizeLineEndings(actualQuery);
+        
         Assert.assertEquals(expectedQuery, clientQuery.getSql());
     }
     
@@ -57,5 +64,9 @@ public class RepoQueryTest {
         InputStream is = getClass().getResourceAsStream("/" + fileName);
         byte[] bytes = DataContainerStreamUtil.readData(is);
         return new String(bytes, StandardCharsets.UTF_8);
+    }
+    
+    private String normalizeLineEndings(String input) {
+        return input.replace("\r\n", "\n").replace("\r", "\n");
     }
 }

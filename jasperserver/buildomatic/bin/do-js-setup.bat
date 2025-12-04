@@ -75,9 +75,8 @@ ENDLOCAL & SET JS_ANT_OPTIONS=%_JS_ANT_OPTIONS% -Djs.setup.mode=%JS_SETUP_MODE% 
 rem
 rem Initializing time variable.
 rem
-CALL "%~dp0/date.bat"
-CALL "%~dp0/time.bat"
-SET JS_CURRENT_TIME=%NOW_YYYY_MM_DD%_%NOW_HH_MM%
+for /f "delims=" %%# in ('powershell get-date -format "{yyyy-MM-dd_HH-mm}"') do @set _date=%%#
+SET JS_CURRENT_TIME=%_date%
 
 rem
 rem Defining log file name, creating log directory if it doesn't exist.
@@ -134,9 +133,16 @@ IF "%JS_SETUP_MODE%"=="upgrade" (
 IF "%JS_ANT_TARGET%" == "" ( GOTO :antTargetNotSpecified )
 CALL :log "Running %JS_ANT_TARGET% Ant task"
 CALL :log
-CALL %ANT_RUN% -nouserlib -lib . -lib lib -f build.xml %JS_ANT_TARGET% %JS_ANT_OPTIONS% 2>&1 | "%~dp0/wtee" -a %JS_LOG_FILE%
-
-IF ERRORLEVEL 1 ( GOTO :runAntFailed )
+rem This "hack" addresses the problem that a pipe solely returns the status
+rem of the last command. Like this, we can pipe the output into the logfile
+rem while we also get access to ANT's exit code.
+(CALL %ANT_RUN% -nouserlib -lib . -lib lib -f build.xml %JS_ANT_TARGET% %JS_ANT_OPTIONS% 2>&1 & CALL echo %%^^errorlevel%% ^> %JS_LOG_FILE_PREFIX%-status.txt) | "%~dp0/wtee" -a %JS_LOG_FILE%
+FOR /f %%A IN (%JS_LOG_FILE_PREFIX%-status.txt) DO SET JS_ANT_STATUS=%%A
+DEL %JS_LOG_FILE_PREFIX%-status.txt
+IF %JS_ANT_STATUS% GEQ 1 (
+    CALL :log "Checking Ant return code: BAD (1)"
+    EXIT /b 1
+)
 CALL :log "Checking Ant return code: OK"
 CALL :log
 GOTO :end
@@ -160,10 +166,6 @@ GOTO:EOF
 :fail
 IF NOT "%~1" == "" ( ECHO %~1 )
 CALL :showUsage
-EXIT /b 1
-
-:runAntFailed
-CALL :log "Checking Ant return code: BAD (1)"
 EXIT /b 1
 
 :end

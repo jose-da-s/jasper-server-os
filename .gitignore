@@ -3,3 +3,12 @@
 **/.DS_Store
 tomcat/
 ide/
+**/.project
+**/.classpath
+**/.settings
+jasperserver/buildomatic/lib/asm-9.4.jar
+jasperserver/buildomatic/lib/asm-analysis-9.4.jar
+jasperserver/buildomatic/lib/asm-commons-9.4.jar
+jasperserver/buildomatic/lib/asm-tree-9.4.jar
+jasperserver/buildomatic/lib/asm-util-9.4.jar
+jasperserver/buildomatic/lib/nashorn-core-15.4.jar

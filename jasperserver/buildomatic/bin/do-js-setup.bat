@@ -75,9 +75,8 @@ ENDLOCAL & SET JS_ANT_OPTIONS=%_JS_ANT_OPTIONS% -Djs.setup.mode=%JS_SETUP_MODE% 
 rem
 rem Initializing time variable.
 rem
-CALL "%~dp0/date.bat"
-CALL "%~dp0/time.bat"
-SET JS_CURRENT_TIME=%NOW_YYYY_MM_DD%_%NOW_HH_MM%
+for /f "delims=" %%# in ('powershell get-date -format "{dd-MM-yyyy_HH-mm}"') do @set _date=%%#
+SET JS_CURRENT_TIME=%_date%
 
 rem
 rem Defining log file name, creating log directory if it doesn't exist.

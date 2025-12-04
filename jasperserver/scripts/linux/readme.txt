@@ -2,10 +2,10 @@ scripts/linux/readme.txt
 ------------------------
 
 
-Add JasperReports Server as a Linux Service
+Add Jasper Server OS as a Linux Service
 -------------------------------------------
 
-The steps described in this section are an example of how to setup JasperReports Server as
+The steps described in this section are an example of how to setup Jasper Server OS as
 a service under Linux. The examples use Ubuntu and Redhat. 
 
 
@@ -14,7 +14,7 @@ Prerequisites
 
 Install from the binary installer. 
 
-The steps described are applicable to a JasperReports Server instance that has been installed using
+The steps described are applicable to a Jasper Server OS instance that has been installed using
 the binary installer (jasperreports-server-<ver>-linux-<cpu>-installer.run). 
 
 It is assumed that the installation was carried out using the "bundled/bundled" options. This means
@@ -44,7 +44,7 @@ First you must edit the jasperserver script:
   
   Change:
   
-    JASPER_USER=username  to the system user that JasperReports Server should run under
+    JASPER_USER=username  to the system user that Jasper Server OS should run under
   
   copy the script jasperserver to
   
@@ -69,7 +69,7 @@ Start|Stop Jasperserver Service
 -------------------------------
 
 Now that the jasperserver script is in place you should be able to start and stop 
-JasperReports Server as a service.
+Jasper Server OS as a service.
 
 Examples for Ubuntu. Try: 
 
@@ -96,7 +96,7 @@ Examples for Redhat. Try:
 Add Service to System Startup
 -----------------------------
 
-Under Ubuntu you can use the update-rc.d command to setup JasperReports Server so that it will 
+Under Ubuntu you can use the update-rc.d command to setup Jasper Server OS so that it will
 startup on a system startup and stop on a system shutdown. Under Redhat the command would be
 chkconfig. 
 
@@ -125,7 +125,7 @@ Example for Redhat. Try:
   sudo /sbin/chkconfig --list jasperserver (list service run levels)
   
   
-Now, JasperReports Server should shutdown gracefully on system shutdown and start 
+Now, Jasper Server OS should shutdown gracefully on system shutdown and start
 on system startup. 
   
   

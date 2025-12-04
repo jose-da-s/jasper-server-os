@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -47,7 +49,7 @@
     <!-- Enable annotation-based wiring -->
     <context:annotation-config/>
     <mvc:annotation-driven/>
-    <!-- ENTRIES FOR JASPER SERVER BEGINS HERE -->
+    <!-- ENTRIES FOR JASPER SERVER OS BEGINS HERE -->
 
     <mvc:view-controller path="/awsconfiguration.html" view-name="modules/administer/awsConfiguration"/>
     <mvc:view-controller path="/xdm.html" view-name="modules/xdm"/>
@@ -306,7 +308,7 @@
 
 
 	<bean id="localeResolver" class="com.jaspersoft.jasperserver.war.JSSessionLocaleResolver"/>
-    <!-- ENTRIES FOR JASPER SERVER ENDS HERE -->
+    <!-- ENTRIES FOR JASPER SERVER OS ENDS HERE -->
 
 
     <bean id="reportImageController" class="com.jaspersoft.jasperserver.war.control.ReportImageController">

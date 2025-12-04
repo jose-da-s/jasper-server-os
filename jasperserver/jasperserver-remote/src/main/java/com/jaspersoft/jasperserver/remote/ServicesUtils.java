@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -75,7 +77,7 @@ public class ServicesUtils {
     }
 
     /**
-     * convenient method to load the JasperReports Server version
+     * convenient method to load the Jasper Server OS version
      * @return the JS version
      */
     public String getVersion()

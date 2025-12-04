@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -32,7 +34,7 @@
         <artifactId>server</artifactId>
         <version>${buildArtifactVersionName}</version>
     </parent>
-    <description>Jasper Server Repository Export Import Tool</description>
+    <description>Jasper Server OS Repository Export Import Tool</description>
     <dependencies>
         <dependency>
             <groupId>org.mockito</groupId>

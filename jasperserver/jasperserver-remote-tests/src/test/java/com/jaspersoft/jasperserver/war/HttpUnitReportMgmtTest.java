@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -27,8 +29,8 @@ import junit.framework.*;
 
 /**
  * This Class is used for writing Testcases for testing a Jasper site. The test cases are for: -
- * Connecting the Jasper Server Startup Page - checking the Jasper Server Home Page - checking the
- * Jasper Server Reports Management Page - checking the Jasper Server Report Details Page
+ * Connecting the Jasper Server OS Startup Page - checking the Jasper Server OS Home Page - checking the
+ * Jasper Server OS Reports Management Page - checking the Jasper Server OS Report Details Page
  **/
 public class HttpUnitReportMgmtTest
 	extends HttpUnitBaseTestCase {

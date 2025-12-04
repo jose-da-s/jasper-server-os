@@ -1,4 +1,4 @@
-# JasperReports Server Community WEB UI
+# Jasper Server OS Community WEB UI
 ## Set Up
 - install [nodejs](https://nodejs.org). Build tested on version 14.x.x, but it might also work on version 10.x.x
 - install [yarn](https://yarnpkg.com/getting-started/install). Build tested on version 1.22.x
@@ -26,10 +26,10 @@ yarn run build
 >After success build files will be placed here: `jrs-ui/build/overlay/scripts`.
 
 ## Deploy
-To deploy build result to the JasperReports Server instance, copy content of `jrs-ui/build/overlay`
+To deploy build result to the Jasper Server OS instance, copy content of `jrs-ui/build/overlay`
 to the deployment folder of your JRS instance. 
 
-For example if your app server is **Tomcat** and **JasperReports Server** deployed here:
+For example if your app server is **Tomcat** and **Jasper Server OS** deployed here:
 `c:\tomcat\webapps\jasperserver`, then copy content of the `jrs-ui/build/overlay` 
 folder to `c:\tomcat\webapps\jasperserver` (replace all target files)
 

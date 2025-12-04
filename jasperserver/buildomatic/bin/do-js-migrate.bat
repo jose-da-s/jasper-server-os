@@ -1,7 +1,7 @@
 @ECHO OFF
 
 rem ///
-rem /// JasperReports Server common migrate script.
+rem /// Jasper Server OS common migrate script.
 rem ///
 rem /// Usage: do-js-migrate.bat {edition:(pro)} {strategy:(standard|inDatabase)} {option:(<EMPTY>|test|help)} {option(for standard migrate only):import file(<path-to-file-and-filename>)}
 rem ///        If <path-to-file-and-filename> contains spaces then need to enclose <path-to-file-and-filename> to double quotes.
@@ -20,7 +20,7 @@ rem Validating and setting edition.
 rem
 SET JS_EDITION=%1
 IF NOT "%JS_EDITION%"=="pro" (
-  CALL :fail "JasperReports Server edition pro expected as input"
+  CALL :fail "Jasper Server OS edition pro expected as input"
   EXIT /b 1
 )
 
@@ -29,7 +29,7 @@ rem Validating and setting upgrade strategy.
 rem
 SET JS_UPGRADE_STRATEGY=%2
 IF NOT "%JS_UPGRADE_STRATEGY%"=="standard" IF NOT "%JS_UPGRADE_STRATEGY%"=="inDatabase" (
-  CALL :fail "JasperReports Server migrate strategy (standard|inDatabase) expected as input"
+  CALL :fail "Jasper Server OS migrate strategy (standard|inDatabase) expected as input"
   EXIT /b 1
 )
 
@@ -103,7 +103,7 @@ IF NOT ""%JS_OPTION%""==""test"" IF NOT ""%JS_OPTION%""==""help"" (
 )
 
 IF ""%JS_UPGRADE_STRATEGY%""==""standard"" IF NOT ""%JS_OPTION%""==""test"" IF NOT ""%JS_OPTION%""==""help"" IF "%IMPORT_FILE%"=="" (
-  CALL :fail "JasperReports Server import file[path-to-file-and-filename] expected as input"
+  CALL :fail "Jasper Server OS import file[path-to-file-and-filename] expected as input"
   EXIT /b 1
 )
 

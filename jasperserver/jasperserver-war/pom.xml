@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -885,7 +887,7 @@
             </exclusions>
         </dependency>
     </dependencies>
-    <description>Jasper Server War Deployment</description>
+    <description>Jasper Server OS War Deployment</description>
     <build>
         <directory>${my.build.directory}</directory>
         <finalName>jasperserver</finalName>

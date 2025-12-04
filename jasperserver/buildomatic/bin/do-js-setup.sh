@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# JasperReports Server common installation and upgrade script.
+# Jasper Server OS common installation and upgrade script.
 #
 # Usage: do-js-setup.sh (install|upgrade){setup mode} (ce|pro){edition} {script option} {Ant target} [Ant options]
 #
@@ -113,7 +113,7 @@ fi
 
 JS_EDITION=$2
 if [[ "$JS_EDITION" != "ce" && "$JS_EDITION" != "pro" ]]; then
-  fail "JasperReports Server edition (ce|pro) expected as input"
+  fail "Jasper Server OS edition (ce|pro) expected as input"
 fi
 
 JS_OPTION=$3
@@ -139,7 +139,7 @@ echo "Writing to log file: $JS_LOG_FILE"
 # Printing entry information.
 #
 log
-log "Running JasperReports Server $JS_SETUP_MODE script at $JS_CURRENT_TIME"
+log "Running Jasper Server OS $JS_SETUP_MODE script at $JS_CURRENT_TIME"
 log
 
 export ANT_OPTS="$ANT_OPTS -Dnet.sf.ehcache.disabled=true -Xms512m -Xmx2048m -noverify"

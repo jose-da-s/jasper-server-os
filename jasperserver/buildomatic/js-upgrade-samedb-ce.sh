@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# JasperReports Server CE script that performs upgrade by updating existing database.
+# Jasper Server OS CE script that performs upgrade by updating existing database.
 #
 # Usage: js-upgrade-samedb-ce.sh {option:(<EMPTY>|with-samples|regen-config|test)}
 #

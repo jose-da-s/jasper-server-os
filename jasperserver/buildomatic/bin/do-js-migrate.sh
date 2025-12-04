@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# JasperReports Server common migrate script.
+# Jasper Server OS common migrate script.
 #
 # Usage: do-js-migrate.sh {edition:(ce|pro)} {strategy:(standard|inDatabase)} {option:(<EMPTY>|help|test)} {option(for standard migrate only):import file(-DimportFile=<path-to-file-and-filename>)}
 #
@@ -26,7 +26,7 @@ showUsage() {
 # Validating and setting edition.
 #
 if [[ $# -lt 1 || "$1" != "pro" ]]; then
-  fail "JasperReports Server edition pro expected as input"
+  fail "Jasper Server OS edition pro expected as input"
 fi
 JS_EDITION=$1
 
@@ -34,7 +34,7 @@ JS_EDITION=$1
 # Validating and setting upgrade strategy.
 #
 if [[ $# -lt 2 || "$2" != "standard" && "$2" != "inDatabase" ]]; then
-  fail "JasperReports Server migrate strategy (standard|inDatabase) expected as input"
+  fail "Jasper Server OS migrate strategy (standard|inDatabase) expected as input"
 fi
 JS_UPGRADE_STRATEGY=$2
 
@@ -71,7 +71,7 @@ else
   fi
 
   if [[ "$JS_UPGRADE_STRATEGY" == "standard" && "$JS_OPTION" != "test" && "$JS_OPTION" != "help" && "$IMPORT_FILE" == "" ]]; then
-    fail "JasperReports Server import file(<path-to-file-and-filename>) expected as input"
+    fail "Jasper Server OS import file(<path-to-file-and-filename>) expected as input"
   fi
 
 

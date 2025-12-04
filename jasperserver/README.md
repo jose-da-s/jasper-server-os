@@ -1,4 +1,4 @@
-# JasperReports Server Community Edition Build Guide
+# Jasper Server OS Community Edition Build Guide
 ## Build prerequisites
 - Install [Java 1.8](https://www.oracle.com/java/technologies/downloads) or higher. Open JDK 1.8 or higher is supported too.
 - Install [Apache Ant](https://ant.apache.org). Recommended version 1.10.2 or later.
@@ -95,16 +95,16 @@ js-ant.bat prepare-sugarcrm-db
 js-ant.bat deploy-webapp-ce
 ```
 
->After successful build the JasperReports server will be deployed as a **jasperserver** WAR file to the specified Application Server (_appServerDir_ location). In our case it will be _/opt/tomcat/webapps/jasperserver_
+>After successful build the Jasper Server OS will be deployed as a **jasperserver** WAR file to the specified Application Server (_appServerDir_ location). In our case it will be _/opt/tomcat/webapps/jasperserver_
 
 ### Starting instance
-To start JasperReports Server:
+To start Jasper Server OS:
 - For **Tomcat** execute `<path-to-tomcat>/bin/startup.sh` (or `startup.bat` if you are on Windows)
 - For **JBoss** execute `<path-to-jboss>/bin/standalone.sh` (or `standalone.bat` for Windows)
 - Open Browser and navigate to `http://localhost:8080/jasperserver`
-- Log into JasperReports Server as jasperadmin: 
-    - User ID: jasperadmin 
-    - Password: jasperadmin  
+- Log into Jasper Server OS as jasperadmin:
+    - User ID: jasperadmin
+    - Password: jasperadmin
 
 ### Other build commands
 There is no need to execute full-build commands all the time. The Buildomatic contains many simplified ant tasks, most common of them are:

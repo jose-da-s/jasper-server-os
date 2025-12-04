@@ -1,7 +1,7 @@
 @ECHO OFF
 
 rem
-rem JasperReports Server common installation and upgrade script.
+rem Jasper Server OS common installation and upgrade script.
 rem
 rem Usage: do-js-setup.bat (install|upgrade){setup mode} (ce|pro){edition} {script option} {Ant target} [Ant options]
 rem
@@ -47,7 +47,7 @@ IF NOT "%JS_SETUP_MODE%"=="install" IF NOT "%JS_SETUP_MODE%"=="upgrade" (
 
 SET JS_EDITION=%2
 IF NOT "%JS_EDITION%"=="ce" IF NOT "%JS_EDITION%"=="pro" (
-  CALL :fail "JasperReports Server edition expected as input"
+  CALL :fail "Jasper Server OS edition expected as input"
   EXIT /b 1
 )
 
@@ -93,7 +93,7 @@ rem
 rem Printing entry information.
 rem
 CALL :log
-CALL :log "Running JasperReports Server %JS_SETUP_MODE% script at %JS_CURRENT_TIME%"
+CALL :log "Running Jasper Server OS %JS_SETUP_MODE% script at %JS_CURRENT_TIME%"
 CALL :log
 
 rem

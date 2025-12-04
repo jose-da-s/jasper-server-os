@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -175,7 +177,7 @@
     <echo message="   All of these targets assume that you have a buildomatic/default_master.properties in place.     "/>
     <echo message="   For additional information see the comments in your default_master.properties file or the       "/>
     <echo message="   properties template file found at buildomatic/sample_conf/source/postgresql_master.properties.  "/>
-    <echo message="   Also see Section 3.4 'Configuring the Buildomatic Properties' in the JasperReports Server       "/>
+    <echo message="   Also see Section 3.4 'Configuring the Buildomatic Properties' in the Jasper Server OS       "/>
     <echo message="   Source Build Guide.                                                                             "/>
     <echo message="                                                                                                   "/>
     <echo message="                                                                                                   "/>
@@ -198,7 +200,7 @@
     <echo message="                                                                                                   "/>
     <echo message="    ant help                  (display this current help page)                                     "/>
     <echo message="                                                                                                   "/>
-    <echo message="    ant help-install          (display help on how to install JasperReports Server)                "/>
+    <echo message="    ant help-install          (display help on how to install Jasper Server OS)                "/>
     <echo message="                                                                                                   "/>
     <echo message="    ant help-install-manual   (display help on manual buildomatic install steps)                   "/>
     <echo message="                                                                                                   "/>
@@ -208,14 +210,14 @@
     <echo message="                                                                                                   "/>
     <echo message="    ant help-with-license     (display help on setup of the JasperServer license file - pro only)  "/>
     <echo message="                                                                                                   "/>
-    <echo message="   Also, for more information, refer to the JasperReports Server Install Guide and the             "/>
-    <echo message="   JasperReports Server Source Build Guide. Both are found in the js-src/docs folder.              "/>
+    <echo message="   Also, for more information, refer to the Jasper Server OS Install Guide and the             "/>
+    <echo message="   Jasper Server OS Source Build Guide. Both are found in the js-src/docs folder.              "/>
     <echo message=" "/>
     </target>
 
     <target name="help-install" depends="">
     <echo message="                                                                                                   "/>
-    <echo message=" JasperReports Server Installation Steps                                                           "/>
+    <echo message=" Jasper Server OS Installation Steps                                                           "/>
     <echo message="                                                                                                   "/>
     <echo message="                                                                                                   "/>
     <echo message="   Install Using the js-install Script:                                                            "/>
@@ -243,7 +245,7 @@
     <echo message="   Java Memory Settings:                                                                           "/>
     <echo message="   ---------------------                                                                           "/>
     <echo message="                                                                                                   "/>
-    <echo message="    To run JasperReports Server effectively, you will need to increase the memory settings for     "/>
+    <echo message="    To run Jasper Server OS effectively, you will need to increase the memory settings for     "/>
     <echo message="    your JAVA_OPTS. This is done via an environment variable or in the Application Server          "/>
     <echo message="    startup script. See Section 6.2 'Setting JVM Options for Application Servers'.                 "/>
     <echo message="                                                                                                   "/>
@@ -251,7 +253,7 @@
     <echo message="   Complete Installation Information:                                                              "/>
     <echo message="   ----------------------------------                                                              "/>
     <echo message="                                                                                                   "/>
-    <echo message="    For complete information on Installing JasperReports Server please see the                     "/>
+    <echo message="    For complete information on Installing Jasper Server OS please see the                     "/>
     <echo message="    js-install/docs/JasperReports-Server-Install-Guide.pdf.                                        "/>
     <echo message="                                                                                                   "/>
     <echo message="                                                                                                   "/>
@@ -266,7 +268,7 @@
     <echo message="                                                                                                   "/>
     <echo message=" Help for Buildomatic Manual Installation Steps                                                    "/>
     <echo message="                                                                                                   "/>
-    <echo message="   The recommended procedure for installing JasperReports Server is to use the 'binary' installer  "/>
+    <echo message="   The recommended procedure for installing Jasper Server OS is to use the 'binary' installer  "/>
     <echo message="   or the buildomatic js-install.sh/bat script.                                                    "/>
     <echo message="                                                                                                   "/>
     <echo message="   However, for many Production environments running automated installation scripts which make     "/>
@@ -274,7 +276,7 @@
     <echo message="   typical to hand the database creation and initialization scripts to the Database Administrator. "/>
     <echo message="                                                                                                   "/>
     <echo message="   The Database Administrator would create and initialize the database and the Application Server  "/>
-    <echo message="   Administrator would complete the installation of the JasperReports Server WAR file and          "/>
+    <echo message="   Administrator would complete the installation of the Jasper Server OS WAR file and          "/>
     <echo message="   any additional configuration settings.                                                          "/>
     <echo message="                                                                                                   "/>
     <echo message="                                                                                                   "/>
@@ -344,7 +346,7 @@
     <echo message="     js-ant create-load-all-dbs-pro                                                                "/>
     <echo message="                      "/>
     <echo message="                      "/>
-    <echo message="   Also, refer to the JasperReports Server Source Build Guide for more information.                "/>
+    <echo message="   Also, refer to the Jasper Server OS Source Build Guide for more information.                "/>
     <echo message=" "/>
     </target>
 
@@ -368,7 +370,7 @@
     <echo message="                                                                                                   "/>
     <echo message="       export JAVA_OPTS=&quot;$JAVA_OPTS -Xms1024m -Xmx2048m -Xss2m -XX:+UseConcMarkSweepGC&quot;  "/>
     <echo message="                                                                                                   "/>
-    <echo message="   Also, refer to the JasperReports Server Install Guide or Source Build Guide for                 "/>
+    <echo message="   Also, refer to the Jasper Server OS Install Guide or Source Build Guide for                 "/>
     <echo message="   more information.                                                                               "/>
     <echo message=" "/>
     </target>
@@ -377,8 +379,8 @@
     <echo message="                                                                                                   "/>
     <echo message=" Help for Setting Up the JasperServer Commercial License                                           "/>
     <echo message="                                                                                                   "/>
-    <echo message="   In order to run the Commercial version of JasperReports Server, you will need a                 "/>
-    <echo message="   jasperserver.license file in place. The license file is read by JasperReports Server            "/>
+    <echo message="   In order to run the Commercial version of Jasper Server OS, you will need a                 "/>
+    <echo message="   jasperserver.license file in place. The license file is read by Jasper Server OS            "/>
     <echo message="   at startup when the Application Server starts up.                                               "/>
     <echo message="                                                                                                   "/>
     <echo message="   Setup JasperServer License File:                 "/>
@@ -390,8 +392,8 @@
     <echo message="                                                                                                   "/>
     <echo message="     (add more details here)                                                                       "/>
     <echo message="                                                                                                   "/>
-    <echo message="     Also, refer to Section 6.3 &quot;Setting Up the JasperReports Server License&quot; of the     "/>
-    <echo message="     JasperReports Server Install Guide.                                                           "/>
+    <echo message="     Also, refer to Section 6.3 &quot;Setting Up the Jasper Server OS License&quot; of the     "/>
+    <echo message="     Jasper Server OS Install Guide.                                                           "/>
     <echo message=" "/>
     </target>
 

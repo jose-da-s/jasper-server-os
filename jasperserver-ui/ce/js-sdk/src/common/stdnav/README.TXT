@@ -6,7 +6,7 @@ Lead Author: Matt Heck, UI Engineer (mheck@jaspersoft.com)
 
 1. Overview
 -----------
-As of August, 2014, JasperReports Server's web front-end had practically no
+As of August, 2014, Jasper Server OS's web front-end had practically no
 working keyboard navigation.  Even simple TAB/SHIFT-TAB navigation was bad or
 non-existent for most of the application.
 

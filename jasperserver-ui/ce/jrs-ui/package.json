@@ -1,6 +1,6 @@
 {
   "name": "jrs-ui",
-  "version": "8.2.0",
+  "version": "8.3.0",
   "private": true,
   "license": "AGPLv3",
   "scripts": {
@@ -63,8 +63,8 @@
     "backbone.epoxy": "1.3.1",
     "backbone.marionette": "2.3.2",
     "backbone.wreqr": "1.4.0",
-    "bi-report": "8.2.0",
-    "bi-repository": "8.2.0",
+    "bi-report": "8.3.0",
+    "bi-repository": "8.3.0",
     "clsx": "1.1.1",
     "css-vendor": "2.0.8",
     "dom-helpers": "5.2.0",
@@ -82,7 +82,7 @@
     "jquery.selection": "git+ssh://git@git.jaspersoft.com:js-eng-all/jquery.selection#1.0.1-npm-package",
     "jquery.urldecoder": "git+ssh://git@git.jaspersoft.com:js-eng-all/jquery.urldecoder#0.0.1-npm-package",
     "jqueryui-timepicker-addon": "git+ssh://git@git.jaspersoft.com:js-eng-all/jQuery-Timepicker-Addon#1.6.3",
-    "js-sdk": "8.2.0",
+    "js-sdk": "8.3.0",
     "jss": "10.5.1",
     "jss-plugin-camel-case": "10.5.1",
     "jss-plugin-default-unit": "10.5.1",

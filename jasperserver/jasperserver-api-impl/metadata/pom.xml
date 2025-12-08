@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -26,7 +28,7 @@
     <groupId>com.jaspersoft.jasperserver.api.metadata.impl</groupId>
     <artifactId>jasperserver-api-metadata-impl</artifactId>
     <packaging>jar</packaging>
-    <name>Jasper Server API Implementations - Metadata</name>
+    <name>Jasper Server OS API Implementations - Metadata</name>
     <url>http://www.jaspersoft.com</url>
     <parent>
         <groupId>com.jaspersoft.jasperserver</groupId>

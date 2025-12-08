@@ -5,7 +5,7 @@ THANK YOU FOR CHOOSING THIS TIBCO JASPERSOFT SOFTWARE PRODUCT.  BY CLICKING ON T
 (c) 2023 Cloud Software Group, Inc.  All Rights Reserved.
 Warning:  This computer program is protected by copyright laws and international treaties.  Unauthorized use, duplication or distribution of this program or any portion of it without the express written consent of TIBCO JASPERSOFT is strictly prohibited.  ALL Rights Reserved.
 
-TIBCO JASPERSOFT, JasperReports, JasperServer, JasperAnalysis, JasperETL, iReport, JasperReports Library, JasperReports Server, Jaspersoft OLAP, Jaspersoft ETL, Jaspersoft Studio, Jaspersoft Business Intelligence, Jaspersoft BI and Jaspersoft BI Suite are trademarks of TIBCO JASPERSOFT.  Any other trademarks are for identification purposes only and are the property of their respective owners.
+TIBCO JASPERSOFT, JasperReports, JasperServer, JasperAnalysis, JasperETL, iReport, JasperReports Library, Jasper Server OS, Jaspersoft OLAP, Jaspersoft ETL, Jaspersoft Studio, Jaspersoft Business Intelligence, Jaspersoft BI and Jaspersoft BI Suite are trademarks of TIBCO JASPERSOFT.  Any other trademarks are for identification purposes only and are the property of their respective owners.
 
 U.S. GOVERNMENT END-USERS: 
 

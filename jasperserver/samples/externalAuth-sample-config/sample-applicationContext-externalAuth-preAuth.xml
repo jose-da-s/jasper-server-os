@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -21,7 +23,7 @@
 
 <!--
   - This file is a sample of PreAuthentication API configuration.  The API deals with cases
-  - when the external user comes to Jasper Server already authenticated & authorized.  Very
+  - when the external user comes to Jasper Server OS already authenticated & authorized.  Very
   - often the user name, roles, etc. is encrypted as a token parameter in the request; so, there is
   - no need to redirect user to SSO servers or extract user details from external datasources.
 -->
@@ -147,7 +149,7 @@
 
         <property name="permittedRolesRegex">
             <list>
-                <!-- Used to set regex's to limit what external roles are imported into Jasper Server.
+                <!-- Used to set regex's to limit what external roles are imported into Jasper Server OS.
                     By default, all roles are imported.
                     Examples of the regex's importing only roles starting with JRS_ and EXT_:
                     <value>JRS_.*</value>

@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -84,7 +86,7 @@
                 <file file="${cc.result.file}"/>
             </executiondata>
             <!--  the class files and optional source files ...  -->
-            <structure name="JasperReports Server Pro">
+            <structure name="Jasper Server OS Pro">
                 <classfiles>
                     <fileset dir="${js-path}">
                         <include name="**/target/classes/com/jaspersoft/**/*.class"/>
@@ -120,7 +122,7 @@
                 <file file="${cc.result.file}"/>
             </executiondata>
             <!--  the class files and optional source files ...  -->
-            <structure name="JasperReports Server Pro">
+            <structure name="Jasper Server OS Pro">
 
                 <!-- CE -->
 

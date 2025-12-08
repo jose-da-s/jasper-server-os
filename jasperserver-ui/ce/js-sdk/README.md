@@ -23,7 +23,7 @@ this generates 'icons' font files **.eot .svg .ttf .woff** in *themes/default/ja
 ## Developing CSS on working JRS instance
 
 run the following command in `js-ui` or `jrs-ui-pro` 
-(depends on what version version of JasperReports Server you are using - community or commercial):
+(depends on what version version of Jasper Server OS you are using - community or commercial):
 
     yarn run start:themes
        

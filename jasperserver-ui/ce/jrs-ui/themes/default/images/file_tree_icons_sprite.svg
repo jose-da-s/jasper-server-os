@@ -1,141 +1,330 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="90" height="260" viewBox="0 0 90 260">
-  <defs>
-    <circle id="file_tree_icons_sprite-a" cx="9" cy="9" r="9"/>
-    <circle id="file_tree_icons_sprite-c" cx="9" cy="9" r="9"/>
-    <circle id="file_tree_icons_sprite-e" cx="9" cy="9" r="9"/>
-    <circle id="file_tree_icons_sprite-g" cx="9" cy="9" r="9"/>
-  </defs>
-  <g fill="none" fill-rule="evenodd">
-    <g transform="translate(72 239)">
-      <circle cx="9" cy="10" r="9" fill="#FBF0F8"/>
-      <path fill="#D673AD" fill-rule="nonzero" d="M0,10.3141097 C0,5.17006895 4.02943725,1 9,1 C13.9705627,1 18,5.17006895 18,10.3141097 C18,12.9372934 16.9521647,15.3072006 15.266032,17 L12.8820643,14.0393951 C13.7583585,13.0618256 14.2941176,11.7527179 14.2941176,10.3141097 C14.2941176,8.70381761 13.6228529,7.25577969 12.5541148,6.25334289 C11.6145829,5.37209666 10.367874,4.83522163 9,4.83522163 C6.07613956,4.83522163 3.70588235,7.28820337 3.70588235,10.3141097 C3.70588235,11.7527179 4.2416415,13.0618256 5.1179357,14.0393951 L2.73396798,17 C1.04783528,15.3072006 0,12.9372934 0,10.3141097 Z"/>
-      <path fill="#FCDAF3" fill-rule="nonzero" d="M9,1 C11.3068382,1 13.4103608,1.8463214 15,3.23702203 L12.6317445,6 C11.6855415,5.1274663 10.4070669,4.59218822 9,4.59218822 C7.59293311,4.59218822 6.31445853,5.1274663 5.36825553,6 L3,3.23702203 C4.58963925,1.8463214 6.69316179,1 9,1 Z"/>
-      <path fill="#D673AD" d="M7.2,11.9393283 L10.8,11.9393283 C10.8,13.0136807 9.99411255,13.8846154 9,13.8846154 C8.00588745,13.8846154 7.2,13.0136807 7.2,11.9393283 Z M9,0.730769231 L10.8,11.9393283 L7.2,11.9393283 L9,0.730769231 Z" transform="rotate(3 9 7.308)"/>
-    </g>
-    <g transform="translate(72 210)">
-      <mask id="file_tree_icons_sprite-b" fill="#fff">
-        <use xlink:href="#file_tree_icons_sprite-a"/>
-      </mask>
-      <use fill="#9AC64C" fill-rule="nonzero" xlink:href="#file_tree_icons_sprite-a"/>
-      <path fill="#FFF" d="M6,4 L13,4 C14.1045695,4 15,4.8954305 15,6 L15,16 C15,17.1045695 14.1045695,18 13,18 L6,18 C4.8954305,18 4,17.1045695 4,16 L4,6 C4,4.8954305 4.8954305,4 6,4 Z" mask="url(#file_tree_icons_sprite-b)"/>
-      <polygon fill="#9AC64C" fill-rule="nonzero" points="6 6 9 6 9 14 6 14" mask="url(#file_tree_icons_sprite-b)"/>
-      <polygon fill="#9AC64C" fill-rule="nonzero" points="10 8 13 8 13 14 10 14" mask="url(#file_tree_icons_sprite-b)"/>
-      <circle cx="9" cy="9" r="9" stroke="#9AC64C" stroke-width="4" mask="url(#file_tree_icons_sprite-b)"/>
-    </g>
-    <g transform="translate(72 180)">
-      <mask id="file_tree_icons_sprite-d" fill="#fff">
-        <use xlink:href="#file_tree_icons_sprite-c"/>
-      </mask>
-      <use fill="#2599FF" fill-rule="nonzero" xlink:href="#file_tree_icons_sprite-c"/>
-      <g mask="url(#file_tree_icons_sprite-d)">
-        <g transform="translate(0 2)">
-          <polygon fill="#A5D4F0" points=".129 6.481 6.043 .429 10.267 9.075 17.871 .429 17.871 16.857 .129 16.857"/>
-          <polygon fill="#02577B" points=".129 10.786 6.043 7.316 10.267 12.52 17.871 4.714 17.871 16.857 .129 16.857"/>
-        </g>
-      </g>
-    </g>
-    <g transform="translate(72 120)">
-      <rect width="15" height="12" x="1" y="4" fill="#E9F8F7" rx=".5"/>
-      <rect width="13" height="8" x="2" y="7" fill="#63BCB9" rx=".5"/>
-      <path fill="#C4DEDC" d="M13.75,8 C13.8880712,8 14,8.11192881 14,8.25 L14,13.75 C14,13.8880712 13.8880712,14 13.75,14 L11.25,14 C11.1119288,14 11,13.8880712 11,13.75 L11,8.25 C11,8.11192881 11.1119288,8 11.25,8 L13.75,8 Z M9.75,8 C9.88807119,8 10,8.11192881 10,8.25 L10,13.75 C10,13.8880712 9.88807119,14 9.75,14 L7.25,14 C7.11192881,14 7,13.8880712 7,13.75 L7,8.25 C7,8.11192881 7.11192881,8 7.25,8 L9.75,8 Z M5.75,8 C5.88807119,8 6,8.11192881 6,8.25 L6,13.75 C6,13.8880712 5.88807119,14 5.75,14 L3.25,14 C3.11192881,14 3,13.8880712 3,13.75 L3,8.25 C3,8.11192881 3.11192881,8 3.25,8 L5.75,8 Z"/>
-    </g>
-    <g transform="translate(72 90)">
-      <circle cx="9" cy="9" r="9" fill="#E9F8F7" fill-rule="nonzero"/>
-      <path fill="#249490" d="M14.5,5 C14.7761424,5 15,5.22385763 15,5.5 L15,11.5 C15,11.7761424 14.7761424,12 14.5,12 L11.5,12 L11.5,16.5 C11.5,16.7761424 11.2761424,17 11,17 L10.5,17 C10.2238576,17 10,16.7761424 10,16.5 L10,12 L6.5,12 C6.22385763,12 6,11.7761424 6,11.5 L6,9.3 L1.5,9.3 C1.22385763,9.3 1,9.07614237 1,8.8 L1,8.3 C1,8.02385763 1.22385763,7.8 1.5,7.8 L6,7.8 L6,5.5 C6,5.22385763 6.22385763,5 6.5,5 L14.5,5 Z"/>
-      <rect width="7" height="4" x="7" y="7" fill="#F2F4F4" fill-rule="nonzero"/>
-    </g>
-    <g transform="translate(74 62)">
-      <polygon fill="#C1DCF5" points="0 2.931 7.45 0 14.828 2.931 7.377 5.862"/>
-      <polygon fill="#7FC0E5" points="0 3.966 0 12.237 6.897 15 6.897 6.778"/>
-      <polygon fill="#82AED5" points="14.828 3.966 14.828 12.237 7.931 15 7.931 6.778"/>
-    </g>
-    <g transform="translate(58 30)">
-      <polygon fill="#A5D4F0" fill-rule="nonzero" points="5 8 9 13 1 13" transform="rotate(-180 5 10.5)"/>
-      <g transform="translate(15 2)">
-        <polygon fill="#50ADFF" points="0 14 16 14 16 6 0 6"/>
-        <polygon fill="#A5D4F0" points="0 6 16 6 16 5 0 5"/>
-        <polygon fill="#055DAB" points="0 5 16 5 16 2.5 6.384 2.5 4.098 0 0 0"/>
-      </g>
-    </g>
-    <g transform="translate(58)">
-      <polygon fill="#A5D4F0" fill-rule="nonzero" points="5 8 9 13 1 13" transform="rotate(90 5 10.5)"/>
-      <g transform="translate(15 2)">
-        <polygon fill="#50ADFF" points="0 14 16 14 16 6 0 6"/>
-        <polygon fill="#A5D4F0" points="0 6 16 6 16 5 0 5"/>
-        <polygon fill="#055DAB" points="0 5 16 5 16 2.5 6.384 2.5 4.098 0 0 0"/>
-      </g>
-    </g>
-    <g transform="translate(14 90)">
-      <circle cx="9" cy="9" r="9" fill="#249490" fill-rule="nonzero"/>
-      <path fill="#176F77" d="M14.5,5 C14.7761424,5 15,5.22385763 15,5.5 L15,11.5 C15,11.7761424 14.7761424,12 14.5,12 L11.5,12 L11.5,16.5 C11.5,16.7761424 11.2761424,17 11,17 L10.5,17 C10.2238576,17 10,16.7761424 10,16.5 L10,12 L6.5,12 C6.22385763,12 6,11.7761424 6,11.5 L6,9.3 L1.5,9.3 C1.22385763,9.3 1,9.07614237 1,8.8 L1,8.3 C1,8.02385763 1.22385763,7.8 1.5,7.8 L6,7.8 L6,5.5 C6,5.22385763 6.22385763,5 6.5,5 L14.5,5 Z"/>
-      <rect width="7" height="4" x="7" y="7" fill="#DDE4E4" fill-rule="nonzero"/>
-    </g>
-    <g transform="translate(14 239)">
-      <circle cx="9" cy="10" r="9" fill="#FCDAF3"/>
-      <path fill="#BA0871" fill-rule="nonzero" d="M0,10.3141097 C0,5.17006895 4.02943725,1 9,1 C13.9705627,1 18,5.17006895 18,10.3141097 C18,12.9372934 16.9521647,15.3072006 15.266032,17 L12.8820643,14.0393951 C13.7583585,13.0618256 14.2941176,11.7527179 14.2941176,10.3141097 C14.2941176,8.70381761 13.6228529,7.25577969 12.5541148,6.25334289 C11.6145829,5.37209666 10.367874,4.83522163 9,4.83522163 C6.07613956,4.83522163 3.70588235,7.28820337 3.70588235,10.3141097 C3.70588235,11.7527179 4.2416415,13.0618256 5.1179357,14.0393951 L2.73396798,17 C1.04783528,15.3072006 0,12.9372934 0,10.3141097 Z"/>
-      <path fill="#D673AD" fill-rule="nonzero" d="M9,1 C11.3068382,1 13.4103608,1.8463214 15,3.23702203 L12.6317445,6 C11.6855415,5.1274663 10.4070669,4.59218822 9,4.59218822 C7.59293311,4.59218822 6.31445853,5.1274663 5.36825553,6 L3,3.23702203 C4.58963925,1.8463214 6.69316179,1 9,1 Z"/>
-      <path fill="#BA0871" d="M7.2,11.9393283 L10.8,11.9393283 C10.8,13.0136807 9.99411255,13.8846154 9,13.8846154 C8.00588745,13.8846154 7.2,13.0136807 7.2,11.9393283 Z M9,0.730769231 L10.8,11.9393283 L7.2,11.9393283 L9,0.730769231 Z" transform="rotate(3 9 7.308)"/>
-    </g>
-    <g transform="translate(14 180)">
-      <mask id="file_tree_icons_sprite-f" fill="#fff">
-        <use xlink:href="#file_tree_icons_sprite-e"/>
-      </mask>
-      <use fill="#318DDE" fill-rule="nonzero" xlink:href="#file_tree_icons_sprite-e"/>
-      <g mask="url(#file_tree_icons_sprite-f)">
-        <g transform="translate(-2 1)">
-          <polyline stroke="#D7ECF8" stroke-width="2" points="0 0 0 20 22 20"/>
-          <polygon fill="#A5D4F0" points="2.129 7.481 8.043 1.429 12.267 10.075 19.871 1.429 19.871 17.857 2.129 17.857"/>
-          <polygon fill="#006E9C" points="2.129 11.786 8.043 8.316 12.267 13.52 19.871 5.714 19.871 17.857 2.129 17.857"/>
-        </g>
-      </g>
-    </g>
-    <g transform="translate(14 150)">
-      <rect width="15" height="12" x="1" y="4" fill="#249490" rx=".5"/>
-      <rect width="13" height="8" x="2" y="7" fill="#FFF" rx=".5"/>
-      <rect width="3" height="6" x="11" y="8" fill="#EFD884" rx=".25"/>
-      <rect width="3" height="6" x="7" y="8" fill="#EBBD94" rx=".25"/>
-      <rect width="3" height="6" x="3" y="8" fill="#A3CDCB" rx=".25"/>
-    </g>
-    <g transform="translate(14 120)">
-      <rect width="15" height="12" x="1" y="4" fill="#249490" rx=".5"/>
-      <rect width="13" height="8" x="2" y="7" fill="#FFF" rx=".5"/>
-      <path fill="#9FCDCB" d="M13.75,8 C13.8880712,8 14,8.11192881 14,8.25 L14,13.75 C14,13.8880712 13.8880712,14 13.75,14 L11.25,14 C11.1119288,14 11,13.8880712 11,13.75 L11,8.25 C11,8.11192881 11.1119288,8 11.25,8 L13.75,8 Z M9.75,8 C9.88807119,8 10,8.11192881 10,8.25 L10,13.75 C10,13.8880712 9.88807119,14 9.75,14 L7.25,14 C7.11192881,14 7,13.8880712 7,13.75 L7,8.25 C7,8.11192881 7.11192881,8 7.25,8 L9.75,8 Z M5.75,8 C5.88807119,8 6,8.11192881 6,8.25 L6,13.75 C6,13.8880712 5.88807119,14 5.75,14 L3.25,14 C3.11192881,14 3,13.8880712 3,13.75 L3,8.25 C3,8.11192881 3.11192881,8 3.25,8 L5.75,8 Z"/>
-    </g>
-    <g transform="translate(16 62)">
-      <polygon fill="#00A9D7" points="0 2.931 7.45 0 14.828 2.931 7.377 5.862"/>
-      <polygon fill="#0081CB" points="0 3.966 0 12.237 6.897 15 6.897 6.778"/>
-      <polygon fill="#055DAB" points="14.828 3.966 14.828 12.237 7.931 15 7.931 6.778"/>
-    </g>
-    <g transform="translate(0 30)">
-      <g transform="translate(15 2)">
-        <polygon fill="#0081CB" points="0 14 16 14 16 6 0 6"/>
-        <polygon fill="#CFE5F3" points="0 6 16 6 16 5 0 5"/>
-        <polygon fill="#055DAB" points="0 5 16 5 16 2.5 6.384 2.5 4.098 0 0 0"/>
-      </g>
-      <polygon fill="#0081CB" fill-rule="nonzero" points="5 8 9 13 1 13" transform="rotate(-180 5 10.5)"/>
-    </g>
-    <g transform="translate(15 2)">
-      <polygon fill="#0081CB" points="0 14 16 14 16 6 0 6"/>
-      <polygon fill="#CFE5F3" points="0 6 16 6 16 5 0 5"/>
-      <polygon fill="#055DAB" points="0 5 16 5 16 2.5 6.384 2.5 4.098 0 0 0"/>
-    </g>
-    <polygon fill="#0081CB" fill-rule="nonzero" points="5 8 9 13 1 13" transform="rotate(90 5 10.5)"/>
-    <g transform="translate(14 210)">
-      <mask id="file_tree_icons_sprite-h" fill="#fff">
-        <use xlink:href="#file_tree_icons_sprite-g"/>
-      </mask>
-      <use fill="#7A9F35" fill-rule="nonzero" xlink:href="#file_tree_icons_sprite-g"/>
-      <path fill="#FFF" d="M6,4 L13,4 C14.1045695,4 15,4.8954305 15,6 L15,16 C15,17.1045695 14.1045695,18 13,18 L6,18 C4.8954305,18 4,17.1045695 4,16 L4,6 C4,4.8954305 4.8954305,4 6,4 Z" mask="url(#file_tree_icons_sprite-h)"/>
-      <polygon fill="#9AC64C" fill-rule="nonzero" points="6 6 9 6 9 14 6 14" mask="url(#file_tree_icons_sprite-h)"/>
-      <polygon fill="#9AC64C" fill-rule="nonzero" points="10 8 13 8 13 14 10 14" mask="url(#file_tree_icons_sprite-h)"/>
-      <circle cx="9" cy="9" r="9" stroke="#7A9F35" stroke-width="4" mask="url(#file_tree_icons_sprite-h)"/>
-    </g>
-    <g transform="translate(72 149)">
-      <rect width="15" height="12" x="1" y="4" fill="#E9F8F7" rx=".5"/>
-      <rect width="13" height="8" x="2" y="7" fill="#249490" rx=".5"/>
-      <rect width="3" height="6" x="11" y="8" fill="#EFD884" rx=".25"/>
-      <rect width="3" height="6" x="7" y="8" fill="#EBBD94" rx=".25"/>
-      <rect width="3" height="6" x="3" y="8" fill="#C4DEDC" rx=".25"/>
-    </g>
-  </g>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg432" inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)" sodipodi:docname="file_tree_icons_sprite.svg" x="0px" y="0px" width="90" height="260" viewBox="0 0 90 260" style="enable-background:new 0 0 90 260;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#f2f1ed;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st1{fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st2{fill:#252522;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st3{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st4{fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st5{filter:url(#Adobe_OpacityMaskFilter);}
+	.st6{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
+	
+		.st7{mask:url(#file_tree_icons_sprite-b_00000073680556157915340150000015553734031421781434_);fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st8{filter:url(#Adobe_OpacityMaskFilter_00000008127031653379244770000010482882743740006279_);}
+	
+		.st9{mask:url(#file_tree_icons_sprite-b_00000038407021188264236820000011607570644715247014_);fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st10{filter:url(#Adobe_OpacityMaskFilter_00000055681438654020098130000009249084177088704642_);}
+	
+		.st11{mask:url(#file_tree_icons_sprite-b_00000149373625805179038420000006695472028596271287_);fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st12{filter:url(#Adobe_OpacityMaskFilter_00000074422356274246966470000012310034739183163057_);}
+	
+		.st13{mask:url(#file_tree_icons_sprite-b_00000147911774699973215830000002385828325984437654_);fill:none;stroke:#000000;stroke-width:0.1;}
+	.st14{fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st15{filter:url(#Adobe_OpacityMaskFilter_00000152983127030752285470000004361611164602501035_);}
+	.st16{mask:url(#file_tree_icons_sprite-d_00000075880561697282855430000010146040250414231229_);}
+	.st17{fill-rule:evenodd;clip-rule:evenodd;fill:#fceebb;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st18{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st19{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFBEB;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st20{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st21{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st22{fill:#FFFCED;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st23{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st24{fill:#f4f1f1;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st25{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st26{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st27{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st28{fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st29{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st30{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st31{fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st32{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st33{fill:#e3dcdc;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st34{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFAE5;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st35{fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st36{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st37{fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st38{filter:url(#Adobe_OpacityMaskFilter_00000174568697668528435030000006529681936644119956_);}
+	.st39{mask:url(#file_tree_icons_sprite-f_00000170998726685525808130000000512404248708455355_);}
+	.st40{fill:none;stroke:#000000;stroke-width:0.1;}
+	.st41{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st42{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st43{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st44{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st45{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st46{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st47{fill-rule:evenodd;clip-rule:evenodd;fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st48{fill-rule:evenodd;clip-rule:evenodd;fill:#FFF8DA;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st49{fill:#ffd37d;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st50{filter:url(#Adobe_OpacityMaskFilter_00000180335567784198741200000012141437491906730927_);}
+	
+		.st51{mask:url(#file_tree_icons_sprite-h_00000116925306641899626570000010640586078393361841_);fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st52{filter:url(#Adobe_OpacityMaskFilter_00000147194242563331543770000008681235676648753842_);}
+	
+		.st53{mask:url(#file_tree_icons_sprite-h_00000042727798573727229210000009395972610347743893_);fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st54{filter:url(#Adobe_OpacityMaskFilter_00000106829655385967069910000004453058704156296092_);}
+	
+		.st55{mask:url(#file_tree_icons_sprite-h_00000001636092302116016180000004811384615450033312_);fill:#676767;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+	.st56{filter:url(#Adobe_OpacityMaskFilter_00000010307030294391607490000017481100358981808793_);}
+	
+		.st57{mask:url(#file_tree_icons_sprite-h_00000158729126866614733590000017349420082335184305_);fill:none;stroke:#000000;stroke-width:0.1;}
+	.st58{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFCED;stroke:#000000;stroke-width:0.1;stroke-miterlimit:10;}
+</style>
+<sodipodi:namedview bordercolor="#191818" borderopacity="1" gridtolerance="10" guidetolerance="10" id="namedview434" inkscape:current-layer="svg432" inkscape:cx="45" inkscape:cy="43.0227" inkscape:document-rotation="0" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-height="1027" inkscape:window-maximized="1" inkscape:window-width="1920" inkscape:window-x="1912" inkscape:window-y="-8" inkscape:zoom="3.2192308" objecttolerance="10" pagecolor="#ffffff" showgrid="false" fill="#000000">
+	</sodipodi:namedview>
+<g id="g430">
+	<g id="g238" transform="translate(72 239)">
+		<circle id="circle230" class="st0" cx="9" cy="10" r="9" fill="#000000"/>
+		<path id="path232" class="st1" d="M0,10.3C0,5.2,4,1,9,1s9,4.2,9,9.3c0,2.6-1,5-2.7,6.7l-2.4-3c0.9-1,1.4-2.3,1.4-3.7    c0-1.6-0.7-3.1-1.7-4.1C11.6,5.4,10.4,4.8,9,4.8c-2.9,0-5.3,2.5-5.3,5.5c0,1.4,0.5,2.7,1.4,3.7l-2.4,3C1,15.3,0,12.9,0,10.3z" fill="#000000"/>
+		<path id="path234" class="st2" d="M9,1c2.3,0,4.4,0.8,6,2.2L12.6,6C11.7,5.1,10.4,4.6,9,4.6S6.3,5.1,5.4,6L3,3.2    C4.6,1.8,6.7,1,9,1z" fill="#000000"/>
+		<path id="path236" class="st3" d="M7,11.8l3.6,0.2c-0.1,1.1-0.9,1.9-1.9,1.8S6.9,12.9,7,11.8z M9.3,0.7L10.6,12L7,11.8L9.3,0.7z" fill="#000000"/>
+	</g>
+	<g id="g253" transform="translate(72 210)">
+		<g id="use243">
+			<circle id="file_tree_icons_sprite-a_00000106840376597912353680000011370276658249764255_" class="st4" cx="9" cy="9" r="9" fill="#000000"/>
+		</g>
+		<defs fill="#000000">
+			<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="4" y="4" width="11.1" height="14.1" fill="#000000">
+				<feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" fill="#000000"/>
+			</filter>
+		</defs>
+		
+			<mask maskUnits="userSpaceOnUse" x="4" y="4" width="11.1" height="14.1" id="file_tree_icons_sprite-b_00000073680556157915340150000015553734031421781434_" fill="#000000">
+			<g id="use240_00000098900805641938126140000013250894052144916140_" class="st5">
+				<circle id="file_tree_icons_sprite-a_00000028321261686556194160000015718988260681743769_" class="st6" cx="9" cy="9" r="9" fill="#000000"/>
+			</g>
+		</mask>
+		<path id="path245" class="st7" d="M6,4h7c1.1,0,2,0.9,2,2v10c0,1.1-0.9,2-2,2H6c-1.1,0-2-0.9-2-2V6C4,4.9,4.9,4,6,4z" fill="#000000"/>
+		<defs fill="#000000">
+			
+				<filter id="Adobe_OpacityMaskFilter_00000019667227560591806920000012154524868152759725_" filterUnits="userSpaceOnUse" x="5.9" y="5.9" width="3.1" height="8.1" fill="#000000">
+				<feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" fill="#000000"/>
+			</filter>
+		</defs>
+		
+			<mask maskUnits="userSpaceOnUse" x="5.9" y="5.9" width="3.1" height="8.1" id="file_tree_icons_sprite-b_00000038407021188264236820000011607570644715247014_" fill="#000000">
+			
+				<g id="use240_00000137847650040918317440000003901320863283312299_" style="filter:url(#Adobe_OpacityMaskFilter_00000019667227560591806920000012154524868152759725_);">
+				<circle id="file_tree_icons_sprite-a_00000054985211459539652130000012731693184530735547_" class="st6" cx="9" cy="9" r="9" fill="#000000"/>
+			</g>
+		</mask>
+		<polygon id="polygon247" class="st9" points="6,6 9,6 9,14 6,14   " fill="#000000"/>
+		<defs fill="#000000">
+			
+				<filter id="Adobe_OpacityMaskFilter_00000124119238908605717030000011832154322273193873_" filterUnits="userSpaceOnUse" x="9.9" y="7.9" width="3.1" height="6.1" fill="#000000">
+				<feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" fill="#000000"/>
+			</filter>
+		</defs>
+		
+			<mask maskUnits="userSpaceOnUse" x="9.9" y="7.9" width="3.1" height="6.1" id="file_tree_icons_sprite-b_00000149373625805179038420000006695472028596271287_" fill="#000000">
+			
+				<g id="use240_00000137847674608380802140000013332365140012313218_" style="filter:url(#Adobe_OpacityMaskFilter_00000124119238908605717030000011832154322273193873_);">
+				<circle id="file_tree_icons_sprite-a_00000085934378009899927460000015363260926082924957_" class="st6" cx="9" cy="9" r="9" fill="#000000"/>
+			</g>
+		</mask>
+		<polygon id="polygon249" class="st11" points="10,8 13,8 13,14 10,14   " fill="#000000"/>
+		<defs fill="#000000">
+			
+				<filter id="Adobe_OpacityMaskFilter_00000054255890354636425110000009073895860380323766_" filterUnits="userSpaceOnUse" x="-0.1" y="-0.1" width="18.1" height="18.1" fill="#000000">
+				<feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" fill="#000000"/>
+			</filter>
+		</defs>
+		
+			<mask maskUnits="userSpaceOnUse" x="-0.1" y="-0.1" width="18.1" height="18.1" id="file_tree_icons_sprite-b_00000147911774699973215830000002385828325984437654_" fill="#000000">
+			
+				<g id="use240_00000078002942126465373310000012495922811212810149_" style="filter:url(#Adobe_OpacityMaskFilter_00000054255890354636425110000009073895860380323766_);">
+				<circle id="file_tree_icons_sprite-a_00000079473121087983814970000005374046097344525988_" class="st6" cx="9" cy="9" r="9" fill="#000000"/>
+			</g>
+		</mask>
+		<circle id="circle251" class="st13" cx="9" cy="9" r="9" fill="#000000"/>
+	</g>
+	<g id="g268" transform="translate(72 180)">
+		<g id="use258">
+			<circle id="file_tree_icons_sprite-c_00000001653133073637331180000008613456603955501967_" class="st14" cx="9" cy="9" r="9" fill="#000000"/>
+		</g>
+		<defs fill="#000000">
+			
+				<filter id="Adobe_OpacityMaskFilter_00000073711874762799766730000010469843766953656704_" filterUnits="userSpaceOnUse" x="0.1" y="2.3" width="17.8" height="16.6" fill="#000000">
+				<feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" fill="#000000"/>
+			</filter>
+		</defs>
+		
+			<mask maskUnits="userSpaceOnUse" x="0.1" y="2.3" width="17.8" height="16.6" id="file_tree_icons_sprite-d_00000075880561697282855430000010146040250414231229_" fill="#000000">
+			
+				<g id="use255_00000160904405686511069850000009690216375995128459_" style="filter:url(#Adobe_OpacityMaskFilter_00000073711874762799766730000010469843766953656704_);">
+				<circle id="file_tree_icons_sprite-c_00000139261528325149954620000016122803334712030885_" class="st6" cx="9" cy="9" r="9" fill="#000000"/>
+			</g>
+		</mask>
+		<g id="g266" class="st16">
+			<g id="g264" transform="translate(0 2)">
+				<polygon id="polygon260" class="st17" points="0.1,6.5 6,0.4 10.3,9.1 17.9,0.4 17.9,16.9 0.1,16.9     " fill="#000000"/>
+				<polygon id="polygon262" class="st18" points="0.1,10.8 6,7.3 10.3,12.5 17.9,4.7 17.9,16.9 0.1,16.9     " fill="#000000"/>
+			</g>
+		</g>
+	</g>
+	<g id="g276" transform="translate(72 120)">
+		<path id="rect270" class="st19" d="M1.5,4h14C15.8,4,16,4.2,16,4.5v11c0,0.3-0.2,0.5-0.5,0.5h-14C1.2,16,1,15.8,1,15.5v-11    C1,4.2,1.2,4,1.5,4z" fill="#000000"/>
+		<path id="rect272" class="st20" d="M2.5,7h12C14.8,7,15,7.2,15,7.5v7c0,0.3-0.2,0.5-0.5,0.5h-12C2.2,15,2,14.8,2,14.5v-7    C2,7.2,2.2,7,2.5,7z" fill="#000000"/>
+		<path id="path274" class="st21" d="M13.8,8C13.9,8,14,8.1,14,8.2v5.5c0,0.1-0.1,0.2-0.2,0.2h-2.5c-0.1,0-0.2-0.1-0.2-0.2V8.2    C11,8.1,11.1,8,11.2,8H13.8z M9.8,8C9.9,8,10,8.1,10,8.2v5.5c0,0.1-0.1,0.2-0.2,0.2H7.2C7.1,14,7,13.9,7,13.8V8.2    C7,8.1,7.1,8,7.2,8H9.8z M5.8,8C5.9,8,6,8.1,6,8.2v5.5C6,13.9,5.9,14,5.8,14H3.2C3.1,14,3,13.9,3,13.8V8.2C3,8.1,3.1,8,3.2,8H5.8z    " fill="#000000"/>
+	</g>
+	<g id="g284" transform="translate(72 90)">
+		<circle id="circle278" class="st22" cx="9" cy="9" r="9" fill="#000000"/>
+		<path id="path280" class="st23" d="M14.5,5C14.8,5,15,5.2,15,5.5v6c0,0.3-0.2,0.5-0.5,0.5h-3v4.5c0,0.3-0.2,0.5-0.5,0.5h-0.5    c-0.3,0-0.5-0.2-0.5-0.5V12H6.5C6.2,12,6,11.8,6,11.5V9.3H1.5C1.2,9.3,1,9.1,1,8.8V8.3C1,8,1.2,7.8,1.5,7.8H6V5.5    C6,5.2,6.2,5,6.5,5H14.5z" fill="#000000"/>
+		<rect id="rect282" x="7" y="7" class="st24" width="7" height="4" fill="#000000"/>
+	</g>
+	<g id="g292" transform="translate(74 62)">
+		<polygon id="polygon286" class="st25" points="0,2.9 7.4,0 14.8,2.9 7.4,5.9   " fill="#000000"/>
+		<polygon id="polygon288" class="st26" points="0,4 0,12.2 6.9,15 6.9,6.8   " fill="#000000"/>
+		<polygon id="polygon290" class="st27" points="14.8,4 14.8,12.2 7.9,15 7.9,6.8   " fill="#000000"/>
+	</g>
+	<g id="g304" transform="translate(58 30)">
+		<polygon id="polygon294" class="st28" points="5,13 1,8 9,8   " fill="#000000"/>
+		<g id="g302" transform="translate(15 2)">
+			<polygon id="polygon296" class="st29" points="0,14 16,14 16,6 0,6    " fill="#000000"/>
+			<polygon id="polygon298" class="st17" points="0,6 16,6 16,5 0,5    " fill="#000000"/>
+			<polygon id="polygon300" class="st30" points="0,5 16,5 16,2.5 6.4,2.5 4.1,0 0,0    " fill="#000000"/>
+		</g>
+	</g>
+	<g id="g316" transform="translate(58)">
+		<polygon id="polygon306" class="st28" points="7.5,10.5 2.5,14.5 2.5,6.5   " fill="#000000"/>
+		<g id="g314" transform="translate(15 2)">
+			<polygon id="polygon308" class="st29" points="0,14 16,14 16,6 0,6    " fill="#000000"/>
+			<polygon id="polygon310" class="st17" points="0,6 16,6 16,5 0,5    " fill="#000000"/>
+			<polygon id="polygon312" class="st30" points="0,5 16,5 16,2.5 6.4,2.5 4.1,0 0,0    " fill="#000000"/>
+		</g>
+	</g>
+	<g id="g324" transform="translate(14 90)">
+		<circle id="circle318" class="st31" cx="9" cy="9" r="9" fill="#000000"/>
+		<path id="path320" class="st32" d="M14.5,5C14.8,5,15,5.2,15,5.5v6c0,0.3-0.2,0.5-0.5,0.5h-3v4.5c0,0.3-0.2,0.5-0.5,0.5h-0.5    c-0.3,0-0.5-0.2-0.5-0.5V12H6.5C6.2,12,6,11.8,6,11.5V9.3H1.5C1.2,9.3,1,9.1,1,8.8V8.3C1,8,1.2,7.8,1.5,7.8H6V5.5    C6,5.2,6.2,5,6.5,5H14.5z" fill="#000000"/>
+		<rect id="rect322" x="7" y="7" class="st33" width="7" height="4" fill="#000000"/>
+	</g>
+	<g id="g334" transform="translate(14 239)">
+		<circle id="circle326" class="st34" cx="9" cy="10" r="9" fill="#000000"/>
+		<path id="path328" class="st35" d="M0,10.3C0,5.2,4,1,9,1s9,4.2,9,9.3c0,2.6-1,5-2.7,6.7l-2.4-3c0.9-1,1.4-2.3,1.4-3.7    c0-1.6-0.7-3.1-1.7-4.1C11.6,5.4,10.4,4.8,9,4.8c-2.9,0-5.3,2.5-5.3,5.5c0,1.4,0.5,2.7,1.4,3.7l-2.4,3C1,15.3,0,12.9,0,10.3z" fill="#000000"/>
+		<path id="path330" class="st1" d="M9,1c2.3,0,4.4,0.8,6,2.2L12.6,6C11.7,5.1,10.4,4.6,9,4.6S6.3,5.1,5.4,6L3,3.2    C4.6,1.8,6.7,1,9,1z" fill="#000000"/>
+		<path id="path332" class="st36" d="M7,11.8l3.6,0.2c-0.1,1.1-0.9,1.9-1.9,1.8S6.9,12.9,7,11.8z M9.3,0.7L10.6,12L7,11.8L9.3,0.7z" fill="#000000"/>
+	</g>
+	<g id="g351" transform="translate(14 180)">
+		<g id="use339">
+			<circle id="file_tree_icons_sprite-e_00000077313372994229996010000001411187563366216859_" class="st37" cx="9" cy="9" r="9" fill="#000000"/>
+		</g>
+		<defs fill="#000000">
+			
+				<filter id="Adobe_OpacityMaskFilter_00000029742213548167810550000015481931338911920769_" filterUnits="userSpaceOnUse" x="-2" y="1" width="22" height="20" fill="#000000">
+				<feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" fill="#000000"/>
+			</filter>
+		</defs>
+		
+			<mask maskUnits="userSpaceOnUse" x="-2" y="1" width="22" height="20" id="file_tree_icons_sprite-f_00000170998726685525808130000000512404248708455355_" fill="#000000">
+			
+				<g id="use336_00000078738286403451544900000011339713023639631747_" style="filter:url(#Adobe_OpacityMaskFilter_00000029742213548167810550000015481931338911920769_);">
+				<circle id="file_tree_icons_sprite-e_00000175307605079108494400000012003194515172619429_" class="st6" cx="9" cy="9" r="9" fill="#000000"/>
+			</g>
+		</mask>
+		<g id="g349" class="st39">
+			<g id="g347" transform="translate(-2 1)">
+				<polyline id="polyline341" class="st40" points="0,0 0,20 22,20     " fill="#000000"/>
+				<polygon id="polygon343" class="st17" points="2.1,7.5 8,1.4 12.3,10.1 19.9,1.4 19.9,17.9 2.1,17.9     " fill="#000000"/>
+				<polygon id="polygon345" class="st41" points="2.1,11.8 8,8.3 12.3,13.5 19.9,5.7 19.9,17.9 2.1,17.9     " fill="#000000"/>
+			</g>
+		</g>
+	</g>
+	<g id="g363" transform="translate(14 150)">
+		<path id="rect353" class="st42" d="M1.5,4h14C15.8,4,16,4.2,16,4.5v11c0,0.3-0.2,0.5-0.5,0.5h-14C1.2,16,1,15.8,1,15.5v-11    C1,4.2,1.2,4,1.5,4z" fill="#000000"/>
+		<path id="rect355" class="st43" d="M2.5,7h12C14.8,7,15,7.2,15,7.5v7c0,0.3-0.2,0.5-0.5,0.5h-12C2.2,15,2,14.8,2,14.5v-7    C2,7.2,2.2,7,2.5,7z" fill="#000000"/>
+		<path id="rect357" class="st44" d="M11.2,8h2.5C13.9,8,14,8.1,14,8.2v5.5c0,0.1-0.1,0.2-0.2,0.2h-2.5c-0.1,0-0.2-0.1-0.2-0.2V8.2    C11,8.1,11.1,8,11.2,8z" fill="#000000"/>
+		<path id="rect359" class="st45" d="M7.2,8h2.5C9.9,8,10,8.1,10,8.2v5.5c0,0.1-0.1,0.2-0.2,0.2H7.2C7.1,14,7,13.9,7,13.8V8.2    C7,8.1,7.1,8,7.2,8z" fill="#000000"/>
+		<path id="rect361" class="st46" d="M3.2,8h2.5C5.9,8,6,8.1,6,8.2v5.5C6,13.9,5.9,14,5.8,14H3.2C3.1,14,3,13.9,3,13.8V8.2    C3,8.1,3.1,8,3.2,8z" fill="#000000"/>
+	</g>
+	<g id="g371" transform="translate(14 120)">
+		<path id="rect365" class="st42" d="M1.5,4h14C15.8,4,16,4.2,16,4.5v11c0,0.3-0.2,0.5-0.5,0.5h-14C1.2,16,1,15.8,1,15.5v-11    C1,4.2,1.2,4,1.5,4z" fill="#000000"/>
+		<path id="rect367" class="st43" d="M2.5,7h12C14.8,7,15,7.2,15,7.5v7c0,0.3-0.2,0.5-0.5,0.5h-12C2.2,15,2,14.8,2,14.5v-7    C2,7.2,2.2,7,2.5,7z" fill="#000000"/>
+		<path id="path369" class="st45" d="M13.8,8C13.9,8,14,8.1,14,8.2v5.5c0,0.1-0.1,0.2-0.2,0.2h-2.5c-0.1,0-0.2-0.1-0.2-0.2V8.2    C11,8.1,11.1,8,11.2,8H13.8z M9.8,8C9.9,8,10,8.1,10,8.2v5.5c0,0.1-0.1,0.2-0.2,0.2H7.2C7.1,14,7,13.9,7,13.8V8.2    C7,8.1,7.1,8,7.2,8H9.8z M5.8,8C5.9,8,6,8.1,6,8.2v5.5C6,13.9,5.9,14,5.8,14H3.2C3.1,14,3,13.9,3,13.8V8.2C3,8.1,3.1,8,3.2,8H5.8z    " fill="#000000"/>
+	</g>
+	<g id="g379" transform="translate(16 62)">
+		<polygon id="polygon373" class="st47" points="0,2.9 7.4,0 14.8,2.9 7.4,5.9   " fill="#000000"/>
+		<polygon id="polygon375" class="st36" points="0,4 0,12.2 6.9,15 6.9,6.8   " fill="#000000"/>
+		<polygon id="polygon377" class="st30" points="14.8,4 14.8,12.2 7.9,15 7.9,6.8   " fill="#000000"/>
+	</g>
+	<g id="g391" transform="translate(0 30)">
+		<g id="g387" transform="translate(15 2)">
+			<polygon id="polygon381" class="st36" points="0,14 16,14 16,6 0,6    " fill="#000000"/>
+			<polygon id="polygon383" class="st48" points="0,6 16,6 16,5 0,5    " fill="#000000"/>
+			<polygon id="polygon385" class="st30" points="0,5 16,5 16,2.5 6.4,2.5 4.1,0 0,0    " fill="#000000"/>
+		</g>
+		<polygon id="polygon389" class="st35" points="5,13 1,8 9,8   " fill="#000000"/>
+	</g>
+	<g id="g399" transform="translate(15 2)">
+		<polygon id="polygon393" class="st36" points="0,14 16,14 16,6 0,6   " fill="#000000"/>
+		<polygon id="polygon395" class="st48" points="0,6 16,6 16,5 0,5   " fill="#000000"/>
+		<polygon id="polygon397" class="st30" points="0,5 16,5 16,2.5 6.4,2.5 4.1,0 0,0   " fill="#000000"/>
+	</g>
+	<polygon id="polygon401" class="st35" points="7.5,10.5 2.5,14.5 2.5,6.5  " fill="#000000"/>
+	<g id="g416" transform="translate(14 210)">
+		<g id="use406">
+			<circle id="file_tree_icons_sprite-g_00000085240853953685462520000004660066123572273793_" class="st49" cx="9" cy="9" r="9" fill="#000000"/>
+		</g>
+		<defs fill="#000000">
+			
+				<filter id="Adobe_OpacityMaskFilter_00000072253328019127810970000008528827548102492564_" filterUnits="userSpaceOnUse" x="4" y="4" width="11.1" height="14.1" fill="#000000">
+				<feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" fill="#000000"/>
+			</filter>
+		</defs>
+		
+			<mask maskUnits="userSpaceOnUse" x="4" y="4" width="11.1" height="14.1" id="file_tree_icons_sprite-h_00000116925306641899626570000010640586078393361841_" fill="#000000">
+			
+				<g id="use403_00000097481701742747667170000013681397915168335268_" style="filter:url(#Adobe_OpacityMaskFilter_00000072253328019127810970000008528827548102492564_);">
+				<circle id="file_tree_icons_sprite-g_00000014623089978583385120000000115468616857848968_" class="st6" cx="9" cy="9" r="9" fill="#000000"/>
+			</g>
+		</mask>
+		<path id="path408" class="st51" d="M6,4h7c1.1,0,2,0.9,2,2v10c0,1.1-0.9,2-2,2H6c-1.1,0-2-0.9-2-2V6C4,4.9,4.9,4,6,4z" fill="#000000"/>
+		<defs fill="#000000">
+			
+				<filter id="Adobe_OpacityMaskFilter_00000040570091817739591940000013143773897007280275_" filterUnits="userSpaceOnUse" x="5.9" y="5.9" width="3.1" height="8.1" fill="#000000">
+				<feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" fill="#000000"/>
+			</filter>
+		</defs>
+		
+			<mask maskUnits="userSpaceOnUse" x="5.9" y="5.9" width="3.1" height="8.1" id="file_tree_icons_sprite-h_00000042727798573727229210000009395972610347743893_" fill="#000000">
+			
+				<g id="use403_00000016759271597205744960000017168861274671327147_" style="filter:url(#Adobe_OpacityMaskFilter_00000040570091817739591940000013143773897007280275_);">
+				<circle id="file_tree_icons_sprite-g_00000029034439099041001350000016470441764600471202_" class="st6" cx="9" cy="9" r="9" fill="#000000"/>
+			</g>
+		</mask>
+		<polygon id="polygon410" class="st53" points="6,6 9,6 9,14 6,14   " fill="#000000"/>
+		<defs fill="#000000">
+			
+				<filter id="Adobe_OpacityMaskFilter_00000098194682831624651980000006768556426811643791_" filterUnits="userSpaceOnUse" x="9.9" y="7.9" width="3.1" height="6.1" fill="#000000">
+				<feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" fill="#000000"/>
+			</filter>
+		</defs>
+		
+			<mask maskUnits="userSpaceOnUse" x="9.9" y="7.9" width="3.1" height="6.1" id="file_tree_icons_sprite-h_00000001636092302116016180000004811384615450033312_" fill="#000000">
+			
+				<g id="use403_00000047760193942956428510000017919703089414622902_" style="filter:url(#Adobe_OpacityMaskFilter_00000098194682831624651980000006768556426811643791_);">
+				<circle id="file_tree_icons_sprite-g_00000015339152374261192280000002337697218958444448_" class="st6" cx="9" cy="9" r="9" fill="#000000"/>
+			</g>
+		</mask>
+		<polygon id="polygon412" class="st55" points="10,8 13,8 13,14 10,14   " fill="#000000"/>
+		<defs fill="#000000">
+			
+				<filter id="Adobe_OpacityMaskFilter_00000106132643208839595640000009467865748918642052_" filterUnits="userSpaceOnUse" x="-0.1" y="-0.1" width="18.1" height="18.1" fill="#000000">
+				<feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0" fill="#000000"/>
+			</filter>
+		</defs>
+		
+			<mask maskUnits="userSpaceOnUse" x="-0.1" y="-0.1" width="18.1" height="18.1" id="file_tree_icons_sprite-h_00000158729126866614733590000017349420082335184305_" fill="#000000">
+			
+				<g id="use403_00000062150849169274583450000013837772323354150568_" style="filter:url(#Adobe_OpacityMaskFilter_00000106132643208839595640000009467865748918642052_);">
+				<circle id="file_tree_icons_sprite-g_00000044168176362156937140000007011945719488036515_" class="st6" cx="9" cy="9" r="9" fill="#000000"/>
+			</g>
+		</mask>
+		<circle id="circle414" class="st57" cx="9" cy="9" r="9" fill="#000000"/>
+	</g>
+	<g id="g428" transform="translate(72 149)">
+		<path id="rect418" class="st58" d="M1.5,4h14C15.8,4,16,4.2,16,4.5v11c0,0.3-0.2,0.5-0.5,0.5h-14C1.2,16,1,15.8,1,15.5v-11    C1,4.2,1.2,4,1.5,4z" fill="#000000"/>
+		<path id="rect420" class="st23" d="M2.5,7h12C14.8,7,15,7.2,15,7.5v7c0,0.3-0.2,0.5-0.5,0.5h-12C2.2,15,2,14.8,2,14.5v-7    C2,7.2,2.2,7,2.5,7z" fill="#000000"/>
+		<path id="rect422" class="st44" d="M11.2,8h2.5C13.9,8,14,8.1,14,8.2v5.5c0,0.1-0.1,0.2-0.2,0.2h-2.5c-0.1,0-0.2-0.1-0.2-0.2V8.2    C11,8.1,11.1,8,11.2,8z" fill="#000000"/>
+		<path id="rect424" class="st46" d="M7.2,8h2.5C9.9,8,10,8.1,10,8.2v5.5c0,0.1-0.1,0.2-0.2,0.2H7.2C7.1,14,7,13.9,7,13.8V8.2    C7,8.1,7.1,8,7.2,8z" fill="#000000"/>
+		<path id="rect426" class="st21" d="M3.2,8h2.5C5.9,8,6,8.1,6,8.2v5.5C6,13.9,5.9,14,5.8,14H3.2C3.1,14,3,13.9,3,13.8V8.2    C3,8.1,3.1,8,3.2,8z" fill="#000000"/>
+	</g>
+</g>
 </svg>

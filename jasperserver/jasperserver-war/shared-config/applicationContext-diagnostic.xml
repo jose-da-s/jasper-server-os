@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -351,7 +353,7 @@
         <property name="messageSource" ref="messageSource"/>
     </bean>
 
-    <!--JMX can use JasperServer JMX Server on which provide Jasper Server Authorization and
+    <!--JMX can use JasperServer JMX Server on which provide Jasper Server OS Authorization and
         remote connections on 10990 port
         or can use available JMX Server (from Application server) but then it`s rely on AppServer JMX configuration
 

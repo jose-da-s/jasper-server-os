@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -101,11 +103,11 @@
 
     <!-- Mocks -->
     <bean id="messageSource" class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="org.springframework.context.MessageSource" />
+        <constructor-arg value="#{T(org.springframework.context.MessageSource)}" />
     </bean>
 
-    <bean id="profileAttributeService" class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="com.jaspersoft.jasperserver.api.metadata.user.service.ProfileAttributeService" />
+    <bean id="profileAttributeService" factory-method="mock" class="org.mockito.Mockito">
+        <constructor-arg type="java.lang.Class" value="com.jaspersoft.jasperserver.api.metadata.user.service.ProfileAttributeService"/>
     </bean>
 
     <bean id="messageSourceInterpolator" class="com.jaspersoft.jasperserver.api.metadata.common.util.MessageSourceInterpolator"/>

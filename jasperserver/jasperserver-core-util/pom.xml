@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -59,7 +61,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.0</version>
+            <version>3.12.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -96,7 +98,7 @@
                     <systemPropertyVariables>
                         <spring.profiles.active>test</spring.profiles.active>
                     </systemPropertyVariables>
-                    <argLine>${argLine} -Xmx1024m -Duser.timezone=GMT-07:00 -Duser.country=US -Duser.language=en</argLine>
+                    <argLine>${argLine} -Xmx1024m -Duser.timezone=GMT-07:00 -Duser.country=US -Duser.language=en ${jdk17.module.opens}</argLine>
                 </configuration>
             </plugin>
         </plugins>

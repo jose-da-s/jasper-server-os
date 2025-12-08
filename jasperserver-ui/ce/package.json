@@ -2,7 +2,7 @@
   "name": "jrs-ui-parent",
   "private": true,
   "license": "AGPLv3",
-  "version": "8.3.0",
+  "version": "8.4.0",
   "engines": {
     "node": ">=10"
   },

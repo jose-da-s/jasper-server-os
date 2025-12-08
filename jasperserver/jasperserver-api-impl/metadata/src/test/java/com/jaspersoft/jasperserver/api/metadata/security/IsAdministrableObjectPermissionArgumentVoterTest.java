@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -41,7 +43,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyListOf;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
 /**
@@ -94,7 +96,7 @@ public class IsAdministrableObjectPermissionArgumentVoterTest {
         Acl acl = new JasperServerAclImpl(oid,null);
         entries.add(new AccessControlEntryImpl(null,acl, sid,JasperServerPermission.ADMINISTRATION,true,false,false));
         acl = new JasperServerAclImpl(oid,entries);
-        when(provider.readAclById(any(ObjectIdentity.class),anyListOf(Sid.class))).thenReturn(acl);
+        when(provider.readAclById(any(ObjectIdentity.class), any())).thenReturn(acl);
         when(authentication.getPrincipal()).thenReturn(user);
 
         assertTrue(voter.isPermitted(authentication, permission, object));
@@ -108,7 +110,7 @@ public class IsAdministrableObjectPermissionArgumentVoterTest {
         entries.add(new AccessControlEntryImpl(null,acl, sid,JasperServerPermission.READ,true,false,false));
         acl = new JasperServerAclImpl(oid,entries);
 
-        when(provider.readAclById(any(ObjectIdentity.class),anyListOf(Sid.class))).thenReturn(acl);
+        when(provider.readAclById(any(ObjectIdentity.class), any())).thenReturn(acl);
         when(authentication.getPrincipal()).thenReturn(user);
 
         assertFalse(voter.isPermitted(authentication, permission, object));
@@ -122,7 +124,7 @@ public class IsAdministrableObjectPermissionArgumentVoterTest {
         entries.add(new AccessControlEntryImpl(null,acl, sid,JasperServerPermission.WRITE,true,false,false));
         acl = new JasperServerAclImpl(oid,entries);
 
-        when(provider.readAclById(any(ObjectIdentity.class),anyListOf(Sid.class))).thenReturn(acl);
+        when(provider.readAclById(any(ObjectIdentity.class), any())).thenReturn(acl);
         when(authentication.getPrincipal()).thenReturn(user);
 
         assertFalse(voter.isPermitted(authentication, permission, object));
@@ -135,7 +137,7 @@ public class IsAdministrableObjectPermissionArgumentVoterTest {
         entries.add(new AccessControlEntryImpl(null,acl, sid,JasperServerPermission.READ,true,false,false));
         entries.add(new AccessControlEntryImpl(null,acl, sid,JasperServerPermission.ADMINISTRATION,true,false,false));
         acl = new JasperServerAclImpl(oid,entries);
-        when(provider.readAclById(any(ObjectIdentity.class),anyListOf(Sid.class))).thenReturn(acl);
+        when(provider.readAclById(any(ObjectIdentity.class), any())).thenReturn(acl);
         when(authentication.getPrincipal()).thenReturn(user);
 
         assertFalse(voter.isPermitted(authentication, permission, object));
@@ -144,13 +146,13 @@ public class IsAdministrableObjectPermissionArgumentVoterTest {
     @Test
     public void testSupports_empty() throws Exception {
         Acl acl = new JasperServerAclImpl(oid,null);
-        when(provider.readAclById(any(ObjectIdentity.class),anyListOf(Sid.class))).thenReturn(acl);
+        when(provider.readAclById(any(ObjectIdentity.class), any())).thenReturn(acl);
         assertFalse(voter.isPermitted(authentication, permission, object));
     }
 
     @Test
     public void testSupports_null() throws Exception {
-        when(provider.readAclById(any(ObjectIdentity.class),anyListOf(Sid.class))).thenReturn(null);
+        when(provider.readAclById(any(ObjectIdentity.class), any())).thenReturn(null);
 
         assertFalse(voter.isPermitted(authentication, permission, object));
     }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -38,7 +40,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
-                    <argLine>${argLine} -Xmx1024m -Duser.timezone=GMT-07:00 -Duser.country=US -Duser.language=en</argLine>
+                    <argLine>${argLine} -Xmx1024m -Duser.timezone=GMT-07:00 -Duser.country=US -Duser.language=en ${jdk17.module.opens}</argLine>
                 </configuration>
             </plugin>
         </plugins>

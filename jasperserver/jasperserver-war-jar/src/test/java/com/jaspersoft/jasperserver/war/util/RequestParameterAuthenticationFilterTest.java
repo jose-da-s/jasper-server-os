@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -52,7 +54,8 @@ import org.springframework.security.core.Authentication;
 @RunWith(PowerMockRunner.class)
 @SuppressStaticInitializationFor("com.jaspersoft.jasperserver.api.security.SecurityConfiguration")
 @PrepareForTest({ SecurityConfiguration.class, SecurityContextHolder.class})
-@PowerMockIgnore( {"javax.management.*", "org.w3c.dom.*", "org.apache.log4j.*", "org.xml.sax.*",   "javax.xml.*",  "javax.script.*",  "javax.security.*"})
+@PowerMockIgnore( {"javax.management.*", "org.w3c.dom.*", "org.apache.log4j.*", "org.xml.sax.*",
+  "javax.xml.*", "javax.script.*", "javax.security.*", "java.lang.Object", "java.lang.reflect.*"})
 public class RequestParameterAuthenticationFilterTest {
   @InjectMocks
   private RequestParameterAuthenticationFilter requestParameterAuthenticationFilter;

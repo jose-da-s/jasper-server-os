@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,8 +25,11 @@ package com.jaspersoft.jasperserver.dto.adhoc.query.validation;
 
 import com.jaspersoft.jasperserver.dto.adhoc.query.field.ClientQueryGroup;
 import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.MockitoAnnotations;
 
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
@@ -38,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -50,13 +55,26 @@ class CheckAllGroupPositionValidatorTest {
     private static final String TEST_PATH = "TEST_PATH";
 
     private CheckAllGroupPositionValidator objectUnderTests = new CheckAllGroupPositionValidator();
+    private AutoCloseable mockitoCloseable;
+
+    @BeforeEach
+    void setUp() {
+        mockitoCloseable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        if (mockitoCloseable != null) {
+            mockitoCloseable.close();
+        }
+    }
 
     @Test
     public void initialize() {
         // without interactions
         CheckAllGroupPosition mock = mock(CheckAllGroupPosition.class);
         objectUnderTests.initialize(mock);
-        verifyZeroInteractions(mock);
+        verifyNoInteractions(mock);
     }
 
     /*
@@ -88,7 +106,7 @@ class CheckAllGroupPositionValidatorTest {
                 Collections.<ClientQueryGroup>emptyList(),
                 mock
         );
-        verifyZeroInteractions(mock);
+        verifyNoInteractions(mock);
         assertTrue(isValid);
     }
 
@@ -101,7 +119,7 @@ class CheckAllGroupPositionValidatorTest {
                 ),
                 mock
         );
-        verifyZeroInteractions(mock);
+        verifyNoInteractions(mock);
         assertTrue(isValid);
     }
 
@@ -115,7 +133,7 @@ class CheckAllGroupPositionValidatorTest {
                 ),
                 mock
         );
-        verifyZeroInteractions(mock);
+        verifyNoInteractions(mock);
         assertTrue(isValid);
     }
 
@@ -129,7 +147,7 @@ class CheckAllGroupPositionValidatorTest {
                 ),
                 mock
         );
-        verifyZeroInteractions(mock);
+        verifyNoInteractions(mock);
         assertFalse(isValid);
     }
 
@@ -143,7 +161,7 @@ class CheckAllGroupPositionValidatorTest {
                 ),
                 mock
         );
-        verifyZeroInteractions(mock);
+        verifyNoInteractions(mock);
         assertTrue(isValid);
     }
 

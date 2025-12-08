@@ -34,18 +34,18 @@
     <url>http://www.jaspersoft.com</url>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <ant.version>1.10.12</ant.version>
+        <ant.version>1.10.14</ant.version>
         <jaxb-api.version>2.3.3</jaxb-api.version>
-        <jaxb-runtime.version>2.3.2</jaxb-runtime.version>
-        <istack-commons-runtime.version>3.0.8</istack-commons-runtime.version>
-        <xerces.version>2.12.1-sp1</xerces.version>
+        <jaxb-runtime.version>2.3.9</jaxb-runtime.version>
+        <istack-commons-runtime.version>3.0.12</istack-commons-runtime.version>
+        <xerces.version>2.12.2</xerces.version>
         <semver4j.version>3.1.0</semver4j.version>
-        <jackson.version>2.13.4</jackson.version>
-        <jackson-databind.version>2.13.4</jackson-databind.version>
-		<log4j.version>2.20.0</log4j.version>
+        <jackson.version>2.16.0</jackson.version>
+        <jackson-databind.version>2.16.0</jackson-databind.version>
+		<log4j.version>2.22.0</log4j.version>
         <js-crypto.version>3.1.2</js-crypto.version>
     </properties>
 
@@ -144,7 +144,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
+            <version>3.12.0</version>
         </dependency>
         <dependency>
             <groupId>net.jodah</groupId>

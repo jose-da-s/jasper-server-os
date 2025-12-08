@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.inputcontrols.cascade.handlers;
 
 import com.jaspersoft.jasperserver.api.common.util.diagnostic.DiagnosticSnapshotPropertyHelper;
@@ -64,15 +67,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyMap;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.nullable;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -382,7 +384,7 @@ public class SingleSelectListInputControlHandlerTest extends BaseInputControlHan
 
         List<InputControlOption> selectedValues = new ArrayList<>();
         selectListInputControlHandler.setDataConverterService(dataConverterService);
-        doReturn("USA").when(dataConverterService).formatSingleValue(anyObject(), nullable(InputControl.class), nullable(ReportInputControlInformation.class));
+        doReturn("USA").when(dataConverterService).formatSingleValue(any(), nullable(InputControl.class), nullable(ReportInputControlInformation.class));
 
         selectListInputControlHandler.populateSelectedValuesWithNoLabel(inputControl, info, selectedValues, new ArrayList<>(), defaultValue);
         assertThat(selectedValues.get(0).getValue(), is(defaultValue.get(0)));
@@ -400,7 +402,7 @@ public class SingleSelectListInputControlHandlerTest extends BaseInputControlHan
 
         List<InputControlOption> selectedValues = new ArrayList<>();
         selectListInputControlHandler.setDataConverterService(dataConverterService);
-        doReturn("USA").when(dataConverterService).formatSingleValue(anyObject(), nullable(InputControl.class), nullable(ReportInputControlInformation.class));
+        doReturn("USA").when(dataConverterService).formatSingleValue(any(), nullable(InputControl.class), nullable(ReportInputControlInformation.class));
 
         selectListInputControlHandler.populateSelectedValuesWithNoLabel(inputControl, info, selectedValues, new ArrayList<>(), defaultValue);
         assertThat(selectedValues.get(0).getValue(), is(defaultValue));
@@ -423,7 +425,7 @@ public class SingleSelectListInputControlHandlerTest extends BaseInputControlHan
 
         doReturn(true).when(inputControl).isMandatory();
         doReturn("USA_Converted").when(dataConverterService).convertSingleValue(eq("USA"), eq(inputControl), eq(info));
-        doReturn("USA_Formatted").when(dataConverterService).formatSingleValue(anyObject(), nullable(InputControl.class), nullable(ReportInputControlInformation.class));
+        doReturn("USA_Formatted").when(dataConverterService).formatSingleValue(any(), nullable(InputControl.class), nullable(ReportInputControlInformation.class));
 
         selectListInputControlHandler.setDataConverterService(dataConverterService);
 

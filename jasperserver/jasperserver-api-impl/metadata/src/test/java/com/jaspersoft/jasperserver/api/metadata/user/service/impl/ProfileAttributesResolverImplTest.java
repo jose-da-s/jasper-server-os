@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -79,7 +81,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -308,7 +310,7 @@ public class ProfileAttributesResolverImplTest {
         JdbcReportDataSourceImpl result = profileAttributesResolverImpl.mergeResource(parametrizedJdbcReportDataSource);
 
         assertEquals(result, parametrizedJdbcReportDataSource);
-        verifyZeroInteractions(profileAttributeService);
+        verifyNoInteractions(profileAttributeService);
     }
 
     @Test

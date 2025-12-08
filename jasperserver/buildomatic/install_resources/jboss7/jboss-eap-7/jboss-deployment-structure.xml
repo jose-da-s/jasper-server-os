@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -39,6 +41,7 @@
         -->
         <exclude-subsystems>
             <subsystem name="resteasy"/>
+            <subsystem name="logging"/>
         </exclude-subsystems>
 
         <!-- Exclusions allow you to prevent the server from automatically adding some dependencies
@@ -55,6 +58,7 @@
                             -->
             <module name="org.apache.commons.logging"/>
             <module name="org.apache.log4j"/>
+            <module name="org.apache.logging.log4j.api"/>
             <module name="org.slf4j"/>
             <module name="org.slf4j.ext"/>
             <module name="org.slf4j.impl"/>
@@ -282,14 +286,14 @@
                             http://bugzilla.jaspersoft.com/show_bug.cgi?id=33137
                             do not use JBoss logging, positively use JRS logging classes instead
                             -->
-            <resource-root path="WEB-INF/lib/log4j-web-2.17.1.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-slf4j-impl-2.17.1.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-jul-2.17.1.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-jcl-2.17.1.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-core-2.17.1.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-api-2.17.1.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-1.2-api-2.17.1.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/slf4j-api-1.7.25.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-web-2.20.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-slf4j-impl-2.20.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-jul-2.20.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-jcl-2.20.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-core-2.20.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-api-2.20.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-1.2-api-2.20.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/slf4j-api-1.7.30.jar"  use-physical-code-source="true"/>
             <resource-root path="WEB-INF/lib/commons-logging-1.2.jar" use-physical-code-source="true"/>
 
             <resource-root path="WEB-INF/lib/javax.ws.rs-api-2.0.1.jar" use-physical-code-source="true"/>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -74,13 +75,13 @@
 			<jndi-name>AuditDataBase</jndi-name>
 		</resource-description>
 		<resource-description>
-		            <res-ref-name>jdbc/sugarcrm</res-ref-name>
-		            <jndi-name>SugarcrmDataBase</jndi-name>
-		</resource-description>
-		<resource-description>
-		        <res-ref-name>jdbc/foodmart</res-ref-name>
-	        	<jndi-name>FoodmartDataBase</jndi-name>
-		</resource-description>
+        	<res-ref-name>jdbc/sugarcrm</res-ref-name>
+        	<jndi-name>SugarcrmDataBase</jndi-name>
+        </resource-description>
+        <resource-description>
+        	<res-ref-name>jdbc/foodmart</res-ref-name>
+        	<jndi-name>FoodmartDataBase</jndi-name>
+        </resource-description>
 	</reference-descriptor>
 
     <container-descriptor>

@@ -1,7 +1,7 @@
 @ECHO OFF
 
 rem ///
-rem /// JasperReports Server common upgrade script.
+rem /// Jasper Server OS common upgrade script.
 rem ///
 rem /// Usage: do-js-upgrade.bat {edition:(ce|pro)} {strategy:(standard|inDatabase)} {option:(<EMPTY>|with-samples|regen-config|test)} {option(for standard upgrade only):import file(<path-to-file-and-filename>)}
 rem ///        If <path-to-file-and-filename> contains spaces then need to enclose <path-to-file-and-filename> to double quotes.
@@ -20,7 +20,7 @@ rem Validating and setting edition.
 rem
 SET JS_EDITION=%1
 IF NOT "%JS_EDITION%"=="ce" IF NOT "%JS_EDITION%"=="pro" (
-  CALL :fail "JasperReports Server edition expected as input"
+  CALL :fail "Jasper Server OS edition expected as input"
   EXIT /b 1
 )
 
@@ -29,7 +29,7 @@ rem Validating and setting upgrade strategy.
 rem
 SET JS_UPGRADE_STRATEGY=%2
 IF NOT "%JS_UPGRADE_STRATEGY%"=="standard" IF NOT "%JS_UPGRADE_STRATEGY%"=="inDatabase" (
-  CALL :fail "JasperReports Server upgrade strategy expected as input"
+  CALL :fail "Jasper Server OS upgrade strategy expected as input"
   EXIT /b 1
 )
 
@@ -92,7 +92,7 @@ IF "%JS_UPGRADE_STRATEGY%"=="standard" (
       SET JS_OPTION=
     ) ELSE (
       IF NOT ""%JS_OPTION%""==""regen-config"" IF NOT ""%JS_OPTION%""==""test"" IF NOT ""%JS_OPTION%""==""help"" (
-        CALL :fail "JasperReports Server import file[path-to-file-and-filename] expected as input"
+        CALL :fail "Jasper Server OS import file[path-to-file-and-filename] expected as input"
         EXIT /b 1
       )
     )
@@ -110,7 +110,7 @@ IF "%JS_UPGRADE_STRATEGY%"=="standard" (
 )
 
 IF ""%JS_UPGRADE_STRATEGY%""==""standard"" IF NOT ""%JS_OPTION%""==""regen-config"" IF NOT ""%JS_OPTION%""==""test"" IF NOT ""%JS_OPTION%""==""help"" IF "%IMPORT_FILE%"=="" (
-  CALL :fail "JasperReports Server import file[path-to-file-and-filename] expected as input"
+  CALL :fail "Jasper Server OS import file[path-to-file-and-filename] expected as input"
   EXIT /b 1
 )
 

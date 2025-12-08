@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -82,7 +84,7 @@ window.onload = externalLinks;
 
 <%@ include file="../common/jsEdition.jsp" %>
 <t:insertTemplate template="/WEB-INF/jsp/templates/page.jsp">
-    <t:putAttribute name="pageTitle">JasperReports Server Instance Configuration</t:putAttribute>
+    <t:putAttribute name="pageTitle">Jasper Server OS Instance Configuration</t:putAttribute>
     <t:putAttribute name="bodyID" value="awsConfiguration"/>
     <t:putAttribute name="moduleName" value="administer/administerAnalysisOptionsMain"/>
     <t:putAttribute name="headerContent">
@@ -112,7 +114,7 @@ window.onload = externalLinks;
                         <td>
                             <table class="details">
                                 <tr>
-                                    <th><span>JasperReports Server:</span></th>
+                                    <th><span>Jasper Server OS:</span></th>
                                     <td>
                                         <p><spring:message code="IMA_${prefix}_CONFIGURATION_LOGIN_DESCR_1"/></p>
                                         <p><spring:message code="IMA_${prefix}_CONFIGURATION_LOGIN_DESCR_2"/></p>
@@ -129,7 +131,7 @@ window.onload = externalLinks;
                         </td>
                     </tr>
                     <tr>
-                        <th>JasperReports Server</th>
+                        <th>Jasper Server OS</th>
                         <td>
                             <table class="details">
                                 <tr>
@@ -174,7 +176,7 @@ window.onload = externalLinks;
                     <tr>
                         <th>Apache Tomcat</th>
                         <td>
-                            <p class="intro">JasperReports Server is deployed to the application server <a href="http://tomcat.apache.org/">Apache Tomcat</a> <spring:message code="IMA_${prefix}_CONFIGURATION_TOMCAT_VERSION"/>.</p>
+                            <p class="intro">Jasper Server OS is deployed to the application server <a href="http://tomcat.apache.org/">Apache Tomcat</a> <spring:message code="IMA_${prefix}_CONFIGURATION_TOMCAT_VERSION"/>.</p>
                             <p class="intro">Tomcat listens on port <spring:message code="IMA_${prefix}_CONFIGURATION_TOMCAT_PORT"/>.</p>
                             <table class="details">
                                 <tr>
@@ -264,7 +266,7 @@ window.onload = externalLinks;
                             <p class="intro preList">Change default passwords!</p>
                             <ul style="margin:0 0 12px 48px; list-style-type:disc">
                                 <li><spring:message code="IMA_${prefix}_CONFIGURATION_DATABASE_TYPE"/></li>
-                                <li>JasperReports Server</li>
+                                <li>Jasper Server OS</li>
                             </ul>
                             <p class="intro">Configure the Tomcat server for https access only.</p>
                             <p class="intro">Take regular snapshots of volumes.</p>

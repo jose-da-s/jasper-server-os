@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# JasperReports Server common installation and upgrade script.
+# Jasper Server OS common installation and upgrade script.
 #
 # Usage: do-js-setup.sh (install|upgrade){setup mode} (ce|pro){edition} {script option} {Ant target} [Ant options]
 #
@@ -67,8 +67,13 @@ runAnt() {
     log "Running $targetName Ant task."
     log
 
-    $ANT_RUN --noconfig -nouserlib -lib . -lib lib -f build.xml $targetName $options 2>&1 | tee -a $JS_LOG_FILE
+    # It appears that a named pipe is the only POSIX-compatible way of teeing
+    # ANT's output into a logfile and also of being able to recover its exit code.
+    mkfifo pipe-$JS_LOG_FILE_SUFFIX
+    tee $JS_LOG_FILE < pipe-$JS_LOG_FILE_SUFFIX &
+    $ANT_RUN --noconfig -nouserlib -lib . -lib lib -f build.xml $targetName $options 2>&1 > pipe-$JS_LOG_FILE_SUFFIX
     antReturnCode=$?
+    rm pipe-$JS_LOG_FILE_SUFFIX
 
     antReturnCodeMessage="Checking Ant return code:"
     if [ $antReturnCode -ne 0 ]; then
@@ -113,7 +118,7 @@ fi
 
 JS_EDITION=$2
 if [[ "$JS_EDITION" != "ce" && "$JS_EDITION" != "pro" ]]; then
-  fail "JasperReports Server edition (ce|pro) expected as input"
+  fail "Jasper Server OS edition (ce|pro) expected as input"
 fi
 
 JS_OPTION=$3
@@ -139,7 +144,7 @@ echo "Writing to log file: $JS_LOG_FILE"
 # Printing entry information.
 #
 log
-log "Running JasperReports Server $JS_SETUP_MODE script at $JS_CURRENT_TIME"
+log "Running Jasper Server OS $JS_SETUP_MODE script at $JS_CURRENT_TIME"
 log
 
 export ANT_OPTS="$ANT_OPTS -Dnet.sf.ehcache.disabled=true -Xms512m -Xmx2048m -noverify"

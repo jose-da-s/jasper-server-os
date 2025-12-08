@@ -182,3 +182,677 @@ a:focus-visible:not(.button) {
  /* Uncomment and change values to customize
     outline: 2px solid #062e79; */
 }
+
+:root{
+    --theme-light:          #727272;
+    --theme-medium-light:   #2c4327;
+    --theme-medium-dark:    #727272;
+    --theme-dark:           #727272;
+
+    --adhoc-field:          #91d9ed;
+    --adhoc-field-border:   #53b7d3;
+    --adhoc-field-text:     #027392;
+    --adhoc-measure-light:  #dff8b0;
+    --adhoc-measure-dark:   #b6d978;
+    --adhoc-measure-border: #6f9d1e;
+    --adhoc-measure-text:   #527218;
+
+    --adhoc-field-token-text:     #0f4552;
+    --adhoc-measure-token-text:   #314a04;
+
+    --background-white:     #ffffff;
+    --background-grey-02:   #fafafa;
+    --background-grey-03:   #f7f7f7;
+    --background-grey-04:   #f4f4f4;
+    --background-grey-08:   #ebebeb;
+    --background-grey-10:   #e4e4e4;
+    --background-grey-16:   #d6d6d6;
+    --background-grey-20:   #cccccc;
+    --background-grey-29:   #b5b5b5;
+    --background-grey-40:   #999999;
+    --background-grey-47:   #878787; /* added for accessibility contrast story */
+    --background-grey-54:   #757575; /* added for accessibility contrast story */
+
+    --border-white:         #ffffff;
+    --border-grey-06:       #f0f0f0;
+    --border-grey-10:       #e4e4e4;
+    --border-grey-13:       #dedede;
+    --border-grey-16:       #d6d6d6;
+    --border-grey-20:       #cccccc;
+    --border-grey-29:       #b5b5b5;
+    --border-grey-40:       #999999;
+    --border-grey-47:       #878787;
+    --border-grey-60:       #666666;
+
+}
+
+/*
+  General Page settings
+*/
+body#loginPage {
+	background: #2c4327;
+}
+
+.banner {
+    background: #ffffff;
+    border-bottom: 0px solid #727272;
+    border-top: 0px solid #727272;
+}
+
+#reportViewer .body.twoColumn > .header > .title {
+    color: #727272;
+}
+
+#reportViewer .body.oneColumn > .header, #reportViewer .body.twoColumn > .header {
+    background-color: #ffffff;
+    border-bottom: 2px solid #ffffff;
+}
+
+.pageHeader {
+    background-color: #ffffff;
+    border-bottom: 2px solid #ffffff;
+}
+
+.pageHeader-title-text {
+	color: #727272;
+	font-weight: normal;
+	font-size: 22px;
+	line-height: 38px;
+	margin-left: 11px;
+	margin-right: 24px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#logo {
+    background-image: url(images/logo_banner.png);
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-position: 0 0;
+    background-size: contain;
+    border: none;
+    height: 30px;
+    width: 30px;
+    margin: 5px 0px 0 10px;
+}
+
+#loginForm .devices {
+    display: block;
+    height: 100px;
+    margin: 0 auto 10px;
+    background-repeat: no-repeat;
+    background-image: url(images/logo_square.png);
+    background-position: center 0px;
+	background-size: contain;
+}
+
+
+.menu.primaryNav #main_home .wrap > .icon {
+    background-image: url(images/banner_icons_sprite@1x.png);
+    background-repeat: no-repeat;
+    background-position: 0 2px;
+    background-size: 20px;
+    height: 28px;
+    margin: 10px 9px 0 9px;
+    width: 20px;
+}
+
+.menu.primaryNav .node > .wrap > .icon {
+    background-image: url(images/disclosure_icons_sprite@1x.png);
+    background-position: 0 -112px;
+    background-size: 15px;
+    height: 16px;
+    right: 7px;
+    top: 12px;
+    width: 11px;
+}
+
+
+.menu .wrap.over, .menu .wrap.pressed, .menu.primaryNav .up, .menu.primaryNav .wrap, .menu.primaryNav .up.over, .menu.primaryNav .up.pressed, .menu.primaryNav .wrap.over, .menu.primaryNav .wrap.pressed {
+    color: #ffffff;
+}
+
+#loginPage #loginForm .action.primary {
+	margin: 0px 0px auto;
+    width: 180px;
+    left: 50%;
+    transform: translate(-50%)
+}
+
+#frameFooter {
+    background-color: #2c4327;
+}
+
+/*
+  Login form 
+*/
+.info {
+    display: none;
+}
+
+#loginPage .login {
+	position: unset;
+    width: 450px;
+}
+
+
+#loginPage a#needHelp {
+	display: none;
+}
+
+/*
+#loginPage a#showHideLocaleAndTimezone  {
+	display: none;
+}
+*/
+
+.jr-mMultiselect-toggle-label.jr {
+  color: #404040;
+}
+
+/* BUTTONS */
+.button.capsule.superfocus.subfocus:hover,
+.button.capsule.up.over,
+.button.capsule.down,
+.button.capsule.down.over,
+.button.capsule.down.pressed {
+    background-color: #727272; /* midnight 30% lighter */
+}
+
+.button.capsule.up.pressed,
+.button.capsule.down.over,
+.button.capsule.superfocus.subfocus.pressed {
+    background-color: #727272; /* midnight */
+}
+
+.action.jumbo.up.pressed {
+    background: none repeat scroll 0 0 #2c4327;
+    border: 1px solid #bf5b08;
+}
+
+.action.primary,
+.action.primary.pressed,
+.action.primary.pressed.over {
+    background-image: none;
+    background-color: #2c4327; /* midnight */
+}
+
+.action.primary.over {
+    background-color: #727272;
+}
+
+.action.small.up.over,
+.action.small.up.pressed {
+    background-color: #727272; /* midnight 30% lighter */
+}
+
+.action.small.pressed.over,
+.action.small.down,
+.action.small.down.over,
+.action.small.down.pressed,
+.sourceDialogNew .header .button.over.subfocus {
+    background-color: #727272; /* midnight */
+}
+
+#reportViewer .toolsRight .button.action.up.over,
+#reportViewer .toolsRight .button.action.up.pressed,
+#reportViewer .toolsRight .button.action.down,
+#reportViewer .toolsRight .button.action.down.over,
+#reportViewer .toolsRight .button.action.down.pressed {
+    background-color: #727272; /* midnight 30% lighter */
+}
+
+#designer .toolbar .buttonSet .node > .button.pressed {
+    background-color: #727272; /* midnight 30% lighter */
+}
+
+#tableOptions.over , #chartOptions.over {
+    background-color: #727272; /* midnight 30% lighter */
+}
+
+#reportViewer #asyncCancel,
+#reportViewer .toolbar #fileOptions.pressed,
+#reportViewer .toolbar #export.pressed {
+    background-color: #727272; /* midnight 30% lighter */
+}
+
+#reportPartsContainer .reportPart.active {
+    background-color: #727272;
+}
+
+#reportPartsContainer .button.action.up.over {
+    background-color: #727272;
+}
+
+#reportPartsContainer .reportPart.over span {
+    color: #3c3c3c;
+}
+
+.dashboardToolbar #save.pressed,
+.dashboardToolbar #export.pressed,
+.dashboardCanvas .dashletToolbar .button.text.cancelDashletButton,
+.dashboardCanvas .dashletToolbar .button.exportDashletButton.pressed {
+    background-color: #727272; /* midnight 30% lighter */
+}
+
+.addNewItem, a.addNewItem {
+    border: 1px solid #727272; /* midnight */
+    color: #727272; /* midnight */
+}
+
+/* CONTAINERS */
+
+.banner,
+#frameFooter {
+	background-color: #2c4327; /* midnight */
+}
+
+.menu.primaryNav .wrap.over,
+.menu.primaryNav .wrap.pressed {
+    background-color: #727272; /* midnight 30% lighter */
+}
+
+#metaLinks li.subfocus:not(select) {
+    background-color: #727272;
+}
+
+column.decorated {
+	border:1px solid #000b2c;
+}
+
+.column.decorated > .content > .header,
+.column.decorated > .content > .header > .subheader {
+    background-color: #f3f0f2;
+}
+
+.panel.tooltip .message.label {
+    color: #727272; /* midnight */
+}
+
+.menu.vertical li > .wrap.over,
+.menu.vertical li > .wrap.pressed {
+    background-color: #727272 /* midnight 30% lighter */
+}
+
+#systemMessageConsole {
+    background-color: #000000;
+    height: 40px;
+    position: absolute;
+    top: -1px;
+    right: 0;
+    left: 0;
+    z-index: 9;
+}
+
+#systemMessage {
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* CONTROLS */
+
+
+/* LISTS */
+/* SELECT LIST CONTROLS */
+
+.list > li > .wrap.pressed,
+.list > li.selected > .wrap,
+.list > li.selected > .wrap.over,
+.sList li.selected,
+.mSelect-svList > .selected .mSelect-svList-button,
+.list.filters > li > .wrap.over,
+.list.filters > li > .wrap.pressed,
+.list.filters > li:not(.selected) > .wrap.over,
+.list.filters > li:not(.selected) > .wrap.pressed {
+	background-color: #bebebe;
+}
+
+.list.filters > li:not(.selected) > .wrap.over .launcher,
+.list.filters > li:not(.selected) > .wrap.pressed .launcher {
+    color: #fff;
+}
+
+.sList li.active.selected,
+.mSelect-svList > .active.selected .mSelect-svList-button {
+	background-color:#054e71;
+}
+
+.list.tabular.resources.header,
+.list.tabular.jobs.header {
+    background-color: #ecf1f4;
+}
+
+.list.resources.sublist .resourceName > a {
+    color: #3c3c3c;
+}
+
+.tabSet.vertical.buttons .button {
+    background-color: #727272;
+}
+
+.tabSet.vertical.buttons .selected .button,
+.tabSet.vertical.buttons .selected .button.over,
+.tabSet.vertical.buttons .selected .button.pressed,
+.tabSet.vertical.buttons .button.pressed,
+.tabSet.vertical.buttons .button.over {
+    background-color: #727272;
+}
+
+
+/* THEME */
+
+/* sky */
+.palette09,
+.button.action.jumbo,
+.homeSidebar-title,
+.workflow-title,
+.resourceBlock a:link,
+.resourceBlock a:visited,
+.resourceBlock a:hover,
+.resourceBlock a:active,
+.workflow-description a:hover {
+	color:#9e9e9e;
+}
+
+.button.action.primary.disabled,
+.button.action.primary[disabled] {
+    color: #475a72;
+}
+
+.tabSet.buttons.vertical [disabled] {
+    /* eqivalent to .35 opacity */
+    color: #9399a8;
+}
+
+.palette10,
+#metaLinks a:active {
+	color:#92c6de;
+}
+
+/* dark blue in gradient */
+.palette11,
+.column.decorated.minimized .vtitle,
+.tabSet.horizontal.buttons .selected > .button > .wrap,
+#filter-container .filterName,
+#expression-container .filterName,
+#scheduler_editor #stepDisplay > fieldset > legend,
+.textAccent02,
+.tabSet.text .selected.tab>.wrap,
+.tabSet.text .selected.tab>.wrap.over,
+.tabSet.text .selected.tab>.wrap.pressed,
+.list.filters>li.selected>.wrap,
+.list.stepIndicator .selected>.wrap,
+.panel.info.system .message,
+.resourceName,
+.fsection,
+#reportContainer a,
+.plusminus .node>.wrap>.jrbookmark,
+.filterManagerDialog .addNewFilter {
+	color:#9e9e9e;
+}
+
+.palette11,
+.textAccent02,
+.tabSet.text .selected.tab > .wrap,
+.tabSet.text .selected.tab > .wrap.over,
+.tabSet.text .selected.tab > .wrap.pressed,
+.list.filters > li.selected>.wrap,
+.list.filters > li.selected>.wrap.pressed,
+.list.filters > li.selected>.wrap .launcher,
+.list.stepIndicator .selected>.wrap,
+.panel.info.system .message,
+.list.type_basic .wrap a,
+.resourceName,
+.fsection,
+.launcher,
+#reportContainer a,
+#scheduler_editor #stepDisplay > fieldset > legend,
+.homeSidebar-title,
+.workflow-title,
+#resultsContainer .resourceName,
+.resourceBlock a:link,
+.resourceBlock a:visited,
+.resourceBlock a:hover,
+.resourceBlock a:active,
+.workflow-description a:hover,
+.workflow-buttonContainer .button,
+.plusminus .node > .wrap > .jrbookmark,
+.list.settings .panel.pane.settings .header > .title,
+.tabSet.horizontal.buttons .selected > .button > .wrap,
+.tabSet.horizontal.buttons .button.over,
+.tabSet.horizontal.buttons .button.pressed,
+.content .header > .title,
+.resourceBlock-title,
+.column.decorated.minimized .vtitle,
+.flow #stepDisplay .column.primary .header .title,
+.flow #stepDisplay .column.secondary .header .title,
+#loginPage #metaLinks li,
+#loginPage #metaLinks a,
+#loginPage #metaLinks a:hover,
+#loginPage #metaLinks a:active,
+#needHelp {
+    color: #3c3c3c;
+}
+
+/* orange */
+.palette13,
+.textAccent,
+.button.action.jumbo.over {
+	color:#dd770d;
+}
+
+/* .orange2 */
+.palette14,
+#needHelp:active,
+.button.action.jumbo.pressed {
+	color:#bf5b08;
+}
+
+/* orange3 */
+.palette15,
+.button.capsule.down {
+	color: #532a0a;
+}
+
+/* orange4 */
+.palette16,
+.button.capsule.down.disabled,
+.button.capsule.down[disabled],
+.resourcePath {
+	color: #9f481d;
+}
+
+.wrap.dragging,
+.overlay.col.dragging,
+.overlay.group.dragging,
+.overlay.xtab.gr.dragging,
+.overlay.xtab.m.dragging,
+.overlay.legend.dragging,
+.dragMultiple.dragging .wrap {
+	/* an object being dragged gets the .dragging class applied */
+	background-color:#9e9e9e !important;
+}
+
+#frameFooter #about a,
+#frameFooter #about a:link,
+#frameFooter #about a:visited,
+#frameFooter #about a:hover,
+#frameFooter #about a:active,
+#frameFooter #copyright {
+	color: #ffffff;
+}
+
+#metaLinks li, #metaLinks a, #metaLinks a:hover, #metaLinks a:active {
+    color: #ffffff;
+}
+
+a.emphasis,
+a.emphasis:link,
+a.emphasis:visited,
+a.emphasis:hover,
+a.emphasis:active {
+	color:inherit;
+}
+
+
+.palette09_bkgd {background-color:#9e9e9e;}
+.palette10_bkgd {background-color:#92c6de;}
+.palette11_bkgd {background-color:#9e9e9e;}
+.palette13_bkgd {background-color:#dd770d;}
+.palette14_bkgd {background-color:#bf5b08;}
+.palette15_bkgd {background-color:#532a0a;}
+.palette16_bkgd {background-color:#9f481d;}
+
+
+
+/* PAGE SPECIFIC */
+#loginPage #copy {
+	background-color: #102035;
+}
+
+#loginPage #loginForm fieldset label .wrap,
+#loginPage #loginForm fieldset label {
+    color: #3c3c3c;
+}
+
+
+#loginPage #frameFooter {
+    border-top: 0px solid #a7b7d0; /* TIBCO navy, 65% lighter */
+    height: 18px;
+}
+
+.resourceBlock-header {
+    background-color: #f0f2f3;
+}
+
+.authorityPicker .selected,
+.authorityPicker .highlighted.selected {
+    background-color: #9e9e9e;
+}
+
+
+/* JIVE */
+
+.jive_dialog .dialogHeader {
+    color: #9e9e9e !important;
+}
+
+#jive_dialog .button.action {
+	background: url("images/button_action_sprite.png") repeat-x scroll 0 0 #D8DAD7 !important;
+}
+
+#jive_dialog .button.action.primary {
+	background: url("images/button_action_primary_sprite.png") repeat-x scroll 0 0 #2881BB !important;
+}
+
+.jive_inputbutton {
+	background-image:url("images/dialog_button_sprite.png") !important;
+}
+
+.jive_inputbutton.plain {
+    background: none repeat scroll 0 0 transparent !important;
+}
+
+
+/* NEW UI PAGES */
+/* domain designer */
+.jr-mDomain-header.jr {
+    border-bottom-color:#3c3c3c;
+}
+
+.jr-mDomain-mode-title-text.jr {
+    color: #3c3c3c;
+}
+
+
+/* NEW COMPONENTS */
+/* button */
+.jr-mButtonAction.jr-mButtonOutline.jr-isDown.jr,
+.jr-mButtonPrimary.jr {
+    background-color: #727272;
+}
+
+.jr-mButtonPrimary.jr-isHovered.jr,
+.jr-mButtonPrimary.jr:focus,
+.jr-mButtonPrimary.jr:hover {
+    background-color: #004574;
+}
+
+.jr-mButtonLink.jr,
+.jr-mButton-labelTheme.jr{
+    color: #3c3c3c;
+}
+
+/* dialog */
+.jr-mDialog-header-title.jr {
+    color: #3c3c3c;
+}
+
+/* dropzone */
+.jr-mDropzone.jr-isDropped.jr {
+    border-color: #3c3c3c;
+}
+
+.jr-mDropzone.jr-isDropped.jr .jr-mDropzone-label.jr,
+.jr-mDropzone-remover.jr {
+    color: #3c3c3c;
+}
+
+.jr-mDropzone.jr-isOver.jr,
+.jr-mDropzoneBar.jr {
+    background-color: #3c3c3c;
+}
+
+/* icon */
+.jr-mIcon.jr-loading.jr {
+    border-top-color: #9e9e9e;
+}
+
+/* link */
+.jr-mLinkTheme.jr,
+.jr-mLinkTheme.jr:link,
+.jr-mLinkTheme.jr:visited,
+.jr-mLinkTheme.jr:hover,
+.jr-mLinkTheme.jr:active {
+    color: #3c3c3c;
+}
+
+/* multi-select */
+.jr-mSelectlist-item.jr-isSelected.jr,
+.jr-mSelectlistSelected.jr > .jr-mSelectlist-item.jr {
+    background-color: #727272;
+}
+
+.jr-mSelectlist-item.jr-isSelected.jr-isHovered.jr {
+    background-color: #727272  /* TIBCO midnight 30% lighter */
+}
+
+/* spinner */
+.jr-mSpinnerPlain.jr {
+    border-top-color: #9e9e9e;
+}
+
+/* panel */
+.jr-mPanel-header-title.jr {
+    color: #3c3c3c;
+}
+
+/* tab */
+.jr-mTab-item.jr-isActive.jr {
+    background-color: #3c3c3c;
+}
+
+.jr-mTabSecondary.jr .jr-mTab-item.jr-isActive.jr {
+    border-bottom-color: #3c3c3c;
+}
+
+.jr-mTabSecondary.jr .jr-mTab-item.jr-isActive.jr .jr-mTab-item-label.jr {
+    color: #3c3c3c;
+}
+
+/* table */
+.jr-mTablePresentation.jr .jr-mTable-rowDropzone.jr-isHovered.jr {
+    background-color: #3c3c3c;
+}

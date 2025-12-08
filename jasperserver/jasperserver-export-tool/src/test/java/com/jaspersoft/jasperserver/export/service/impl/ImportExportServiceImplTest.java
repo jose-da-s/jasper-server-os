@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -297,7 +299,7 @@ public class ImportExportServiceImplTest extends AbstractTestNGSpringContextTest
         try {
             service.doImport(stream, null, null, null, jaJpLocale, new ArrayList<WarningDescriptor>());
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "インポートに失敗しました。理由：指定された zip ファイルが、有効な JasperReports Server エクスポートファイルではありません。");
+            assertEquals(e.getMessage(), "インポートに失敗しました。理由：指定された zip ファイルが、有効な Jasper Server OS エクスポートファイルではありません。");
         }
     }
 
@@ -310,7 +312,7 @@ public class ImportExportServiceImplTest extends AbstractTestNGSpringContextTest
         try {
             service.doImport(stream, null, null, null, esEsLocale, new ArrayList<WarningDescriptor>());
         } catch (Exception e) {
-            assertEquals(e.getLocalizedMessage(), "Error en la importación. Motivo: el archivo zip proporcionado no es un archivo de exportación de JasperReports Server válido.");
+            assertEquals(e.getLocalizedMessage(), "Error en la importación. Motivo: el archivo zip proporcionado no es un archivo de exportación de Jasper Server OS válido.");
         }
     }
 

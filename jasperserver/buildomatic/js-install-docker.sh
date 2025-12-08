@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# JasperReports Server Pro Docker installation script.
+# Jasper Server OS Pro Docker installation script.
 #
 # Usage: js-install.sh {option:(<EMPTY>|minimal|drop-db|regen-config|test)}
 #

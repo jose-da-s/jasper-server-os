@@ -1,7 +1,7 @@
 Jaspersoft elects to include this software in this distribution under
 the LGPL 2.1 license. 
 
-The Teiid project jars are included into the JasperReports Server 
+The Teiid project jars are included into the Jasper Server OS
 Product under the LGPL 2.1 license as specified on the 
 Teiid project website: http://sourceforge.net/projects/teiid/
 

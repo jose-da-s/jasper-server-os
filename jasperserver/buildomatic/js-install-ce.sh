@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# JasperReports Server CE installation script.
+# Jasper Server OS CE installation script.
 #
 # Usage: js-install-ce.sh {option:(<EMPTY>|minimal|drop-db|regen-config|test)}
 #

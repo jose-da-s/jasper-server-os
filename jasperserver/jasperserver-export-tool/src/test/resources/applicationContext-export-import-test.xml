@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -104,20 +105,6 @@
                        value="com.jaspersoft.jasperserver.api.metadata.user.domain.client.ObjectPermissionImpl"/>
                 <entry key="com.jaspersoft.jasperserver.api.metadata.user.domain.ProfileAttribute"
                        value="com.jaspersoft.jasperserver.api.metadata.user.domain.client.ProfileAttributeImpl"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition"
-                       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.MondrianXMLADefinitionImpl"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit"
-                       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.OlapUnitImpl"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection"
-                       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.OlapClientConnectionImpl"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection"
-                       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.XMLAConnectionImpl"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.JdbcOlapDataSource"
-                       value="com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.client.JdbcReportDataSourceImpl"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.JndiJdbcOlapDataSource"
-                       value="com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.client.JndiJdbcReportDataSourceImpl"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection"
-                       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.MondrianConnectionImpl"/>
                 <entry key="com.jaspersoft.jasperserver.api.logging.access.domain.AccessEvent"
                        value="com.jaspersoft.jasperserver.api.logging.access.domain.AccessEventImpl"/>
             </map>
@@ -331,21 +318,6 @@
                         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValues</value>
                     </set>
                 </entry>
-                <entry key="mondrianConnection">
-                    <set value-type="java.lang.Class">
-                        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection</value>
-                    </set>
-                </entry>
-                <entry key="mondrianXmlaDefinition">
-                    <set value-type="java.lang.Class">
-                        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition</value>
-                    </set>
-                </entry>
-                <entry key="olapUnit">
-                    <set value-type="java.lang.Class">
-                        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit</value>
-                    </set>
-                </entry>
                 <entry key="query">
                     <set value-type="java.lang.Class">
                         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.Query</value>
@@ -364,11 +336,6 @@
                 <entry key="virtualDataSource">
                     <set value-type="java.lang.Class">
                         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.VirtualReportDataSource</value>
-                    </set>
-                </entry>
-                <entry key="xmlaConnection">
-                    <set value-type="java.lang.Class">
-                        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection</value>
                     </set>
                 </entry>
             </map>

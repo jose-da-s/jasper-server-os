@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.war.validation;
 
 import com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl.CustomReportDataSourceServiceFactory;
@@ -28,7 +31,6 @@ import com.jaspersoft.jasperserver.api.metadata.common.service.impl.RepositorySe
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.*;
 import com.jaspersoft.jasperserver.core.util.validators.ValidationUtil;
 import com.jaspersoft.jasperserver.war.common.JasperServerConstImpl;
-import com.jaspersoft.jasperserver.war.dto.OlapClientConnectionWrapper;
 import com.jaspersoft.jasperserver.war.dto.ReportDataSourceWrapper;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -161,13 +163,6 @@ public class ReportDataSourceValidator implements Validator {
 			errors.rejectValue("reportDataSource.description", "ReportDataSourceValidator.error.too.long");
 
         if (ds.getCreationDate() == null) {
-            if (wrapper.getParentFlowObject() instanceof OlapClientConnectionWrapper) {
-                OlapClientConnectionWrapper parentObject =  ((OlapClientConnectionWrapper)wrapper.getParentFlowObject());
-                if (ds.getURIString().equals(parentObject.getParentFolder()+"/"+parentObject.getConnectionName()) ||
-                        ds.getURIString().equals(parentObject.getOlapClientSchema().getURIString())) {
-                    errors.rejectValue("reportDataSource.name", "ReportDataSourceValidator.error.duplicate");
-                }
-            }
             if (repository.repositoryPathExists(null, ds.getURIString())) {
                 errors.rejectValue("reportDataSource.name", "ReportDataSourceValidator.error.duplicate");
             }

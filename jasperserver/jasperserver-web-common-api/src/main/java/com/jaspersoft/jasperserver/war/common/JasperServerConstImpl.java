@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -185,15 +187,6 @@ public class JasperServerConstImpl implements JasperServerConst, Serializable {
     public String getUploadedFileExt(){
     	return UPLOADED_FILE_EXT;
     }
-    
-   
-   public static String getOlapMondrianConnectionType() {
-	   return TYPE_OLAP_MONDRIAN_CONNECTION;
-   }
-   
-   public static String getOlapXmlaConnectionType() {
-	   return TYPE_OLAP_XMLA_CONNECTION;
-   }
 
 	public static String getUserLocaleSessionAttr()
 	{

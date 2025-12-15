@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.war.validation;
 
 import com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource;
@@ -25,11 +28,9 @@ import com.jaspersoft.jasperserver.api.metadata.common.domain.Resource;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.ResourceReference;
 import com.jaspersoft.jasperserver.api.metadata.common.service.RepositoryService;
 import com.jaspersoft.jasperserver.api.metadata.common.service.impl.RepositorySecurityChecker;
-import com.jaspersoft.jasperserver.api.metadata.xml.domain.impl.ResourceDescriptor;
 import com.jaspersoft.jasperserver.core.util.validators.ValidationUtil;
 import com.jaspersoft.jasperserver.war.common.JasperServerConst;
 import com.jaspersoft.jasperserver.war.dto.FileResourceWrapper;
-import com.jaspersoft.jasperserver.war.dto.OlapClientConnectionWrapper;
 import com.jaspersoft.jasperserver.war.dto.ReportUnitWrapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
@@ -155,34 +156,8 @@ public class FileResourceValidator implements Validator {
 						}
 				}
 			}
-//			else if (wrapper.isNewMode())
-//					&& wrapper.getExistingResources() != null) {
-//				// When in stand alone new mode check for name uniqueness
-//				List res = wrapper.getExistingResources();
-//				for (int i = 0; i < res.size(); i++) {
-//					String preExtName = (String) res.get(i);
-//					if (preExtName.equalsIgnoreCase(wrapper.getFileResource()
-//							.getName().trim())) {
-//						errors.rejectValue("fileResource.name", "FileResourceValidator.error.duplicate");
-//						break;
-//					}
-//				}
-
 
             if (wrapper.getFileResource().getCreationDate() == null) {
-                if (wrapper.getParentFlowObject() instanceof OlapClientConnectionWrapper) {
-                    OlapClientConnectionWrapper parentObject =  ((OlapClientConnectionWrapper)wrapper.getParentFlowObject());
-                    if (wrapper.getFileResource().getURIString().equals(parentObject.getParentFolder()+"/"+parentObject.getConnectionName())) {
-                        errors.rejectValue("fileResource.name", "FileResourceValidator.error.duplicate");
-                    }
-                    if (wrapper.getFileResource().getFileType().equals(ResourceDescriptor.TYPE_ACCESS_GRANT_SCHEMA)) {
-                        if (wrapper.getFileResource().getURIString().equals(((OlapClientConnectionWrapper) wrapper.getParentFlowObject()).getSchemaUri())
-                                || wrapper.getFileResource().getURIString().equals(((OlapClientConnectionWrapper) wrapper.getParentFlowObject()).getDatasourceUri())) {
-                            errors.rejectValue("fileResource.name", "FileResourceValidator.error.duplicate");
-                        }
-                    }
-                }
-
                 if (repository.repositoryPathExists(null, wrapper.getFileResource().getURIString())) {
                     errors.rejectValue("fileResource.name", "FileResourceValidator.error.duplicate");
                 }
@@ -234,11 +209,7 @@ public class FileResourceValidator implements Validator {
             } else {
                 String newUri = wrapper.getNewUri();
                 if (newUri == null || newUri.trim().length() == 0) {
-                    if (wrapper.getParentFlowObject() instanceof OlapClientConnectionWrapper) {
-                        errors.rejectValue("newUri", "FileResourceValidator.error.no.file.source");
-                    } else {
-                        errors.rejectValue("newUri", "FileResourceValidator.error.no.folder");
-                    }
+					errors.rejectValue("newUri", "FileResourceValidator.error.no.folder");
                 } else {
                     Resource resource = null;
                     try {

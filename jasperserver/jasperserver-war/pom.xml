@@ -71,15 +71,6 @@
                             </webResources>
                             <overlays>
                                 <overlay>
-                                    <groupId>${jpivot-groupId}</groupId>
-                                    <artifactId>ji-jpivot-war</artifactId>
-                                    <excludes>
-                                        <exclude>**/*.jar</exclude>
-                                        <exclude>**/*.jsp</exclude>
-                                        <exclude>**/mondrian.properties</exclude>
-                                    </excludes>
-                                </overlay>
-                                <overlay>
                                     <groupId>com.jaspersoft</groupId>
                                     <artifactId>jrs-ui</artifactId>
                                     <type>zip</type>
@@ -117,17 +108,6 @@
                                     <filtering>true</filtering>
                                 </resource>
                             </webResources>
-                            <overlays>
-                                <overlay>
-                                    <groupId>${jpivot-groupId}</groupId>
-                                    <artifactId>ji-jpivot-war</artifactId>
-                                    <excludes>
-                                        <exclude>**/*.jar</exclude>
-                                        <exclude>**/*.jsp</exclude>
-                                        <exclude>**/mondrian.properties</exclude>
-                                    </excludes>
-                                </overlay>
-                            </overlays>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -351,18 +331,6 @@
         	<scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>${jpivot-groupId}</groupId>
-            <artifactId>ji-jpivot-war</artifactId>
-            <version>${jpivot-version}</version>
-            <type>war</type>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.ant</groupId>
-                    <artifactId>ant</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>jakarta-regexp</groupId>
             <artifactId>jakarta-regexp</artifactId>
             <version>1.4</version>
@@ -391,19 +359,6 @@
             <groupId>net.sourceforge.barbecue</groupId>
             <artifactId>barbecue</artifactId>
             <version>1.5-beta1</version>
-        </dependency>
-        <!--   thorick  2016-12-07
-                remove as part of the 3rd party lib security upgrade
-
-               thorick  2016-12-13
-               add back but with a newer safer version from 1.1 to  1.2.10
-               it turns out that OLAP jPivot  requires JSF
-                     http://jira.jaspersoft.com/browse/JRS-11892
-        -->
-        <dependency>
-            <groupId>javax.faces</groupId>
-            <artifactId>jsf-api</artifactId>
-            <version>1.2_10</version>
         </dependency>
 
         <dependency>

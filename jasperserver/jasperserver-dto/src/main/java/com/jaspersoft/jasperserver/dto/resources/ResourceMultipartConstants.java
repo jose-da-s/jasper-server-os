@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -29,7 +31,6 @@ package com.jaspersoft.jasperserver.dto.resources;
 public interface ResourceMultipartConstants {
     public static final String RESOURCE_PART_NAME = "resource";
     public static final String SCHEMA_PART_NAME = "schema";
-    public static final String MONDRIAN_ACCESS_GRANT_PART_NAME_PREFIX = "accessGrantSchemas.accessGrantSchema";
     public static final String REPORT_JRXML_PART_NAME = "jrxml";
     public static final String REPORT_FILE_PART_NAME_PREFIX = "files.";
     public static final String SEMANTIC_LAYER_DATA_SOURCE_SECURITY_FILE_PART_NAME =

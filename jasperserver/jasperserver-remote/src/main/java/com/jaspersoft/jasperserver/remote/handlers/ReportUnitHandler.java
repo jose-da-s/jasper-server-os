@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.remote.handlers;
 
 import com.jaspersoft.jasperserver.api.common.domain.impl.ExecutionContextImpl;
@@ -28,7 +31,6 @@ import com.jaspersoft.jasperserver.api.metadata.common.domain.Resource;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.ResourceReference;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportDataSource;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit;
-import com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection;
 import com.jaspersoft.jasperserver.api.metadata.xml.domain.impl.ResourceDescriptor;
 import com.jaspersoft.jasperserver.remote.ResourceHandler;
 import com.jaspersoft.jasperserver.remote.ServiceException;
@@ -309,12 +311,6 @@ public class ReportUnitHandler extends RepositoryResourceHandler implements Reso
                 Query queryResource = (Query) createChildResource(descriptor);
                 reportUnit.setQuery(new ResourceReference(queryResource));
                 subResource = queryResource;
-
-            } else if (wsType.equals(ResourceDescriptor.TYPE_OLAP_XMLA_CONNECTION)) {
-
-                XMLAConnection datasource = (XMLAConnection)createChildResource(descriptor);
-                reportUnit.setDataSource(datasource);
-                subResource = datasource;
 
             } else if (wsType.equals(ResourceDescriptor.TYPE_REFERENCE)
                     || wsType.equals(ResourceDescriptor.TYPE_IMAGE)

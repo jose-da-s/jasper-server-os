@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -312,8 +314,6 @@ public class ResourceAction extends FormAction {
             if (resourceType.endsWith("AdhocReportUnit") || resourceType.endsWith("ReportUnit")) {
                 //row.setResourceUrl("javascript:document.frm.resource.value='"+ res.getURIString()+"';document.frm.viewReport.click();");
                 row.setResourceUrl("flow.html?_flowId=viewReportFlow&reportUnit=" + res.getURIString() + "&standAlone=true&ParentFolderUri=" + res.getParentURI().substring(5));
-            } else if (resourceType.endsWith("OlapUnit")) {
-                row.setResourceUrl("olap/viewOlap.html?name=" + res.getURIString() + "&new=true&parentFlow=repositoryExplorerFlow" + "&ParentFolderUri=" + res.getParentURI().substring(5));
             } else if (resourceType.endsWith("ContentResource")) {
                 row.setResourceUrl("fileview/fileview" + res.getURIString());
                 row.setContentType(true);

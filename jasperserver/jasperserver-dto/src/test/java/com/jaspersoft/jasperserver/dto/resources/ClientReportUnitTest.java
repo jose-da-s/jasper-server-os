@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -185,47 +187,5 @@ public class ClientReportUnitTest extends BaseDTOPresentableTest<ClientReportUni
     @Override
     protected ClientReportUnit createInstanceFromOther(ClientReportUnit other) {
         return new ClientReportUnit(other);
-    }
-
-    @Test
-    void deserializeReportWithOlapBasedDataSource() {
-        ClientReportUnit reportUnit = deserializeJSONAtPath(_03__Store_Segment_Performance_Report);
-        ClientAdhocDataView adhocDataView = (ClientAdhocDataView) reportUnit.getDataSource();
-
-        ClientSecureMondrianConnection expected = createSecureMondrianConnection();
-        ClientSecureMondrianConnection actual = (ClientSecureMondrianConnection) adhocDataView.getDataSource();
-
-        assertEquals(expected, actual);
-    }
-
-    private ClientSecureMondrianConnection createSecureMondrianConnection() {
-        ClientFile schema = new ClientFile()
-                .setCreationDate("2018-09-18T13:56:09")
-                .setUpdateDate("2013-04-10T23:22:02")
-                .setType(ClientFile.FileType.olapMondrianSchema)
-                .setVersion(0)
-                .setPermissionMask(1)
-                .setUri("/public/Samples/OLAP/Schemas/FoodmartSchema2013.xml")
-                .setLabel("FoodmartSchema")
-                .setDescription("Foodmart OLAP schema with updated dates");
-        ClientJndiJdbcDataSource dataSource = new ClientJndiJdbcDataSource()
-                .setCreationDate("2018-09-18T13:56:09")
-                .setUpdateDate("2012-07-03T21:59:10")
-                .setJndiName("jdbc/foodmart")
-                .setVersion(0)
-                .setPermissionMask(1)
-                .setUri("/public/Samples/Data_Sources/FoodmartDataSourceJNDI")
-                .setLabel("Foodmart Data Source JNDI")
-                .setDescription("Foodmart Data Source JNDI");
-        return new ClientSecureMondrianConnection()
-                .setCreationDate("2018-09-18T13:56:09")
-                .setUpdateDate("2013-04-10T23:26:11")
-                .setSchema(schema)
-                .setDataSource(dataSource)
-                .setVersion(0)
-                .setPermissionMask(1)
-                .setUri("/public/Samples/Data_Sources/connections/Foodmart2013")
-                .setLabel("Foodmart")
-                .setDescription("");
     }
 }

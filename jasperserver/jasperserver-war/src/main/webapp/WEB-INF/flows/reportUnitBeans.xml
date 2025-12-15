@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -60,9 +61,6 @@
 	   </property>
 	   <property name="servletContextInformation" ref="servletContextInformation"/>
 	</bean>
-
-    <bean id="olapReportCheckUtil"
-        class="com.jaspersoft.jasperserver.api.metadata.olap.util.OlapReportCheckUtilImpl"/>
 
     <bean id="jrxmlRepository" class="com.jaspersoft.jasperserver.war.repository.JRXMLRepository" >
         <property name="repository" ref="${bean.repositoryService}" />

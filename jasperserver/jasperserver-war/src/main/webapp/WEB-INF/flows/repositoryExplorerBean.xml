@@ -26,19 +26,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
-    
-    <!--<bean id="ResourceAction" class="com.jaspersoft.jasperserver.war.action.repositoryExplorer.ResourceAction">-->
-        <!--<property name="repositoryService" ref="${bean.repositoryService}"/>-->
-        <!--<property name="repositoryServiceSecurityChecker" ref="${bean.repositoryServiceSecurityChecker}"/>-->
-        <!--<property name="objectPermissionService" ref="${bean.objectPermissionService}"/>-->
-        <!--<property name="messageSource" ref="messageSource"/>-->
-        <!--<property name="schedulingService" ref="reportSchedulingService"/>-->
-        <!--<property name="pagination" value="2000"/>-->
-        <!--<property name="showMoveCopyConfirmation" value="true"/>-->
-        <!--<property name="securityContextProvider" ref="${bean.securityContextProvider}"/>-->
-        <!--<property name="configuration" ref="configurationBean" />-->
-    <!--</bean>-->
-    
+
     <bean id="RepositoryTreeAction" class="com.jaspersoft.jasperserver.war.action.tree.TreeAction">
         <property name="treeDataProviderFactory" ref="repositoryExplorerTreeDataProviderFactory"/>
         <property name="messageSource" ref="messageSource"/>
@@ -219,20 +207,6 @@
         <property name="fileTypes">
             <list>
                 <value>jrxml</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean name="olapSchemaTreeDataProvider" class="com.jaspersoft.jasperserver.war.model.impl.TypedTreeDataProvider" scope="prototype">
-        <property name="repositoryService" ref="${bean.repositoryService}"/>
-        <property name="supportedClasses">
-            <list>
-                <value>com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource</value>
-            </list>
-        </property>
-        <property name="fileTypes">
-            <list>
-                <value>olapMondrianSchema</value>
             </list>
         </property>
     </bean>

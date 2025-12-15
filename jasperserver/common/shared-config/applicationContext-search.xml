@@ -440,7 +440,6 @@
         <ref bean="${bean.resourceTypeFilter.option.all}"/>
         <ref bean="${bean.resourceTypeFilter.option.reports}"/>
         <ref bean="${bean.resourceTypeFilter.option.reportOutput}"/>
-        <ref bean="${bean.resourceTypeFilter.option.view}"/>
         <ref bean="${bean.resourceTypeFilter.option.dataSources}"/>
     </util:list>
 
@@ -458,11 +457,6 @@
         <property name="id" value="resourceTypeFilter-reportOutput"/>
         <property name="labelId" value="SEARCH_TYPE_REPORT_OUTPUT"/>
         <property name="roleAccessList" ref="${bean.resourceTypeFilter.ReportOutput.RoleAccessList}"/>
-    </bean>
-    <bean id="resourceTypeFilter.view" class="com.jaspersoft.jasperserver.search.common.Option">
-        <property name="id" value="resourceTypeFilter-view"/>
-        <property name="labelId" value="SEARCH_TYPE_VIEW"/>
-        <property name="roleAccessList" ref="${bean.resourceTypeFilter.View.RoleAccessList}"/>
     </bean>
     <bean id="resourceTypeFilter.dataSources" class="com.jaspersoft.jasperserver.search.common.Option">
         <property name="id" value="resourceTypeFilter-dataSources"/>

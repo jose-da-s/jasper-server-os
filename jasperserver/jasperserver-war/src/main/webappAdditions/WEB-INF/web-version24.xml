@@ -80,9 +80,10 @@
         <listener-class>com.jaspersoft.jasperserver.war.util.SpringBeanServletContextPlublisher</listener-class>
     </listener>
 
-    <listener>
-        <listener-class>net.sf.jasperreports.phantomjs.PhantomJSServletContextListener</listener-class>
-    </listener>
+<!--    todo-->
+<!--    <listener>-->
+<!--        <listener-class>net.sf.jasperreports.phantomjs.PhantomJSServletContextListener</listener-class>-->
+<!--    </listener>-->
 
     <listener>
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>

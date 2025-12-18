@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,14 +23,15 @@
 package com.jaspersoft.jasperserver.remote.exporters;
 
 import com.jaspersoft.jasperserver.api.engine.jasperreports.common.CsvExportParametersBean;
-import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
-import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.SimpleCsvExporterConfiguration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Giulio Toffoli (original sanda zaharia (shertage@users.sourceforge.net))
@@ -59,15 +62,23 @@ public class CsvExporter extends AbstractExporter {
     }
 
     @Override
-    public JRExporter createExporter() throws Exception {
+    public Exporter createExporter() throws Exception {
         return new JRCsvExporter(getJasperReportsContext());
     }
 
     @Override
-    public void configureExporter(JRExporter exporter, HashMap exportParameters) throws Exception {
+    public ExporterConfiguration createExporterConfiguration() {
+        return new SimpleCsvExporterConfiguration();
+    }
+
+    @Override
+    public void configureExporter(Exporter exporter, Map<?,?> exportParameters, ExporterConfiguration exporterConfiguration) throws Exception {
+        SimpleCsvExporterConfiguration config = (SimpleCsvExporterConfiguration)exporterConfiguration;
+
         if (exportParams != null && exportParams.getFieldDelimiter() != null) {
-            exporter.setParameter(JRCsvExporterParameter.FIELD_DELIMITER, exportParams.getFieldDelimiter());
+            config.setFieldDelimiter(exportParams.getFieldDelimiter());
         }
+        config.setFieldEnclosure("");  // Empty string prevents null.trim() exception
     }
 
     @Override

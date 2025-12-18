@@ -268,8 +268,8 @@
     <util:set id="customDataSourcesToHide">
         <value>remoteXmlDataSource2</value> <!-- Full domain support remote XML custom data source -->
         <value>remoteXmlDataSource</value>  <!-- Simple single table remote XML custom data source -->
-        <value>mongoDBQueryDataSource2</value> <!-- Full domain support mongodb query custom data source -->
-        <value>mongoDBQueryDataSource</value>  <!-- Simple single table remote XML custom data source -->
+<!--        <value>mongoDBQueryDataSource2</value> &lt;!&ndash; Full domain support mongodb query custom data source &ndash;&gt;-->
+<!--        <value>mongoDBQueryDataSource</value>  &lt;!&ndash; Simple single table remote XML custom data source &ndash;&gt;-->
         <value>jsonDataSource2</value> <!-- Full domain support JSON custom data source -->
         <value>jsonDataSource</value>  <!-- Simple single table remote XML custom data source -->
 		<value>jsonQLDataSource</value>  <!-- Full domain support JSON QL custom data source -->

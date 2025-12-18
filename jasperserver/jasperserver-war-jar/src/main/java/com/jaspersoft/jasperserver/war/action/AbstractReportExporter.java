@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -49,7 +51,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Map;
 
 
 /**
@@ -287,19 +288,7 @@ public abstract class AbstractReportExporter extends MultiAction {
 		return reportUnitURI.substring(reportUnitURI.lastIndexOf("/") + 1);
 	}
 	
-	/**
-	 * @deprecated Replaced by {@link #export(RequestContext, ExecutionContext, JasperPrint, OutputStream)}.
-	 */
-	public void export(RequestContext context, ExecutionContext executionContext, String reportUnitURI, Map baseParameters) throws JRException 
-	{
-		export(
-			context, 
-			executionContext, 
-			(JasperPrint)baseParameters.get(net.sf.jasperreports.engine.JRExporterParameter.JASPER_PRINT), 
-			(OutputStream)baseParameters.get(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STREAM)
-			);
-	}
-	
+
 	/**
 	 * 
 	 */

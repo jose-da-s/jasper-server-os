@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,12 +28,14 @@ import com.jaspersoft.jasperserver.remote.services.*;
 import com.jaspersoft.jasperserver.api.engine.export.HyperlinkProducerFactoryFlowFactory;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.AbstractHtmlExporter;
-import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
-import net.sf.jasperreports.engine.export.JsonExporter;
+import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
+import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
+import net.sf.jasperreports.json.export.GenericElementJsonHandler;
+import net.sf.jasperreports.json.export.JsonExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleJsonExporterOutput;
-import net.sf.jasperreports.export.SimpleJsonReportConfiguration;
+import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
+import net.sf.jasperreports.json.export.SimpleJsonExporterOutput;
+import net.sf.jasperreports.json.export.SimpleJsonReportConfiguration;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
 import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 import org.springframework.stereotype.Service;
@@ -78,16 +82,19 @@ public class EmbeddableHtmlExportStrategy extends AbstractHtmlExportStrategy {
         }
         putReportComponentsAttachment(reportExecution, exportExecution, contextPath);
     }
-    
+
     @Override
     protected AbstractHtmlExporter prepareExporter(final ReportExecution reportExecution, ExportExecution exportExecution, String contextPath) {
         final AbstractHtmlExporter exporter = super.prepareExporter(reportExecution, exportExecution, contextPath);
-        exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, "");
-        exporter.setParameter(JRHtmlExporterParameter.HTML_FOOTER, "");
+        SimpleHtmlExporterConfiguration htmlConfig = new SimpleHtmlExporterConfiguration();
+        htmlConfig.setHtmlHeader("");
+        htmlConfig.setHtmlFooter("");
         // there is no valid request and response in the async export context.
         // Let's proxy request to forward required parameters to hyperlink producers
         HttpServletRequest requestProxy = createRequestProxy(reportExecution, contextPath);
-        exporter.setParameter(JRExporterParameter.HYPERLINK_PRODUCER_FACTORY, hyperlinkProducerFactory.getHyperlinkProducerFactory(requestProxy, null));
+        SimpleHtmlReportConfiguration reportConfig = new SimpleHtmlReportConfiguration();
+        JRHyperlinkProducerFactory hpFactory = hyperlinkProducerFactory.getHyperlinkProducerFactory(requestProxy, null);
+        reportConfig.setHyperlinkProducerFactory(hpFactory);
 
         ReportUnitResult reportUnitResult;
         Boolean ignoreCancelledReportExecution = exportExecution.getOptions().getIgnoreCancelledReportExecution();
@@ -105,6 +112,9 @@ public class EmbeddableHtmlExportStrategy extends AbstractHtmlExportStrategy {
             }
             exporter.setReportContext(reportContext);
         }
+
+        exporter.setConfiguration(reportConfig);
+        exporter.setConfiguration(htmlConfig);
         return exporter;
     }
 

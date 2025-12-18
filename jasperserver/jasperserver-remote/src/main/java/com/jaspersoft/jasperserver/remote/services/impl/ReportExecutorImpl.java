@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -49,7 +51,6 @@ import com.jaspersoft.jasperserver.remote.services.ReportExecutor;
 import com.jaspersoft.jasperserver.remote.utils.AuditHelper;
 import com.jaspersoft.jasperserver.remote.utils.RepositoryHelper;
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRRuntimeException;
@@ -185,8 +186,9 @@ public class ReportExecutorImpl implements ReportExecutor {
      * @throws com.jaspersoft.jasperserver.remote.ServiceException
      *
      */
-    public Map<JRExporterParameter, Object> exportReport(String reportUnitURI, List<ExporterInputItem> inputItems, String format, OutputStream output,
-            HashMap exportParameters) throws ServiceException {
+    @Override
+    public void exportReport(String reportUnitURI, List<ExporterInputItem> inputItems, String format, OutputStream output,
+                                                             Map<?, ?> exportParameters) throws ServiceException {
         ReportExporter exporter = servicesConfiguration.getExporter(format.toLowerCase());
         if (exporter == null) {
             throw new ServiceException(3, "Export format " + format.toLowerCase() + " not supported or misconfigured");
@@ -194,7 +196,7 @@ public class ReportExecutorImpl implements ReportExecutor {
         try {
             InputControlsContainer report = getResource(InputControlsContainer.class, reportUnitURI);
             final RunReportStrategy strategyForReport = getStrategyForReport(report);
-            return exporter.exportReport(inputItems, output, engine, exportParameters, createExecutionContext(),
+            exporter.exportReport(inputItems, output, engine, exportParameters, createExecutionContext(),
                     strategyForReport.getConcreteReportURI(report));
         } catch (JRRuntimeException e){
             if(JRAbstractExporter.EXCEPTION_MESSAGE_KEY_PAGE_INDEX_OUT_OF_RANGE.equals(e.getMessageKey())

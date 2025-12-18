@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -28,7 +30,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
-import net.sf.jasperreports.web.WebReportContext;
+import net.sf.jasperreports.j2ee.web.WebReportContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -101,7 +103,7 @@ public class ReportExecutionHyperlinkProducerFactory extends BaseReportExecution
 
 		@Override
 		protected void appendAdditionalParameters(JRPrintHyperlink hyperlink, URLParameters urlParams) {
-			if (hyperlink.getHyperlinkTargetValue() == HyperlinkTargetEnum.SELF) {
+			if (hyperlink.getHyperlinkTarget() == HyperlinkTargetEnum.SELF) {
 				appendSubflowParams(hyperlink, urlParams);
 			}
 			

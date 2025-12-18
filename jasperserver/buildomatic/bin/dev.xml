@@ -896,6 +896,7 @@
             <arg value="-Dremote.test.dbType=${dbType}"/>
             <arg value="-Dremote.test.dbHost=${dbHost}"/>
             <arg value="-Dremote.test.dbPort=${dbPort}"/>
+            <arg value="-Dremote.test.dbSid=${sid}"/>
             <arg value="-Dremote.test.dbName=${js.dbName}"/>
             <arg value="-Dremote.test.dbUsername=${dbUsername}"/>
             <arg value="-Dremote.test.dbPassword=${dbPassword}"/>

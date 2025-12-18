@@ -2046,6 +2046,25 @@
                 </antcall>
                 <antcall target="import-minimal-ce" />
             </then>
+            <else>
+              <input
+                message="Database ${js.dbName} was not recreated. Create repository data? Enter 'y' to create or 'n' to skip this step. Default is 'n'"
+                validargs="y,n" defaultvalue="n"
+                addproperty="filljsDB" />
+              <if>
+                <equals arg1="${filljsDB}"
+                    arg2="y" />
+                <then>
+                  <antcall target="init-js-db-ce">
+                    <param name="stopIfError" value="true" />
+                  </antcall>
+                  <antcall target="import-minimal-ce" />
+                </then>
+                <else>
+                  <echo message="skipping database filling" />
+                </else>
+              </if>
+            </else>
         </if>
     </target>
 
@@ -2090,6 +2109,25 @@
                 </antcall>
                 <antcall target="import-sample-data-ce" />
             </then>
+            <else>
+              <input
+                message="Database ${js.dbName} was not recreated. Create repository data? Enter 'y' to create or 'n' to skip this step. Default is 'n'"
+                validargs="y,n" defaultvalue="n"
+                addproperty="filljsDB" />
+              <if>
+                <equals arg1="${filljsDB}"
+                    arg2="y" />
+                <then>
+                  <antcall target="init-js-db-ce">
+                    <param name="stopIfError" value="true" />
+                  </antcall>
+                  <antcall target="import-sample-data-ce" />
+                </then>
+                <else>
+                  <echo message="skipping database filling" />
+                </else>
+              </if>
+            </else>
         </if>
     </target>
 
@@ -2143,6 +2181,23 @@
                 <antcall target="load-foodmart-db" />
                 <antcall target="update-foodmart-db" />
             </then>
+            <else>
+              <input
+                message="Database ${foodmart.dbName} was not recreated. Create data? Enter 'y' to create or 'n' to skip this step. Default is 'n'"
+                validargs="y,n" defaultvalue="n"
+                addproperty="fillFoodmartDB" />
+              <if>
+                <equals arg1="${fillFoodmartDB}"
+                    arg2="y" />
+                <then>
+                  <antcall target="load-foodmart-db" />
+                  <antcall target="update-foodmart-db" />
+                </then>
+                <else>
+                  <echo message="skipping Foodmart database filling" />
+                </else>
+              </if>
+            </else>
         </if>
     </target>
 
@@ -2153,6 +2208,22 @@
             <then>
                 <antcall target="load-sugarcrm-db" />
             </then>
+            <else>
+              <input
+                message="Database ${sugarcrm.dbName} was not recreated. Create data? Enter 'y' to create or 'n' to skip this step. Default is 'n'"
+                validargs="y,n" defaultvalue="n"
+                addproperty="fillSugarcrmDB" />
+              <if>
+                <equals arg1="${fillSugarcrmDB}"
+                    arg2="y" />
+                <then>
+                  <antcall target="load-sugarcrm-db" />
+                </then>
+                <else>
+                  <echo message="skipping SugarCRM database filling" />
+                </else>
+              </if>
+            </else>
         </if>
     </target>
 

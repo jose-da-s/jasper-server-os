@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -59,7 +60,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <property name="properties">
       <props>
         <prop key="resource.root">/WEB-INF</prop>
-        <prop key="bean.olapCacheManager">olapCacheManager</prop>
       </props>
     </property>
   </bean>
@@ -717,28 +717,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
   <bean id="hibernateCompositePostUpdateListeners" class="java.util.ArrayList">
         <constructor-arg>
             <list>
-                  <ref bean="olapConnectionRepositoryPostUpdateListener"/>
                   <ref bean="ehcacheEngineServicePostUpdateListener"/>
             </list>
         </constructor-arg>
   </bean>
-
-    <bean id="xmlaContentFinder" class="com.jaspersoft.jasperserver.war.xmla.XmlaContentFinderImpl">
-        <property name="repository" ref="${bean.repositoryService}"/>
-        <property name="tenantService" ref="${bean.tenantService}"/>
-        <property name="olapConnectionService" ref="olapConnectionService"/>
-    </bean>
-
-    <bean id="xmlaRepository" class="com.jaspersoft.jasperserver.war.xmla.XmlaRepositoryImpl">
-        <property name="xmlaContentFinder" ref="${bean.xmlaContentFinder}"/>
-        <!--cache timeout in seconds-->
-        <property name="cacheTimeout" value="30"/>
-        <!--if current user is superuser then сatalog name will be consist of original catalog name + Delimiter+TenantId,
-         TenantId where catalog is located -->
-        <property name="catalogDelimiter" value=";"/>
-    </bean>
-
-    <alias name="${bean.xmlaRepository}" alias="concreteXmlaRepository"/>
 
     <!--
     This rules to apply HTTP headers to the response. The rule it self consist of HTTP method together with regexp pattern of the URL.

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -62,20 +64,15 @@ _.extend(ResourcesSearch, {
         'virtualDataSource',
         'customDataSource',
         'beanDataSource',
-        'xmlaConnection',
         'listOfValues',
         'file',
         'reportOptions',
         'dashboard',
         'adhocDataView',
         'query',
-        'olapUnit',
         'reportUnit',
         'domainTopic',
         'semanticLayerDataSource',
-        'secureMondrianConnection',
-        'mondrianXmlaDefinition',
-        'mondrianConnection',
         'inputControl'
     ],
     sortBy: [

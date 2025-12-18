@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -87,8 +89,6 @@ public enum AuditEventType {
     CLEAR_AD_HOC_CACHE_ENTRY("clearAdhocCacheEntry"),
 
     DASHBOARD_EDITING("dashboardEditing"),
-
-    OLAP_VIEW("olapView"),
 
     UPDATE_ANALYSIS_OPTIONS("updateAnalysisOptions"),
 

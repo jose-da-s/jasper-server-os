@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -86,18 +88,6 @@ public interface ResourceMediaType {
     public static final String LIST_OF_VALUES_CLIENT_TYPE = "listOfValues";
     public static final String LIST_OF_VALUES_JSON = RESOURCE_MEDIA_TYPE_PREFIX + LIST_OF_VALUES_CLIENT_TYPE + RESOURCE_JSON_TYPE;
     public static final String LIST_OF_VALUES_XML = RESOURCE_MEDIA_TYPE_PREFIX + LIST_OF_VALUES_CLIENT_TYPE + RESOURCE_XML_TYPE;
-    // MondrianConnection
-    public static final String MONDRIAN_CONNECTION_CLIENT_TYPE = "mondrianConnection";
-    public static final String MONDRIAN_CONNECTION_JSON = RESOURCE_MEDIA_TYPE_PREFIX + MONDRIAN_CONNECTION_CLIENT_TYPE + RESOURCE_JSON_TYPE;
-    public static final String MONDRIAN_CONNECTION_XML = RESOURCE_MEDIA_TYPE_PREFIX + MONDRIAN_CONNECTION_CLIENT_TYPE + RESOURCE_XML_TYPE;
-    // MondrianXmlaDefinition
-    public static final String MONDRIAN_XMLA_DEFINITION_CLIENT_TYPE = "mondrianXmlaDefinition";
-    public static final String MONDRIAN_XMLA_DEFINITION_JSON = RESOURCE_MEDIA_TYPE_PREFIX + MONDRIAN_XMLA_DEFINITION_CLIENT_TYPE + RESOURCE_JSON_TYPE;
-    public static final String MONDRIAN_XMLA_DEFINITION_XML = RESOURCE_MEDIA_TYPE_PREFIX + MONDRIAN_XMLA_DEFINITION_CLIENT_TYPE + RESOURCE_XML_TYPE;
-    // OlapUnit
-    public static final String OLAP_UNIT_CLIENT_TYPE = "olapUnit";
-    public static final String OLAP_UNIT_JSON = RESOURCE_MEDIA_TYPE_PREFIX + OLAP_UNIT_CLIENT_TYPE + RESOURCE_JSON_TYPE;
-    public static final String OLAP_UNIT_XML = RESOURCE_MEDIA_TYPE_PREFIX + OLAP_UNIT_CLIENT_TYPE + RESOURCE_XML_TYPE;
     // Query
     public static final String QUERY_CLIENT_TYPE = "query";
     public static final String QUERY_JSON = RESOURCE_MEDIA_TYPE_PREFIX + QUERY_CLIENT_TYPE + RESOURCE_JSON_TYPE;
@@ -106,18 +96,10 @@ public interface ResourceMediaType {
     public static final String REPORT_UNIT_CLIENT_TYPE = "reportUnit";
     public static final String REPORT_UNIT_JSON = RESOURCE_MEDIA_TYPE_PREFIX + REPORT_UNIT_CLIENT_TYPE + RESOURCE_JSON_TYPE;
     public static final String REPORT_UNIT_XML = RESOURCE_MEDIA_TYPE_PREFIX + REPORT_UNIT_CLIENT_TYPE + RESOURCE_XML_TYPE;
-    // SecureMondrianConnection
-    public static final String SECURE_MONDRIAN_CONNECTION_CLIENT_TYPE = "secureMondrianConnection";
-    public static final String SECURE_MONDRIAN_CONNECTION_JSON = RESOURCE_MEDIA_TYPE_PREFIX + SECURE_MONDRIAN_CONNECTION_CLIENT_TYPE + RESOURCE_JSON_TYPE;
-    public static final String SECURE_MONDRIAN_CONNECTION_XML = RESOURCE_MEDIA_TYPE_PREFIX + SECURE_MONDRIAN_CONNECTION_CLIENT_TYPE + RESOURCE_XML_TYPE;
     // VirtualReportDataSource
     public static final String VIRTUAL_DATA_SOURCE_CLIENT_TYPE = "virtualDataSource";
     public static final String VIRTUAL_DATA_SOURCE_JSON = RESOURCE_MEDIA_TYPE_PREFIX + VIRTUAL_DATA_SOURCE_CLIENT_TYPE + RESOURCE_JSON_TYPE;
     public static final String VIRTUAL_DATA_SOURCE_XML = RESOURCE_MEDIA_TYPE_PREFIX + VIRTUAL_DATA_SOURCE_CLIENT_TYPE + RESOURCE_XML_TYPE;
-    // XmlaConnection
-    public static final String XMLA_CONNECTION_CLIENT_TYPE = "xmlaConnection";
-    public static final String XMLA_CONNECTION_JSON = RESOURCE_MEDIA_TYPE_PREFIX + XMLA_CONNECTION_CLIENT_TYPE + RESOURCE_JSON_TYPE;
-    public static final String XMLA_CONNECTION_XML = RESOURCE_MEDIA_TYPE_PREFIX + XMLA_CONNECTION_CLIENT_TYPE + RESOURCE_XML_TYPE;
     // adhocDataView
     public static final String ADHOC_DATA_VIEW_CLIENT_TYPE = "adhocDataView";
     public static final String ADHOC_DATA_VIEW_JSON = RESOURCE_MEDIA_TYPE_PREFIX + ADHOC_DATA_VIEW_CLIENT_TYPE + RESOURCE_JSON_TYPE;

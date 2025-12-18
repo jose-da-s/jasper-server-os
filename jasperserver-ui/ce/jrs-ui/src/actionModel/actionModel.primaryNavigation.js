@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -64,10 +66,6 @@ var primaryNavModule = {
             params: '_flowId=searchFlow&mode=search&filterId=resourceTypeFilter&filterOption=resourceTypeFilter-reports&searchText='
         },
         jobs: { url: 'scheduler/main.html' },
-        olap: {
-            url: 'flow.html',
-            params: '_flowId=searchFlow&mode=search&filterId=resourceTypeFilter&filterOption=resourceTypeFilter-view&searchText='
-        },
         event: {
             url: 'flow.html',
             params: '_flowId=logEventFlow'
@@ -85,8 +83,6 @@ var primaryNavModule = {
             params: '_flowId=tenantFlow'
         },
         etl: { url: 'etl' },
-        mondrianProperties: { url: 'olap/properties.html' },
-        flush: { url: 'olap/flush.html' },
         user: {
             url: 'flow.html',
             params: '_flowId=userListFlow'
@@ -94,10 +90,6 @@ var primaryNavModule = {
         role: {
             url: 'flow.html',
             params: '_flowId=roleListFlow'
-        },
-        analysisOptions: {
-            url: 'flow.html',
-            params: '_flowId=mondrianPropertiesFlow'
         },
         designerOptions: {
             url: 'flow.html',

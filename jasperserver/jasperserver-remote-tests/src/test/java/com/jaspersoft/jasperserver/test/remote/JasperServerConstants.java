@@ -69,7 +69,6 @@ public class JasperServerConstants {
         USER_USERNAME = "joeuser";
         USER_PASSWORD = "joeuser";
         BASE_URL      = "http://" + HOST + ":" + PORT;
-        XMLA_URL      = BASE_URL + "/" + APP_CONTEXT_PATH + "/xmla";
         HOME_PAGE_URL = BASE_URL + "/" + APP_CONTEXT_PATH + "/home.html";
         WS_END_POINT_URL = BASE_URL + "/" + APP_CONTEXT_PATH + "/services/repository";
         WS_SCHEDULING_END_POINT_URL = BASE_URL + "/" + APP_CONTEXT_PATH + "/services/ReportScheduler";
@@ -123,7 +122,6 @@ public class JasperServerConstants {
     public String USER_USERNAME;
     public String USER_PASSWORD;
     public String BASE_URL;
-    public String XMLA_URL;
     public String HOME_PAGE_URL;
     public String WS_END_POINT_URL;
     public String WS_SCHEDULING_END_POINT_URL;

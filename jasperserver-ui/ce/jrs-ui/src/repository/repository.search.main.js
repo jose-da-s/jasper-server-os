@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -341,7 +343,6 @@ var repositorySearch = {
     ResourceType: {
         REPORT_UNIT: 'com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit',
         ADHOC_REPORT_UNIT: 'com.jaspersoft.ji.adhoc.AdhocReportUnit',
-        OLAP_UNIT: 'com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit',
         DASHBOARD_RESOURCE: 'com.jaspersoft.ji.adhoc.DashboardResource',
         DASHBOARD: 'com.jaspersoft.ji.dashboard.DashboardModelResource',
         REPORT_OPTIONS: 'com.jaspersoft.ji.report.options.metadata.ReportOptions',
@@ -351,17 +352,11 @@ var repositorySearch = {
         VIRTUAL_REPORT_DATA_SOURCE: 'com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.VirtualReportDataSource',
         CUSTOM_REPORT_DATA_SOURCE: 'com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.CustomReportDataSource',
         BEAN_REPORT_DATA_SOURCE: 'com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.BeanReportDataSource',
-        OLAP_DATA_SOURCE: 'com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapDataSource',
-        OLAP_CLIENT_CONNECTION: 'com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection',
         QUERY: 'com.jaspersoft.jasperserver.api.metadata.common.domain.Query',
         INPUT_CONTROL: 'com.jaspersoft.jasperserver.api.metadata.common.domain.InputControl',
         LIST_OF_VALUES: 'com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValues',
         LIST_OF_VALUES_ITEM: 'com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValuesItem',
         DATA_TYPE: 'com.jaspersoft.jasperserver.api.metadata.common.domain.DataType',
-        MONDRIAN_CONNECTION: 'com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection',
-        SECURE_MONDRIAN_CONNECTION: 'com.jaspersoft.ji.ja.security.domain.SecureMondrianConnection',
-        XMLA_CONNECTION: 'com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection',
-        MONDRIAN_XMLA_DEFINITION: 'com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition',
         CONTENT_RESOURCE: 'com.jaspersoft.jasperserver.api.metadata.common.domain.ContentResource',
         FILE_RESOURCE: 'com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource',
         SEMANTIC_LAYER_DATA_SOURCE: 'com.jaspersoft.commons.semantic.datasource.SemanticLayerDataSource',

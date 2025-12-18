@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -438,7 +440,6 @@
         <ref bean="${bean.resourceTypeFilter.option.all}"/>
         <ref bean="${bean.resourceTypeFilter.option.reports}"/>
         <ref bean="${bean.resourceTypeFilter.option.reportOutput}"/>
-        <ref bean="${bean.resourceTypeFilter.option.view}"/>
         <ref bean="${bean.resourceTypeFilter.option.dataSources}"/>
     </util:list>
 
@@ -456,11 +457,6 @@
         <property name="id" value="resourceTypeFilter-reportOutput"/>
         <property name="labelId" value="SEARCH_TYPE_REPORT_OUTPUT"/>
         <property name="roleAccessList" ref="${bean.resourceTypeFilter.ReportOutput.RoleAccessList}"/>
-    </bean>
-    <bean id="resourceTypeFilter.view" class="com.jaspersoft.jasperserver.search.common.Option">
-        <property name="id" value="resourceTypeFilter-view"/>
-        <property name="labelId" value="SEARCH_TYPE_VIEW"/>
-        <property name="roleAccessList" ref="${bean.resourceTypeFilter.View.RoleAccessList}"/>
     </bean>
     <bean id="resourceTypeFilter.dataSources" class="com.jaspersoft.jasperserver.search.common.Option">
         <property name="id" value="resourceTypeFilter-dataSources"/>
@@ -482,22 +478,18 @@
 
     <util:list id="supportedTypes">
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit</value>
-        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.Query</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JdbcReportDataSource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JndiJdbcReportDataSource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.VirtualReportDataSource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.BeanReportDataSource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.CustomReportDataSource</value>
-        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapDataSource</value>
-        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.ContentResource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.InputControl</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValues</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValuesItem</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.DataType</value>
-        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition</value>
     </util:list>
 
     <util:map id="typeSpecificFilters" key-type="java.lang.String" value-type="com.jaspersoft.jasperserver.api.search.SearchFilter">
@@ -507,7 +499,6 @@
         <value>com.jaspersoft.commons.semantic.DataDefinerUnit</value>
         <value>com.jaspersoft.ji.adhoc.AdhocReportUnit</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit</value>
-        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.InputControl</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValues</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValuesItem</value>
@@ -515,16 +506,11 @@
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.Query</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.ContentResource</value>
-        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JdbcReportDataSource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JndiJdbcReportDataSource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.VirtualReportDataSource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.BeanReportDataSource</value>
         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.CustomReportDataSource</value>
-        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapDataSource</value>
-        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection</value>
-        <value>com.jaspersoft.ji.ja.security.domain.SecureMondrianConnection</value>
-        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection</value>
         <value>com.jaspersoft.commons.semantic.datasource.SemanticLayerDataSource</value>
     </util:list>
 
@@ -547,11 +533,6 @@
                 <value>com.jaspersoft.jasperserver.api.metadata.common.domain.ContentResource</value>
             </list>
         </entry>
-        <entry key="resourceTypeFilter-view">
-            <list>
-                <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit</value>
-            </list>
-        </entry>
         <entry key="resourceTypeFilter-dataSources">
             <list>
                 <value>com.jaspersoft.jasperserver.api.metadata.common.domain.DataSource</value>
@@ -562,12 +543,6 @@
                 <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JndiJdbcReportDataSource</value>
                 <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.VirtualReportDataSource</value>
                 <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.AwsReportDataSource</value>
-                <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection</value>
-                <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.JndiJdbcOlapDataSource</value>
-                <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.JdbcOlapDataSource</value>
-                <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapDataSource</value>
-                <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection</value>
-                <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection</value>
                 <value>com.jaspersoft.ji.adhoc.AdhocDataView</value>
             </list>
         </entry>
@@ -634,21 +609,6 @@
                         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValues</value>
                     </set>
                 </entry>
-                <entry key="mondrianConnection">
-                    <set value-type="java.lang.Class">
-                        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection</value>
-                    </set>
-                </entry>
-                <entry key="mondrianXmlaDefinition">
-                    <set value-type="java.lang.Class">
-                        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition</value>
-                    </set>
-                </entry>
-                <entry key="olapUnit">
-                    <set value-type="java.lang.Class">
-                        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit</value>
-                    </set>
-                </entry>
                 <entry key="query">
                     <set value-type="java.lang.Class">
                         <value>com.jaspersoft.jasperserver.api.metadata.common.domain.Query</value>
@@ -667,11 +627,6 @@
                 <entry key="virtualDataSource">
                     <set value-type="java.lang.Class">
                         <value>com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.VirtualReportDataSource</value>
-                    </set>
-                </entry>
-                <entry key="xmlaConnection">
-                    <set value-type="java.lang.Class">
-                        <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection</value>
                     </set>
                 </entry>
             </map>

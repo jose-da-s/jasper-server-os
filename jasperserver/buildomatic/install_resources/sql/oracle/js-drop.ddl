@@ -45,15 +45,7 @@
 
     drop table JILogEvent cascade constraints;
 
-    drop table JIMondrianConnection cascade constraints;
-
-    drop table JIMondrianXMLADefinition cascade constraints;
-
     drop table JIObjectPermission cascade constraints;
-
-    drop table JIOlapClientConnection cascade constraints;
-
-    drop table JIOlapUnit cascade constraints;
 
     drop table JIProfileAttribute cascade constraints;
 
@@ -107,13 +99,7 @@
 
     drop table JIVirtualDataSourceUriMap cascade constraints;
 
-    drop table JIXMLAConnection cascade constraints;
-
     drop sequence hibernate_sequence;
-
-    DROP INDEX idx20_mondrianConnection_idx ON JIMondrianXMLADefinition;
-
-    DROP INDEX idx23_olapClientConnection_idx ON JIOlapUnit;
 
     DROP INDEX JIQuery_dataSource_index ON JIQuery;
 
@@ -133,11 +119,7 @@
 
     DROP INDEX JIUserRole_userId_index ON JIUserRole;
 
-    DROP INDEX idx16_mondrianSchema_idx ON JIMondrianConnection;
-
     DROP INDEX JITenant_parentId_index ON JITenant;
-
-    DROP INDEX idx17_reportDataSource_idx ON JIMondrianConnection;
 
     DROP INDEX JIUser_tenantId_index ON JIUser;
 

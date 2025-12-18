@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,8 +28,6 @@
  * Asynchronous action class.
  */
 
-import {Dialog} from 'js-sdk/src/common/component/dialog/Dialog';
-import {LoadingDialog} from 'js-sdk/src/common/component/dialog/LoadingDialog'
 import dialogs from '../components/components.dialogs';
 import _ from 'underscore';
 import {repositorySearch, ResourcesUtils, invokeResourceAction, isPropertiesChanged, isPermissionsChanged} from './repository.search.main';
@@ -848,18 +848,6 @@ repositorySearch.runActionFactory = {
             }
         });
     },
-    'OlapUnit': function (resource, inNewTab) {
-        var type = inNewTab ? repositorySearch.RedirectType.WINDOW_REDIRECT : repositorySearch.RedirectType.LOCATION_REDIRECT;
-        return new repositorySearch.RedirectAction(type, {
-            url: 'olap/viewOlap.html',
-            paramsMap: {
-                name: inNewTab ? encodeURIComponent(resource.URIString) : resource.URIString,
-                'new': true,
-                parentFlow: 'searchFlow',
-                ParentFolderUri: inNewTab ? encodeURIComponent(resource.parentFolder) : resource.parentFolder
-            }
-        });
-    },
     'DashboardResource': function (resource, inNewTab) {
         var type = inNewTab ? repositorySearch.RedirectType.WINDOW_REDIRECT : repositorySearch.RedirectType.FLOW_REDIRECT;
         return new repositorySearch.RedirectAction(type, {
@@ -966,16 +954,6 @@ repositorySearch.editActionFactory = {
             }
         });
     },
-    'OlapUnit': function (resource, actionType) {
-        return new repositorySearch.RedirectAction(actionType, {
-            flowId: 'olapUnitFlow',
-            paramsMap: {
-                resource: resource.URIString,
-                isEdit: 'edit',
-                ParentFolderUri: resource.parentFolder
-            }
-        });
-    },
     'DashboardResource': function (resource, actionType) {
         return new repositorySearch.RedirectAction(actionType, {
             flowId: 'dashboardRuntimeFlow',
@@ -1065,32 +1043,6 @@ repositorySearch.editActionFactory = {
             flowId: 'dataTypeFlow',
             paramsMap: {
                 resource: resource.URIString,
-                isEdit: 'edit',
-                ParentFolderUri: resource.parentFolder
-            }
-        });
-    },
-    'MondrianConnection': function (resource, actionType) {
-        return new repositorySearch.RedirectAction(actionType, {
-            flowId: 'olapClientConnectionFlow',
-            paramsMap: {
-                selectedResource: resource.URIString,
-                isEdit: 'edit',
-                ParentFolderUri: resource.parentFolder
-            }
-        });
-    },
-    'SecureMondrianConnection': function (resource, actionType) {
-        return repositorySearch.editActionFactory['MondrianConnection'](resource, actionType);
-    },
-    'XMLAConnection': function (resource, actionType) {
-        return repositorySearch.editActionFactory['MondrianConnection'](resource, actionType);
-    },
-    'MondrianXMLADefinition': function (resource, actionType) {
-        return new repositorySearch.RedirectAction(actionType, {
-            flowId: 'mondrianXmlaSourceFlow',
-            paramsMap: {
-                selectedResource: resource.URIString,
                 isEdit: 'edit',
                 ParentFolderUri: resource.parentFolder
             }
@@ -1293,18 +1245,6 @@ repositorySearch.RedirectAction.createScheduleAction = function () {
     }
 };
 repositorySearch.createActionFactory = {
-    'OlapClientConnection': function (folder) {
-        return new repositorySearch.RedirectAction(repositorySearch.RedirectType.FLOW_REDIRECT, {
-            flowId: 'olapClientConnectionFlow',
-            paramsMap: { ParentFolderUri: folder.URI }
-        });
-    },
-    'OlapUnit': function (folder) {
-        return new repositorySearch.RedirectAction(repositorySearch.RedirectType.FLOW_REDIRECT, {
-            flowId: 'olapUnitFlow',
-            paramsMap: { ParentFolderUri: folder.URI }
-        });
-    },
     'ReportDataSource': function (folder) {
         return new repositorySearch.RedirectAction(repositorySearch.RedirectType.FLOW_REDIRECT, {
             flowId: 'addDataSourceFlow',
@@ -1355,12 +1295,6 @@ repositorySearch.createActionFactory = {
     'ListOfValues': function (folder) {
         return new repositorySearch.RedirectAction(repositorySearch.RedirectType.FLOW_REDIRECT, {
             flowId: 'addListOfValuesFlow',
-            paramsMap: { ParentFolderUri: folder.URI }
-        });
-    },
-    'XMLAConnection': function (folder) {
-        return new repositorySearch.RedirectAction(repositorySearch.RedirectType.FLOW_REDIRECT, {
-            flowId: 'mondrianXmlaSourceFlow',
             paramsMap: { ParentFolderUri: folder.URI }
         });
     }

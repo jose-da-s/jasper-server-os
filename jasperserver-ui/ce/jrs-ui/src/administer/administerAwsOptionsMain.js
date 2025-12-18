@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,15 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * @version: $Id$
- */
-import resourceLocator from './resource.locate';
 
-var resourceDataSourceLocate = {
-    initialize: function (options) {
-        resourceLocator.initialize(options);
-    }
-};
+import '../util/webpackPublicPathSetup';
+const importStartup = import('../util/mainPagesStartup')
+const importMain = () => import('./administerAwsOptions.common');
+const importCommonModule = () => import('../commons/commons.main')
 
-export default resourceDataSourceLocate;
+importStartup.then(({default: startup}) => startup({
+    importCommonModule,
+    bundles: [
+        "jasperserver_config",
+        "jasperserver_messages",
+        "jsexceptions_messages"
+    ]
+})).then(importMain)

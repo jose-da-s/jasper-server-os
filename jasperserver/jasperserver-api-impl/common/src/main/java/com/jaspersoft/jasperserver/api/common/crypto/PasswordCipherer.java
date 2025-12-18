@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -264,7 +266,9 @@ public class PasswordCipherer extends BaseCipher implements PasswordEncoder {
 
 	@Override
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
-		Objects.requireNonNull(rawPassword);
+	    // To allow setting empty password on Oracle: treat NULL as the empty string
+		if (rawPassword == null)
+		    rawPassword = "";
 		return rawPassword.equals(encodedPassword);
 	}
 }

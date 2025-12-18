@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,8 +28,8 @@ import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomDomainMet
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.DataAdapterDefinition;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.CustomDomainMetaData;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.CustomReportDataSource;
-import net.sf.jasperreports.data.DataAdapter;
-import net.sf.jasperreports.data.DataAdapterService;
+import net.sf.jasperreports.dataadapters.DataAdapter;
+import net.sf.jasperreports.dataadapters.DataAdapterService;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapter;
 import net.sf.jasperreports.data.jdbc.JdbcDataAdapterImpl;
 import net.sf.jasperreports.engine.JasperReportsContext;

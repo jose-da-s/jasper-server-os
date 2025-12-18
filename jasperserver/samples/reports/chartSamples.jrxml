@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,281 +21,196 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="chartSamples" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20">
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="chartSamples" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="924647ea-3a48-49ed-b627-85f959dee5c8">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
-	<import value="net.sf.jasperreports.engine.*"/>
-	<import value="java.util.*"/>
-	<import value="net.sf.jasperreports.engine.data.*"/>
-	<queryString>
-		<![CDATA[select id, account_name, account_type, industry 
-from sales_account;]]>
-	</queryString>
+	<import>net.sf.jasperreports.engine.*</import>
+	<import>java.util.*</import>
+	<import>net.sf.jasperreports.engine.data.*</import>
+	<query language="sql"><![CDATA[select id, account_name, account_type, industry 
+from sales_account;]]></query>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="account_name" class="java.lang.String"/>
 	<field name="account_type" class="java.lang.String"/>
 	<field name="industry" class="java.lang.String"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
-	<title>
-		<band height="24" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText-1" x="0" y="0" width="404" height="14" forecolor="#999999"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement/>
-				<text><![CDATA[Section detail: title]]></text>
-			</staticText>
-		</band>
+	<background splitType="Stretch"/>
+	<title height="24" splitType="Stretch">
+		<element kind="staticText" uuid="28050339-1103-44de-954b-81d5b84f61ed" key="staticText-1" x="0" y="0" width="404" height="14" forecolor="#999999">
+			<text><![CDATA[Section detail: title]]></text>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
 	</title>
-	<pageHeader>
-		<band height="294" splitType="Stretch">
-			<pieChart>
-				<chart evaluationTime="Report">
-					<reportElement key="element-1" x="12" y="24" width="511" height="259"/>
-					<box>
-						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					</box>
-					<chartTitle/>
-					<chartSubtitle/>
-					<chartLegend/>
-				</chart>
-				<pieDataset>
+	<pageHeader height="294" splitType="Stretch">
+		<element kind="chart" chartType="pie" uuid="83826f0a-e632-47b8-ad7a-7e531448ab2e" key="element-1" x="12" y="24" width="511" height="259" evaluationTime="Report">
+			<dataset kind="pie">
+				<series>
 					<keyExpression><![CDATA[$F{industry}]]></keyExpression>
 					<valueExpression><![CDATA[$F{id}]]></valueExpression>
 					<labelExpression><![CDATA[$F{industry}]]></labelExpression>
-				</pieDataset>
-				<piePlot isCircular="true">
-					<plot/>
-					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
-				</piePlot>
-			</pieChart>
-			<staticText>
-				<reportElement key="staticText-2" x="0" y="0" width="404" height="14" forecolor="#999999"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement/>
-				<text><![CDATA[Section detail: page header]]></text>
-			</staticText>
-		</band>
+				</series>
+			</dataset>
+			<plot circular="true">
+				<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+			</plot>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="c6324d8d-0212-4aa2-b0b5-32837b9d9263" key="staticText-2" x="0" y="0" width="404" height="14" forecolor="#999999">
+			<text><![CDATA[Section detail: page header]]></text>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
 	</pageHeader>
-	<columnHeader>
-		<band height="34" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText-3" x="0" y="0" width="404" height="14" forecolor="#999999"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement/>
-				<text><![CDATA[Section detail: column header]]></text>
-			</staticText>
-		</band>
+	<columnHeader height="34" splitType="Stretch">
+		<element kind="staticText" uuid="92ef4c76-a2bc-41e0-bbf3-b5551fe2f3c8" key="staticText-3" x="0" y="0" width="404" height="14" forecolor="#999999">
+			<text><![CDATA[Section detail: column header]]></text>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
 	</columnHeader>
 	<detail>
 		<band height="51" splitType="Stretch">
-			<textField isBlankWhenNull="false">
-				<reportElement key="textField-1" x="6" y="23" width="42" height="20"/>
+			<element kind="textField" uuid="17cb64d4-c973-4066-b86f-1ed3fe7227dd" key="textField-1" x="6" y="23" width="42" height="20" blankWhenNull="false">
+				<expression><![CDATA[$F{id}]]></expression>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{id}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement key="textField-2" x="65" y="23" width="209" height="20"/>
+			</element>
+			<element kind="textField" uuid="0b16b6c4-17cc-491d-a905-f2c536ef0b34" key="textField-2" x="65" y="23" width="209" height="20" blankWhenNull="false">
+				<expression><![CDATA[$F{account_name}]]></expression>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{account_name}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement key="textField-3" x="291" y="23" width="92" height="20"/>
+			</element>
+			<element kind="textField" uuid="5bf7167e-825d-441c-8d39-e9e9114e2e5f" key="textField-3" x="291" y="23" width="92" height="20" blankWhenNull="false">
+				<expression><![CDATA[$F{account_type}]]></expression>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{account_type}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement key="textField-4" x="400" y="23" width="130" height="20"/>
+			</element>
+			<element kind="textField" uuid="6a3b613e-0d94-4054-970b-9bc03d4da690" key="textField-4" x="400" y="23" width="130" height="20" blankWhenNull="false">
+				<expression><![CDATA[$F{industry}]]></expression>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{industry}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement key="staticText-4" x="0" y="0" width="404" height="14" forecolor="#999999"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement/>
+			</element>
+			<element kind="staticText" uuid="2bbe3f3d-4413-4bee-9d16-8ee15f57780a" key="staticText-4" x="0" y="0" width="404" height="14" forecolor="#999999">
 				<text><![CDATA[Section detail: detail]]></text>
-			</staticText>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="26" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText-5" x="0" y="0" width="404" height="14" forecolor="#999999"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement/>
-				<text><![CDATA[Section detail: column footer]]></text>
-			</staticText>
-		</band>
+	<columnFooter height="26" splitType="Stretch">
+		<element kind="staticText" uuid="ca74de4e-0e12-448b-b13e-d1b6736844b8" key="staticText-5" x="0" y="0" width="404" height="14" forecolor="#999999">
+			<text><![CDATA[Section detail: column footer]]></text>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
 	</columnFooter>
-	<pageFooter>
-		<band height="203" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText-6" x="0" y="0" width="404" height="14" forecolor="#999999"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement/>
-				<text><![CDATA[Section detail: page footer]]></text>
-			</staticText>
-			<stackedBarChart>
-				<chart evaluationTime="Report">
-					<reportElement key="element-2" x="17" y="23" width="242" height="169"/>
-					<box>
-						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					</box>
-					<chartTitle/>
-					<chartSubtitle/>
-					<chartLegend/>
-				</chart>
-				<categoryDataset>
-					<categorySeries>
-						<seriesExpression><![CDATA[$F{industry}]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{account_type}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{id}]]></valueExpression>
-					</categorySeries>
-				</categoryDataset>
-				<barPlot>
-					<plot/>
-					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
-					<categoryAxisFormat>
-						<axisFormat>
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
-					</categoryAxisFormat>
-					<valueAxisFormat>
-						<axisFormat>
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
-					</valueAxisFormat>
-				</barPlot>
-			</stackedBarChart>
-			<areaChart>
-				<chart evaluationTime="Report">
-					<reportElement key="element-3" x="281" y="22" width="242" height="169"/>
-					<box>
-						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					</box>
-					<chartTitle/>
-					<chartSubtitle/>
-					<chartLegend/>
-				</chart>
-				<categoryDataset>
-					<categorySeries>
-						<seriesExpression><![CDATA[$F{industry}]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{account_type}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{id}]]></valueExpression>
-					</categorySeries>
-				</categoryDataset>
-				<areaPlot>
-					<plot/>
-					<categoryAxisFormat>
-						<axisFormat>
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
-					</categoryAxisFormat>
-					<valueAxisFormat>
-						<axisFormat>
-							<labelFont/>
-							<tickLabelFont/>
-						</axisFormat>
-					</valueAxisFormat>
-				</areaPlot>
-			</areaChart>
-		</band>
+	<pageFooter height="203" splitType="Stretch">
+		<element kind="staticText" uuid="d7287342-bdad-4de4-a638-715b38f50f3f" key="staticText-6" x="0" y="0" width="404" height="14" forecolor="#999999">
+			<text><![CDATA[Section detail: page footer]]></text>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="chart" chartType="stackedBar" uuid="54c8aa93-8a41-448e-bf6b-d5fef8f754f6" key="element-2" x="17" y="23" width="242" height="169" evaluationTime="Report">
+			<dataset kind="category">
+				<series>
+					<seriesExpression><![CDATA[$F{industry}]]></seriesExpression>
+					<categoryExpression><![CDATA[$F{account_type}]]></categoryExpression>
+					<valueExpression><![CDATA[$F{id}]]></valueExpression>
+				</series>
+			</dataset>
+			<plot>
+				<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+			</plot>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="chart" chartType="area" uuid="a9264373-c857-4b13-ac73-6f782ec42339" key="element-3" x="281" y="22" width="242" height="169" evaluationTime="Report">
+			<dataset kind="category">
+				<series>
+					<seriesExpression><![CDATA[$F{industry}]]></seriesExpression>
+					<categoryExpression><![CDATA[$F{account_type}]]></categoryExpression>
+					<valueExpression><![CDATA[$F{id}]]></valueExpression>
+				</series>
+			</dataset>
+			<plot/>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
 	</pageFooter>
-	<lastPageFooter>
-		<band height="26" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText-7" x="0" y="0" width="404" height="14" forecolor="#999999"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement/>
-				<text><![CDATA[Section detail: last page footer]]></text>
-			</staticText>
-		</band>
+	<lastPageFooter height="26" splitType="Stretch">
+		<element kind="staticText" uuid="611f4409-f017-4bb2-bb53-bc93b06681e9" key="staticText-7" x="0" y="0" width="404" height="14" forecolor="#999999">
+			<text><![CDATA[Section detail: last page footer]]></text>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
 	</lastPageFooter>
-	<summary>
-		<band height="23" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText-8" x="0" y="0" width="404" height="14" forecolor="#999999"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement/>
-				<text><![CDATA[Section detail: summary]]></text>
-			</staticText>
-		</band>
+	<summary height="23" splitType="Stretch">
+		<element kind="staticText" uuid="32cd347b-3a1d-4402-8643-9592705bd905" key="staticText-8" x="0" y="0" width="404" height="14" forecolor="#999999">
+			<text><![CDATA[Section detail: summary]]></text>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
 	</summary>
 </jasperReport>

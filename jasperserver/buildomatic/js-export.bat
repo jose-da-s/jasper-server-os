@@ -35,7 +35,7 @@ set EXP_CLASSPATH=%CONFIG_DIR%\lib\*
 rem
 rem Initializing time variable.
 rem
-for /f "delims=" %%# in ('powershell get-date -format "{dd-MM-yyyy_HH-mm}"') do @set _date=%%#
+for /f "delims=" %%# in ('powershell get-date -format "{yyyy-MM-dd_HH-mm}"') do @set _date=%%#
 SET JS_CURRENT_TIME=%_date%
 SET JS_SETUP_MODE="export"
 

@@ -67,8 +67,13 @@ runAnt() {
     log "Running $targetName Ant task."
     log
 
-    $ANT_RUN --noconfig -nouserlib -lib . -lib lib -f build.xml -logfile $JS_LOG_FILE $targetName $options 2>&1
+    # It appears that a named pipe is the only POSIX-compatible way of teeing
+    # ANT's output into a logfile and also of being able to recover its exit code.
+    mkfifo pipe-$JS_LOG_FILE_SUFFIX
+    tee $JS_LOG_FILE < pipe-$JS_LOG_FILE_SUFFIX &
+    $ANT_RUN --noconfig -nouserlib -lib . -lib lib -f build.xml $targetName $options 2>&1 > pipe-$JS_LOG_FILE_SUFFIX
     antReturnCode=$?
+    rm pipe-$JS_LOG_FILE_SUFFIX
 
     antReturnCodeMessage="Checking Ant return code:"
     if [ $antReturnCode -ne 0 ]; then

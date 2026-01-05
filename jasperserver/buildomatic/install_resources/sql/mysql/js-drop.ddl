@@ -103,38 +103,6 @@
        drop 
        foreign key FK7636lhqn8drpalfckmb5wlljb;
 
-    alter table JIMondrianConnection 
-       drop 
-       foreign key FKm9glomusslw0ouy1xev0kafql;
-
-    alter table JIMondrianConnection 
-       drop 
-       foreign key FK8yiwytorg3lwqq1gag9fng7rf;
-
-    alter table JIMondrianConnection 
-       drop 
-       foreign key FKamcjhut3kc0ko4rypemusdn7d;
-
-    alter table JIMondrianXMLADefinition 
-       drop 
-       foreign key FKclv0lm19k3nvkmbv41epbfs34;
-
-    alter table JIMondrianXMLADefinition 
-       drop 
-       foreign key FKnmn2j9pevf2slm0i314ghs1sq;
-
-    alter table JIOlapClientConnection 
-       drop 
-       foreign key FKqtji02a7ga296baj2y3avol24;
-
-    alter table JIOlapUnit 
-       drop 
-       foreign key FKtj0u3bnnfbe2h6w5v9jue5xr1;
-
-    alter table JIOlapUnit 
-       drop 
-       foreign key FKakvumwho658vijmoaaxddp4xo;
-
     alter table JIQuery 
        drop 
        foreign key FK1ql6x3q59eti9h2r042ogoj3i;
@@ -283,10 +251,6 @@
        drop 
        foreign key FK94bfn67jetx6l0ykl2g9n37w1;
 
-    alter table JIXMLAConnection 
-       drop 
-       foreign key FK27s5ja8sxgrylp7cf0wyscl79;
-
     drop table if exists JIAccessEvent;
 
     drop table if exists JIAwsDatasource;
@@ -333,15 +297,7 @@
 
     drop table if exists JILogEvent;
 
-    drop table if exists JIMondrianConnection;
-
-    drop table if exists JIMondrianXMLADefinition;
-
     drop table if exists JIObjectPermission;
-
-    drop table if exists JIOlapClientConnection;
-
-    drop table if exists JIOlapUnit;
 
     drop table if exists JIProfileAttribute;
 
@@ -395,12 +351,6 @@
 
     drop table if exists JIVirtualDataSourceUriMap;
 
-    drop table if exists JIXMLAConnection;
-
-    DROP INDEX idx20_mondrianConnection_idx ON JIMondrianXMLADefinition;
-
-    DROP INDEX idx23_olapClientConnection_idx ON JIOlapUnit;
-
     DROP INDEX JIQuery_dataSource_index ON JIQuery;
 
     DROP INDEX idx28_resource_id_idx ON JIReportThumbnail;
@@ -419,11 +369,7 @@
 
     DROP INDEX JIUserRole_userId_index ON JIUserRole;
 
-    DROP INDEX idx16_mondrianSchema_idx ON JIMondrianConnection;
-
     DROP INDEX JITenant_parentId_index ON JITenant;
-
-    DROP INDEX idx17_reportDataSource_idx ON JIMondrianConnection;
 
     DROP INDEX JIUser_tenantId_index ON JIUser;
 

@@ -105,9 +105,7 @@ public class RESTTestUtilsAndConsts
 	static final String SAMPLE_INPUT_CONTROL_WITH_LOCAL_RESOURCE_RD = "/inputControl_URI.JUNIT_NEW_FOLDER.JUNIT_INPUT_CONTROL_CONTAINS_LOCAL_RESOURCE.xml";
 	static final String SAMPLE_JDBC_FILE_RD = "/jdbc_URI.ContentFiles.New_JDBC.xml";
 	static final String SAMPLE_LIST_OF_VALUES_RD = "/listOfValues_URI.ContentFiles.JUNIT_LIST_OF_VALUES.xml";
-	static final String SAMPLE_OLAP_MONDRIAN_CON_RD = "/olapMondrianCon_URI.ContentFiles.OLAP_CLIENT_CONNECTION_TEST.xml";
 	static final String SAMPLE_COMPOLEX_REPORT_UNIT_RD = "/reportUnit_URI.JUNIT_NEW_FOLDER.COMPLEX_REPORT_UNIT_TEST.xml";
-	static final String SAMPLE_OLAP_UNIT_RD ="/olapUnit_URI.ContentFiles.JUNIT_OLAP_VIEW.xml";
 	static final String SAMPLE_JOB_RD = "/reportJob_URI.reports.samples.allaccounts.xml";
 	static final String SAMPLE_RUN_REPORT_RD = "/runAllAccountsReport.xml";
 	static final String SAMPLE_PROPERITES_RD = "/properities_URI.JUNIT_NEW_FOLDER.JUNIT_PROPERTIES.xml";

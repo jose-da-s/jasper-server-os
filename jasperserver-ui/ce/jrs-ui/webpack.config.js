@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2020 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -210,27 +212,20 @@ module.exports = (env = {}, argv = {mode: 'development'}) => {
             'addResource/jasperReport/addJasperReportResourceNamingMain': "./src/addResource/jasperReport/addJasperReportResourceNamingMain",
             'addResource/jasperReport/addJasperReportResourcesAndControlsMain': "./src/addResource/jasperReport/addJasperReportResourcesAndControlsMain",
             'addResource/listOfValues/addListOfValuesMain': "./src/addResource/listOfValues/addListOfValuesMain",
-            'addResource/mondrianXml/addMondrianXmlMain': "./src/addResource/mondrianXml/addMondrianXmlMain",
-            'addResource/analysisView/addOLAPViewMain': "./src/addResource/analysisView/addOLAPViewMain",
             'addResource/query/addQueryMain': "./src/addResource/query/addQueryMain",
             'addResource/query/addQueryWithResourceLocatorMain': "./src/addResource/query/addQueryWithResourceLocatorMain",
-            'addResource/analysisClientConnection/addAnalysisClientConnectionMain': "./src/addResource/analysisClientConnection/addAnalysisClientConnectionMain",
             'administer/administerCustomAttributesMain': "./src/administer/administerCustomAttributesMain",
             'administer/administerExportMain': "./src/administer/administerExportMain",
             'administer/administerImportMain': "./src/administer/administerImportMain",
             'administer/administerLoggingMain': "./src/administer/administerLoggingMain",
-            'administer/administerAnalysisOptionsMain': "./src/administer/administerAnalysisOptionsMain",
+            'administer/administerAwsOptionsMain': "./src/administer/administerAwsOptionsMain",
             'administer/resetSettings/resetSettingsMain': "./src/administer/resetSettings/resetSettingsMain",
             'administer/administerGeneralSettingsMain': "./src/administer/administerGeneralSettingsMain",
             'manage/manageRolesMain': "./src/manage/manageRolesMain",
             'manage/manageUsersMain': "./src/manage/manageUsersMain",
             'dataSource/dataSourceMain': "./src/dataSource/dataSourceMain",
-            'addResource/analysisClientConnection/locateDataSourceMain': "./src/addResource/analysisClientConnection/locateDataSourceMain",
-            'addResource/analysisClientConnection/locateMondrianConnectionSourceMain': "./src/addResource/analysisClientConnection/locateMondrianConnectionSourceMain",
             'addResource/query/locateQueryMain': "./src/addResource/query/locateQueryMain",
-            'addResource/analysisClientConnection/locateXmlConnectionSourceMain': "./src/addResource/analysisClientConnection/locateXmlConnectionSourceMain",
             'login/loginMain': "./src/login/loginMain",
-            'olapView/olapViewMain': "./src/olapView/olapViewMain",
             'reportViewer/reportViewerMain': "./src/reportViewer/reportViewerMain",
             'repository/repositoryMain': "./src/repository/repositoryMain",
             'messages/details/messageDetailsMain': "./src/messages/details/messageDetailsMain",

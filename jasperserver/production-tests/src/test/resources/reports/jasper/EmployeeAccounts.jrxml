@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,159 +21,111 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EmployeeAccounts" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="EmployeeAccounts" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="3e58e16a-9663-4152-9622-bd3860165ed6">
 	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
 	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
-	<style name="Sans_Normal" isDefault="true" fontName="SansSerif" fontSize="12" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="SansSerif" fontSize="12" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Sans_Italic" isDefault="false" fontName="SansSerif" fontSize="12" isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="PageHeader" isDefault="false" style="Sans_Bold" forecolor="#FFFFFF"/>
-	<style name="detail" isDefault="false">
-		<conditionalStyle>
+	<style name="Sans_Normal" default="true" fontName="SansSerif" fontSize="12.0" pdfFontName="Helvetica" pdfEncoding="Cp1252" pdfEmbedded="false"/>
+	<style name="Sans_Bold" fontName="SansSerif" fontSize="12.0" bold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" pdfEmbedded="false"/>
+	<style name="Sans_Italic" fontName="SansSerif" fontSize="12.0" italic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" pdfEmbedded="false"/>
+	<style name="PageHeader" style="Sans_Bold" forecolor="#FFFFFF"/>
+	<style name="detail">
+		<conditionalStyle mode="Opaque" backcolor="#E0E0E0">
 			<conditionExpression><![CDATA[new Boolean($V{CityGroup_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
-			<style isDefault="false" style="detail" mode="Opaque" backcolor="#E0E0E0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="EmployeeID" class="java.lang.String"/>
-	<queryString>
-		<![CDATA[SELECT name, phone_office, billing_address_city, billing_address_street, billing_address_country 
+	<query language="sql"><![CDATA[SELECT name, phone_office, billing_address_city, billing_address_street, billing_address_country 
 		FROM accounts
 		WHERE assigned_user_id = $P{EmployeeID} 
-		ORDER BY billing_address_country, billing_address_city]]>
-	</queryString>
+		ORDER BY billing_address_country, billing_address_city]]></query>
 	<field name="name" class="java.lang.String"/>
 	<field name="phone_office" class="java.lang.String"/>
 	<field name="billing_address_city" class="java.lang.String"/>
 	<field name="billing_address_street" class="java.lang.String"/>
 	<field name="billing_address_country" class="java.lang.String"/>
-	<variable name="CityyNumber" class="java.lang.Integer" resetType="Group" resetGroup="CityGroup" calculation="System">
+	<variable name="CityyNumber" resetType="Group" calculation="System" resetGroup="CityGroup" class="java.lang.Integer">
 		<initialValueExpression><![CDATA[($V{CityyNumber} != null)?(new Integer($V{CityyNumber}.intValue() + 1)):(new Integer(1))]]></initialValueExpression>
 	</variable>
 	<group name="CityGroup" minHeightToStartNewPage="60">
-		<groupExpression><![CDATA[$F{billing_address_city}]]></groupExpression>
+		<expression><![CDATA[$F{billing_address_city}]]></expression>
 		<groupHeader>
 			<band height="30" splitType="Stretch">
-				<frame>
-					<reportElement mode="Opaque" x="0" y="14" width="515" height="16" backcolor="#C0C0C0">
-						<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
-						<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-						<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="4"/>
-					</reportElement>
+				<element kind="frame" uuid="4d6d792d-3c71-4b4e-8425-b02170f8db55" mode="Opaque" x="0" y="14" width="515" height="16" backcolor="#C0C0C0">
+					<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
+					<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+					<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="4"/>
+					<element kind="textField" uuid="36116028-ff06-482e-83a2-9f12790c27fd" x="0" y="0" width="515" height="16" textAdjust="StretchHeight" hTextAlign="Left" style="Sans_Bold">
+						<expression><![CDATA["  " + String.valueOf($V{CityyNumber}) + ". " + $F{billing_address_city}+ ", " + $F{billing_address_country}]]></expression>
+					</element>
 					<box>
 						<bottomPen lineWidth="1.0" lineStyle="Solid"/>
 					</box>
-					<textField isStretchWithOverflow="true">
-						<reportElement style="Sans_Bold" x="0" y="0" width="515" height="16"/>
-						<textElement textAlignment="Left"/>
-						<textFieldExpression class="java.lang.String"><![CDATA["  " + String.valueOf($V{CityyNumber}) + ". " + $F{billing_address_city}+ ", " + $F{billing_address_country}]]></textFieldExpression>
-					</textField>
-				</frame>
+				</element>
 			</band>
 		</groupHeader>
 	</group>
-	<title>
-		<band height="50" splitType="Stretch">
-			<line>
-				<reportElement x="0" y="1" width="515" height="1" forecolor="#000000"/>
-			</line>
-			<textField isBlankWhenNull="true">
-				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30"/>
-				<textElement textAlignment="Center" lineSpacing="Single">
-					<font size="22"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Accounts"]]></textFieldExpression>
-			</textField>
-		</band>
+	<title height="50" splitType="Stretch">
+		<element kind="line" uuid="d944bd21-4ef3-4e03-b71a-b2679c1198d7" x="0" y="1" width="515" height="1" forecolor="#000000"/>
+		<element kind="textField" uuid="e1ee71df-48aa-4dce-8369-688a7e7bf56d" x="0" y="10" width="515" height="30" fontSize="22.0" blankWhenNull="true" hTextAlign="Center" style="Sans_Normal">
+			<paragraph lineSpacing="Single" style="Sans_Normal"/>
+			<expression><![CDATA["Accounts"]]></expression>
+		</element>
 	</title>
-	<pageHeader>
-		<band height="20" splitType="Stretch">
-			<frame>
-				<reportElement mode="Opaque" x="0" y="4" width="515" height="16" backcolor="#333333">
-					<property name="net.sf.jasperreports.export.pdf.tag.table" value="start"/>
-					<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
-				</reportElement>
-				<staticText>
-					<reportElement style="PageHeader" x="30" y="0" width="240" height="16">
-						<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-						<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
-					</reportElement>
-					<textElement/>
-					<text><![CDATA[Name]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="PageHeader" x="280" y="0" width="80" height="16">
-						<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-					</reportElement>
-					<textElement/>
-					<text><![CDATA[Phone]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="PageHeader" x="370" y="0" width="145" height="16">
-						<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-					</reportElement>
-					<textElement/>
-					<text><![CDATA[Address]]></text>
-				</staticText>
-			</frame>
-		</band>
+	<pageHeader height="20" splitType="Stretch">
+		<element kind="frame" uuid="05071bd4-b804-49c5-8cf7-6bf35389774e" mode="Opaque" x="0" y="4" width="515" height="16" backcolor="#333333">
+			<property name="net.sf.jasperreports.export.pdf.tag.table" value="start"/>
+			<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
+			<element kind="staticText" uuid="50add5bb-2b96-4c7b-8cb5-aabeb9bdabc5" x="30" y="0" width="240" height="16" style="PageHeader">
+				<text><![CDATA[Name]]></text>
+				<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+				<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
+			</element>
+			<element kind="staticText" uuid="836b9470-c73f-4827-ab6a-1c8dbe651ff6" x="280" y="0" width="80" height="16" style="PageHeader">
+				<text><![CDATA[Phone]]></text>
+				<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+			</element>
+			<element kind="staticText" uuid="d37d818e-085f-4cde-babf-07f83f45a987" x="370" y="0" width="145" height="16" style="PageHeader">
+				<text><![CDATA[Address]]></text>
+				<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+			</element>
+		</element>
 	</pageHeader>
 	<detail>
 		<band height="20" splitType="Prevent">
-			<frame>
-				<reportElement style="detail" x="0" y="0" width="515" height="20">
-					<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
-				</reportElement>
-				<box>
+			<element kind="frame" uuid="332875ce-9356-4b78-86a4-14809bfca798" x="0" y="0" width="515" height="20" style="detail">
+				<property name="net.sf.jasperreports.export.pdf.tag.tr" value="full"/>
+				<element kind="textField" uuid="6cd7169d-accb-4a6a-b320-6ede339eab82" x="0" y="4" width="20" height="16" textAdjust="StretchHeight" hTextAlign="Right">
+					<expression><![CDATA[$V{CityGroup_COUNT} + "."]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+				</element>
+				<element kind="textField" uuid="21512408-6e50-43f6-94fb-e16d8b9f1296" x="30" y="4" width="240" height="16" textAdjust="StretchHeight">
+					<expression><![CDATA[$F{name}]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+				</element>
+				<element kind="textField" uuid="34bc157f-589d-4305-bc65-548d6db5f2df" x="280" y="4" width="80" height="16" textAdjust="StretchHeight">
+					<expression><![CDATA[$F{phone_office}]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+				</element>
+				<element kind="textField" uuid="a4ebe077-9bd6-402d-a2ce-29b0d740a269" x="370" y="4" width="145" height="16" textAdjust="StretchHeight">
+					<expression><![CDATA[$F{billing_address_street}]]></expression>
+					<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+				</element>
+				<box style="detail">
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#808080"/>
 				</box>
-				<textField isStretchWithOverflow="true">
-					<reportElement x="0" y="4" width="20" height="16">
-						<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-					</reportElement>
-					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$V{CityGroup_COUNT} + "."]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement x="30" y="4" width="240" height="16">
-						<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-					</reportElement>
-					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement x="280" y="4" width="80" height="16">
-						<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-					</reportElement>
-					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{phone_office}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement x="370" y="4" width="145" height="16">
-						<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-					</reportElement>
-					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{billing_address_street}]]></textFieldExpression>
-				</textField>
-			</frame>
+			</element>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="40" splitType="Stretch">
-			<line>
-				<reportElement x="0" y="10" width="515" height="1">
-					<property name="net.sf.jasperreports.export.pdf.tag.table" value="end"/>
-				</reportElement>
-			</line>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="200" y="20" width="80" height="16"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" evaluationTime="Report">
-				<reportElement x="280" y="20" width="75" height="16"/>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
-			</textField>
-		</band>
+	<pageFooter height="40" splitType="Stretch">
+		<element kind="line" uuid="a94ee969-2686-498b-b3b3-56cb7f33efca" x="0" y="10" width="515" height="1">
+			<property name="net.sf.jasperreports.export.pdf.tag.table" value="end"/>
+		</element>
+		<element kind="textField" uuid="88b0f83a-e804-4fb5-8bfc-79ff9bb537d3" x="200" y="20" width="80" height="16" textAdjust="StretchHeight" hTextAlign="Right">
+			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
+		</element>
+		<element kind="textField" uuid="6baaf891-3949-49ce-ab48-5a4974582d0d" x="280" y="20" width="75" height="16" textAdjust="StretchHeight" evaluationTime="Report" hTextAlign="Left">
+			<expression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></expression>
+		</element>
 	</pageFooter>
 </jasperReport>

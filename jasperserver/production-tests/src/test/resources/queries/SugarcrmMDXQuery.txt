@@ -1,4 +1,0 @@
-select {[Measures].[Total Sale Amount], [Measures].[Number of Sales], [Measures].[Avg Sale Amount], [Measures].[Avg Time To Close (Days)], [Measures].[Avg Close Probability]} ON COLUMNS,
-NON EMPTY {([Account Categorization].[All Accounts], [Close Period].[All Periods])} ON ROWS
-from [SalesAnalysis]
-where [Sale State].[All Types].[Closed Won]

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -147,6 +149,15 @@ public class SingleLineTextMeasurer implements JRTextMeasurer {
 		public float getTextWidth() {
 			return textWidth;
 		}
+
+		@Override
+		public float getAverageCharWidth() {
+			// Calculate average char width based on text width and text offset
+			if (textOffset > 0) {
+				return textWidth / textOffset;
+			}
+			return 0;
+		}
 	}
 
 	/**
@@ -172,7 +183,7 @@ public class SingleLineTextMeasurer implements JRTextMeasurer {
 		bottomPadding = textElement.getLineBox().getBottomPadding().intValue();
 		rightPadding = textElement.getLineBox().getRightPadding().intValue();
 
-		switch (textElement.getRotationValue()) {
+		switch (textElement.getRotation()) {
 		case LEFT: {
 			width = textElement.getHeight();
 			height = textElement.getWidth();
@@ -520,7 +531,7 @@ public class SingleLineTextMeasurer implements JRTextMeasurer {
 			measuredState.fontSizeSum += maxFontSizeFinder.findMaxFontSize(
 					new AttributedString(paragraph, lineStartPosition,
 							lineStartPosition + layout.getCharacterCount())
-							.getIterator(), textElement.getFontsize());
+							.getIterator(), textElement.getFontSize());
 
 			if (measuredState.lines == 1) {
 				measuredState.firstLineLeading = measuredState.textHeight;

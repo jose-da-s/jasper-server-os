@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,18 +21,17 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="wstest_jrxml_1185391811937" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20">
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="wstest_jrxml_1185391811937" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="ad68ff70-f3e6-4227-9fef-5239a582a49d">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
-	<import value="net.sf.jasperreports.engine.*"/>
-	<import value="java.util.*"/>
-	<import value="net.sf.jasperreports.engine.data.*"/>
+	<import>net.sf.jasperreports.engine.*</import>
+	<import>java.util.*</import>
+	<import>net.sf.jasperreports.engine.data.*</import>
 	<parameter name="neighborhood" class="java.lang.String">
 		<defaultValueExpression><![CDATA["62"]]></defaultValueExpression>
 	</parameter>
-	<queryString language="webscraper">
-        <![CDATA[http://sfbay.craigslist.org/search/cta/eby?query=&catAbb=cta&minAsk=min&maxAsk=max&neighborhood=$P!{neighborhood} /html/body/div[2]/div/p]]>
-	</queryString>
+	<query language="webscraper"><![CDATA[http://sfbay.craigslist.org/search/cta/eby?query=&catAbb=cta&minAsk=min&maxAsk=max&neighborhood=$P!{neighborhood} /html/body/div[2]/div/p]]></query>
 	<field name="date" class="java.lang.String">
 		<property name="webscrape.path" value="span/span/text()"/>
 		<property name="adhoc.display" value="Date"/>
@@ -48,218 +48,142 @@
 		<property name="webscrape.path" value="span[2]/span[2]/small/text()"/>
 		<property name="adhoc.display" value="Location"/>
 	</field>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
-	<title>
-		<band height="50" splitType="Stretch">
-			<staticText>
-				<reportElement key="staticText" x="61" y="5" width="412" height="40"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font size="28" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Classic Report Template]]></text>
-			</staticText>
-			<line>
-				<reportElement key="line" positionType="FixRelativeToBottom" x="0" y="48" width="534" height="1" forecolor="#000000"/>
-				<graphicElement>
-					<pen lineWidth="2.0" lineStyle="Solid"/>
-				</graphicElement>
-			</line>
-			<line>
-				<reportElement key="line" x="0" y="3" width="534" height="1" forecolor="#000000"/>
-				<graphicElement>
-					<pen lineWidth="2.0" lineStyle="Solid"/>
-				</graphicElement>
-			</line>
-		</band>
+	<background splitType="Stretch"/>
+	<title height="50" splitType="Stretch">
+		<element kind="staticText" uuid="18f23f9a-c36a-4d26-9027-2e54a6f52254" key="staticText" x="61" y="5" width="412" height="40" fontSize="28.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Classic Report Template]]></text>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="line" uuid="5409602e-4d3a-482d-9350-f2cb243bc335" key="line" positionType="FixRelativeToBottom" x="0" y="48" width="534" height="1" forecolor="#000000">
+			<pen lineWidth="2.0" lineStyle="Solid"/>
+		</element>
+		<element kind="line" uuid="3df42293-139e-4a28-b76f-08bef010788e" key="line" x="0" y="3" width="534" height="1" forecolor="#000000">
+			<pen lineWidth="2.0" lineStyle="Solid"/>
+		</element>
 	</title>
-	<pageHeader>
-		<band height="9" splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="20" splitType="Stretch">
-			<rectangle radius="0">
-				<reportElement key="element-22" mode="Opaque" x="1" y="1" width="534" height="17" forecolor="#000000" backcolor="#999999"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Solid"/>
-				</graphicElement>
-			</rectangle>
-			<staticText>
-				<reportElement key="element-90" x="0" y="1" width="133" height="16" forecolor="#FFFFFF"/>
-				<box leftPadding="2" rightPadding="2">
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[DATE]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="element-90" x="133" y="1" width="133" height="16" forecolor="#FFFFFF"/>
-				<box leftPadding="2" rightPadding="2">
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[DESCRIPTION]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="element-90" x="266" y="1" width="133" height="16" forecolor="#FFFFFF"/>
-				<box leftPadding="2" rightPadding="2">
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[LINK]]></text>
-			</staticText>
-			<staticText>
-				<reportElement key="element-90" x="399" y="1" width="133" height="16" forecolor="#FFFFFF"/>
-				<box leftPadding="2" rightPadding="2">
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[LOCATION]]></text>
-			</staticText>
-		</band>
+	<pageHeader height="9" splitType="Stretch"/>
+	<columnHeader height="20" splitType="Stretch">
+		<element kind="rectangle" uuid="cc013474-f5e6-448c-a630-a08681065ca6" key="element-22" mode="Opaque" x="1" y="1" width="534" height="17" forecolor="#000000" backcolor="#999999" radius="0">
+			<pen lineWidth="0.5" lineStyle="Solid"/>
+		</element>
+		<element kind="staticText" uuid="3bc4ff57-f86e-471d-a0af-fabe74c8d8dd" key="element-90" x="0" y="1" width="133" height="16" forecolor="#FFFFFF" fontSize="12.0">
+			<text><![CDATA[DATE]]></text>
+			<box leftPadding="2" rightPadding="2">
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="21e157f2-cbca-4f1c-ba8f-9d27f95f0e0d" key="element-90" x="133" y="1" width="133" height="16" forecolor="#FFFFFF" fontSize="12.0">
+			<text><![CDATA[DESCRIPTION]]></text>
+			<box leftPadding="2" rightPadding="2">
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="a2761872-8e3d-4e3f-bc12-8b56686840e6" key="element-90" x="266" y="1" width="133" height="16" forecolor="#FFFFFF" fontSize="12.0">
+			<text><![CDATA[LINK]]></text>
+			<box leftPadding="2" rightPadding="2">
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="6767da8e-00ce-4870-a6f3-4c59ce785f4c" key="element-90" x="399" y="1" width="133" height="16" forecolor="#FFFFFF" fontSize="12.0">
+			<text><![CDATA[LOCATION]]></text>
+			<box leftPadding="2" rightPadding="2">
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
 	</columnHeader>
 	<detail>
 		<band height="19" splitType="Stretch">
-			<line>
-				<reportElement key="line" positionType="FixRelativeToBottom" x="0" y="17" width="535" height="1" forecolor="#808080"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Solid"/>
-				</graphicElement>
-			</line>
-			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement key="textField" x="0" y="1" width="133" height="16"/>
+			<element kind="line" uuid="e0b59c5d-405f-4cfa-8259-d6337fc6fe68" key="line" positionType="FixRelativeToBottom" x="0" y="17" width="535" height="1" forecolor="#808080">
+				<pen lineWidth="0.5" lineStyle="Solid"/>
+			</element>
+			<element kind="textField" uuid="5b9b1825-afdd-413c-9286-6d3c54736734" key="textField" x="0" y="1" width="133" height="16" fontName="Serif" fontSize="12.0" textAdjust="StretchHeight" pattern="" blankWhenNull="true">
+				<expression><![CDATA[$F{date}]]></expression>
 				<box leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement>
-					<font fontName="Serif" size="12"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{date}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement key="textField" x="133" y="1" width="133" height="16"/>
+			</element>
+			<element kind="textField" uuid="30c93fd3-7d80-4f60-a508-7ba8fdad1c51" key="textField" x="133" y="1" width="133" height="16" fontName="Serif" fontSize="12.0" textAdjust="StretchHeight" pattern="" blankWhenNull="true">
+				<expression><![CDATA[$F{desc}]]></expression>
 				<box leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement>
-					<font fontName="Serif" size="12"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{desc}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement key="textField" x="266" y="1" width="133" height="16"/>
+			</element>
+			<element kind="textField" uuid="f0a2ad1a-ce6c-42cd-b100-8273a1352da7" key="textField" x="266" y="1" width="133" height="16" fontName="Serif" fontSize="12.0" textAdjust="StretchHeight" pattern="" blankWhenNull="true">
+				<expression><![CDATA[$F{link}]]></expression>
 				<box leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement>
-					<font fontName="Serif" size="12"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{link}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement key="textField" x="399" y="1" width="133" height="16"/>
+			</element>
+			<element kind="textField" uuid="8d3898ac-f525-4773-938c-b0e4fc378743" key="textField" x="399" y="1" width="133" height="16" fontName="Serif" fontSize="12.0" textAdjust="StretchHeight" pattern="" blankWhenNull="true">
+				<expression><![CDATA[$F{location}]]></expression>
 				<box leftPadding="2" rightPadding="2">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement>
-					<font fontName="Serif" size="12"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{location}]]></textFieldExpression>
-			</textField>
+			</element>
 		</band>
 	</detail>
-	<columnFooter>
-		<band splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="27" splitType="Stretch">
-			<textField pattern="" isBlankWhenNull="false">
-				<reportElement key="textField" x="325" y="4" width="170" height="19"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Right">
-					<font fontName="SansSerif" size="10"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report" pattern="" isBlankWhenNull="false">
-				<reportElement key="textField" x="499" y="4" width="36" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
-					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement key="line" x="0" y="1" width="535" height="1" forecolor="#000000"/>
-				<graphicElement>
-					<pen lineWidth="2.0" lineStyle="Solid"/>
-				</graphicElement>
-			</line>
-			<textField pattern="" isBlankWhenNull="false">
-				<reportElement key="textField" x="1" y="6" width="209" height="19"/>
-				<box>
-					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement>
-					<font fontName="Serif" size="10"/>
-				</textElement>
-				<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
-			</textField>
-		</band>
+	<columnFooter splitType="Stretch"/>
+	<pageFooter height="27" splitType="Stretch">
+		<element kind="textField" uuid="cd399ad0-ca9e-4095-817a-216b74f28617" key="textField" x="325" y="4" width="170" height="19" fontName="SansSerif" fontSize="10.0" pattern="" blankWhenNull="false" hTextAlign="Right">
+			<expression><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></expression>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="833dfb6b-f171-4ece-a1db-bc1a4e94e4c9" key="textField" x="499" y="4" width="36" height="19" forecolor="#000000" backcolor="#FFFFFF" rotation="None" fontName="SansSerif" fontSize="10.0" pdfFontName="Helvetica" pdfEncoding="CP1252" evaluationTime="Report" pattern="" blankWhenNull="false" bold="false" underline="false" strikeThrough="false" italic="false" pdfEmbedded="false" hTextAlign="Left" vTextAlign="Top">
+			<paragraph lineSpacing="Single"/>
+			<expression><![CDATA["" + $V{PAGE_NUMBER}]]></expression>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="line" uuid="8abf92c1-70ff-46e0-9ddf-3c45141cf83f" key="line" x="0" y="1" width="535" height="1" forecolor="#000000">
+			<pen lineWidth="2.0" lineStyle="Solid"/>
+		</element>
+		<element kind="textField" uuid="931f4762-ef22-450a-870b-f2d989bbb479" key="textField" x="1" y="6" width="209" height="19" fontName="Serif" fontSize="10.0" pattern="" blankWhenNull="false">
+			<expression><![CDATA[new Date()]]></expression>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
 	</pageFooter>
-	<summary>
-		<band splitType="Stretch"/>
-	</summary>
+	<summary splitType="Stretch"/>
 </jasperReport>

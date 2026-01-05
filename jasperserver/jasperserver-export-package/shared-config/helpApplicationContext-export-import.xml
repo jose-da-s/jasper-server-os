@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -143,17 +145,13 @@
                 <value>jdbcDataSource</value>
                 <value>jndiJdbcDataSource</value>
                 <value>virtualDataSource</value>
-                <value>mondrianConnection</value>
-                <value>xmlaConnection</value>
                 <value>awsDataSource</value>
                 <value>file</value>
                 <value>folder</value>
                 <value>listOfValues</value>
                 <value>inputControl</value>
                 <value>query</value>
-                <value>mondrianXmlaDefinition</value>
                 <value>dataType</value>
-                <value>olapUnit</value>
             </set>
         </constructor-arg>
     </bean>

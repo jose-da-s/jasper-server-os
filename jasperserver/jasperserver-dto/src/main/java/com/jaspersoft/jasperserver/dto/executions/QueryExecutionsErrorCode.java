@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -122,8 +124,6 @@ public enum QueryExecutionsErrorCode implements ErrorDescriptorTemplate {
             paramNames(QUERY_FIELD_IDS)),
     QUERY_FIELDS_FROM_MULTIPLE_DATAISLANDS(Codes.QUERY_FIELDS_FROM_MULTIPLE_DATAISLANDS,
             paramNames(FIRST_FIELD_ID, SECOND_FIELD_ID)),
-    QUERY_DATASOURCE_OLAP_VIEW_NOT_SUPPORTED(Codes.QUERY_DATASOURCE_OLAP_VIEW_NOT_SUPPORTED,
-            paramNames(DATASOURCE_URI)),
     QUERY_EXPRESSION_OPERANDS_SIZE_OF_BOUND(Codes.QUERY_EXPRESSION_OPERANDS_SIZE_OF_BOUND,
             paramNames(PROPERTY_PATH, MIN_SIZE, MAX_SIZE)),
     QUERY_WHERE_EXPRESSION_TYPE_NOT_SUPPORTED(Codes.QUERY_WHERE_EXPRESSION_TYPE_NOT_SUPPORTED,
@@ -348,7 +348,6 @@ public enum QueryExecutionsErrorCode implements ErrorDescriptorTemplate {
         String QUERY_FIELD_IDS_COLLISION = "query.field.ids.collision";
         String QUERY_FIELD_IDS_METADATA_FIELD_COLLISION = "query.field.ids.metadata.field.collision";
         String QUERY_FIELDS_FROM_MULTIPLE_DATAISLANDS = "query.fields.from.multiple.dataislands";
-        String QUERY_DATASOURCE_OLAP_VIEW_NOT_SUPPORTED = "query.datasource.olap.view.not.supported";
         String QUERY_EXPRESSION_OPERANDS_SIZE_OF_BOUND = "query.expression.operands.size.out.of.bound";
         String QUERY_WHERE_EXPRESSION_TYPE_NOT_SUPPORTED = "query.where.expression.type.not.supported";
         String QUERY_AGGREGATION_EXPRESSION_NOT_VALID = "query.aggregation.expression.not.valid";

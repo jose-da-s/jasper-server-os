@@ -177,34 +177,6 @@
         </constructor-arg>
     </bean>
 
-    <!-- OLAP controller -->
-    <bean id="olapContr" class="com.jaspersoft.jasperserver.war.control.OLAPController">
-        <property name="repository">
-            <ref bean="${bean.repositoryService}"/>
-        </property>
-        <property name="olapManagementService" ref="olapManagementService"/>
-	</bean>
-
-	<bean id="olapViewListController"
-      class="com.jaspersoft.jasperserver.war.control.OlapViewListController">
-        <property name="repository">
-            <ref bean="${bean.repositoryService}"/>
-        </property>
-	</bean>
-
-	<bean id="olapModelController" class="${class.olapModelController}">
-        <property name="olapConnectionService">
-            <ref bean="olapConnectionService"/>
-        </property>
-        <property name="olapManagementService">
-            <ref bean="olapManagementService"/>
-        </property>
-        <property name="repository">
-            <ref bean="${bean.repositoryService}"/>
-        </property>
-        <property name="auditContext" ref="${bean.auditContext}"/>
-	</bean>
-
     <bean id="logSettingsMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -27,8 +29,7 @@ import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.CustomRepor
 import net.sf.jasperreports.data.xls.XlsDataAdapter;
 import net.sf.jasperreports.data.xls.XlsDataAdapterImpl;
 import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.data.XlsDataSource;
+import net.sf.jasperreports.poi.data.XlsDataSource;
 import net.sf.jasperreports.engine.design.JRDesignField;
 
 import java.util.ArrayList;

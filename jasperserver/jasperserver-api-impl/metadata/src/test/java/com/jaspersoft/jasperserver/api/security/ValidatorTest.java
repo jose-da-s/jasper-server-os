@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,7 +28,6 @@ import com.jaspersoft.jasperserver.api.security.validators.Validator;
 import com.jaspersoft.jasperserver.api.security.validators.ValidatorRule;
 import com.jaspersoft.jasperserver.api.security.validators.ValidatorRuleImpl;
 import com.jaspersoft.jasperserver.core.util.StringUtil;
-import mondrian.tui.MockHttpServletRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -155,11 +156,12 @@ public class ValidatorTest {
         String paramLocale = "userLocale";
         String valueGoodLocale = "zh_TW";
 
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setupAddParameter(param, valueGood);
-        request.setupAddParameter(paramPwd, valueGoodPwd);
-        request.setupAddParameter(paramTimezone, valueGoodTimezone);
-        request.setupAddParameter(paramLocale, valueGoodLocale);
+        LinkedHashMap<String, String[]> paramMap = new LinkedHashMap<>();
+        paramMap.put(param, new String[] {valueGood});
+        paramMap.put(paramPwd, new String[] {valueGoodPwd});
+        paramMap.put(paramTimezone, new String[] {valueGoodTimezone});
+        paramMap.put(paramLocale, new String[] {valueGoodLocale});
+        HttpServletRequest request = getRequest(paramMap);
 
         assertTrue(Validator.validateRequestParams(request));
     }
@@ -178,12 +180,14 @@ public class ValidatorTest {
         String paramLocale = "userLocale";
         String valueGoodLocale = "zh_TW";
 
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setupAddParameter(paramPwd, valueGoodPwd);
-        request.setupAddParameter(paramTimezone, valueGoodTimezone);
-        request.setupAddParameter(paramLocale, valueGoodLocale);
 
-        request.setupAddParameter(param, badUsrName);
+        LinkedHashMap<String, String[]> paramMap = new LinkedHashMap<>();
+        paramMap.put(paramPwd, new String[]{valueGoodPwd});
+        paramMap.put(paramTimezone, new String[]{valueGoodTimezone});
+        paramMap.put(paramLocale, new String[]{valueGoodLocale});
+        paramMap.put(param, new String[]{badUsrName});
+        HttpServletRequest request = getRequest(paramMap);
+
         assertFalse(Validator.validateRequestParams(request));
     }
 
@@ -327,9 +331,7 @@ public class ValidatorTest {
         String param = "autoGenerateJoins";
         String valueGood_1 = "tRuE";
 
-        MockHttpServletRequest request = new MockHttpServletRequest();
-
-        request.setupAddParameter(param, valueGood_1);
+        HttpServletRequest request = getOneParamRequest(param, valueGood_1);
         assertTrue(Validator.validateRequestParams(request));
     }
 
@@ -340,8 +342,7 @@ public class ValidatorTest {
         String param = "autoGenerateJoins";
         String valueGood_2 = "FaLsE";
 
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setupAddParameter(param, valueGood_2);
+        HttpServletRequest request = getOneParamRequest(param, valueGood_2);
         assertTrue(Validator.validateRequestParams(request));
     }
 
@@ -352,9 +353,7 @@ public class ValidatorTest {
         String param = "autoGenerateJoins";
         String valueBad = "neitherTRUEnorFALSE";
 
-        MockHttpServletRequest request = new MockHttpServletRequest();
-
-        request.setupAddParameter(param, valueBad);
+        HttpServletRequest request = getOneParamRequest(param, valueBad);
         assertFalse(Validator.validateRequestParams(request));
     }
 
@@ -364,81 +363,20 @@ public class ValidatorTest {
     private String valueGood2 = "normID|organization_1";
     private String valueGood21 = "billID|organization_2";
     private String valueBad2 = "normID|organization_1|%3Cscript%3Ealert(1)%3C%2Fscript%3E";
+    
 
-    private Map<String, String[]> paramMap;
-    private HttpServletRequest requestMock = Mockito.mock(HttpServletRequest.class);
-
-    private HttpServletRequest getRequest(String... values) {
-        paramMap = new LinkedHashMap<String, String[]>();
-        paramMap.put("entity", values);
-        when(requestMock.getParameterMap()).thenReturn(paramMap);
+    private HttpServletRequest getRequest(Map<String, String[]> paramMap) {
+        HttpServletRequest requestMock = Mockito.mock(HttpServletRequest.class);
+        Mockito.lenient().when(requestMock.getAttribute(anyString())).thenReturn(null);
+        Mockito.lenient().when(requestMock.getParameterMap()).thenReturn(paramMap);
         return requestMock;
     }
 
-    /**
-     * Following tests are commented out because we don't use security.validation.input.on=true anymore.
-     * See new tests for XSS protection : XSSEscapeXmlELResolverTest, [js-sdk] xssUtilTests.js
-     */
-
-    /**
-     * The code should properly canonicalize %3C and %3E, which is a common hacker trick.
-     * %3C = <
-     * %3E = >
-     * @throws ValidationException
-     */
-    /*@Test
-    public void testValidateEntityBad1() throws ValidationException {
-        if (!isInputValidationOn()) return;
-        assertFalse(Validator.validateRequestParams(getRequest(valueBad1)));
+    private HttpServletRequest getOneParamRequest(String key, String value) {
+        LinkedHashMap<String, String[]> paramMap = new LinkedHashMap<>();
+        paramMap.put(key, new String[]{value});
+        return getRequest(paramMap);
     }
-
-    @Test
-    public void testValidateEntityBad2() throws ValidationException{
-        if (!isInputValidationOn()) return;
-        assertFalse(Validator.validateRequestParams(getRequest(valueBad2)));
-    }
-
-    @Test
-    public void testValidateEntityGood1() throws ValidationException {
-        if (!isInputValidationOn()) return;
-        assertTrue(Validator.validateRequestParams(getRequest(valueGood1)));
-    }
-
-    @Test
-    public void testValidateEntityGood2() throws ValidationException {
-        if (!isInputValidationOn()) return;
-        assertTrue(Validator.validateRequestParams(getRequest(valueGood2)));
-    }
-
-    @Test
-    public void testValidateEntityGoodTwoValues1() throws ValidationException {
-        if (!isInputValidationOn()) return;
-        assertTrue(Validator.validateRequestParams(getRequest(valueGood1, valueGood12)));
-    }
-
-    @Test
-    public void testValidateEntityGoodTwoValues2() throws ValidationException {
-        if (!isInputValidationOn()) return;
-        assertTrue(Validator.validateRequestParams(getRequest(valueGood2, valueGood21)));
-    }
-
-    @Test
-    public void testValidateEntityGoodOneBad1() throws ValidationException {
-        if (!isInputValidationOn()) return;
-       assertFalse(Validator.validateRequestParams(getRequest(valueGood1, valueBad1)));
-    }
-
-    @Test
-    public void testValidateEntityTwoGoodOneBad() throws ValidationException {
-        if (!isInputValidationOn()) return;
-        assertFalse(Validator.validateRequestParams(getRequest(valueGood1, valueBad1, valueGood12)));
-    }
-
-    @Test
-    public void testValidateEntityGoodOneBad2() throws ValidationException {
-        if (!isInputValidationOn()) return;
-        assertFalse(Validator.validateRequestParams(getRequest(valueGood2, valueBad2)));
-    }*/
 
     @Test
     public void getDecodedMapTest() throws Exception {
@@ -458,32 +396,27 @@ public class ValidatorTest {
 
     @Test
     public void testGoodRequestDate1() {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setupAddParameter("RequestDate", "99-99-9999"); // good mm-dd-yyyy
+        HttpServletRequest request = getOneParamRequest("RequestDate", "99-99-9999"); // good mm-dd-yyyy
         Validator.validateRequestParams(request);
     }
     @Test
     public void testGoodRequestDate2() {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setupAddParameter("RequestDate", "12-01-9900"); // good dd-mm-yyyy
+        HttpServletRequest request = getOneParamRequest("RequestDate", "12-01-9900"); // good dd-mm-yyyy
         Validator.validateRequestParams(request);
     }
     @Test
     public void testGoodRequestDate3() {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setupAddParameter("RequestDate", "9999-99-99"); // good nnnn-nn-nn
+        HttpServletRequest request = getOneParamRequest("RequestDate", "9999-99-99"); // good nnnn-nn-nn
         Validator.validateRequestParams(request);
     }
     @Test
     public void testGoodRequestDate4() {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setupAddParameter("RequestDate", "19970601000000"); // good yyyymmdd000000
+        HttpServletRequest request = getOneParamRequest("RequestDate", "19970601000000"); // good yyyymmdd000000
         Validator.validateRequestParams(request);
     }
     @Test
     public void testGoodRequestDate5() {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setupAddParameter("RequestDate", "15 Juillet 1901"); // good dd MMM yyyy
+        HttpServletRequest request = getOneParamRequest("RequestDate", "15 Juillet 1901"); // good dd MMM yyyy
         Validator.validateRequestParams(request);
     }
 

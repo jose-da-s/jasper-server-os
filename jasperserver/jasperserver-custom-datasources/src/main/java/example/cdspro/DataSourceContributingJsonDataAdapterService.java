@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -32,8 +34,7 @@ import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ParameterContributorContext;
-import net.sf.jasperreports.engine.data.JaxenXmlDataSource;
-import net.sf.jasperreports.engine.data.JsonQLDataSource;
+import net.sf.jasperreports.json.data.JsonQLDataSource;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;

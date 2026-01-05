@@ -200,21 +200,6 @@
             <systemPath>${project.basedir}/install_resources/extra-jars/jacocoant.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>pentaho</groupId>
-            <artifactId>mondrian</artifactId>
-            <version>3.6.7-JS-vfs1-1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>xerces</groupId>
-                    <artifactId>xercesImpl</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.ant</groupId>
-                    <artifactId>ant</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>com.vdurmont</groupId>
             <artifactId>semver4j</artifactId>
             <version>${semver4j.version}</version>
@@ -333,7 +318,7 @@
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
                             <excludeTransitive>true</excludeTransitive>
-                            <excludeArtifactIds>jasperserver-dto,ant,mondrian,jacocoant,org.jacoco.ant,ant-testutil,hamcrest-library</excludeArtifactIds>
+                            <excludeArtifactIds>jasperserver-dto,ant,jacocoant,org.jacoco.ant,ant-testutil,hamcrest-library</excludeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>

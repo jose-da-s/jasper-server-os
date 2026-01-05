@@ -94,7 +94,6 @@
     <bean id="diagnosticSettingsCe" class="com.jaspersoft.jasperserver.api.logging.diagnostic.jmx.DiagnosticDynamicMBean">
         <property name="diagnosticServices">
             <set>
-                <ref bean="olapSettingDiagnosticService"/>
                 <ref bean="logSettingsDiagnosticService"/>
                 <ref bean="awsProperties"/>
             </set>
@@ -120,7 +119,6 @@
                 <value>TotalReportsCount</value>
                 <value>TotalFoldersCount</value>
                 <value>TotalReportOutputsCount</value>
-                <value>TotalOlapViewsCount</value>
                 <value>TotalDataSourcesCount</value>
                 -->
             </set>
@@ -412,10 +410,6 @@
         <property name="locateExistingServerIfPossible" value="${diagnostic.usePlatformJMXServer}"/>
     </bean>
 
-    <!--Additional Diagnostic service-wrappers)-->
-    <bean id="olapSettingDiagnosticService" class="com.jaspersoft.jasperserver.api.logging.diagnostic.service.impl.OlapSettingDiagnosticService">
-        <property name="messageSource" ref="messageSource"/>
-    </bean>
 
     <bean id="logSettingsDiagnosticService" class="com.jaspersoft.jasperserver.api.logging.diagnostic.service.impl.LogSettingsDiagnosticService">
         <property name="propertiesManagementService" ref="propertiesManagementService"/>
@@ -481,22 +475,6 @@
             </list>
         </property>
     </bean>
-
-    <!-- disabled because by  ndefault olapacheManager is disabled
-    <bean id="ehCacheMBeanRegistration3" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-            <property name="staticMethod" value="net.sf.ehcache.management.ManagementService.registerMBeans"/>
-            <property name="arguments">
-                <list>
-                    <ref bean="olapCacheManager"/>
-                    <ref bean="JasperJMXServer"/>
-                    <value>false</value>
-                    <value>false</value>
-                    <value>true</value>
-                    <value>true</value>
-                </list>
-            </property>
-        </bean>
-    -->
 
     <bean class="org.springframework.jmx.export.MBeanExporter" lazy-init="false">
         <property name="server" ref="jasperJMXServer"/>

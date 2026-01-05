@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -60,7 +62,7 @@ public class FullDataDeleteTestNG extends BaseServiceSetupTestNG {
 
         // delete a interactive folder and its resources
         deleteInteractiveReportResources();
-        deleteOlapConnectionResources();
+        deleteAnalysisConnectionResources();
         deleteUserAuthorityServiceTestResources();
         deleteContentRepositoryTestResources();
         deleteSchedulerResources();
@@ -74,34 +76,18 @@ public class FullDataDeleteTestNG extends BaseServiceSetupTestNG {
     // this for testing on a regular basis...
     private final boolean DO_PSEUDO_JAPANESE_FOODMART = false;
 
-    private void deleteOlapConnectionResources() {
-        m_logger.info("deleteOlapConnectionResources() called");
+    private void deleteAnalysisConnectionResources() {
+        m_logger.info("deleteAnalysisConnectionResources() called");
 
-        // delete olap connection test metadata from the repository
-        deleteMondrianFoodmartReport();
+        // reports
         deleteEmployees();
         deleteEmployeeAccounts();
         deleteAnalysisReportsFolder();
 
         if (DO_PSEUDO_JAPANESE_FOODMART) {
-            deleteFoodmartJaOlapUnit();
-            deleteFoodmartJaMondrianConnectionResource();
             deleteFoodmartJaDataSourceResource();
-            deleteFoodmartJaSchemaResource();
         }
 
-        deleteSugarCRMMondrianXMLADefinitionResource();
-        deleteFoodmartMondrianXMLADefinitionResource();
-
-        deleteSugarCRMXmlaOlapUnit();
-        deleteSugarCRMOlapUnit();
-        deleteFoodmartOlapUnit();
-
-        deleteSugarCRMXMLAConnectionResource();
-        deleteSugarCRMMondrianConnectionResource();
-
-        deleteFoodmartXMLAConnectionResource();
-        deleteFoodmartMondrianConnectionResource();
         deleteSugarFoodmartDataSourceResourceVirtual();
 
         deleteSugarCRMDataSourceResourceJNDI();
@@ -109,17 +95,6 @@ public class FullDataDeleteTestNG extends BaseServiceSetupTestNG {
 
         deleteFoodmartJNDIDataSourceResource();
         deleteFoodmartJDBCDataSourceResource();
-
-        deleteSugarCRMSchemaUpperResource();
-        deleteSugarCRMSchemaResource();
-
-        deleteFoodmartSchemaUpperResource();
-        deleteFoodmartSchemaResource();
-    }
-
-    protected void deleteMondrianFoodmartReport() {
-        m_logger.info("deleteMondrianFoodmartReport() => deleting /analysis/reports/FoodmartSalesMondrianReport");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/reports/FoodmartSalesMondrianReport");
     }
 
     private void deleteEmployees() {
@@ -137,69 +112,9 @@ public class FullDataDeleteTestNG extends BaseServiceSetupTestNG {
         getUnsecureRepositoryService().deleteFolder(null, "/analysis/reports");
     }
 
-    protected void deleteFoodmartJaOlapUnit() {
-        m_logger.info("deleteFoodmartJaOlapUnit() => deleting /analysis/views/FoodmartJa_sample_unit_1");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/views/FoodmartJa_sample_unit_1");
-    }
-
-    protected void deleteFoodmartJaMondrianConnectionResource() {
-        m_logger.info("deleteFoodmartJaMondrianConnectionResource() => deleting /analysis/connections/FoodmartJa");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/connections/FoodmartJa");
-    }
-
     protected void deleteFoodmartJaDataSourceResource() {
         m_logger.info("deleteFoodmartJaDataSourceResource() => deleting /analysis/datasources/FoodmartJaDataSource");
         getUnsecureRepositoryService().deleteResource(null, "/analysis/datasources/FoodmartJaDataSource");
-    }
-
-    protected void deleteFoodmartJaSchemaResource() {
-        m_logger.info("deleteFoodmartJaSchemaResource() => deleting /analysis/schemas/FoodmartJaSchema");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/schemas/FoodmartJaSchema");
-    }
-
-    protected void deleteSugarCRMMondrianXMLADefinitionResource() {
-        m_logger.info("deleteSugarCRMMondrianXMLADefinitionResource() => deleting /analysis/xmla/definitions/SugarCRMXmlaDefinition");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/xmla/definitions/SugarCRMXmlaDefinition");
-    }
-
-    protected void deleteFoodmartMondrianXMLADefinitionResource() {
-        m_logger.info("deleteFoodmartMondrianXMLADefinitionResource() => deleting /analysis/xmla/definitions/FoodmartXmlaDefinition");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/xmla/definitions/FoodmartXmlaDefinition");
-    }
-
-    protected void deleteSugarCRMXmlaOlapUnit() {
-        m_logger.info("deleteSugarCRMXmlaOlapUnit() => deleting /analysis/views/SugarCRM_xmla_sample");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/views/SugarCRM_xmla_sample");
-    }
-
-    protected void deleteSugarCRMOlapUnit() {
-        m_logger.info("deleteSugarCRMOlapUnit() => deleting /analysis/views/SugarCRM_sample");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/views/SugarCRM_sample");
-    }
-
-    protected void deleteFoodmartOlapUnit() {
-        m_logger.info("deleteFoodmartOlapUnit() => deleting /analysis/views/Foodmart_sample");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/views/Foodmart_sample");
-    }
-
-    protected void deleteSugarCRMXMLAConnectionResource() {
-        m_logger.info("deleteSugarCRMXMLAConnectionResource() => deleting /analysis/connections/SugarCRMXmlaConnection");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/connections/SugarCRMXmlaConnection");
-    }
-
-    protected void deleteSugarCRMMondrianConnectionResource() {
-        m_logger.info("deleteSugarCRMMondrianConnectionResource() => deleting /analysis/connections/SugarCRM");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/connections/SugarCRM");
-    }
-
-    protected void deleteFoodmartXMLAConnectionResource() {
-        m_logger.info("deleteFoodmartXMLAConnectionResource() => deleting /analysis/connections/FoodmartXmlaConnection");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/connections/FoodmartXmlaConnection");
-    }
-
-    protected void deleteFoodmartMondrianConnectionResource() {
-        m_logger.info("FoodmartMondrianConnectionResource() => deleting /analysis/connections/Foodmart");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/connections/Foodmart");
     }
 
     protected void deleteSugarCRMDataSourceResourceJNDI() {
@@ -225,26 +140,6 @@ public class FullDataDeleteTestNG extends BaseServiceSetupTestNG {
     protected void deleteSugarFoodmartDataSourceResourceVirtual() {
         m_logger.info("deleteSugarCRMDataSourceResourceVirtual() => deleting /datasources/SugarCRMDataSourceVirtual");
         getUnsecureRepositoryService().deleteResource(null, "/datasources/SugarFoodmartVDS");
-    }
-
-    protected void deleteSugarCRMSchemaUpperResource() {
-        m_logger.info("deleteSugarCRMSchemaUpperResource() => deleting /analysis/schemas/SugarCRMSchemaUpper");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/schemas/SugarCRMSchemaUpper");
-    }
-
-    protected void deleteSugarCRMSchemaResource() {
-        m_logger.info("deleteSugarCRMSchemaResource() => deleting /analysis/schemas/SugarCRMSchema");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/schemas/SugarCRMSchema");
-    }
-
-    protected void deleteFoodmartSchemaUpperResource() {
-        m_logger.info("deleteFoodmartSchemaUpperResource() => deleting /analysis/schemas/FoodmartSchemaUpper");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/schemas/FoodmartSchemaUpper");
-    }
-
-    protected void deleteFoodmartSchemaResource() {
-        m_logger.info("deleteFoodmartSchemaResource() => deleting /analysis/schemas/FoodmartSchema");
-        getUnsecureRepositoryService().deleteResource(null, "/analysis/schemas/FoodmartSchema");
     }
 
     private void deleteUserAuthorityServiceTestResources() {
@@ -274,23 +169,11 @@ public class FullDataDeleteTestNG extends BaseServiceSetupTestNG {
     private void deleteHibernateRepositoryReportResources()  {
         m_logger.info("deleteHibernateRepositoryReportResources() called");
 
-        // delete the OLAP analysis/views folder
-        m_logger.info("deleteHibernateRepositoryReportResources() => deleting /analysis/views");
-        getUnsecureRepositoryService().deleteFolder(null, "/analysis/views");
-
-        // delete the OLAP analysis/datasources folder
+        // delete the analysis/datasources folder
         m_logger.info("deleteHibernateRepositoryReportResources() => deleting /analysis/datasources");
         getUnsecureRepositoryService().deleteFolder(null, "/analysis/datasources");
 
-        // delete the OLAP analysis/schemas folder
-        m_logger.info("deleteHibernateRepositoryReportResources() => deleting /analysis/schemas");
-        getUnsecureRepositoryService().deleteFolder(null, "/analysis/schemas");
-
-        // delete the OLAP analysis/connections folder
-        m_logger.info("deleteHibernateRepositoryReportResources() => deleting /analysis/connections");
-        getUnsecureRepositoryService().deleteFolder(null, "/analysis/connections");
-
-        // delete the main OLAP analysis folder
+        // delete the main analysis folder
         m_logger.info("deleteHibernateRepositoryReportResources() => deleting /analysis");
         getUnsecureRepositoryService().deleteFolder(null, "/analysis");
 

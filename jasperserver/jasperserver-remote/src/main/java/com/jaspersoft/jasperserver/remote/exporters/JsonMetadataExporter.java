@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -20,12 +22,12 @@
  */
 package com.jaspersoft.jasperserver.remote.exporters;
 
-import java.util.HashMap;
-
 import javax.annotation.Resource;
 
-import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.export.Exporter;
 
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.json.export.SimpleJsonExporterConfiguration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -56,12 +58,13 @@ public class JsonMetadataExporter extends AbstractExporter {
     }
 
     @Override
-    public JRExporter createExporter() throws Exception {
-        return new net.sf.jasperreports.engine.export.JsonMetadataExporter(getJasperReportsContext());
+    public Exporter createExporter() throws Exception {
+        return new net.sf.jasperreports.json.export.JsonMetadataExporter(getJasperReportsContext());
     }
 
     @Override
-    public void configureExporter(JRExporter exporter, HashMap exportParameters) throws Exception {
+    public ExporterConfiguration createExporterConfiguration() {
+        return new SimpleJsonExporterConfiguration();
     }
 
     @Override

@@ -549,9 +549,7 @@
     <!-- sql scripts (in subdirectories by db type) -->
     <property name="sqlDir" value="${installResourceDir}/sql"/>
     
-    <!-- FoodMart data (used by Mondrian foodmart loader) 
-         This is in a specific MySQL format that the loader expects, but is not db-specific
-      -->
+    <!-- FoodMart data -->
     <property name="foodMartData" value="${sqlDir}/FoodMartCreateData.zip"/>
     
     <!-- war files/dirs -->

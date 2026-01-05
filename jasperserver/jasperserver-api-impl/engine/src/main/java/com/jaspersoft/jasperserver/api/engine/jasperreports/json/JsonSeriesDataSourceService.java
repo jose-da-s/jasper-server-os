@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,7 +25,7 @@ package com.jaspersoft.jasperserver.api.engine.jasperreports.json;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.query.JsonQueryExecuterFactory;
+import net.sf.jasperreports.json.query.JsonQueryExecuterFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -27,7 +29,6 @@ import TreeDataLayer from 'js-sdk/src/common/component/tree/TreeDataLayer';
 import processorsFactory from '../dialog/processor/factory/processorsFactory';
 import TooltipTreePlugin from 'js-sdk/src/common/component/tree/plugin/TooltipPlugin';
 import repositoryResourceTypes from '../enum/repositoryResourceTypes';
-import olapConnectionTypesEnum from '../enum/olapConnectionTypesEnum';
 import resourcesTreeGetDataUriFnUtil from '../util/resourcesTreeGetDataUriFnUtil';
 import extractRootLevelDataFromHtmlResponse from '../util/extractRootLevelDataFromHtmlResponse';
 import tooltipTemplate from '../dialog/resourceChooser/template/repositoryFolderChooserDialogTooltipTemplate.htm';
@@ -159,7 +160,7 @@ function getCustomRootDataLayer(options) {
     });
 }
 function getTreeListInstance(options) {
-    var olapDataLayer = getOlapDataLayer(), processors = options.processors;
+    var processors = options.processors;
     var TreeConstructor = getTreeConstructor(options);
     return TreeConstructor.instance({
         itemsTemplate: options.treeItemsTemplate || repositoryFoldersTreeLevelTemplate,
@@ -186,7 +187,7 @@ function getTreeListInstance(options) {
             pageSize: 100
         },
         processors: processors,
-        customDataLayers: { 'olapDataLayer': olapDataLayer },
+        customDataLayers: {},
         getDataLayer: customizedGetDataLayerFunc,
         getDataArray: function (data) {
             return data && data[repositoryResourceTypes.RESOURCE_LOOKUP] ? data[repositoryResourceTypes.RESOURCE_LOOKUP] : [];
@@ -196,37 +197,13 @@ function getTreeListInstance(options) {
         }
     });
 }
-function getOlapDataLayer() {
-    return new TreeDataLayer({
-        requestType: 'POST',
-        dataUriTemplate: jrsConfigs.contextPath + '/rest_v2/connections',
-        processors: [
-            processorsFactory('i18nItemProcessor'),
-            processorsFactory('cssClassItemProcessor')
-        ],
-        levelDataId: 'uri',
-        getDataArray: function (data) {
-            return data && data[repositoryResourceTypes.RESOURCE_LOOKUP] ? data[repositoryResourceTypes.RESOURCE_LOOKUP] : [];
-        }
-    });
-}
+
 function customizedGetDataLayerFunc(level) {
-    var resourceType, isOlapResource;
+    var resourceType;
     level = level.item ? level : this.getLevel(level.id);
     if (level) {
         resourceType = level.item.value.resourceType;
-        isOlapResource = _.contains(olapConnectionTypesEnum, resourceType);
-        if (!isOlapResource) {
-            return this.customDataLayers && this.customDataLayers[level.id] ? this.customDataLayers[level.id] : this.defaultDataLayer;
-        } else {
-            var olapDataLayer = _.clone(this.customDataLayers['olapDataLayer']);
-            _.extend(olapDataLayer, {
-                accept: 'application/repository.' + resourceType + '.metadata+json',
-                contentType: 'application/repository.' + resourceType + '+json',
-                data: JSON.stringify(resourceType)
-            });
-            return olapDataLayer;
-        }
+        return this.customDataLayers && this.customDataLayers[level.id] ? this.customDataLayers[level.id] : this.defaultDataLayer;
     }
 }
 

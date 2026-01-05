@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.war.action;
 
 import com.jaspersoft.jasperserver.api.JSDuplicateResourceException;
@@ -37,7 +40,6 @@ import com.jaspersoft.jasperserver.api.metadata.common.service.RepositoryService
 import com.jaspersoft.jasperserver.api.metadata.common.service.impl.RepositorySecurityChecker;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.*;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.helper.DataSourceJsonHelper;
-import com.jaspersoft.jasperserver.api.metadata.olap.util.OlapReportCheckUtil;
 import com.jaspersoft.jasperserver.api.metadata.user.service.ObjectPermissionService;
 import com.jaspersoft.jasperserver.api.metadata.view.domain.FilterCriteria;
 import com.jaspersoft.jasperserver.war.common.JasperServerConst;
@@ -143,8 +145,6 @@ public class ReportUnitAction extends FormAction {
     private TypedTreeDataProvider dataSourceTreeDataProvider;
     private CustomReportDataSourceServiceFactory customDataSourceFactory;
 
-    private OlapReportCheckUtil olapReportCheckUtil;
-
     @Autowired
     private DataSourceJsonHelper dataSourceJsonHelper;
 
@@ -168,10 +168,6 @@ public class ReportUnitAction extends FormAction {
 
     public void setPermissionService(ObjectPermissionService permissionService) {
         this.permissionService = permissionService;
-    }
-
-    public void setOlapReportCheckUtil(OlapReportCheckUtil olapReportCheckUtil) {
-        this.olapReportCheckUtil = olapReportCheckUtil;
     }
 
     public Event checkPermissions(RequestContext context) throws Exception {
@@ -934,10 +930,6 @@ public class ReportUnitAction extends FormAction {
 					resourceUri);
 			if (ru == null)
 				throw new JSException("jsexception.could.not.find.resource.with.uri", new Object[] {resourceUri});
-            if (olapReportCheckUtil.isOlapReportFrom421OrBelow(ru)) {
-                context.getRequestScope().put("errorPopupMessage", "error.notImplemented");
-                throw new JSNotImplementedException();
-            }
 			log("Found resource with uri=" + resourceUri);
 			formObject = new ReportUnitWrapper();
 			formObject.setReportUnit(ru);

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -28,7 +30,7 @@ import net.sf.jasperreports.engine.export.AbstractHtmlExporter;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRExporterContext;
 import net.sf.jasperreports.engine.export.JRXlsAbstractExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 import net.sf.jasperreports.export.AbstractXlsExporterConfiguration;
 import net.sf.jasperreports.export.AbstractXlsReportConfiguration;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
@@ -46,13 +48,6 @@ import net.sf.jasperreports.export.XlsReportConfiguration;
 public class ExportUtil 
 {
 	public static final String HTTP_SERVLET_REQUEST = "HttpServletRequest";
-
-	/**
-	 * @deprecated Replaced by {@link ExportUtil#HTTP_SERVLET_REQUEST}.
-	 */
-	public static final net.sf.jasperreports.engine.export.JRHtmlExporterParameter PARAMETER_HTTP_REQUEST =
-		// derived class required because of protected constructor
-		new net.sf.jasperreports.engine.export.JRHtmlExporterParameter("HttpServletRequest") {};
 
 	private final JasperReportsContext jasperReportsContext;
 	

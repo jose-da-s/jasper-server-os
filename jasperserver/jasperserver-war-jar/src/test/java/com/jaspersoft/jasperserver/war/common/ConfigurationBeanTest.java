@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -93,7 +95,6 @@ class ConfigurationBeanTest {
     private final static String VALUE_IMAGE = "value8";
     private final static String VALUE_JAR = "value9";
     private final static String VALUE_JRXML = "value10";
-    private final static String VALUE_MONDRIAN_SCHEMA = "value11";
     private final static String VALUE_RESOURCE_BUNDLE = "value12";
     private final static String VALUE_STYLE_TEMPLATE = "value13";
     private final static String VALUE_XML = "value14";
@@ -114,7 +115,6 @@ class ConfigurationBeanTest {
         put(FileResource.TYPE_IMAGE, VALUE_IMAGE);
         put(FileResource.TYPE_JAR, VALUE_JAR);
         put(FileResource.TYPE_JRXML, VALUE_JRXML);
-        put(ResourceDescriptor.TYPE_MONDRIAN_SCHEMA, VALUE_MONDRIAN_SCHEMA);
         put(FileResource.TYPE_RESOURCE_BUNDLE, VALUE_RESOURCE_BUNDLE);
         put(FileResource.TYPE_STYLE_TEMPLATE, VALUE_STYLE_TEMPLATE);
         put(FileResource.TYPE_PPK, VALUE_PPK);
@@ -141,7 +141,6 @@ class ConfigurationBeanTest {
         doReturn(VALUE_IMAGE).when(messages).getMessage(eq(JasperServerConst.TYPE_RSRC_IMAGE), eq(((Object[]) null)), eq("Image"), any(Locale.class));
         doReturn(VALUE_JAR).when(messages).getMessage(eq(JasperServerConst.TYPE_RSRC_CLASS_JAR), eq(((Object[]) null)), eq("Jar"), any(Locale.class));
         doReturn(VALUE_JRXML).when(messages).getMessage(eq(JasperServerConst.TYPE_RSRC_SUB_REPORT), eq(((Object[]) null)), eq("Jrxml"), any(Locale.class));
-        doReturn(VALUE_MONDRIAN_SCHEMA).when(messages).getMessage(eq(JasperServerConst.TYPE_RSRC_OLAP_SCHEMA), eq(((Object[]) null)), eq("OLAP Schema"), any(Locale.class));
         doReturn(VALUE_RESOURCE_BUNDLE).when(messages).getMessage(eq(JasperServerConst.TYPE_RSRC_RESOURCE_BUNDLE), eq(((Object[]) null)), eq("Properties"), any(Locale.class));
         doReturn(VALUE_STYLE_TEMPLATE).when(messages).getMessage(eq(JasperServerConst.TYPE_RSRC_STYLE_TEMPLATE), eq(((Object[]) null)), eq("Style Template"), any(Locale.class));
         doReturn(VALUE_XML).when(messages).getMessage(eq(JasperServerConst.TYPE_RSRC_XML_FILE), eq(((Object[]) null)), eq("XML File"), any(Locale.class));

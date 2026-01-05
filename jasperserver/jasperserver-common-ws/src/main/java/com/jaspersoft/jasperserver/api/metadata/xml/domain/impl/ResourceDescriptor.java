@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -40,7 +42,6 @@ public class ResourceDescriptor {
 
     public static final String TYPE_FOLDER = "folder";
     public static final String TYPE_REPORTUNIT = "reportUnit";
-    public static final String TYPE_OLAPUNIT = "olapUnit";
 
     /* PRO OBJECTS */
     public static final String TYPE_REPORT_OPTIONS = "reportOptions";
@@ -66,9 +67,6 @@ public class ResourceDescriptor {
     public static final String TYPE_REFERENCE = "reference";
     public static final String TYPE_INPUT_CONTROL = "inputControl";
     public static final String TYPE_DATA_TYPE = "dataType";
-    public static final String TYPE_OLAP_MONDRIAN_CONNECTION = JasperServerConst.TYPE_OLAP_MONDRIAN_CONNECTION;
-    public static final String TYPE_OLAP_XMLA_CONNECTION = JasperServerConst.TYPE_OLAP_XMLA_CONNECTION;
-    public static final String TYPE_MONDRIAN_SCHEMA = FileResource.TYPE_MONDRIAN_SCHEMA;
     public static final String TYPE_MONGODB_JDBC_CONFIG = FileResource.TYPE_MONGODB_JDBC_CONFIG;
   	public static final String TYPE_AZURE_CERTIFICATE = FileResource.TYPE_AZURE_CERTIFICATE;
 	public static final String TYPE_ACCESS_GRANT_SCHEMA = FileResource.TYPE_ACCESS_GRANT_SCHEMA; // Pro-only
@@ -199,17 +197,7 @@ public class ResourceDescriptor {
     public static final String PROP_QUERY_DATA = "PROP_QUERY_DATA";
     public static final String PROP_QUERY_DATA_ROW = "PROP_QUERY_DATA_ROW";
     public static final String PROP_QUERY_DATA_ROW_COLUMN = "PROP_QUERY_DATA_ROW_COLUMN";
-    
-    
-    // OLAP XMLA Connection
-    public static final String PROP_XMLA_URI = "PROP_XMLA_URI";
-    public static final String PROP_XMLA_CATALOG = "PROP_XMLA_CATALOG";
-    public static final String PROP_XMLA_DATASOURCE = "PROP_XMLA_DATASOURCE";
-    public static final String PROP_XMLA_USERNAME = "PROP_XMLA_USERNAME";
-    public static final String PROP_XMLA_PASSWORD = "PROP_XMLA_PASSWORD";
 
-    // OLAP Unit
-    public static final String PROP_MDX_QUERY = "PROP_MDX_QUERY";
     
     // Content resource properties
     public static final String PROP_CONTENT_RESOURCE_TYPE = "CONTENT_TYPE";

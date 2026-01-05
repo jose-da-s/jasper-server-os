@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -41,7 +43,6 @@
         <transition on="Add" to="chooseEditResource"/>
         <transition on="Edit" to="chooseEditResource"/>
         <transition on="ViewReport" to="viewReport"/>
-        <!--<transition on="ViewOlapModel" to="viewOlapModel"/>-->
         <transition on="ScheduleReport" to="reportJobs"/>
         <transition on="runReportInBackground" to="runReportInBackground"/>
         <transition on="Assign" to="assignPermissions"/>
@@ -82,18 +83,6 @@
             then="editDataSource"/>
         <if test="requestParameters.resourceType == 'com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.VirtualReportDataSource'"
             then="editDataSource"/>
-        <if test="requestParameters.resourceType == 'com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit'"
-            then="editOlapView"/>
-        <if test="requestParameters.resourceType == 'com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection'"
-            then="editOlapClientConnection"/>
-        <if test="requestParameters.resourceType == 'com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection'"
-            then="editOlapClientConnection"/>
-        <if test="requestParameters.resourceType == 'com.jaspersoft.ji.ja.security.domain.SecureMondrianConnection'"
-            then="editOlapClientConnection"/>
-        <if test="requestParameters.resourceType == 'com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection'"
-            then="editOlapClientConnection"/>
-        <if test="requestParameters.resourceType == 'com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition'"
-            then="editMondrianXmlaSource"/>
         <if test="requestParameters.resourceType == 'com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JndiJdbcReportDataSource'"
             then="editDataSource" else="initAction"/>
     </decision-state>
@@ -102,34 +91,6 @@
         <input name="parentFolder" value="flowScope.repositoryFolder"/>
         <transition on="finishReport" to="initAction"/>
         <transition on="cancel" to="initAction"/>
-    </subflow-state>
-
-    <subflow-state id="editOlapView" subflow="olapUnitFlow">
-        <input name="parentFolder" value="flowScope.repositoryFolder"/>
-        <transition on="cancel" to="initAction"/>
-        <transition on="back" to="initAction"/>
-        <transition on="saved" to="initAction"/>
-        <transition on="displayError" to="displayError"/>
-    </subflow-state>
-
-    <subflow-state id="editOlapClientConnection" subflow="olapClientConnectionFlow">
-        <input name="currentOlapClientConnection" value="requestParameters.resource"/>
-        <input name="parentFolder" value="flowScope.repositoryFolder"/>
-        <input name="isEdit" value="requestParameters._eventId_Edit"/>
-        <transition on="cancel" to="initAction"/>
-        <transition on="back" to="initAction"/>
-        <transition on="saved" to="initAction"/>
-        <transition on="displayError" to="displayError"/>
-    </subflow-state>
-
-    <subflow-state id="editMondrianXmlaSource" subflow="mondrianXmlaSourceFlow">
-        <input name="currentMondrianXmlaDefinition" value="requestParameters.resource"/>
-        <input name="parentFolder" value="flowScope.repositoryFolder"/>
-        <input name="isEdit" value="requestParameters._eventId_Edit"/>
-        <transition on="cancel" to="initAction"/>
-        <transition on="back" to="initAction"/>
-        <transition on="saved" to="initAction"/>
-        <transition on="displayError" to="displayError"/>
     </subflow-state>
 
     <subflow-state id="editFolder" subflow="editFolderFlow">
@@ -197,16 +158,6 @@
         <transition on="cancel" to="initAction"/>
     </subflow-state>
 
-    <!--
-        <subflow-state id="viewOlapModel" flow="viewOlapModelFlow">
-            <attribute-mapper>
-                <input-mapping as="name" value="${requestParameters.resource}"/>
-            </attribute-mapper>
-            <transition on="done" to="initAction"/>
-            <transition on="cancel" to="initAction"/>
-            <transition on="displayError" to="initAction"/>
-        </subflow-state>
-    -->
     <view-state id="displayError" view="modules/flowError">
         <on-entry>
             <set name="flowScope.prevForm" value="'displayError'"/>

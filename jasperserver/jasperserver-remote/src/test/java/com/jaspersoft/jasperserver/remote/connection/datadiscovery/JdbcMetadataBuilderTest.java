@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,9 +24,7 @@ package com.jaspersoft.jasperserver.remote.connection.datadiscovery;
 
 import com.jaspersoft.jasperserver.api.engine.common.domain.JdbcMetaConfigurationImpl;
 import com.jaspersoft.jasperserver.dto.resources.DataSourceTableDescriptor;
-import org.eigenbase.resgen.ResourceDef;
 import org.springframework.jdbc.InvalidResultSetAccessException;
-import org.springframework.jdbc.support.rowset.ResultSetWrappingSqlRowSet;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

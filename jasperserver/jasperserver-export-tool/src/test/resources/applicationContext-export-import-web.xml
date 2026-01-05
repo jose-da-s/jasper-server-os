@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -157,10 +158,6 @@
                 <value>classpath:com/jaspersoft/jasperserver/export/mapping/repository/FileResource.xml</value>
                 <value>classpath:com/jaspersoft/jasperserver/export/mapping/repository/ReportUnit.xml</value>
                 <value>classpath:com/jaspersoft/jasperserver/export/mapping/repository/ContentResource.xml</value>
-                <value>classpath:com/jaspersoft/jasperserver/export/mapping/repository/MondrianConnection.xml</value>
-                <value>classpath:com/jaspersoft/jasperserver/export/mapping/repository/XmlaConnection.xml</value>
-                <value>classpath:com/jaspersoft/jasperserver/export/mapping/repository/MondrianXmlaDefinition.xml</value>
-                <value>classpath:com/jaspersoft/jasperserver/export/mapping/repository/OlapUnit.xml</value>
                 <value>classpath:com/jaspersoft/jasperserver/export/mapping/repository/Folder.xml</value>
                 <value>classpath:com/jaspersoft/jasperserver/export/mapping/common/TenantQualifiedName.xml</value>
                 <value>classpath:com/jaspersoft/jasperserver/export/mapping/repository/ObjectPermission.xml</value>
@@ -176,10 +173,6 @@
     <bean id="contentResourceDataProvider" class="com.jaspersoft.jasperserver.export.modules.repository.ContentResourceDataProvider" scope="prototype">
         <property name="filenameSuffix" value=""/>
         <property name="repository" ref="${bean.repositoryService}"/>
-    </bean>
-
-    <bean id="olapUnitViewOptionsDataProvider" class="com.jaspersoft.jasperserver.export.modules.repository.OlapUnitViewOptionsDataProvider" scope="prototype">
-        <property name="filenameSuffix" value=".view.options"/>
     </bean>
 
     <bean id="resourceBeanMappings" class="com.jaspersoft.jasperserver.api.common.service.impl.ImplementationClassObjectFactoryImpl">
@@ -210,14 +203,6 @@
                        value="com.jaspersoft.jasperserver.export.modules.repository.beans.ReportUnitBean"/>
                 <entry key="com.jaspersoft.jasperserver.api.metadata.common.domain.ContentResource"
                        value="com.jaspersoft.jasperserver.export.modules.repository.beans.ContentResourceBean"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection"
-                       value="com.jaspersoft.jasperserver.export.modules.repository.beans.MondrianConnectionBean"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection"
-                       value="com.jaspersoft.jasperserver.export.modules.repository.beans.XmlaConnectionBean"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition"
-                       value="com.jaspersoft.jasperserver.export.modules.repository.beans.MondrianXmlaDefinitionBean"/>
-                <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit"
-                       value="com.jaspersoft.jasperserver.export.modules.repository.beans.OlapUnitBean"/>
             </map>
 
         </property>

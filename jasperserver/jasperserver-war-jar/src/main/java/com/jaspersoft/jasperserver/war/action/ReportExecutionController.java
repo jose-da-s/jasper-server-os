@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -40,23 +42,23 @@ import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
-import net.sf.jasperreports.engine.export.JsonExporter;
+import net.sf.jasperreports.json.export.JsonExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleJsonExporterConfiguration;
-import net.sf.jasperreports.export.SimpleJsonExporterOutput;
-import net.sf.jasperreports.export.SimpleJsonReportConfiguration;
+import net.sf.jasperreports.json.export.SimpleJsonExporterConfiguration;
+import net.sf.jasperreports.json.export.SimpleJsonExporterOutput;
+import net.sf.jasperreports.json.export.SimpleJsonReportConfiguration;
 import net.sf.jasperreports.web.JRInteractiveException;
-import net.sf.jasperreports.web.WebReportContext;
-import net.sf.jasperreports.web.actions.AbstractAction;
-import net.sf.jasperreports.web.actions.Action;
-import net.sf.jasperreports.web.actions.MultiAction;
+import net.sf.jasperreports.j2ee.web.WebReportContext;
+import net.sf.jasperreports.interactivity.actions.AbstractAction;
+import net.sf.jasperreports.interactivity.actions.Action;
+import net.sf.jasperreports.interactivity.actions.MultiAction;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
 import net.sf.jasperreports.web.servlets.ReportExecutionStatus;
 import net.sf.jasperreports.web.servlets.ReportPageStatus;
-import net.sf.jasperreports.web.util.JacksonUtil;
-import net.sf.jasperreports.web.util.RequirejsModuleMapping;
+import net.sf.jasperreports.jackson.util.JacksonUtil;
+import net.sf.jasperreports.interactivity.util.RequirejsModuleMapping;
 import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
-import net.sf.jasperreports.web.util.WebUtil;
+import net.sf.jasperreports.j2ee.web.WebUtil;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -74,7 +76,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -482,7 +483,7 @@ public class ReportExecutionController {
                 String modulePath = requirejsMapping.getPath();
 
                 if (requirejsMapping.isClasspathResource()) {
-                    modulePath = ".." + webUtil.getResourcesBasePath() + modulePath;
+                    modulePath = ".." + webUtil.getResourceUri(request) + modulePath; //todo check ...
                 }
 
                 modulePaths.put(moduleName, modulePath);

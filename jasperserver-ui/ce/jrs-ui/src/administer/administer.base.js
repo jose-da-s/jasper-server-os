@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -37,14 +39,6 @@ window.Administer = _.extend({
         return message ? new Template(message).evaluate(object ? object : {}) : '';
     },
     menuActions: {
-        // Url context is necessary because some uf links has 2 levels or urls e.g. /olap/properties.html
-        // Analysis options button has different id's for different versions of JS
-        'p#navAnalysisOptions': function () {
-            return window.Administer.urlContext + '/flow.html?_flowId=mondrianPropertiesFlow';
-        },
-        'p#navAnalysisOptionsCE': function () {
-            return window.Administer.urlContext + '/olap/properties.html';
-        },
         'p#navDesignerOptions': function () {
             return window.Administer.urlContext + '/flow.html?_flowId=designerOptionsFlow';
         },

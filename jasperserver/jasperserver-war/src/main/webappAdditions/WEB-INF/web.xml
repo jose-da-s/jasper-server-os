@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -74,22 +76,6 @@
         <param-value>com.jaspersoft.jasperserver.war.util.JSWebApplicationContext</param-value>
     </context-param>
 
-    <!-- resources initializer -->
-    <listener>
-        <listener-class>com.tonbeller.tbutils.res.ResourcesFactoryContextListener</listener-class>
-    </listener>
-
-    <!-- optional? now in JPivot by default  -->
-    <context-param>
-        <param-name>contextFactory</param-name>
-        <param-value>com.tonbeller.wcf.controller.RequestContextFactoryImpl</param-value>
-    </context-param>
-
-    <!-- Close JDBC connections on end of session -->
-    <listener>
-        <listener-class>com.jaspersoft.jasperserver.war.OlapSessionKiller</listener-class>
-    </listener>
-
     <!-- SecurityContextHolder.setStrategyName(MODE_INHERITABLETHREADLOCAL) -->
     <listener>
         <listener-class>com.jaspersoft.jasperserver.war.util.SecurityContextHolderStrategyInitializer</listener-class>
@@ -104,9 +90,10 @@
         <listener-class>com.jaspersoft.jasperserver.war.util.SpringBeanServletContextPlublisher</listener-class>
     </listener>
 
-    <listener>
-        <listener-class>net.sf.jasperreports.phantomjs.PhantomJSServletContextListener</listener-class>
-    </listener>
+<!--    todo-->
+<!--    <listener>-->
+<!--        <listener-class>net.sf.jasperreports.phantomjs.PhantomJSServletContextListener</listener-class>-->
+<!--    </listener>-->
 
     <listener>
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
@@ -286,38 +273,6 @@
         <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
     </filter>
 
-    <filter>
-        <filter-name>JPivotController</filter-name>
-        <!-- <filter-class>com.jaspersoft.jasperserver.war.JPivotRequestFilter</filter-class>-->
-        <filter-class>com.tonbeller.wcf.controller.RequestFilter</filter-class>
-
-        <!-- to avoid double clicking problem in the OLAP view list
-            <init-param>
-              <param-name>indexJSP</param-name>
-              <param-value>/olap/viewOlap.html</param-value>
-              <description>forward to this page if session is new</description>
-            </init-param>
-        -->
-        <init-param>
-            <description>URI of error page</description>
-            <param-name>errorJSP</param-name>
-            <param-value>/olap/error.html</param-value>
-        </init-param>
-        <init-param>
-            <description>This page is displayed if a the user clicks
-                on a query before the previous query has finished</description>
-            <param-name>busyJSP</param-name>
-            <param-value>/olap/busy.html</param-value>
-        </init-param>
-        <!--
-        <init-param>
-          <param-name>forceExtension</param-name>
-          <param-value>.faces</param-value>
-          <description>replace .jsp with .faces</description>
-        </init-param>
-        -->
-    </filter>
-
     <filter-mapping>
         <filter-name>ForwardedHeaderFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -419,11 +374,6 @@
        <url-pattern>/*</url-pattern>
    </filter-mapping-->
 
-    <filter-mapping>
-        <filter-name>JPivotController</filter-name>
-        <url-pattern>/olap/viewOlap.html</url-pattern>
-    </filter-mapping>
-
     <!-- dispatcher servlet for the application -->
     <servlet>
         <servlet-name>jasperserver</servlet-name>
@@ -467,77 +417,6 @@
         <url-pattern>/themeMinimalCss.css</url-pattern>
     </servlet-mapping>
 
-    <!-- MondrianXmlaServlet replaced with JasperXmlaServlet -->
-    <!--
-    <servlet>
-      <servlet-name>MondrianXmlaServlet</servlet-name>
-      <servlet-class>mondrian.xmla.impl.DefaultXmlaServlet</servlet-class>
-      <init-param>
-        <param-name>DataSourcesConfig</param-name>
-        <param-value>datasources.xml</param-value>
-      </init-param>
-    </servlet>
-    -->
-
-    <!-- XML for Analysis Servlet -->
-    <!-- servlet>
-        <servlet-name>JasperXmlaServlet</servlet-name>
-        <servlet-class>com.jaspersoft.jasperserver.war.xmla.XmlaServletImpl</servlet-class>
-        <load-on-startup>50</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>JasperXmlaServlet</servlet-name>
-        <url-pattern>/xmla</url-pattern>
-    </servlet-mapping -->
-
-    <!-- for drillthrough -->
-
-    <servlet>
-        <servlet-name>JasperDrillThroughServlet</servlet-name>
-        <servlet-class>com.jaspersoft.jasperserver.war.CSVServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>JasperDrillThroughServlet</servlet-name>
-        <url-pattern>/olap/drillthrough.csv</url-pattern>
-    </servlet-mapping>
-
-    <!-- jfreechart provided servlet -->
-    <servlet>
-        <servlet-name>DisplayChart</servlet-name>
-        <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
-    </servlet>
-
-    <!-- jfreechart provided servlet -->
-    <servlet>
-        <description>Serves up chart images for OLAP printing to PDF and Excel.</description>
-        <servlet-name>GetChart</servlet-name>
-        <!--display-name>GetChart</display-name-->
-        <servlet-class>com.jaspersoft.jasperserver.war.OlapGetChart</servlet-class>
-    </servlet>
-    <servlet>
-        <description>Generate PDF and Excel files for download based on OLAP model.</description>
-        <servlet-name>Print</servlet-name>
-        <!--display-name>Print</display-name-->
-
-        <!-- Use JPivot PrintServlet which has been customized -->
-
-        <servlet-class>com.tonbeller.jpivot.print.PrintServlet</servlet-class>
-        <!-- <servlet-class>com.jaspersoft.jasperserver.war.OlapPrint</servlet-class> -->
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>DisplayChart</servlet-name>
-        <url-pattern>/DisplayChart</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Print</servlet-name>
-        <url-pattern>/olap/Print</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GetChart</servlet-name>
-        <url-pattern>/GetChart</url-pattern>
-    </servlet-mapping>
 
     <!-- REST support START -->
     <servlet>
@@ -667,16 +546,6 @@
         <taglib>
             <taglib-uri>/spring</taglib-uri>
             <taglib-location>/WEB-INF/spring.tld</taglib-location>
-        </taglib>
-
-        <taglib>
-            <taglib-uri>http://www.tonbeller.com/wcf</taglib-uri>
-            <taglib-location>/WEB-INF/wcf/wcf-tags.tld</taglib-location>
-        </taglib>
-
-        <taglib>
-            <taglib-uri>http://www.tonbeller.com/jpivot</taglib-uri>
-            <taglib-location>/WEB-INF/jpivot/jpivot-tags.tld</taglib-location>
         </taglib>
 
     </jsp-config>

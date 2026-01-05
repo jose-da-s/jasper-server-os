@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -147,8 +149,7 @@ public class UserWorkflowRelationVisitor extends RelationsVisitor<UserWorkflowRe
         } else if (ResourceMediaType.ADHOC_DATA_VIEW_CLIENT_TYPE.equals(resourceType)){
 
             List<String> adhocSourceTypes = Arrays.asList(
-                    ResourceMediaType.SEMANTIC_LAYER_DATA_SOURCE_CLIENT_TYPE,
-                    ResourceMediaType.OLAP_UNIT_CLIENT_TYPE
+                    ResourceMediaType.SEMANTIC_LAYER_DATA_SOURCE_CLIENT_TYPE
             );
 
             resourceType = isAvailableProFeature && isAtLeastOneResourceByTypes(adhocSourceTypes) ? resourceType : null;

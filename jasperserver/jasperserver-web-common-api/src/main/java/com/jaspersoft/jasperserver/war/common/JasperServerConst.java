@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -54,7 +56,6 @@ public interface JasperServerConst {
     String TYPE_RSRC_SUB_REPORT =	"resourceTypes.jrxml";
     String TYPE_RSRC_CLASS_JAR 	=	"resourceTypes.jar";
     String TYPE_RSRC_RESOURCE_BUNDLE 	=	"resourceTypes.resource.bundle";
-    String TYPE_RSRC_OLAP_SCHEMA=	"resourceTypes.olap.schema";
     String TYPE_RSRC_XML_FILE=	"resourceTypes.xml.file";
     String TYPE_RSRC_CSS_FILE=	"resourceTypes.css.file";
     String TYPE_RSRC_CONTENT_RESOURCE=	"resource.com.jaspersoft.jasperserver.api.metadata.common.domain.ContentResource.label";
@@ -102,8 +103,5 @@ public interface JasperServerConst {
 
 	String USER_LOCALE_SESSION_ATTR = "userLocale";
 	String USER_TIMEZONE_SESSION_ATTR = "userTimezone";
-
-    String TYPE_OLAP_MONDRIAN_CONNECTION = "olapMondrianCon";
-    String TYPE_OLAP_XMLA_CONNECTION = "olapXmlaCon";
 
 }

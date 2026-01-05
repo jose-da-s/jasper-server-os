@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -43,7 +45,6 @@ public class EditResourceActivity extends ReadResourceActivity {
     private List<String> canBeEditTypes = Arrays.asList(
 //          TODO: what about  REPORT_OPTIONS
             ResourceMediaType.REPORT_UNIT_CLIENT_TYPE,
-            ResourceMediaType.OLAP_UNIT_CLIENT_TYPE,
             ResourceMediaType.DASHBOARD_CLIENT_TYPE,
             ResourceMediaType.DOMAIN_TOPIC_CLIENT_TYPE,
             ResourceMediaType.JDBC_DATA_SOURCE_CLIENT_TYPE,
@@ -56,10 +57,6 @@ public class EditResourceActivity extends ReadResourceActivity {
             ResourceMediaType.INPUT_CONTROL_CLIENT_TYPE,
             ResourceMediaType.LIST_OF_VALUES_CLIENT_TYPE,
             ResourceMediaType.DATA_TYPE_CLIENT_TYPE,
-            ResourceMediaType.MONDRIAN_CONNECTION_CLIENT_TYPE,
-            ResourceMediaType.SECURE_MONDRIAN_CONNECTION_CLIENT_TYPE,
-            ResourceMediaType.XMLA_CONNECTION_CLIENT_TYPE,
-            ResourceMediaType.MONDRIAN_XMLA_DEFINITION_CLIENT_TYPE,
             ResourceMediaType.FILE_CLIENT_TYPE,
             ResourceMediaType.SEMANTIC_LAYER_DATA_SOURCE_CLIENT_TYPE
     );
@@ -94,9 +91,6 @@ public class EditResourceActivity extends ReadResourceActivity {
                     || ResourceMediaType.DOMAIN_TOPIC_CLIENT_TYPE.equals(resourceType)){
                 url += MessageFormat.format("reportUnitFlow&ParentFolderUri={0}&selectedResource={1}",
                         parentFolderUri, resourceUri);
-            }else if (ResourceMediaType.OLAP_UNIT_CLIENT_TYPE.equals(resourceType)){
-                url += MessageFormat.format("olapUnitFlow&isEdit=edit&ParentFolderUri={0}&resourceModel={1}",
-                        parentFolderUri, resourceUri);
             }else if (ResourceMediaType.DASHBOARD_CLIENT_TYPE.equals(resourceType)){
                 //TODO: check is it edit ?
                 url = requestInfoProvider.getBaseUrl().concat("/dashboard/designer.html#").concat(resourceUri);
@@ -118,14 +112,6 @@ public class EditResourceActivity extends ReadResourceActivity {
                         resourceUri, parentFolderUri);
             }else if (ResourceMediaType.DATA_TYPE_CLIENT_TYPE.equals(resourceType)){
                 url += MessageFormat.format("dataTypeFlow&resource={0}&ParentFolderUri={1}&isEdit=edit",
-                        resourceUri, parentFolderUri);
-            }else if (ResourceMediaType.MONDRIAN_CONNECTION_CLIENT_TYPE.equals(resourceType)
-                        || ResourceMediaType.SECURE_MONDRIAN_CONNECTION_CLIENT_TYPE.equals(resourceType)
-                        || ResourceMediaType.XMLA_CONNECTION_CLIENT_TYPE.equals(resourceType)){
-                url += MessageFormat.format("olapClientConnectionFlow&selectedResource={0}&ParentFolderUri={1}&isEdit=edit",
-                        resourceUri, parentFolderUri);
-            }else if (ResourceMediaType.MONDRIAN_XMLA_DEFINITION_CLIENT_TYPE.equals(resourceType)){
-                url += MessageFormat.format("mondrianXmlaSourceFlow&selectedResource={0}&ParentFolderUri={1}&isEdit=edit",
                         resourceUri, parentFolderUri);
             }else if (ResourceMediaType.FILE_CLIENT_TYPE.equals(resourceType)){
                 url += MessageFormat.format("addFileResourceFlow&selectedResource={0}&ParentFolderUri={1}",

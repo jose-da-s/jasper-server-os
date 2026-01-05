@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2023 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -2048,34 +2050,6 @@ legend a {
     left: -10px;
     position: absolute;
     width: 20px;
-}
-
-td.olap_level_name {
-    height: 30px;
-    vertical-align: middle;
-    width: 38%;
-}
-
-td.olap_level_name + td,
-td.olap_level_slider {
-    vertical-align: middle;
-}
-
-td.olap_level_name > div {
-    height: 13px;
-    position: relative;
-}
-
-div.olap_level_label {
-    bottom: 0;
-    color: #888;
-    left: 0;
-    overflow: hidden;
-    position: absolute;
-    right: 0;
-    text-overflow: ellipsis;
-    top: 0;
-    white-space: nowrap;
 }
 
 /* -------------------------- */

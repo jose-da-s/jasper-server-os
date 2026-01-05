@@ -200,39 +200,12 @@
         primary key (id)
     ) engine=InnoDB;
 
-    create table JIMondrianConnection (
-       id bigint not null,
-        reportDataSource bigint,
-        mondrianSchema bigint,
-        primary key (id)
-    ) engine=InnoDB;
-
-    create table JIMondrianXMLADefinition (
-       id bigint not null,
-        catalog varchar(100) not null,
-        mondrianConnection bigint,
-        primary key (id)
-    ) engine=InnoDB;
-
     create table JIObjectPermission (
        id bigint not null auto_increment,
         uri varchar(1000) not null,
         recipientobjectclass varchar(250),
         recipientobjectid bigint,
         permissionMask integer not null,
-        primary key (id)
-    ) engine=InnoDB;
-
-    create table JIOlapClientConnection (
-       id bigint not null,
-        primary key (id)
-    ) engine=InnoDB;
-
-    create table JIOlapUnit (
-       id bigint not null,
-        olapClientConnection bigint,
-        mdx_query longtext not null,
-        view_options longblob,
         primary key (id)
     ) engine=InnoDB;
 
@@ -506,15 +479,6 @@
         primary key (virtualDS_id, data_source_name)
     ) engine=InnoDB;
 
-    create table JIXMLAConnection (
-       id bigint not null,
-        catalog varchar(100) not null,
-        username varchar(100) not null,
-        password varchar(250) not null,
-        datasource varchar(100) not null,
-        uri varchar(100) not null,
-        primary key (id)
-    ) engine=InnoDB;
 create index access_user_index on JIAccessEvent (user_id);
 create index access_date_index on JIAccessEvent (event_date);
 create index access_res_uri_index on JIAccessEvent (resource_uri);
@@ -681,46 +645,6 @@ create index resource_type_index on JIResource (resourceType);
        add constraint FK7636lhqn8drpalfckmb5wlljb 
        foreign key (userId) 
        references JIUser (id);
-
-    alter table JIMondrianConnection 
-       add constraint FKm9glomusslw0ouy1xev0kafql 
-       foreign key (id) 
-       references JIOlapClientConnection (id);
-
-    alter table JIMondrianConnection 
-       add constraint FK8yiwytorg3lwqq1gag9fng7rf 
-       foreign key (reportDataSource) 
-       references JIResource (id);
-
-    alter table JIMondrianConnection 
-       add constraint FKamcjhut3kc0ko4rypemusdn7d 
-       foreign key (mondrianSchema) 
-       references JIFileResource (id);
-
-    alter table JIMondrianXMLADefinition 
-       add constraint FKclv0lm19k3nvkmbv41epbfs34 
-       foreign key (id) 
-       references JIResource (id);
-
-    alter table JIMondrianXMLADefinition 
-       add constraint FKnmn2j9pevf2slm0i314ghs1sq 
-       foreign key (mondrianConnection) 
-       references JIMondrianConnection (id);
-
-    alter table JIOlapClientConnection 
-       add constraint FKqtji02a7ga296baj2y3avol24 
-       foreign key (id) 
-       references JIResource (id);
-
-    alter table JIOlapUnit 
-       add constraint FKtj0u3bnnfbe2h6w5v9jue5xr1 
-       foreign key (id) 
-       references JIResource (id);
-
-    alter table JIOlapUnit 
-       add constraint FKakvumwho658vijmoaaxddp4xo 
-       foreign key (olapClientConnection) 
-       references JIOlapClientConnection (id);
 
     alter table JIQuery 
        add constraint FK1ql6x3q59eti9h2r042ogoj3i 
@@ -909,17 +833,10 @@ create index resource_type_index on JIResource (resourceType);
        foreign key (virtualDS_id) 
        references JIVirtualDatasource (id);
 
-    alter table JIXMLAConnection 
-       add constraint FK27s5ja8sxgrylp7cf0wyscl79 
-       foreign key (id) 
-       references JIOlapClientConnection (id);
 create index JILogEvent_userId_index on JILogEvent (userId);
-create index idx17_reportDataSource_idx on JIMondrianConnection (reportDataSource);
 create index JIUser_tenantId_index on JIUser (tenantId);
 create index JIReportJob_alert_index on JIReportJob (alert);
-create index idx20_mondrianConnection_idx on JIMondrianXMLADefinition (mondrianConnection);
 create index idx25_content_destination_idx on JIReportJob (content_destination);
-create index idx23_olapClientConnection_idx on JIOlapUnit (olapClientConnection);
 create index JIReportJob_job_trigger_index on JIReportJob (job_trigger);
 create index idx26_mail_notification_idx on JIReportJob (mail_notification);
 create index idx36_resource_id_idx on JIVirtualDataSourceUriMap (resource_id);
@@ -935,7 +852,6 @@ create index JIInputControl_list_query_idx on JIInputControl (list_query);
 create index JIUserRole_roleId_index on JIUserRole (roleId);
 create index idx15_input_ctrl_id_idx on JIInputControlQueryColumn (input_control_id);
 create index JIUserRole_userId_index on JIUserRole (userId);
-create index idx16_mondrianSchema_idx on JIMondrianConnection (mondrianSchema);
 create index JITenant_parentId_index on JITenant (parentId);
 create index JIResource_parent_folder_index on JIResource (parent_folder);
 create index JIFavoriteResource_resource_id_idx on JIFavoriteResource (resource_id);

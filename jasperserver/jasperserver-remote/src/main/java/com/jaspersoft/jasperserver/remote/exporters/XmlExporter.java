@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,10 +23,12 @@
 
 package com.jaspersoft.jasperserver.remote.exporters;
 
-import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.export.*;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+
+import java.io.OutputStream;
 
 /**
  * @author Giulio Toffoli (original sanda zaharia (shertage@users.sourceforge.net))
@@ -35,12 +39,22 @@ import org.springframework.stereotype.Service;
 public class XmlExporter extends AbstractExporter {
 	
     @Override
-    public JRExporter createExporter() throws Exception {
+    public Exporter createExporter() throws Exception {
         return new JRXmlExporter(getJasperReportsContext());
+    }
+
+    @Override
+    public ExporterConfiguration createExporterConfiguration() {
+        return new SimpleExporterConfiguration();
     }
 
     @Override
     public String getContentType() {
         return "text/xml";
+    }
+
+    @Override
+    protected ExporterOutput getExporterOutput(OutputStream output) {
+        return new SimpleXmlExporterOutput(output);
     }
 }

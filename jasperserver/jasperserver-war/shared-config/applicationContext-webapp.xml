@@ -272,6 +272,20 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 </entry>
             </util:map>
         </entry>
+        <entry key="SYBASE_JTDS">
+            <util:map>
+                <entry key="label" value="Sybase jTDS"/>
+                <entry key="jdbcUrl" value="jdbc:jtds:sybase://$[dbHost]:$[dbPort]/$[dbName]"/>
+                <entry key="jdbcDriverClass" value="net.sourceforge.jtds.jdbc.Driver"/>
+                <entry key="defaultValues">
+                    <util:map>
+                        <entry key="dbHost" value="localhost"/>
+                        <entry key="dbPort" value="5000"/>
+                        <entry key="dbName" value="dbname"/>
+                    </util:map>
+                </entry>
+            </util:map>
+        </entry>
    </util:map>
 
     <util:map id="jdbcTibcoConnectionMap" map-class="java.util.LinkedHashMap">

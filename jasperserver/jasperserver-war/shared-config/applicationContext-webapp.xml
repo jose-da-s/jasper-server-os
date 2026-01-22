@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -268,6 +268,20 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                         <entry key="dbHost" value="localhost"/>
                         <entry key="dbPort" value="5433"/>
                         <entry key="sName" value="serviceName"/>
+                    </util:map>
+                </entry>
+            </util:map>
+        </entry>
+        <entry key="SYBASE_JTDS">
+            <util:map>
+                <entry key="label" value="Sybase jTDS"/>
+                <entry key="jdbcUrl" value="jdbc:jtds:sybase://$[dbHost]:$[dbPort]/$[dbName]"/>
+                <entry key="jdbcDriverClass" value="net.sourceforge.jtds.jdbc.Driver"/>
+                <entry key="defaultValues">
+                    <util:map>
+                        <entry key="dbHost" value="localhost"/>
+                        <entry key="dbPort" value="5000"/>
+                        <entry key="dbName" value="dbname"/>
                     </util:map>
                 </entry>
             </util:map>

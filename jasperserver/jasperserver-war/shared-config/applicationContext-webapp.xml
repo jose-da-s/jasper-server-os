@@ -35,8 +35,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <context:component-scan base-package="com.jaspersoft.jasperserver.war.httpheaders"/>
   <!-- Tiles 3 integration. -->
-    <bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
-        <property name="preparerFactoryClass" value="org.springframework.web.servlet.view.tiles3.SimpleSpringPreparerFactory"/>
+    <bean class="com.jaspersoft.jasperserver.war.tiles3.JasperTilesConfigurer">
+        <property name="preparerFactoryClass" value="com.jaspersoft.jasperserver.war.tiles3.SimpleJasperPreparerFactory"/>
         <property name="useMutableTilesContainer" value="true"/>
 
     </bean>

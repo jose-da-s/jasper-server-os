@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# JasperReports Server common installation script.
+# Jasper Server OS common installation script.
 #
 # Usage: do-js-install.sh {edition:(ce|pro)} {option:(<EMPTY>|minimal|drop-db|regen-config|test)}
 #
@@ -26,7 +26,7 @@ showUsage() {
 # Validating and setting edition.
 #
 if [[ $# -lt 1 || "$1" != "ce" && "$1" != "pro" && "$1" != "docker" ]]; then
-  fail "JasperReports Server edition (ce|pro|docker) expected as input"
+  fail "Jasper Server OS edition (ce|pro|docker) expected as input"
 fi
 JS_EDITION=$1
 

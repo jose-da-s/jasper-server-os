@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -2011,7 +2012,7 @@
             <util:map>
                 <entry key="default" value-ref="defaultCharacterEscape"/>
                 <entry key="com.jaspersoft.ji.hibernate.dialect.SQLServerJICustomDialect" value-ref="mssqlCharacterEscape"/>
-                <entry key="com.jaspersoft.ji.hibernate.dialect.OracleJICustomDialect" value-ref="oracleCharacterEscape"/>
+                <entry key="com.jaspersoft.hibernate.dialect.OracleUnicodeDialect" value-ref="oracleCharacterEscape"/>
             </util:map>
         </property>
         <property name="dialect">

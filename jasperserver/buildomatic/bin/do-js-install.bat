@@ -1,7 +1,7 @@
 @ECHO OFF
 
 rem ///
-rem /// JasperReports Server common installation script.
+rem /// Jasper Server OS common installation script.
 rem ///
 rem /// Usage: do-js-install.bat {edition:(ce|pro)} {option:(<EMPTY>|minimal|drop-db|regen-config|test)}
 rem ///
@@ -18,7 +18,7 @@ rem
 rem Validating and setting edition.
 rem
 SET JS_EDITION=%1
-IF NOT "%JS_EDITION%"=="ce" IF NOT "%JS_EDITION%"=="pro" ( CALL :fail "JasperReports Server edition expected as input" )
+IF NOT "%JS_EDITION%"=="ce" IF NOT "%JS_EDITION%"=="pro" ( CALL :fail "Jasper Server OS edition expected as input" )
 
 rem
 rem Validating argument count.

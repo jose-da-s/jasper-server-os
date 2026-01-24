@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -65,8 +67,8 @@
         url="${audit.jdbcUrl}"
         factory="${tomcatBasicDatasourceFactory}"
         ${js.extraParams} />
-
-    <Resource name="${sugarcrm.jndi}" auth="Container" type="javax.sql.DataSource"
+        
+     <Resource name="${sugarcrm.jndi}" auth="Container" type="javax.sql.DataSource"
         maxActive="100" maxIdle="30" maxWait="10000"
         username="${sugarcrm.dbUsername}" password="${escapeXML:sugarcrm.dbPassword}"
         driverClassName="${jdbcDriverClass}"

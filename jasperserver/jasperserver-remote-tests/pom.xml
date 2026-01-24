@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -22,84 +24,81 @@
 
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
          xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>jasperserver-remote-tests</artifactId>
+  <name>remote-test</name>
+  <description>Jasper Server remote tests</description>
+
+  <parent>
     <groupId>com.jaspersoft.jasperserver</groupId>
-    <artifactId>jasperserver-remote-test</artifactId>
-    <name>remote-test</name>
-    <parent>
-        <groupId>com.jaspersoft.jasperserver</groupId>
-        <artifactId>server</artifactId>
-        <version>${buildArtifactVersionName}</version>
-    </parent>
-    <dependencies>
-<dependency>
-        <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>httpunit</groupId>
-            <artifactId>httpunit</artifactId>
-            <version>1.7</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>javax.activation</groupId>
-            <artifactId>activation</artifactId>
-            <version>1.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jaspersoft.jasperserver.api.common.impl</groupId>
-            <artifactId>jasperserver-api-common-impl</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jaspersoft.jasperserver.api.engine.impl</groupId>
-            <artifactId>jasperserver-api-engine-impl</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jaspersoft.jasperserver</groupId>
-            <artifactId>jasperserver-ireport-plugin</artifactId>
-            <version>4.2.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jaspersoft.jasperserver</groupId>
-            <artifactId>jasperserver-common-ws</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-    <description>Jasper Server remote tests</description>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin.version}</version>
-                <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                        <include>**/*TestCase.java</include>
-                    </includes>
-                    <excludes>
-                        <!-- <exclude>**/RunReportServiceImplTest.java</exclude> -->
-                        <exclude>**/HttpUnit*.java</exclude>
-                        <exclude>**/repository/*.java</exclude>
-                        <exclude>**/wizard/*.java</exclude>
-                        <exclude>**/xmla/*.java</exclude>
-                    </excludes>
-                    <argLine>${argLine} </argLine>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <artifactId>server</artifactId>
+    <version>${buildArtifactVersionName}</version>
+  </parent>
+
+  <properties>
+    <httpclient.version>5.5</httpclient.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.httpcomponents.client5</groupId>
+      <artifactId>httpclient5</artifactId>
+      <version>${httpclient.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.module</groupId>
+      <artifactId>jackson-module-jaxb-annotations</artifactId>
+      <version>${jackson.databind.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jaspersoft.jasperserver</groupId>
+      <artifactId>jasperserver-dto</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.13.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.36</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surefire.plugin.version}</version>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/*TestCase.java</include>
+          </includes>
+          <argLine>${argLine}</argLine>
+          <systemPropertyVariables>
+            <!-- specifying the server instance to test -->
+            <remote.test.host>localhost</remote.test.host>
+            <remote.test.port>8080</remote.test.port>
+            <remote.test.app-context-path>jasperserver</remote.test.app-context-path>
+            <remote.test.dbType>postgresql</remote.test.dbType>
+            <remote.test.dbHost>localhost</remote.test.dbHost>
+            <remote.test.dbPort>5432</remote.test.dbPort>
+            <remote.test.dbName>jasperserver</remote.test.dbName>
+            <remote.test.dbUsername>postgres</remote.test.dbUsername>
+            <remote.test.dbPassword>postgres</remote.test.dbPassword>
+            <remote.test.dbSid>ORCL</remote.test.dbSid>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -642,9 +644,9 @@
            depends="add-jdbc-driver,drop-js-db,create-js-db,build-js-ddl-pro,init-js-db-pro"
            description="drop js db, create js db, build js ddl pro, initialize the js db pro">
     </target>
-
+	<!--             depends="drop-audit-db,create-audit-db,init-audit-db-pro" -->
     <target name="build-init-audit-db-pro"
-            depends="drop-audit-db,create-audit-db,init-audit-db-pro"
+            depends=""
             description="drop audit db, create audit db, initialize the audit db pro">
     </target>
 
@@ -657,9 +659,9 @@
            depends="drop-js-db,create-js-db,init-js-db-pro"
            description="drop js db, create js db, init js db for Pro (handy for dev work)">
     </target>
-
+	<!--             depends="drop-audit-db,create-audit-db,init-audit-db-pro" -->
     <target name="re-init-audit-db-pro"
-            depends="drop-audit-db,create-audit-db,init-audit-db-pro"
+            depends=""
             description="drop audit db, create audit db, init audit db for Pro (handy for dev work)">
     </target>
 
@@ -709,7 +711,6 @@
             <arg value="-Denv=${env}"/>
         </runmaven>
     </target>
-
 
     <target name="run-production-data-pro"
            depends="init-source-paths,install-jdbc-dep"
@@ -885,13 +886,20 @@
     <!-- <run-export-test edition="pro"/>
   </target> -->
 
-    <target name="run-remote-test-ce"
+    <target name="run-remote-tests-ce"
            depends="init-source-paths"
            description="builds and runs the OS remote tests">
         <runmaven dir="${js-path}/jasperserver-remote-tests">
             <arg value="-Dremote.test.host=${remote.test.host}"/>
             <arg value="-Dremote.test.port=${remote.test.port}"/>
             <arg value="-Dremote.test.app-context-path=${remote.test.app-context-path-ce}"/>
+            <arg value="-Dremote.test.dbType=${dbType}"/>
+            <arg value="-Dremote.test.dbHost=${dbHost}"/>
+            <arg value="-Dremote.test.dbPort=${dbPort}"/>
+            <arg value="-Dremote.test.dbSid=${sid}"/>
+            <arg value="-Dremote.test.dbName=${js.dbName}"/>
+            <arg value="-Dremote.test.dbUsername=${dbUsername}"/>
+            <arg value="-Dremote.test.dbPassword=${dbPassword}"/>
             <arg value="clean"/>
             <arg value="install"/>
         </runmaven>
@@ -911,15 +919,15 @@
 
 
     <!-- NOTE: the "*-all" targets are oriented toward executing -pro targets -->
-
+	<!--            depends="build-src-all,build-init-js-db-pro,build-init-audit-db-pro,run-integration-tests-pro" -->
     <target name="build-all"
-           depends="build-src-all,build-init-js-db-pro,build-init-audit-db-pro,run-integration-tests-pro"
+           depends="build-src-all,build-init-js-db-pro,run-integration-tests-pro"
            description="(do not do svn update), clean build all src, drop-recreate db,
                         build ddl pro, init js db pro, run integration tests pro, run production data pro">
     </target>
-
+	<!--            depends="update-all,build-src-all,build-init-js-db-pro,build-init-audit-db-pro,run-integration-tests-pro,run-production-data-pro" -->
     <target name="build-all-svn-update"
-           depends="update-all,build-src-all,build-init-js-db-pro,build-init-audit-db-pro,run-integration-tests-pro,run-production-data-pro"
+           depends="update-all,build-src-all,build-init-js-db-pro,run-integration-tests-pro,run-production-data-pro"
            description="(do not do svn update), clean build all src, drop-recreate db,
                         build ddl pro, init js db pro, run integration tests pro, run production data pro">
     </target>
@@ -1231,17 +1239,13 @@
     <target name="drop-js-db-it" depends="drop-js-db-it-rest"
            description="drop jasperserver repository db for IT">
         <echo message="Dropping database. js.it.dbName = ${js.it.dbName}"/>
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="continue">
-            ${js.it.drop}
-        </runSQL>
+    	<dropDB systemName="js.it" jdbcUrl="${admin.jdbcUrl}" onerror="continue" />
     </target>
 
     <target name="create-js-db-it"
            description="create jasperserver repository db for IT">
         <echo message="Creating database, js.it.dbName = ${js.it.dbName}, ${js.it.create}"/>
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="abort">
-            ${js.it.create}
-        </runSQL>
+    	<createDB systemName="js.it" jdbcUrl="${admin.jdbcUrl}"/>
     </target>
 
     <target name="init-js-db-it-pro"
@@ -1257,13 +1261,15 @@
         </if>
 
         <echo message="Connecting to ${js.it.dbName} ..."/>
-        <runSQL jdbcUrl="${js.it.jdbcUrl}" print="true" onerror="${runSqlOnError}">
+    	<initDB systemName="js.it" jdbcUrl="${js.it.jdbcUrl}" onerror="${runSqlOnError}">
+          <scripts>
             <fileset dir="${currentSqlDir}">
                 <include name="js-pro-create.ddl"/>
                 <include name="js-pro-create-audit.ddl"/>
                 <include name="quartz.ddl"/>
             </fileset>
-        </runSQL>
+          </scripts>
+    	</initDB>
     </target>
 
     <target name="re-create-js-db-it-pro"
@@ -1291,17 +1297,13 @@
     <target name="drop-js-db-it-rest"
             description="drop jasperserver repository db for IT">
         <echo message="Dropping database. js.it.dbName = ${js.it.dbName}"/>
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="continue">
-            ${js.it.rest.drop}
-        </runSQL>
+    	<dropDB systemName="js.it.rest" jdbcUrl="${admin.jdbcUrl}" onerror="continue" />
     </target>
 
     <target name="create-js-db-it-rest"
             description="create jasperserver repository db for IT">
         <echo message="Creating database, js.it.rest.dbName = ${js.it.rest.dbName}, ${js.it.rest.create}"/>
-        <runSQL jdbcUrl="${admin.jdbcUrl}" print="true" onerror="abort">
-            ${js.it.rest.create}
-        </runSQL>
+    	<createDB systemName="js.it.rest" jdbcUrl="${admin.jdbcUrl}"/>
     </target>
 
     <target name="init-js-db-it-pro-rest"
@@ -1317,13 +1319,15 @@
         </if>
 
         <echo message="Connecting to ${js.it.rest.dbName} ..."/>
-        <runSQL jdbcUrl="${js.it.rest.jdbcUrl}" print="true" onerror="${runSqlOnError}">
+    	<initDB systemName="js.it.rest" jdbcUrl="${js.it.rest.jdbcUrl}" onerror="${runSqlOnError}">
+          <scripts>
             <fileset dir="${currentSqlDir}">
                 <include name="js-pro-create.ddl"/>
                 <include name="js-pro-create-audit.ddl"/>
                 <include name="quartz.ddl"/>
             </fileset>
-        </runSQL>
+          </scripts>
+    	</initDB>
     </target>
 
     <target name="re-create-js-db-it-pro-rest"
@@ -1385,9 +1389,9 @@
 
     <target name="get-cve-dependencies" depends="init-source-paths">
         <mkdir dir="${js-path}/target/dependency-check"/>
-        <get src="${mvn-mirror}/com/jaspersoft/dependency-check/dependency-check-ant-5.3.2.zip"
+        <get src="${mvn-mirror}/org/owasp/dependency-check-ant/12.1.3/dependency-check-ant-12.1.3-release.zip"
              dest="${js-path}/target/dependency-check" usetimestamp="true"/>
-        <unzip src="${js-path}/target/dependency-check/dependency-check-ant-5.3.2.zip"
+        <unzip src="${js-path}/target/dependency-check/dependency-check-ant-12.1.3-release.zip"
                dest="${js-path}/target/dependency-check">
             <patternset>
                 <include name="**/*.jar"/>
@@ -1405,24 +1409,25 @@
         </taskdef>
     </target>
 
-	<target name="check-cve-ce" depends="init-source-paths,get-cve-dependencies ,copy-extra-jars" description="CVE check analysis">
-	          <dependency-check  assemblyAnalyzerEnabled="false"
-                                 projectname="Jasperserver-ce"
-	                             reportformat="ALL"
-	                             reportoutputdirectory="${js-path}/target"
-	                             failBuildOnCVSS = "0"
-                                 centralAnalyzerUseCache="false"
-                                 nodeAuditAnalyzerUseCache="false"
-                                 dataDirectory="${user.home}">
-	              <suppressionfile path="suppress-cve-ce.xml" />
-	        <fileset dir="${js-path}/jasperserver-war/target/jasperserver/WEB-INF/lib">
-	            <include name="**/*.jar"/>
-	       	</fileset>
-	    	<fileset dir="${js-path}/target/check-cve-jars">
-	    		 <include name="**/*.jar"/>
-	    	</fileset>
-	    </dependency-check>
-	</target>
+	<target name="check-cve-ce" depends="init-source-paths,get-cve-dependencies, copy-extra-jars" description="CVE check analysis">
+	  <dependency-check assemblyAnalyzerEnabled="false"
+                      projectname="Jasperserver-ce"
+	                    reportformat="ALL"
+	                    reportoutputdirectory="${js-path}/target"
+	                    failBuildOnCVSS = "0"
+                      centralAnalyzerUseCache="false"
+                      nodeAuditAnalyzerUseCache="false"
+                      dataDirectory="${user.home}"
+	                    nvdApiKey="${env.NVD_API_KEY}">
+	    <suppressionfile path="suppress-cve-ce.xml" />
+	    <fileset dir="${js-path}/jasperserver-war/target/jasperserver/WEB-INF/lib">
+        <include name="**/*.jar"/>
+     	</fileset>
+    	<fileset dir="${js-path}/target/check-cve-jars">
+        <include name="**/*.jar"/>
+      </fileset>
+    </dependency-check>
+  </target>
 
 	<target name="check-cve-pro" depends="init-source-paths,get-cve-dependencies,copy-extra-jars" description="CVE check analysis">
 	    <dependency-check assemblyAnalyzerEnabled="false"

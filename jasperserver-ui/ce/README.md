@@ -1,4 +1,4 @@
-# JasperReports Server Community WEB UI
+# Jasper Server OS Community WEB UI
 ## Set Up
 - install [nodejs](https://nodejs.org). Build tested on version 14.x.x, but it might also work on version 10.x.x
 - install [yarn](https://yarnpkg.com/getting-started/install). Build tested on version 1.22.x
@@ -23,19 +23,23 @@ run the following commands in this folder:
 yarn run clean
 yarn run build
 ```
->After success build files will be placed here: `jrs-ui/build/overlay/scripts`.
+run the following commands in `jrs-ui`:
+```shell script
+yarn run overlay
+echo "BUILD_ARTIFACT_VERSION_NAME=master" > .env.local
+yarn run mvnPublish
+```
+Note: `master` is the version of the Maven artifact. You must use `master`
+for `BUILD_ARTIFACT_VERSION_NAME` in backend build also.
 
-## Deploy
-To deploy build result to the JasperReports Server instance, copy content of `jrs-ui/build/overlay`
+## Update
+To update the UI of a Jasper Server OS instance, copy content of `jrs-ui/build/overlay`
 to the deployment folder of your JRS instance. 
 
-For example if your app server is **Tomcat** and **JasperReports Server** deployed here:
+For example if your app server is **Tomcat** and **Jasper Server OS** deployed here:
 `c:\tomcat\webapps\jasperserver`, then copy content of the `jrs-ui/build/overlay` 
 folder to `c:\tomcat\webapps\jasperserver` (replace all target files)
 
 *NOTE:* Read [./jrs-ui/README.md](./jrs-ui/README.md) for more options like
 - automated deployment
 - webpack development server
-
-
-

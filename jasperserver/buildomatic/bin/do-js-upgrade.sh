@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# JasperReports Server common upgrade script.
+# Jasper Server OS common upgrade script.
 #
 # Usage: do-js-upgrade.sh {edition:(ce|pro)} {strategy:(standard|inDatabase)} {option:(<EMPTY>|with-samples|regen-config|test)} {option(for standard upgrade only):import file(-DimportFile=<path-to-file-and-filename>)}
 #
@@ -26,7 +26,7 @@ showUsage() {
 # Validating and setting edition.
 #
 if [[ $# -lt 1 || "$1" != "ce" && "$1" != "pro" ]]; then
-  fail "JasperReports Server edition (ce|pro) expected as input"
+  fail "Jasper Server OS edition (ce|pro) expected as input"
 fi
 JS_EDITION=$1
 
@@ -34,7 +34,7 @@ JS_EDITION=$1
 # Validating and setting upgrade strategy.
 #
 if [[ $# -lt 2 || "$2" != "standard" && "$2" != "inDatabase" ]]; then
-  fail "JasperReports Server upgrade strategy (standard|inDatabase) expected as input"
+  fail "Jasper Server OS upgrade strategy (standard|inDatabase) expected as input"
 fi
 JS_UPGRADE_STRATEGY=$2
 
@@ -81,7 +81,7 @@ else
         IMPORT_FILE=$JS_OPTION
         JS_OPTION=""
       elif [[ "$JS_OPTION" != "regen-config" && "$JS_OPTION" != "test" && "$JS_OPTION" != "help" ]]; then
-        fail "JasperReports Server import file(<path-to-file-and-filename>) expected as input"
+        fail "Jasper Server OS import file(<path-to-file-and-filename>) expected as input"
       fi
     else
       if [[ "$IS_INVALID_JS_OPTION_VALUE" == "true" ]]; then
@@ -98,7 +98,7 @@ else
 
 
   if [[ "$JS_UPGRADE_STRATEGY" == "standard" && "$JS_OPTION" != "regen-config" && "$JS_OPTION" != "test" && "$JS_OPTION" != "help" && "$IMPORT_FILE" == "" ]]; then
-    fail "JasperReports Server import file(<path-to-file-and-filename>) expected as input"
+    fail "Jasper Server OS import file(<path-to-file-and-filename>) expected as input"
   fi
 
   if [ "$JS_OPTION" == "" ]; then

@@ -1,1 +1,0 @@
-s/analysis\/datasources\/FoodmartDataSourceJNDI/datasources\/FoodmartDataSourceJNDI/

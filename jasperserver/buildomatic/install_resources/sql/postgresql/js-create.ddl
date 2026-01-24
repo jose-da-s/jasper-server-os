@@ -308,7 +308,7 @@ create sequence hibernate_sequence start 1 increment 1;
     create table JIReportJobMail (
        id int8 not null,
         version int4 not null,
-        subject varchar(100) not null,
+        subject varchar(255) not null,
         message varchar(2000),
         send_type int2 not null,
         skip_empty boolean not null,

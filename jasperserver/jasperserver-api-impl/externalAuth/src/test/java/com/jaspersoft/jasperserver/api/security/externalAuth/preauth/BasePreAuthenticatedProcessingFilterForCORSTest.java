@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -114,10 +116,17 @@ public class BasePreAuthenticatedProcessingFilterForCORSTest {
 
     private void setProviderManager() {
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
-        PowerMockito.when(contextHolder.createEmptyContext()).thenReturn(securityContext);
-        PowerMockito.when(contextHolder.getContext()).thenReturn(securityContext);
+        PowerMockito.when(SecurityContextHolder.getContext()).thenReturn(securityContext);
+        PowerMockito.when(SecurityContextHolder.createEmptyContext()).thenReturn(securityContext);
+
+        // Fix for NullPointerException - ensure getName() never returns null
         Mockito.when(authentication.getName()).thenReturn("test");
         Mockito.when(authentication.getPrincipal()).thenReturn("test");
+
+        // Setup authToken mock as well to prevent NPE
+        Mockito.when(authToken.getName()).thenReturn("test1");
+        Mockito.when(authToken.getPrincipal()).thenReturn("test1");
+
         Mockito.when(authManager.authenticate(Mockito.any())).thenReturn(authToken);
         Mockito.doNothing().when(extDataSynchronizer).synchronize();
     }

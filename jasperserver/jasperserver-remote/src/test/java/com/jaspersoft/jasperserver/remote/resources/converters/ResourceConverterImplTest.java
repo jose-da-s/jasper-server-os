@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -504,7 +506,7 @@ public class ResourceConverterImplTest {
 
         assertNull(clientResource.getVersion());
         assertNull(clientResource.getPermissionMask());
-        verifyZeroInteractions(permissionsService);
+        verifyNoInteractions(permissionsService);
     }
 
     @Test

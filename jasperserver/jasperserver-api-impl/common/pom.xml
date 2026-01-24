@@ -42,7 +42,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
-                    <argLine>${argLine}</argLine>
+                    <argLine>${argLine} ${jdk17.module.opens}</argLine>
                     <environmentVariables>
                         <ks>${project.build.directory}/test-classes</ks>
                         <ksp>${project.build.directory}/test-classes</ksp>
@@ -196,6 +196,27 @@
         <dependency>
             <groupId>net.jodah</groupId>
             <artifactId>failsafe</artifactId>
+        </dependency>
+
+        <!-- ByteBuddy dependencies for Mockito -->
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>${bytebuddy.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>${bytebuddy.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Enhanced Security Provider for tests -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcutil-jdk15on</artifactId>
+            <version>${bcprov-jdk15on.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

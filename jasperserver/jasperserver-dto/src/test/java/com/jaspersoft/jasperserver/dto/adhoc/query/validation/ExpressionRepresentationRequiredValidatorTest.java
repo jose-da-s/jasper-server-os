@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,7 +26,10 @@ package com.jaspersoft.jasperserver.dto.adhoc.query.validation;
 import com.jaspersoft.jasperserver.dto.adhoc.query.el.ClientExpressionContainer;
 import com.jaspersoft.jasperserver.dto.adhoc.query.el.operator.arithmetic.ClientAdd;
 import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
@@ -35,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -47,13 +52,26 @@ class ExpressionRepresentationRequiredValidatorTest {
     private static final String TEST_STRING = "TEST_STRING";
     private static final String TEST_PATH = "TEST_PATH";
     private ExpressionRepresentationRequiredValidator objectUnderTests = new ExpressionRepresentationRequiredValidator();
+    private AutoCloseable mockitoCloseable;
+
+    @BeforeEach
+    public void setUp() {
+        mockitoCloseable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception {
+        if (mockitoCloseable != null) {
+            mockitoCloseable.close();
+        }
+    }
 
     @Test
     public void initialize() {
         ExpressionRepresentationRequired container = mock(ExpressionRepresentationRequired.class);
 
         objectUnderTests.initialize(container);
-        verifyZeroInteractions(container);
+        verifyNoInteractions(container);
     }
 
     /*
@@ -82,7 +100,7 @@ class ExpressionRepresentationRequiredValidatorTest {
         boolean isValid = objectUnderTests.isValid(container, stub);
 
         assertFalse(isValid);
-        verifyZeroInteractions(stub);
+        verifyNoInteractions(stub);
     }
 
     @Test
@@ -94,7 +112,7 @@ class ExpressionRepresentationRequiredValidatorTest {
 
         boolean isValid = objectUnderTests.isValid(container, context);
         assertTrue(isValid);
-        verifyZeroInteractions(context);
+        verifyNoInteractions(context);
     }
 
     @Test
@@ -106,7 +124,7 @@ class ExpressionRepresentationRequiredValidatorTest {
 
         boolean isValid = objectUnderTests.isValid(container, context);
         assertTrue(isValid);
-        verifyZeroInteractions(context);
+        verifyNoInteractions(context);
     }
 
     /*

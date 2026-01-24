@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.api.metadata.common.util;
 
 import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
@@ -153,9 +156,18 @@ public class ConstraintValidatorContextDecoratorTest {
     }
 
     private ConstraintViolationImpl createViolation(Map<String, Object> expressionVariables) {
-        return (ConstraintViolationImpl) ConstraintViolationImpl.forBeanValidation(null,
-                null, expressionVariables, null, null, null,
-                null, null, null, null, null,null
+        return (ConstraintViolationImpl) ConstraintViolationImpl.forBeanValidation(
+                "", // messageTemplate
+                expressionVariables, // expressionVariables
+                Collections.emptyMap(), // messageParameters
+                "", // interpolatedMessage
+                Object.class, // rootBeanClass
+                new Object(), // rootBean
+                new Object(), // leafBeanInstance
+                new Object(), // value
+                null, // propertyPath
+                null, // constraintDescriptor
+                null // dynamicPayload
         );
     }
 }

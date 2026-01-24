@@ -28,8 +28,8 @@
 
     <!-- properties to specify current upgrade source and target version values -->
     <!-- these are used to help specify the sql update script to be executed    -->
-    <property name="defaultUpgradeFromVersion" value="8.1" />
-    <property name="defaultUpgradeToVersion" value="8.2" />
+    <property name="defaultUpgradeFromVersion" value="8.2" />
+    <property name="defaultUpgradeToVersion" value="8.3" />
     <!--  oracle special handling-->
 	<property name="quartz.ddl.default" value="quartz.ddl"/>
 	<property name="quartz.ddl.oracle23plus" value="quartz-oracle23.ddl"/>
@@ -1150,6 +1150,38 @@
         <runSQL jdbcUrl="${js.jdbcUrl}" print="true">
             <fileset dir="${currentSqlDir}">
                 <include name="upgrade-${dbType}-8.1.0-8.2.0-ce.sql"/>
+            </fileset>
+        </runSQL>
+    </target>
+
+    <target name="upgrade-8.2-8.3-ce"
+            description="upgrade from 8.2 to 8.3">
+
+        <echo> </echo>
+        <echo> currentSqlDir = ${currentSqlDir} </echo>
+        <echo> dbType = ${dbType} </echo>
+        <echo> </echo>
+
+        <if>
+            <not>
+                <available file="${currentSqlDir}/upgrade-${dbType}-8.2.0-8.3.0-ce.sql"/>
+            </not>
+            <then>
+                <echo> </echo>
+                <echo>======================================================================</echo>
+                <echo> Error: The upgrade script: upgrade-${dbType}-8.2.0-8.3.0-ce.sql      </echo>
+                <echo> Error: is not currently available.                                   </echo>
+                <echo> Error: Check release notes for availability on your database type    </echo>
+                <echo>======================================================================</echo>
+                <echo> </echo>
+                <fail>Error: The upgrade script: upgrade-${dbType}-8.2.0-8.3.0-ce.sql was not found</fail>
+            </then>
+        </if>
+
+        <echo>run script: ${currentSqlDir}/upgrade-${dbType}-8.1.0-8.2.0-ce.sql </echo>
+        <runSQL jdbcUrl="${js.jdbcUrl}" print="true">
+            <fileset dir="${currentSqlDir}">
+                <include name="upgrade-${dbType}-8.2.0-8.3.0-ce.sql"/>
             </fileset>
         </runSQL>
     </target>

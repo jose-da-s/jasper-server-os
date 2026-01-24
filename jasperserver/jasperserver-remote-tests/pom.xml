@@ -83,7 +83,7 @@
             <include>**/*Test.java</include>
             <include>**/*TestCase.java</include>
           </includes>
-          <argLine>${argLine}</argLine>
+          <argLine>${argLine} ${jdk17.module.opens}</argLine>
           <systemPropertyVariables>
             <!-- specifying the server instance to test -->
             <remote.test.host>localhost</remote.test.host>

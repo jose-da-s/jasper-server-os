@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -98,7 +100,8 @@ public class SimpleSpringTest extends AbstractTestNGSpringContextTests {
      *          
      * @return  nothing
      */
-    @Test(parameters = { "simple-spring-test-input" })
+    @Test
+    @org.testng.annotations.Parameters({ "simple-spring-test-input" })
     public void mainSpringTest(String inputParam) {
 
         // introduce ourselves...

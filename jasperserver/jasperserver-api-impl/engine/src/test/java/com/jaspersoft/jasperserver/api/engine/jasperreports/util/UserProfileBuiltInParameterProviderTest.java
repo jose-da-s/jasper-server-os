@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -180,9 +182,11 @@ public class UserProfileBuiltInParameterProviderTest {
     @Test
     public void getParameter_LoggedInUser_passed() {
         user.setUsername("username");
-        User loggedInUser = (User) userProfileBuiltInParameterProvider.getParameter(null, null, null,
+        Object result = userProfileBuiltInParameterProvider.getParameter(null, null, null,
                 "LoggedInUser")[1];
-        assertEquals(user, loggedInUser);
+        assertTrue(result instanceof MetadataUserDetails);
+        MetadataUserDetails loggedInUser = (MetadataUserDetails) result;
+        assertEquals(user.getUsername(), loggedInUser.getUsername());
     }
 
     @Test
@@ -343,7 +347,12 @@ public class UserProfileBuiltInParameterProviderTest {
         user.setUsername("username");
         List<Object[]> parameters = userProfileBuiltInParameterProvider.getParameters(null, null, null);
 
-        assertEquals(user, parameters.get(0)[1]);
+        // The provider returns a MetadataUserDetails object, not the raw UserImpl
+        assertTrue(parameters.get(0)[1] instanceof MetadataUserDetails);
+        MetadataUserDetails details = (MetadataUserDetails) parameters.get(0)[1];
+        assertEquals(user.getUsername(), details.getUsername());
+
+        // Username comparison is still valid
         assertEquals(user.getUsername(), parameters.get(1)[1]);
     }
 

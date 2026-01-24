@@ -127,6 +127,12 @@
             <version>${ehcache.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.3.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito2</artifactId>
             <version>2.0.2</version>
@@ -280,13 +286,12 @@
         <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
-            <version>2.2.4</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.web</groupId>
+            <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
-            <version>2.2.4</version>
-            <scope>test</scope>
+            <version>3.0.0</version>
         </dependency>
         <!-- OWASP ESAPI: START -->
         <dependency>
@@ -503,8 +508,7 @@
                         <include>**/security/**/*Test.java</include>
                         <include>**/RepoQueryTest.java</include>                        
                     </includes>
-                    <argLine>${argLine}</argLine>
-                    <!--<argLine>-Xms512m -Xmx1024m -XX:PermSize=32m -XX:MaxPermSize=128m -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</argLine>-->
+                    <argLine>${argLine} ${jdk17.module.opens}</argLine>
                 </configuration>
             </plugin>
         </plugins>

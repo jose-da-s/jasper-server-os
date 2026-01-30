@@ -28,8 +28,8 @@
 
     <!-- properties to specify current upgrade source and target version values -->
     <!-- these are used to help specify the sql update script to be executed    -->
-    <property name="defaultUpgradeFromVersion" value="8.2" />
-    <property name="defaultUpgradeToVersion" value="8.3" />
+    <property name="defaultUpgradeFromVersion" value="8.3" />
+    <property name="defaultUpgradeToVersion" value="8.4" />
     <!--  oracle special handling-->
 	<property name="quartz.ddl.default" value="quartz.ddl"/>
 	<property name="quartz.ddl.oracle23plus" value="quartz-oracle23.ddl"/>
@@ -1186,6 +1186,38 @@
         </runSQL>
     </target>
 
+  <target name="upgrade-8.3-8.4-ce"
+          description="upgrade from 8.3 to 8.4">
+
+      <echo> </echo>
+      <echo> currentSqlDir = ${currentSqlDir} </echo>
+      <echo> dbType = ${dbType} </echo>
+      <echo> </echo>
+
+      <if>
+          <not>
+              <available file="${currentSqlDir}/upgrade-${dbType}-8.3.0-8.4.0-ce.sql"/>
+          </not>
+          <then>
+              <echo> </echo>
+              <echo>======================================================================</echo>
+              <echo> Error: The upgrade script: upgrade-${dbType}-8.3.0-8.4.0-ce.sql      </echo>
+              <echo> Error: is not currently available.                                   </echo>
+              <echo> Error: Check release notes for availability on your database type    </echo>
+              <echo>======================================================================</echo>
+              <echo> </echo>
+              <fail>Error: The upgrade script: upgrade-${dbType}-8.3.0-8.4.0-ce.sql was not found</fail>
+          </then>
+      </if>
+
+      <echo>run script: ${currentSqlDir}/upgrade-${dbType}-8.3.0-8.4.0-ce.sql</echo>
+      <runSQL jdbcUrl="${js.jdbcUrl}" print="true">
+          <fileset dir="${currentSqlDir}">
+              <include name="upgrade-${dbType}-8.3.0-8.4.0-ce.sql"/>
+          </fileset>
+      </runSQL>
+  </target>
+
     <!-- these upgrades prompt by default, but if you want to script this, you can override it.
          Just add a -DpromptUpgrade=false flag when you call js-ant
       -->
@@ -1668,6 +1700,12 @@
                         </then>
                     </if>
 
+                	  <!-- if the user fails to provide a zip, report error and crash BEFORE
+                	       nuking their backup-less DB -->
+                    <check-import-export-file-property
+                        type="import"
+                        edition="ce"
+                        example="js-ant import-upgrade-ce -DimportFile=my-upgrade.zip"/>
                     <recreateDB systemName="js" prompt="false" />
                     <antcall target="init-js-db-@{edition}">
                         <param name="stopIfError" value="true" />

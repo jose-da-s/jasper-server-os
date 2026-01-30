@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -103,9 +105,12 @@ public class EncryptionAuthenticationProcessingFilterTest {
     }
 
     private void setUpSecurityConfigProperties() {
-        SecurityConfiguration secConfig = PowerMockito.mock(SecurityConfiguration.class, Mockito.RETURNS_DEEP_STUBS);
-        Mockito.when(securityConfigProps.getProperty(Mockito.any(String.class), Mockito.any(String.class))).thenReturn("false");
-        PowerMockito.when(secConfig.isEncryptionOn()).thenReturn(false);
+        // use proper stubbing method
+        PowerMockito.when(SecurityConfiguration.isEncryptionOn()).thenReturn(false);
+        // Instead of using matchers, we use specific property keys
+        Mockito.when(securityConfigProps.getProperty("encryption.on", "false")).thenReturn("false");
+        Mockito.when(securityConfigProps.getProperty("security.validation.input.on", "false")).thenReturn("false");
+        Mockito.when(securityConfigProps.getProperty("security.validation.sql.on", "false")).thenReturn("false");
     }
 
     private void setupProviderManager() {

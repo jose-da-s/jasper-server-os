@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -155,8 +157,8 @@ public class ResourceReferenceConverterTest {
                 .setInMemoryResource(true);
         final ClientUriHolder result = converter.toClient(serverObject, options);
 
-        verifyZeroInteractions(repositoryService);
-        verifyZeroInteractions(resourceConverterProvider);
+        verifyNoInteractions(repositoryService);
+        verifyNoInteractions(resourceConverterProvider);
         assertEquals(result.getUri(), testUri);
     }
 
@@ -172,8 +174,8 @@ public class ResourceReferenceConverterTest {
                 .setInMemoryResource(true);
         final ClientUriHolder result = converter.toClient(serverObject, options);
 
-        verifyZeroInteractions(repositoryService);
-        verifyZeroInteractions(resourceConverterProvider);
+        verifyNoInteractions(repositoryService);
+        verifyNoInteractions(resourceConverterProvider);
         assertEquals(result.getUri(), testUri);
     }
 
@@ -197,7 +199,7 @@ public class ResourceReferenceConverterTest {
 
         assertSame(result, expectedClientObject);
         assertEquals(result.getUri(), testUri);
-        verifyZeroInteractions(repositoryService);
+        verifyNoInteractions(repositoryService);
     }
 
     @Test

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -23,7 +25,7 @@
 
 <module xmlns="urn:jboss:module:1.1" name="jaspersoft.javax.validation.api" slot="1.1">
     <resources>
-        <resource-root path="validation-api-1.1.0.Final.jar"/>
+        <resource-root path="validation-api-2.0.1.Final.jar"/>
     </resources>
 
     <dependencies>

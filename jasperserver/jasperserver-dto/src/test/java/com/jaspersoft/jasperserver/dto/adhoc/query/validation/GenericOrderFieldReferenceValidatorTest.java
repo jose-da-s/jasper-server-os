@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,8 +24,11 @@
 package com.jaspersoft.jasperserver.dto.adhoc.query.validation;
 
 import com.jaspersoft.jasperserver.dto.adhoc.query.order.ClientGenericOrder;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.mockito.MockitoAnnotations;
 
 import javax.validation.ConstraintValidatorContext;
 
@@ -31,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 /**
  * @author Olexandr Dahno <odahno@tibco.com>
@@ -41,13 +46,26 @@ class GenericOrderFieldReferenceValidatorTest {
 
     private static final String TEST_REFERENCE = "TEST_REFERENCE";
     private GenericOrderFieldReferenceValidator objectUnderTests = new GenericOrderFieldReferenceValidator();
+    private AutoCloseable mockitoCloseable;
+
+    @BeforeEach
+    public void setUp() {
+        mockitoCloseable = MockitoAnnotations.openMocks(this);
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception {
+        if (mockitoCloseable != null) {
+            mockitoCloseable.close();
+        }
+    }
 
     @Test
     public void initialize() {
         CheckGenericOrderFieldReference container = mock(CheckGenericOrderFieldReference.class);
 
         objectUnderTests.initialize(container);
-        verifyZeroInteractions(container);
+        verifyNoInteractions(container);
     }
 
     /*
@@ -101,7 +119,7 @@ class GenericOrderFieldReferenceValidatorTest {
 
         boolean isValid = objectUnderTests.isValid(order, stub);
         assertFalse(isValid);
-        verifyZeroInteractions(stub);
+        verifyNoInteractions(stub);
     }
 
     @Test
@@ -113,7 +131,7 @@ class GenericOrderFieldReferenceValidatorTest {
 
         boolean isValid = objectUnderTests.isValid(order, stub);
         assertTrue(isValid);
-        verifyZeroInteractions(stub);
+        verifyNoInteractions(stub);
     }
 
     @Test
@@ -124,7 +142,7 @@ class GenericOrderFieldReferenceValidatorTest {
 
         boolean isValid = objectUnderTests.isValid(order, stub);
         assertTrue(isValid);
-        verifyZeroInteractions(stub);
+        verifyNoInteractions(stub);
     }
 
     @Test
@@ -136,7 +154,7 @@ class GenericOrderFieldReferenceValidatorTest {
 
         boolean isValid = objectUnderTests.isValid(order, stub);
         assertFalse(isValid);
-        verifyZeroInteractions(stub);
+        verifyNoInteractions(stub);
     }
 
 }

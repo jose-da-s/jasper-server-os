@@ -136,6 +136,50 @@
             </if>
             <echo>MAVEN LOGGING: ${maven.logging.level}</echo>
 
+            <!-- Check if JDK is version 17 or higher and prepare JVM args accordingly -->
+            <available classname="java.lang.Module" property="java.modules.supported"/>
+            <local name="jdk17.jvmargs"/>
+            <property name="jdk17.jvmargs" value=""/>
+
+            <if>
+                <available classname="java.lang.Module"/>
+                <then>
+                    <echo>Detecting Java version...</echo>
+                    <exec executable="java" outputproperty="java.version.output">
+                        <arg value="-version"/>
+                    </exec>
+                    <echo>Java version: ${java.version.output}</echo>
+
+                    <!-- Extract Java version number -->
+                    <script language="javascript">
+                        <![CDATA[
+                        var versionOutput = project.getProperty("java.version.output");
+                        var versionRegex = /version "([0-9]+)/;
+                        var match = versionRegex.exec(versionOutput);
+                        if (match != null && match.length > 1) {
+                            var majorVersion = parseInt(match[1]);
+                            if (majorVersion >= 17) {
+                                project.setProperty("isJdk17Plus", "true");
+                                project.log("Detected JDK " + majorVersion + " - will add JDK 17+ specific options");
+                            } else {
+                                project.log("Detected JDK " + majorVersion + " - no need for JDK 17+ specific options");
+                            }
+                        } else {
+                            project.log("Could not determine Java version from: " + versionOutput);
+                        }
+                        ]]>
+                    </script>
+
+                    <if>
+                        <isset property="isJdk17Plus"/>
+                        <then>
+                            <echo>Adding JDK 17+ specific JVM options</echo>
+                            <var name="jdk17.jvmargs" value="--add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.lang.ref=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.nio.channels.spi=ALL-UNNAMED --add-opens java.base/java.nio.channels=ALL-UNNAMED --add-opens java.base/java.nio=ALL-UNNAMED --add-opens java.base/java.security=ALL-UNNAMED --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens java.base/java.util.concurrent.locks=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED --add-opens java.base/java.util.regex=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/javax.security.auth.login=ALL-UNNAMED --add-opens java.base/javax.security.auth=ALL-UNNAMED --add-opens java.base/jdk.internal.access.foreign=ALL-UNNAMED --add-opens java.base/sun.net.util=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.rmi/sun.rmi.transport=ALL-UNNAMED --add-opens=java.base/sun.util.calendar=ALL-UNNAMED --add-opens java.xml/com.sun.org.apache.xml.internal.serialize=ALL-UNNAMED --add-opens java.xml/com.sun.org.apache.xerces.internal.dom=ALL-UNNAMED --add-opens java.xml/com.sun.org.apache.xerces.internal.jaxp=ALL-UNNAMED --add-opens java.xml/com.sun.org.apache.xerces.internal.util=ALL-UNNAMED --add-exports java.xml/com.sun.org.apache.xml.internal.serialize=ALL-UNNAMED"/>
+                        </then>
+                    </if>
+                </then>
+            </if>
+
             <java classname="org.codehaus.classworlds.Launcher"
                  fork="true"
                  failonerror="true"
@@ -143,6 +187,7 @@
                  resultproperty="maven.result">
                 <jvmarg value="-Xms128m"/>
                 <jvmarg value="-Xmx2048m"/>
+                <jvmarg line="${jdk17.jvmargs}"/>
                 <sysproperty key="maven.multiModuleProjectDirectory" value="@{dir}"/>
                 <sysproperty key="classworlds.conf" value="${maven.home}/bin/m2.conf"/>
                 <sysproperty key="maven.home" value="${maven.home}"/>

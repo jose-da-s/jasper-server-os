@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -40,13 +42,12 @@ import com.jaspersoft.jasperserver.remote.services.ReportExecution;
 import com.jaspersoft.jasperserver.remote.services.ReportExecutionOptions;
 import com.jaspersoft.jasperserver.remote.services.ReportExecutor;
 import com.jaspersoft.jasperserver.remote.utils.AuditHelper;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import org.apache.commons.lang3.tuple.Pair;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.cache.Cache;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
@@ -119,7 +120,7 @@ public class RunReportServiceImplTest extends AbstractTestNGSpringContextTests {
     @Mock
     private ExecutionsPublishingEventService publishingEventService;
 
-    private final Ehcache cache = mock(Ehcache.class);
+    private final Cache cache = mock(Cache.class);
 
     private List<ReportInputControl> controlsCascade = new ArrayList<>();
 
@@ -442,12 +443,13 @@ public class RunReportServiceImplTest extends AbstractTestNGSpringContextTests {
         Map<String, String[]> rawParameters = Collections.singletonMap("parameter", new String[]{"value1", "value2"});
         ReportExecution reportExecution = service.createReportExecution("uri", rawParameters, options);
 
-        ArgumentCaptor<Element> captor = ArgumentCaptor.forClass(Element.class);
-        verify(cache).put(captor.capture());
+        ArgumentCaptor<String> keyCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Object> valueCaptor = ArgumentCaptor.forClass(Object.class);
+        verify(cache).put(keyCaptor.capture(), valueCaptor.capture());
 
-        Element value = captor.getValue();
-        assertNotNull(value.getObjectValue());
-        Pair<String, ReportExecution> pair = (Pair<String, ReportExecution>) value.getObjectValue();
+        Object cacheValue = valueCaptor.getValue();
+        assertNotNull(cacheValue);
+        Pair<String, ReportExecution> pair = (Pair<String, ReportExecution>) cacheValue;
         ReportExecution actualReportExecution = pair.getValue();
         assertEquals("jasperadmin|org_1", pair.getKey());
         assertEquals(reportExecution, actualReportExecution);
@@ -509,8 +511,9 @@ public class RunReportServiceImplTest extends AbstractTestNGSpringContextTests {
         ReportExecution reportExecution = new ReportExecution();
         reportExecution.setRequestId(requestId);
 
-        Element element = new Element(requestId, Pair.of(username, reportExecution));
-        doReturn(element).when(cache).get(eq(requestId));
+        Pair<String, ReportExecution> pair = Pair.of(username, reportExecution);
+        Cache.ValueWrapper wrapper = () -> pair;
+        doReturn(wrapper).when(cache).get(eq(requestId));
 
         return reportExecution;
     }

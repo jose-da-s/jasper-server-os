@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,13 +24,12 @@ package com.jaspersoft.jasperserver.remote.connection.storage;
 
 import com.jaspersoft.jasperserver.api.metadata.user.domain.User;
 import com.jaspersoft.jasperserver.remote.exception.AccessDeniedException;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.cache.Cache;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -65,9 +66,9 @@ public class ContextsStorageSecurityAspect {
     )
     public void checkOwner(JoinPoint joinPoint){
         final UUID uuid = (UUID) joinPoint.getArgs()[0];
-        final Element element = getElement(uuid);
-        if(element != null){
-            final Object pair = element.getObjectValue();
+        final Cache.ValueWrapper wrapper = getElement(uuid);
+        if(wrapper != null){
+            final Object pair = wrapper.get();
             if(pair != null){
                 if(!(pair instanceof OwnedContextDataPair &&
                         getCurrentUserQualifiedName().equals(((OwnedContextDataPair) pair).getOwner()))){
@@ -84,7 +85,7 @@ public class ContextsStorageSecurityAspect {
      * @param uuid the context UUID
      * @return element with context or null if doesn't exist
      */
-    protected Element getElement(UUID uuid){
+    protected Cache.ValueWrapper getElement(UUID uuid){
         return cache.get(uuid);
     }
 

@@ -2,10 +2,9 @@ package com.jaspersoft.jasperserver.api.metadata.user.service.impl;
 
 import com.jaspersoft.jasperserver.api.metadata.user.service.impl.CreateExecutionApplicationEvent.ExecutionType;
 import com.jaspersoft.jasperserver.api.common.util.spring.StaticApplicationContext;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Ehcache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.cache.Cache;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -29,20 +28,20 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
 
     // Run Report Service cache
     @Resource(name = "runReportServiceCacheFactoryBean")
-    private Ehcache sharedReportExecutionsCache;
+    private Cache sharedReportExecutionsCache;
 
     // Dashboard caches
     @Resource(name = "dashboardTasks")
-    private Ehcache sharedDashboardTasks;
+    private Cache sharedDashboardTasks;
 
     @Resource(name = "dashboardResults")
-    private Ehcache sharedDashboardResults;
+    private Cache sharedDashboardResults;
 
     @Resource(name = "dashboardProcesses")
-    private Ehcache sharedDashboardProcesses;
+    private Cache sharedDashboardProcesses;
 
     @Resource(name = "dashboardIDToUsers")
-    private Ehcache sharedDashboardIDToUsers;
+    private Cache sharedDashboardIDToUsers;
 
     private Map<ExecutionType, Set<String>> sessionExecutionsCache;
 
@@ -74,12 +73,26 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
                 log.debug("No executions were found, skipping");
                 continue;
             }
-            Ehcache[] sharedCaches = getSharedCachesForType(type);
-            for (Ehcache sharedCache : sharedCaches) {
-                sharedCache.removeAll(cache);
-                if (log.isDebugEnabled()) {
-                    log.debug("Removed {} {} executions from the {} cache. Total number of executions left: {}",
-                            cache.size(), type, sharedCache.getName(), sharedCache.getSize());
+            Cache[] sharedCaches = getSharedCachesForType(type);
+            for (Cache sharedCache : sharedCaches) {
+                // Spring Cache doesn't support removeAll with collection, so we need to use native cache
+                Object nativeCache = sharedCache.getNativeCache();
+                if (nativeCache instanceof net.sf.ehcache.Ehcache) {
+                    net.sf.ehcache.Ehcache ehcache = (net.sf.ehcache.Ehcache) nativeCache;
+                    ehcache.removeAll(cache);
+                    if (log.isDebugEnabled()) {
+                        log.debug("Removed {} {} executions from the {} cache. Total number of executions left: {}",
+                                cache.size(), type, sharedCache.getName(), ehcache.getSize());
+                    }
+                } else {
+                    // Fallback: evict one by one
+                    for (String executionId : cache) {
+                        sharedCache.evict(executionId);
+                    }
+                    if (log.isDebugEnabled()) {
+                        log.debug("Removed {} {} executions from the {} cache",
+                                cache.size(), type, sharedCache.getName());
+                    }
                 }
             }
             cache.clear();
@@ -103,15 +116,15 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
         return sessionExecutionsCache.computeIfAbsent(type, executionType -> new HashSet<>());
     }
 
-    private Ehcache[] getSharedCachesForType(ExecutionType type) {
+    private Cache[] getSharedCachesForType(ExecutionType type) {
         switch (type) {
             case REPORT:
-                return new Ehcache[]{sharedReportExecutionsCache};
+                return new Cache[]{sharedReportExecutionsCache};
             case DASHBOARD:
-                return new Ehcache[]{sharedDashboardTasks, sharedDashboardResults,
+                return new Cache[]{sharedDashboardTasks, sharedDashboardResults,
                         sharedDashboardProcesses, sharedDashboardIDToUsers};
             default:
-                return new Ehcache[0];
+                return new Cache[0];
         }
     }
 }

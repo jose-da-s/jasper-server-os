@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,8 +23,7 @@
 package com.jaspersoft.jasperserver.remote.connection.storage;
 
 import com.jaspersoft.jasperserver.remote.exception.ResourceNotFoundException;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
+import org.springframework.cache.Cache;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -41,13 +42,13 @@ public class ContextDataStorage {
 
     public UUID save(ContextDataPair item){
         final UUID uuid = UUID.randomUUID();
-        cache.put(new Element(uuid, item));
+        cache.put(uuid, item);
         return uuid;
     }
 
     public ContextDataPair get(UUID uuid, boolean throwExceptionIfNotFound){
-        final Element element = cache.get(uuid);
-        if (element == null) {
+        final Cache.ValueWrapper wrapper = cache.get(uuid);
+        if (wrapper == null) {
             if (throwExceptionIfNotFound) {
                 throw new ResourceNotFoundException(uuid.toString());
             } else {
@@ -55,7 +56,7 @@ public class ContextDataStorage {
                 return null;
             }
         }
-        return (ContextDataPair) element.getObjectValue();
+        return (ContextDataPair) wrapper.get();
     }
 
     public ContextDataPair get(UUID uuid){
@@ -63,11 +64,11 @@ public class ContextDataStorage {
     }
 
     public void delete(UUID uuid){
-        cache.remove(uuid);
+        cache.evict(uuid);
     }
 
     public void update(UUID uuid, ContextDataPair item){
-        cache.replace(new Element(uuid, item));
+        cache.put(uuid, item);
     }
 
 }

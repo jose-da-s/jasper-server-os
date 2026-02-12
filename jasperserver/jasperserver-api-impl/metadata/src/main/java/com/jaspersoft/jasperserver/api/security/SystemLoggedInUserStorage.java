@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,9 +24,8 @@ package com.jaspersoft.jasperserver.api.security;
 
 import com.jaspersoft.jasperserver.api.metadata.common.service.ResourceFactory;
 import com.jaspersoft.jasperserver.api.metadata.user.domain.User;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.cache.Cache;
 
 import java.io.Serializable;
 
@@ -38,7 +39,7 @@ import java.io.Serializable;
  */
 public class SystemLoggedInUserStorage {
     private ResourceFactory objectFactory;
-    private Ehcache cache;
+    private Cache cache;
     private final String allowPasswordCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
 
     /**
@@ -56,9 +57,9 @@ public class SystemLoggedInUserStorage {
         user.setUsername(userName);
         user.setPassword(password);
 
-        Element element = new Element(key, user);
-
-        cache.put(element);
+        if (cache != null) {
+            cache.put(key, user);
+        }
 
         return user;
     }
@@ -69,21 +70,26 @@ public class SystemLoggedInUserStorage {
 
     public User loadUserByNameAndPassword(String userName, String password) {
         QueryCompositeKey key = new QueryCompositeKey(userName, password);
-        if (cache.get(key) != null) {
-            return (User)cache.get(key).getValue();
+        if (cache != null) {
+            Cache.ValueWrapper wrapper = cache.get(key);
+            if (wrapper != null) {
+                return (User) wrapper.get();
+            }
         }
-
         return null;
     }
 
     public void removeUser(String userName, String password) {
         QueryCompositeKey key = new QueryCompositeKey(userName, password);
-        if (cache.get(key) != null) {
-            cache.remove(key);
+        if (cache != null) {
+            Cache.ValueWrapper wrapper = cache.get(key);
+            if (wrapper != null) {
+                cache.evict(key);
+            }
         }
     }
 
-    public void setCache(Ehcache cache) {
+    public void setCache(Cache cache) {
         this.cache = cache;
     }
 

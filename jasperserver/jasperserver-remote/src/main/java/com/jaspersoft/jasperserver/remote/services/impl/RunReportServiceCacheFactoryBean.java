@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,13 +25,6 @@ package com.jaspersoft.jasperserver.remote.services.impl;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.domain.impl.ReportUnitResult;
 import com.jaspersoft.jasperserver.dto.executions.ExecutionStatus;
 import com.jaspersoft.jasperserver.remote.services.ReportExecution;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.event.CacheEventListener;
-import net.sf.ehcache.event.RegisteredEventListeners;
 import net.sf.jasperreports.engine.JRPrintPage;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -39,6 +34,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -52,17 +50,17 @@ import static java.lang.String.format;
  * @author esytnik, schubar
  */
 @Component
-public class RunReportServiceCacheFactoryBean implements FactoryBean<Ehcache>, InitializingBean {
+public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache>, InitializingBean {
     private static final Log log = LogFactory.getLog(RunReportServiceCacheFactoryBean.class);
 
     private static final String DEFAULT_CACHE_NAME = "RRSCache";
 
-    @Resource(name = "cacheManager")
-    private CacheManager manager;
+    @Resource(name = "springCacheManager")
+    private CacheManager cacheManager;
 
     private String cacheName = DEFAULT_CACHE_NAME;
 
-    private Ehcache cache;
+    private Cache cache;
 
     public String getCacheName() {
         return cacheName;
@@ -73,9 +71,9 @@ public class RunReportServiceCacheFactoryBean implements FactoryBean<Ehcache>, I
     }
 
     @Override
-    public Ehcache getObject() throws CacheException {
+    public Cache getObject() {
         if (cache == null) {
-            throw new CacheException(format("Cache '%s' is not configured.", getCacheName()));
+            throw new IllegalStateException(format("Cache '%s' is not configured.", getCacheName()));
         }
 
         return cache;
@@ -92,72 +90,78 @@ public class RunReportServiceCacheFactoryBean implements FactoryBean<Ehcache>, I
     }
 
     @Override
-    public void afterPropertiesSet() throws CacheException {
+    public void afterPropertiesSet() {
         final String FAIL_MSG = format("Failed to configure %s cache.", getCacheName());
 
-        if (manager == null) {
-            throw new CacheException(format("%s Missing 'cacheManager' cache manger.", FAIL_MSG));
+        if (cacheManager == null) {
+            throw new IllegalStateException(format("%s Missing 'cacheManager' cache manager.", FAIL_MSG));
         }
 
         if (log.isDebugEnabled()) {
-            log.debug(format("************ RRS *********: manager: %s", this.manager.getName()));
+            log.debug(format("************ RRS *********: manager: %s",
+                    cacheManager.getClass().getSimpleName()));
         }
 
-        if (manager.cacheExists(getCacheName())) {
-            cache = manager.getCache(getCacheName());
+        cache = cacheManager.getCache(getCacheName());
 
-            if (cache.getCacheEventNotificationService() == null) {
-                throw new CacheException(format("%s Cache is not initialized.", FAIL_MSG));
+        if (cache == null) {
+            throw new IllegalStateException(format("%s Cache '%s' doesn't exist.", FAIL_MSG, getCacheName()));
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug(format("************ RRS *********: Cache: %s", cache.getName()));
+        }
+
+        // Register cache event listener if using EhCache
+        if (cacheManager instanceof EhCacheCacheManager) {
+            net.sf.ehcache.Ehcache ehcache = (net.sf.ehcache.Ehcache) cache.getNativeCache();
+
+            if (ehcache.getCacheEventNotificationService() == null) {
+                throw new IllegalStateException(format("%s Cache is not initialized.", FAIL_MSG));
             }
 
-            if (log.isDebugEnabled()) {
-                log.debug(format("************ RRS *********: Cache: %s", cache.getName()));
-            }
-
-            final RegisteredEventListeners cacheEventNotificationService = cache.getCacheEventNotificationService();
+            final net.sf.ehcache.event.RegisteredEventListeners cacheEventNotificationService =
+                    ehcache.getCacheEventNotificationService();
 
             cacheEventNotificationService.getCacheEventListeners().clear();
             cacheEventNotificationService.registerListener(new RunReportCacheEventListener());
-
-        } else {
-            throw new CacheException(format("%s Cache '%s' doesn't exist.", FAIL_MSG, getCacheName()));
         }
     }
 
-    static class RunReportCacheEventListener implements CacheEventListener {
+    static class RunReportCacheEventListener implements net.sf.ehcache.event.CacheEventListener {
         // freaking Oracle edge case
         public Object clone() {
             return this.clone();
         }
 
         @Override
-        public void notifyRemoveAll(Ehcache arg0) {
+        public void notifyRemoveAll(net.sf.ehcache.Ehcache arg0) {
         }
 
         @Override
-        public void notifyElementUpdated(Ehcache arg0, Element arg1) throws CacheException {
+        public void notifyElementUpdated(net.sf.ehcache.Ehcache arg0, net.sf.ehcache.Element arg1) {
         }
 
         @Override
-        public void notifyElementRemoved(Ehcache arg0, Element element) throws CacheException {
+        public void notifyElementRemoved(net.sf.ehcache.Ehcache arg0, net.sf.ehcache.Element element) {
             if (log.isDebugEnabled()) {
                 log.debug("33816 DEBUG: remove element: " + element.getObjectKey());
             }
         }
 
         @Override
-        public void notifyElementPut(Ehcache arg0, Element element) throws CacheException {
+        public void notifyElementPut(net.sf.ehcache.Ehcache arg0, net.sf.ehcache.Element element) {
             if (log.isDebugEnabled()) {
                 log.debug("33816 DEBUG: put element: " + element.getObjectKey());
             }
         }
 
         @Override
-        public void notifyElementExpired(Ehcache arg0, Element arg1) {
+        public void notifyElementExpired(net.sf.ehcache.Ehcache arg0, net.sf.ehcache.Element arg1) {
         }
 
         @Override
-        public void notifyElementEvicted(Ehcache arg0, Element element) {
+        public void notifyElementEvicted(net.sf.ehcache.Ehcache arg0, net.sf.ehcache.Element element) {
             String requestId = (String) element.getObjectKey();
             Pair<String, ReportExecution> pair = (Pair<String, ReportExecution>) element.getObjectValue();
             ReportExecution execution = pair.getRight();

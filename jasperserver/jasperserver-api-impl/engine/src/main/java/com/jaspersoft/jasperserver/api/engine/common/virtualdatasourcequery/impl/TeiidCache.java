@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,8 +23,6 @@
 
 package com.jaspersoft.jasperserver.api.engine.common.virtualdatasourcequery.impl;
 
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.teiid.cache.Cache;
@@ -36,18 +36,18 @@ import java.util.Set;
 
 public class TeiidCache<K, V> implements Cache<K, V> {
 
-    Ehcache ehcache;
+    org.springframework.cache.Cache springCache;
     String cacheName;
     boolean transactional;
 
     static final Log log = LogFactory.getLog(TeiidCacheFactory.class);
 
-    public Ehcache getEhcache() {
-        return ehcache;
+    public org.springframework.cache.Cache getSpringCache() {
+        return springCache;
     }
 
-    public void setEhcache(Ehcache ehcache) {
-        this.ehcache = ehcache;
+    public void setSpringCache(org.springframework.cache.Cache springCache) {
+        this.springCache = springCache;
     }
 
     public String getCacheName() {
@@ -59,35 +59,39 @@ public class TeiidCache<K, V> implements Cache<K, V> {
     }
 
     public V get(K key) {
-        Element el = ehcache.get(key);
-        if (el != null) {
+        org.springframework.cache.Cache.ValueWrapper wrapper = springCache.get(key);
+        if (wrapper != null) {
             if (log.isDebugEnabled()) {
                 log.debug("element found for key:" + key.toString());
             }
-            return (V) el.getObjectValue();
+            return (V) wrapper.get();
         }
         return null;
     }
 
     public V put(K var1, V var2, Long var3) {
-        ehcache.put(new Element(var1, var2));
+        springCache.put(var1, var2);
         return var2;
     }
 
     public V remove(K var1) {
         V val = get(var1);
         if (val != null) {
-            ehcache.remove(var1);
+            springCache.evict(var1);
             return val;
         } else return null;
     }
 
     public int size() {
-        return ehcache.getSize();
+        Object nativeCache = springCache.getNativeCache();
+        if (nativeCache instanceof net.sf.ehcache.Ehcache) {
+            return ((net.sf.ehcache.Ehcache) nativeCache).getSize();
+        }
+        return 0;
     }
 
     public void clear() {
-        ehcache.removeAll();
+        springCache.clear();
     }
 
     public String getName() {
@@ -95,7 +99,11 @@ public class TeiidCache<K, V> implements Cache<K, V> {
     }
 
     public Set<K> keySet() {
-        return new HashSet<K>(ehcache.getKeys());
+        Object nativeCache = springCache.getNativeCache();
+        if (nativeCache instanceof net.sf.ehcache.Ehcache) {
+            return new HashSet<K>(((net.sf.ehcache.Ehcache) nativeCache).getKeys());
+        }
+        return new HashSet<K>();
     }
 
     @Override
@@ -109,8 +117,7 @@ public class TeiidCache<K, V> implements Cache<K, V> {
 
     public void shutdown() {
         log.warn(" -- JasperServer:  TeiidCache " + cacheName + " shutdown called.  This normal shutdown operation. ");
-        ehcache.removeAll();
-
+        springCache.clear();
     }
 }
 

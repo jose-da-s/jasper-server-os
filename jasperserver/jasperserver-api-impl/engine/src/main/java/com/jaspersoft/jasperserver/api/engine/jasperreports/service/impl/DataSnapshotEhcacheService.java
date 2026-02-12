@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -20,9 +22,8 @@
  */
 package com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl;
 
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import net.sf.jasperreports.data.cache.DataSnapshot;
+import org.springframework.cache.Cache;
 
 import com.jaspersoft.jasperserver.api.common.domain.ExecutionContext;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.service.DataSnapshotCachingService;
@@ -37,39 +38,47 @@ import com.jaspersoft.jasperserver.api.metadata.data.cache.DefaultDataSnapshotPe
  */
 public class DataSnapshotEhcacheService implements DataSnapshotCachingService {
 
-	private Ehcache metadataCache;
-	private Ehcache contentsCache;
+	private Cache metadataCache;
+	private Cache contentsCache;
 
 	public DataSnapshotPersistentMetadata getSnapshotMetadata(ExecutionContext context, long snapshotId) {
-		Element element = metadataCache.get(snapshotId);
-		if (element == null) {
+		if (metadataCache == null) {
+			return null;
+		}
+
+		Cache.ValueWrapper wrapper = metadataCache.get(snapshotId);
+		if (wrapper == null) {
 			return null;
 		}
 		
-		DataSnapshotPersistentMetadata metadata = (DataSnapshotPersistentMetadata) element.getObjectValue();
-		return metadata;
+		return (DataSnapshotPersistentMetadata) wrapper.get();
 	}
 
 	public void putSnapshotMetadata(ExecutionContext context, 
 			long snapshotId, DataSnapshotPersistentMetadata metadata) {
-		Element element = new Element(snapshotId, metadata);
-		metadataCache.put(element);		
+		if (metadataCache != null) {
+			metadataCache.put(snapshotId, metadata);
+		}
 	}
 
 	public DataSnapshot getSnapshotContents(ExecutionContext context, long contentsId) {
-		Element element = contentsCache.get(contentsId);
-		if (element == null) {
+		if (contentsCache == null) {
+			return null;
+		}
+
+		Cache.ValueWrapper wrapper = contentsCache.get(contentsId);
+		if (wrapper == null) {
 			return null;
 		}
 		
-		DataSnapshot snapshot = (DataSnapshot) element.getObjectValue();
-		return snapshot;
+		return (DataSnapshot) wrapper.get();
 	}
 
 	public void putSnapshotContents(ExecutionContext context, 
 			long contentsId, DataSnapshot dataSnapshot) {
-		Element element = new Element(contentsId, dataSnapshot);
-		contentsCache.put(element);		
+		if (contentsCache != null) {
+			contentsCache.put(contentsId, dataSnapshot);
+		}
 	}
 
 	public void put(ExecutionContext context, DataSnapshotSavedId savedId, DataCacheSnapshot snapshot) {
@@ -85,31 +94,38 @@ public class DataSnapshotEhcacheService implements DataSnapshotCachingService {
 	}
 
 	public void invalidateSnapshot(ExecutionContext context, long snapshotId) {
-		Element element = metadataCache.get(snapshotId);
-		if (element == null) {
+		if (metadataCache == null) {
+			// nothing to do
+			return;
+		}
+
+		Cache.ValueWrapper wrapper = metadataCache.get(snapshotId);
+		if (wrapper == null) {
 			// nothing to do
 			return;
 		}
 		
-		DataSnapshotPersistentMetadata metadata = (DataSnapshotPersistentMetadata) element.getObjectValue();
+		DataSnapshotPersistentMetadata metadata = (DataSnapshotPersistentMetadata) wrapper.get();
 		// remove from the two caches
-		metadataCache.remove(snapshotId);
-		contentsCache.remove(metadata.getContentsId());
+		metadataCache.evict(snapshotId);
+		if (contentsCache != null && metadata != null) {
+			contentsCache.evict(metadata.getContentsId());
+		}
 	}
 
-	public Ehcache getMetadataCache() {
+	public Cache getMetadataCache() {
 		return metadataCache;
 	}
 
-	public void setMetadataCache(Ehcache metadataCache) {
+	public void setMetadataCache(Cache metadataCache) {
 		this.metadataCache = metadataCache;
 	}
 
-	public Ehcache getContentsCache() {
+	public Cache getContentsCache() {
 		return contentsCache;
 	}
 
-	public void setContentsCache(Ehcache contentsCache) {
+	public void setContentsCache(Cache contentsCache) {
 		this.contentsCache = contentsCache;
 	}
 

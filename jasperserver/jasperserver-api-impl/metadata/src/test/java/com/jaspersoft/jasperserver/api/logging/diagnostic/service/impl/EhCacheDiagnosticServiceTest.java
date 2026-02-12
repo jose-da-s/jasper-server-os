@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -25,16 +27,13 @@ import com.jaspersoft.jasperserver.api.logging.diagnostic.domain.DiagnosticAttri
 import com.jaspersoft.jasperserver.api.logging.diagnostic.domain.DiagnosticAttributeImpl;
 import com.jaspersoft.jasperserver.api.logging.diagnostic.helper.DiagnosticAttributeBuilder;
 import com.jaspersoft.jasperserver.api.logging.diagnostic.service.DiagnosticCallback;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.config.CacheConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import net.sf.ehcache.management.CacheStatistics;
+import org.springframework.cache.Cache;
 
 import java.util.Map;
 
@@ -50,9 +49,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class EhCacheDiagnosticServiceTest {
     @Mock
-    private CacheStatistics cacheStatistics;
+    private Cache springCache;
 
-    @InjectMocks
     private EhCacheDiagnosticService ehCacheDiagnosticService;
 
     private Long objectCount = 6L;
@@ -93,28 +91,10 @@ public class EhCacheDiagnosticServiceTest {
 
     @Before
     public void setUp() {
-        when(cacheStatistics.getObjectCount()).thenReturn(objectCount);
-        when(cacheStatistics.getCacheHitPercentage()).thenReturn(cacheHitPercentage);
-        when(cacheStatistics.getCacheHits()).thenReturn(cacheHits);
-        when(cacheStatistics.getCacheMissPercentage()).thenReturn(cacheMissPercentage);
-        when(cacheStatistics.getCacheMisses()).thenReturn(cacheMisses);
-        when(cacheStatistics.getDiskStoreObjectCount()).thenReturn(diskStoreObjectCount);
-        when(cacheStatistics.getOnDiskHitPercentage()).thenReturn(onDiskHitPercentage);
-        when(cacheStatistics.getOnDiskHits()).thenReturn(onDiskHits);
-        when(cacheStatistics.getOnDiskMisses()).thenReturn(onDiskMisses);
-        when(cacheStatistics.getMemoryStoreObjectCount()).thenReturn(memoryStoreObjectCount);
-        when(cacheStatistics.getInMemoryHitPercentage()).thenReturn(inMemoryHitPercentage);
-        when(cacheStatistics.getInMemoryHits()).thenReturn(inMemoryHits);
-        when(cacheStatistics.getInMemoryMisses()).thenReturn(inMemoryMisses);
-        when(cacheStatistics.getOffHeapStoreObjectCount()).thenReturn(offHeapStoreObjectCount);
-        when(cacheStatistics.getOffHeapHitPercentage()).thenReturn(OffHeapHitPercentage);
-        when(cacheStatistics.getOffHeapHits()).thenReturn(OffHeapHits);
-        when(cacheStatistics.getOffHeapMisses()).thenReturn(offHeapMisses);
-        when(cacheStatistics.getWriterMaxQueueSize()).thenReturn(writeMaxQueueSize);
-        when(cacheStatistics.getWriterQueueLength()).thenReturn(writeQueueLength);
+        // Create mock EhCache configuration
+        net.sf.ehcache.config.CacheConfiguration cacheConfig = Mockito.mock(net.sf.ehcache.config.CacheConfiguration.class);
 
-        CacheConfiguration cacheConfig = Mockito.mock(CacheConfiguration.class);
-
+        when(cacheConfig.getStatistics()).thenReturn(true);
         when(cacheConfig.getDiskSpoolBufferSizeMB()).thenReturn(conf_DiskSpoolBufferSizeMB);
         when(cacheConfig.getDiskExpiryThreadIntervalSeconds()).thenReturn(conf_DiskExpiryThreadIntervalSeconds);
         when(cacheConfig.getLogging()).thenReturn(conf_LoggingEnabled);
@@ -131,11 +111,41 @@ public class EhCacheDiagnosticServiceTest {
         when(cacheConfig.isEternal()).thenReturn(eternal);
         when(cacheConfig.isOverflowToDisk()).thenReturn(overflowToDisk);
         when(cacheConfig.isOverflowToOffHeap()).thenReturn(overflowToOffHeap);
+        when(cacheConfig.getMemoryStoreEvictionPolicy()).thenReturn(net.sf.ehcache.store.MemoryStoreEvictionPolicy.LRU);
 
-        Ehcache ehCache = Mockito.mock(Ehcache.class);
-
+        // Create mock native EhCache
+        net.sf.ehcache.Ehcache ehCache = Mockito.mock(net.sf.ehcache.Ehcache.class);
         when(ehCache.getCacheConfiguration()).thenReturn(cacheConfig);
-        when(cacheStatistics.getEhcache()).thenReturn(ehCache);
+        when(ehCache.getSize()).thenReturn(objectCount.intValue());
+
+        // Mock statistics that will be created inside getDiagnosticData
+        net.sf.ehcache.management.CacheStatistics mockStats = Mockito.mock(net.sf.ehcache.management.CacheStatistics.class);
+        when(mockStats.getObjectCount()).thenReturn(objectCount);
+        when(mockStats.getCacheHitPercentage()).thenReturn(cacheHitPercentage);
+        when(mockStats.getCacheHits()).thenReturn(cacheHits);
+        when(mockStats.getCacheMissPercentage()).thenReturn(cacheMissPercentage);
+        when(mockStats.getCacheMisses()).thenReturn(cacheMisses);
+        when(mockStats.getDiskStoreObjectCount()).thenReturn(diskStoreObjectCount);
+        when(mockStats.getOnDiskHitPercentage()).thenReturn(onDiskHitPercentage);
+        when(mockStats.getOnDiskHits()).thenReturn(onDiskHits);
+        when(mockStats.getOnDiskMisses()).thenReturn(onDiskMisses);
+        when(mockStats.getMemoryStoreObjectCount()).thenReturn(memoryStoreObjectCount);
+        when(mockStats.getInMemoryHitPercentage()).thenReturn(inMemoryHitPercentage);
+        when(mockStats.getInMemoryHits()).thenReturn(inMemoryHits);
+        when(mockStats.getInMemoryMisses()).thenReturn(inMemoryMisses);
+        when(mockStats.getOffHeapStoreObjectCount()).thenReturn(offHeapStoreObjectCount);
+        when(mockStats.getOffHeapHitPercentage()).thenReturn(OffHeapHitPercentage);
+        when(mockStats.getOffHeapHits()).thenReturn(OffHeapHits);
+        when(mockStats.getOffHeapMisses()).thenReturn(offHeapMisses);
+        when(mockStats.getWriterMaxQueueSize()).thenReturn(writeMaxQueueSize);
+        when(mockStats.getWriterQueueLength()).thenReturn(writeQueueLength);
+
+        // Mock Spring Cache to return native EhCache
+        when(springCache.getNativeCache()).thenReturn(ehCache);
+
+        // Create service and inject the Spring Cache
+        ehCacheDiagnosticService = new EhCacheDiagnosticService();
+        ehCacheDiagnosticService.setCache(springCache);
     }
 
     @Test

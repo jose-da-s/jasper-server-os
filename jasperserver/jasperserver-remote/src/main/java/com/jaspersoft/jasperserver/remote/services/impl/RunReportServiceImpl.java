@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -62,8 +62,6 @@ import com.jaspersoft.jasperserver.remote.services.*;
 import com.jaspersoft.jasperserver.remote.services.impl.reportinfo.ReportInfo;
 import com.jaspersoft.jasperserver.remote.utils.AuditHelper;
 import com.jaspersoft.jasperserver.war.action.JSController;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.GenericElementReportTransformer;
 import net.sf.jasperreports.engine.export.type.ZoomTypeEnum;
@@ -89,6 +87,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.cache.Cache;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -179,15 +178,15 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
     @Autowired
     private ApplicationContext applicationContext;
 
-    private Ehcache getExecutionsCache() {
+    private Cache getExecutionsCache() {
         return cacheFactoryBean.getObject();
     }
 
     private ReportExecution getReportExecutionFromCache(final String requestId) {
-        final Element element = getExecutionsCache().get(requestId);
-        if (missesExecution(element)) return null;
+        final Cache.ValueWrapper wrapper = getExecutionsCache().get(requestId);
+        if (missesExecution(wrapper)) return null;
 
-        Pair<String, ReportExecution> value = (Pair<String, ReportExecution>) element.getObjectValue();
+        Pair<String, ReportExecution> value = (Pair<String, ReportExecution>) wrapper.get();
         if (!isSameUser(value.getKey())) return null;
 
         return value.getValue();
@@ -201,15 +200,14 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
      * @return a report execution that might belong to another user
      */
     private ReportExecution getReportExecutionFromCacheNoUserCheck(final String requestId) {
-        final Element element = getExecutionsCache().get(requestId);
-        return (!missesExecution(element)) ? ((Pair<String, ReportExecution>) element.getObjectValue()).getValue() : null;
+        final Cache.ValueWrapper wrapper = getExecutionsCache().get(requestId);
+        return (!missesExecution(wrapper)) ? ((Pair<String, ReportExecution>) wrapper.get()).getValue() : null;
     }
 
     private void putReportExecutionToCache(final String requestId, final ReportExecution reportExecution) {
-        final Element element = new Element(requestId, Pair.of(
+        getExecutionsCache().put(requestId, Pair.of(
                 getCurrentUserQualifiedName(), reportExecution
         ));
-        getExecutionsCache().put(element);
     }
 
     public ReportExecution getReportExecution(String requestId) throws ResourceNotFoundException {
@@ -1292,7 +1290,8 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
                         virtualizerFactory.disposeReport(execution.getReportUnitResult());
                     }
                 }
-                return getExecutionsCache().remove(requestId);
+                getExecutionsCache().evict(requestId);
+                return true;
             }
             return false;
         } catch (RuntimeException e) {
@@ -1306,22 +1305,31 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
 
     @Override
     public void destroy() {
-        List<?> keys = getExecutionsCache().getKeys();
-        keys.stream()
-                .map(Object::toString)
-                .forEach(requestId -> {
-                    ReportExecution execution = getReportExecutionFromCache(requestId);
-                    try {
-                        cancelReportExecution(requestId, unsecuredEngine);
-                        if (execution != null && execution.getStatus() == ExecutionStatus.ready) {
-                            virtualizerFactory.disposeReport(execution.getFinalReportUnitResult());
+        // Spring Cache doesn't provide a way to iterate over keys, so we need to get the native cache
+        Cache cache = getExecutionsCache();
+        Object nativeCache = cache.getNativeCache();
+
+        if (nativeCache instanceof net.sf.ehcache.Ehcache) {
+            net.sf.ehcache.Ehcache ehcache = (net.sf.ehcache.Ehcache) nativeCache;
+            List<?> keys = ehcache.getKeys();
+            keys.stream()
+                    .map(Object::toString)
+                    .forEach(requestId -> {
+                        ReportExecution execution = getReportExecutionFromCache(requestId);
+                        try {
+                            cancelReportExecution(requestId, unsecuredEngine);
+                            if (execution != null && execution.getStatus() == ExecutionStatus.ready) {
+                                virtualizerFactory.disposeReport(execution.getFinalReportUnitResult());
+                            }
+                        } catch (RuntimeException ex) {
+                            log.warn("Report execution cleanup failed: ", ex);
                         }
-                    } catch (RuntimeException ex) {
-                        log.warn("Report execution cleanup failed: ", ex);
-                    }
-                });
-        getExecutionsCache().removeAll(keys);
-        getExecutionsCache().evictExpiredElements();
+                    });
+            ehcache.removeAll(keys);
+        } else {
+            // For non-EhCache implementations, just clear the entire cache
+            cache.clear();
+        }
     }
 
     private boolean isSameUser(String userName) {
@@ -1333,8 +1341,8 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
                 .isEquals();
     }
 
-    private boolean missesExecution(Element element) {
-        return element == null || element.getObjectValue() == null;
+    private boolean missesExecution(Cache.ValueWrapper wrapper) {
+        return wrapper == null || wrapper.get() == null;
     }
 
 

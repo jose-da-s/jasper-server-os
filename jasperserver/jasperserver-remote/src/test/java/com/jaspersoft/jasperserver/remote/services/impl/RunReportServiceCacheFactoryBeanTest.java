@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -27,8 +27,6 @@ import com.jaspersoft.jasperserver.api.engine.jasperreports.domain.impl.ReportUn
 import com.jaspersoft.jasperserver.dto.executions.ExecutionStatus;
 import com.jaspersoft.jasperserver.remote.services.ReportExecution;
 import com.jaspersoft.jasperserver.remote.services.impl.RunReportServiceCacheFactoryBean.RunReportCacheEventListener;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import net.sf.jasperreports.engine.JRVirtualizer;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
@@ -43,11 +41,11 @@ import static org.mockito.Mockito.verifyNoInteractions;
 public class RunReportServiceCacheFactoryBeanTest {
     private final RunReportCacheEventListener listener = new RunReportCacheEventListener();
 
-    private final Ehcache cache = mock(Ehcache.class);
+    private final net.sf.ehcache.Ehcache cache = mock(net.sf.ehcache.Ehcache.class);
 
     @Test
     public void notifyElementEvicted_statusReady_evicted() {
-        Element element = newReportExecution("superuser", "/public/Samples/report", ExecutionStatus.ready);
+        net.sf.ehcache.Element element = newReportExecution("superuser", "/public/Samples/report", ExecutionStatus.ready);
         listener.notifyElementEvicted(cache, element);
         ReportExecution reportExecution = ((Pair<String, ReportExecution>) element.getObjectValue()).getRight();
 
@@ -58,14 +56,14 @@ public class RunReportServiceCacheFactoryBeanTest {
 
     @Test
     public void notifyElementEvicted_statusCanceled_exception() {
-        Element element = newReportExecution("superuser", "/public/Samples/report", ExecutionStatus.cancelled);
+        net.sf.ehcache.Element element = newReportExecution("superuser", "/public/Samples/report", ExecutionStatus.cancelled);
         listener.notifyElementEvicted(cache, element);
         ReportExecution reportExecution = ((Pair<String, ReportExecution>) element.getObjectValue()).getRight();
 
         verifyNoInteractions(reportExecution.getReportUnitResult());
     }
 
-    private Element newReportExecution(String username, String resourceUri, ExecutionStatus status) {
+    private net.sf.ehcache.Element newReportExecution(String username, String resourceUri, ExecutionStatus status) {
         JRVirtualizer virtualizer = mock(JRVirtualizer.class);
         ReportUnitResult result = mock(ReportUnitResult.class);
 
@@ -78,7 +76,7 @@ public class RunReportServiceCacheFactoryBeanTest {
 
         // Username to ReportExecution
         Pair<String, ReportExecution> pair = Pair.of(username, reportExecution);
-        return new Element(UUID.randomUUID().toString(), pair);
+        return new net.sf.ehcache.Element(UUID.randomUUID().toString(), pair);
     }
 
 }

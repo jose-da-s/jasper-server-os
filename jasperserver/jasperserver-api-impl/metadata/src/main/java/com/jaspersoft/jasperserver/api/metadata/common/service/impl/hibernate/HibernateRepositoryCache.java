@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -25,14 +27,13 @@ import java.io.InputStream;
 import java.util.List;
 
 import com.jaspersoft.jasperserver.api.metadata.common.service.impl.hibernate.util.RepositoryCacheIndicator;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.cache.Cache;
 import org.springframework.orm.hibernate5.HibernateCallback;
 
 import com.jaspersoft.jasperserver.api.common.domain.ExecutionContext;
@@ -60,7 +61,7 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 	private LockManager lockManager = new LocalLockManager();
 	private boolean setFindByCriteriaToReadOnly = false;
 	private boolean isEnabledRepositoryCaching = false;
-	private Ehcache hibernateRepositoryEhcache;
+	private Cache hibernateRepositoryEhcache;
 
 	public HibernateRepositoryCache() {
 	}
@@ -139,9 +140,11 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 		if (log.isDebugEnabled()) {
 			log.debug("HibernateRepositoryCache:  Looking in repository cache \"" + cacheableItem.getCacheName() + "\" for resource \"" + uri);
 		}
-		Element element = hibernateRepositoryEhcache.get(uri);
-		if (element != null) {
-			return (CachedItem) element.getObjectValue();
+		if (hibernateRepositoryEhcache != null) {
+			Cache.ValueWrapper wrapper = hibernateRepositoryEhcache.get(uri);
+			if (wrapper != null) {
+				return (CachedItem) wrapper.get();
+			}
 		}
 		if (isEnabledRepositoryCaching) {
 			return getCachedItemFromRepository(uri, cacheableItem, clearPendingSavesCreatedByFindByCriteria, session);
@@ -242,7 +245,9 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 		saveItem.setVersion(resource.getVersion());
 		saveItem.setVersionDate(resource.getCreationDate());
 
-		hibernateRepositoryEhcache.put(new Element(resource.getURIString(), saveItem));
+		if (hibernateRepositoryEhcache != null) {
+			hibernateRepositoryEhcache.put(resource.getURIString(), saveItem);
+		}
 		saveOrUpdateInRepositoryCache(saveItem, item);
 
 		return saveItem;
@@ -269,7 +274,9 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 		saveItem.setVersion(resource.getVersion());
 		saveItem.setVersionDate(resource.getCreationDate());
 
-		hibernateRepositoryEhcache.put(new Element(resource.getURIString(), saveItem));
+		if (hibernateRepositoryEhcache != null) {
+			hibernateRepositoryEhcache.put(resource.getURIString(), saveItem);
+		}
 		saveOrUpdateInRepositoryCache(saveItem, item);
 
 		return saveItem;
@@ -277,7 +284,9 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 
 	protected void updateReference(CachedItem saveItem, CachedItem refItem) {
 		saveItem.setReference(refItem);
-		hibernateRepositoryEhcache.put(new Element(saveItem.getUri(), saveItem));
+		if (hibernateRepositoryEhcache != null) {
+			hibernateRepositoryEhcache.put(saveItem.getUri(), saveItem);
+		}
 
 		if (isEnabledRepositoryCaching) {
 			getHibernateTemplate().update(saveItem);
@@ -311,7 +320,9 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 			log.debug("Clearing cache " + cacheableItem.getCacheName() + " for resource " + uri);
 		}
 
-		hibernateRepositoryEhcache.remove(uri);
+		if (hibernateRepositoryEhcache != null) {
+			hibernateRepositoryEhcache.evict(uri);
+		}
 
 		if (isEnabledRepositoryCaching) {
 			getHibernateTemplate().executeWithNativeSession(new RemoveCachedCallback(uri, cacheableItem));
@@ -351,7 +362,9 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 			log.debug("Clearing entire cache " + cacheableItem.getCacheName());
 		}
 
-		hibernateRepositoryEhcache.removeAll();
+		if (hibernateRepositoryEhcache != null) {
+			hibernateRepositoryEhcache.clear();
+		}
 
 		if (isEnabledRepositoryCaching) {
 			getHibernateTemplate().execute((s)-> s.createQuery("delete CachedItem where cacheName = ?1")
@@ -372,11 +385,11 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 		return RepositoryCacheIndicator.isOn();
 	}
 
-	public Ehcache getHibernateRepositoryEhcache() {
+	public Cache getHibernateRepositoryEhcache() {
 		return hibernateRepositoryEhcache;
 	}
 
-	public void setHibernateRepositoryEhcache(Ehcache hibernateRepositoryEhcache) {
+	public void setHibernateRepositoryEhcache(Cache hibernateRepositoryEhcache) {
 		this.hibernateRepositoryEhcache = hibernateRepositoryEhcache;
 	}
 

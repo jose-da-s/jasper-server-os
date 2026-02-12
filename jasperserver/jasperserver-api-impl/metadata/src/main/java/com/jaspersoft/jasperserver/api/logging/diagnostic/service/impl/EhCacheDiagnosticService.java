@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,22 +26,32 @@ import com.jaspersoft.jasperserver.api.logging.diagnostic.domain.DiagnosticAttri
 import com.jaspersoft.jasperserver.api.logging.diagnostic.helper.DiagnosticAttributeBuilder;
 import com.jaspersoft.jasperserver.api.logging.diagnostic.service.Diagnostic;
 import com.jaspersoft.jasperserver.api.logging.diagnostic.service.DiagnosticCallback;
-import net.sf.ehcache.config.CacheConfiguration;
-import net.sf.ehcache.management.CacheStatistics;
+import org.springframework.cache.Cache;
 
 import java.util.Map;
 
 /**
  * Implementation of the EhCache Diagnostic service (Service which collecting statistics and configuration on specified cache).
+ * <p>
+ * This service uses Spring Cache abstraction but accesses native EhCache instance for diagnostic purposes.
  *
  * @author ogavavka, vsabadosh
  */
 public class EhCacheDiagnosticService implements Diagnostic {
 
-    private CacheStatistics cacheStatistics;
+    private Cache cache;
 
     public Map<DiagnosticAttribute, DiagnosticCallback> getDiagnosticData() {
-    final CacheConfiguration cacheConfig = cacheStatistics.getEhcache().getCacheConfiguration();
+        // Access native EhCache instance for statistics
+        final net.sf.ehcache.Ehcache ehcache = getNativeEhcache();
+        if (ehcache == null) {
+            // Return empty map if cache is not EhCache
+            return new DiagnosticAttributeBuilder().build();
+        }
+
+        final net.sf.ehcache.management.CacheStatistics cacheStatistics =
+            new net.sf.ehcache.management.CacheStatistics(ehcache);
+        final net.sf.ehcache.config.CacheConfiguration cacheConfig = ehcache.getCacheConfiguration();
         return new DiagnosticAttributeBuilder()
             .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_OBJECTCOUNT, new DiagnosticCallback<Long>() {
                 public Long getDiagnosticAttributeValue() {
@@ -233,7 +245,23 @@ public class EhCacheDiagnosticService implements Diagnostic {
             }).build();
     }
 
-    public void setCacheStatistics(CacheStatistics cacheStatistics) {
-        this.cacheStatistics = cacheStatistics;
+    /**
+     * Gets the native EhCache instance from the Spring Cache wrapper.
+     *
+     * @return the native EhCache instance, or null if the cache is not EhCache
+     */
+    private net.sf.ehcache.Ehcache getNativeEhcache() {
+        if (cache == null) {
+            return null;
+        }
+        Object nativeCache = cache.getNativeCache();
+        if (nativeCache instanceof net.sf.ehcache.Ehcache) {
+            return (net.sf.ehcache.Ehcache) nativeCache;
+        }
+        return null;
+    }
+
+    public void setCache(Cache cache) {
+        this.cache = cache;
     }
 }

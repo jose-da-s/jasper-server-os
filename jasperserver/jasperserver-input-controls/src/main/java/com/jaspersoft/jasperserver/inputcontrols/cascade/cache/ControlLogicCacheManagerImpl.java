@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -20,16 +22,15 @@
  */
 package com.jaspersoft.jasperserver.inputcontrols.cascade.cache;
 
-import com.jaspersoft.jasperserver.api.common.util.EhCacheCleanerRunner;
 import com.jaspersoft.jasperserver.api.metadata.user.service.impl.UserManagerServiceImpl;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.util.*;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.InitializingBean;
 
 /**
  * ControlLogicCacheManagerImpl
@@ -38,7 +39,8 @@ import org.springframework.beans.factory.InitializingBean;
 
 public class ControlLogicCacheManagerImpl implements ControlLogicCacheManager, InitializingBean {
 
-    private Ehcache inputControlCache;
+    private Cache inputControlCache;
+    private CacheManager cacheManager;
     private static final Logger log = LogManager.getLogger(ControlLogicCacheManagerImpl.class);
     private long cacheCleanTriggerTime = TimeUnit.MINUTES.toMillis(30);
 
@@ -46,13 +48,17 @@ public class ControlLogicCacheManagerImpl implements ControlLogicCacheManager, I
     }
 
     public void afterPropertiesSet() throws Exception {
-        Timer cascadeCacheCleanerTimer = new Timer("CascadeCacheCleaner",true);
-        TimerTask cacheCleanerTimerTask = new EhCacheCleanerRunner("CascadeCacheCleanerRunner", inputControlCache);
-        cascadeCacheCleanerTimer.scheduleAtFixedRate(cacheCleanerTimerTask, cacheCleanTriggerTime, cacheCleanTriggerTime);
+        if (cacheManager != null) {
+            inputControlCache = cacheManager.getCache("inputControlCache");
+            // Spring Cache automatically handles cache expiration through ehcache.xml configuration (timeToIdleSeconds, timeToLiveSeconds).
+            // Manual timer-based cleanup via EhCacheCleanerRunner is no longer needed.
+        }
     }
 
     public void clearCache(){
-        getSessionCache().clear();
+        if (inputControlCache != null) {
+            inputControlCache.clear();
+        }
     }
 
     public SessionCache getSessionCache() {
@@ -68,24 +74,29 @@ public class ControlLogicCacheManagerImpl implements ControlLogicCacheManager, I
 
     public void addItem(Object key, SessionCache value) {
         logEvent("PUT", key, value);
-        inputControlCache.put(new Element(key, value));
+        if (inputControlCache != null) {
+            inputControlCache.put(key, value);
+        }
     }
 
     public SessionCache getItem(Object key) {
-        Element el= inputControlCache.get(key);
-        if(el!=null)
-        {
-            log.debug("element found for key: {}", key);
-            SessionCache value = (SessionCache) el.getObjectValue();
-            logEvent("GET", key, value);
-            return value;
+        if (inputControlCache != null) {
+            Cache.ValueWrapper wrapper = inputControlCache.get(key);
+            if (wrapper != null) {
+                log.debug("element found for key: {}", key);
+                SessionCache value = (SessionCache) wrapper.get();
+                logEvent("GET", key, value);
+                return value;
+            }
         }
         return null;
     }
 
     public void shutdown() {
         log.warn("ControlLogicCacheManagerImpl shutdown called. This normal shutdown operation.");
-        inputControlCache.removeAll();
+        if (inputControlCache != null) {
+            inputControlCache.clear();
+        }
     }
 
     public String getSessionCacheKey() {
@@ -108,8 +119,12 @@ public class ControlLogicCacheManagerImpl implements ControlLogicCacheManager, I
         }
     }
 
-    public void setInputControlCache(Ehcache inputControlCache) {
+    public void setInputControlCache(Cache inputControlCache) {
         this.inputControlCache = inputControlCache;
+    }
+
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
     }
 
     public void setCacheCleanTriggerTime(long cacheCleanTriggerTime) {

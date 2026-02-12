@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -110,7 +112,7 @@
 	<bean id="controlLogicCacheManager" class="com.jaspersoft.jasperserver.inputcontrols.cascade.cache.ControlLogicCacheManagerImpl">
         <!-- seconds between server cleanup process checks for invalid user sessions -->
         <property name="cacheCleanTriggerTime" value="60"/>
-        <property name="inputControlCache" ref="inputControlCache"/>
+        <property name="cacheManager" ref="springCacheManager"/>
 	</bean>
     </beans>
     <beans profile="engine">

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -63,21 +65,25 @@
 	<bean id="dataSnapshotEhCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" depends-on="sysProperties"  lazy-init="true">
 		<property name="configLocation" value="${resource.root}/ehcache-data-snapshots.xml"/>
 	</bean>
-					
-	<bean id="dataSnapshotCachingService" 
+
+	<!-- Spring Cache Manager wrapper for the native Ehcache CacheManager -->
+	<!-- This provides org.springframework.cache.CacheManager interface required by cache consumers -->
+	<bean id="dataSnapshotSpringCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="dataSnapshotEhCacheManager"/>
+	</bean>
+
+	<bean id="snapshotMetadataCache" factory-bean="dataSnapshotSpringCacheManager" factory-method="getCache" lazy-init="true">
+		<constructor-arg value="snapshotMetadata"/>
+	</bean>
+
+	<bean id="snapshotContentsCache" factory-bean="dataSnapshotSpringCacheManager" factory-method="getCache" lazy-init="true">
+		<constructor-arg value="snapshotContents"/>
+	</bean>
+
+	<bean id="dataSnapshotCachingService"
 		class="com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl.DataSnapshotEhcacheService"  lazy-init="true">
-		<property name="metadataCache">
-			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-				<property name="cacheManager" ref="dataSnapshotEhCacheManager"/>
-				<property name="cacheName" value="snapshotMetadata" />
-			</bean>
-		</property>
-		<property name="contentsCache">
-			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-				<property name="cacheManager" ref="dataSnapshotEhCacheManager"/>
-				<property name="cacheName" value="snapshotContents" />
-			</bean>
-		</property>
+		<property name="metadataCache" ref="snapshotMetadataCache"/>
+		<property name="contentsCache" ref="snapshotContentsCache"/>
 	</bean>
 
 	<bean id="dataSnapshotReportUnitListener" class="com.jaspersoft.jasperserver.api.metadata.data.snapshot.hibernate.DataSnapshotReportUnitListener"  lazy-init="true">

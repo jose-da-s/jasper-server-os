@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -73,6 +75,14 @@
     <cache name="attributeCache"
            maxElementsInMemory="100000"
            statistics="false"
+           eternal="false"
+           overflowToDisk="false"
+           timeToIdleSeconds="360000"
+           timeToLiveSeconds="720000"
+           diskPersistent="false"/>
+
+    <cache name="inputControlCache"
+           maxElementsInMemory="10000"
            eternal="false"
            overflowToDisk="false"
            timeToIdleSeconds="360000"

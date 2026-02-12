@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary.
   ~ Licensed pursuant to commercial Cloud Software Group, Inc End User License Agreement.
   -->
@@ -18,6 +20,7 @@
             <outputDirectory></outputDirectory>
             <includes>
                 <include>**/applicationContext.xml</include>
+                <include>**/applicationContext-cache.xml</include>
                 <include>**/applicationContext-profileAttributes.xml</include>
                 <include>**/applicationContext-aws.xml</include>
                 <include>**/applicationContext-data-snapshots.xml</include>

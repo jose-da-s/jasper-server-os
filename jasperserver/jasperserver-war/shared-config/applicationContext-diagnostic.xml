@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -434,16 +434,16 @@
         <property name="hibernateStatistics" ref="hibernateStatistics"/>
     </bean>
 
-    <bean id="cacheForStatistics" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-        <property name="cacheManager" ref="cacheManager"/>
-        <property name="cacheName" value="aclCache" />
-    </bean>
-
     <!-- Can expose one EhCache using EhCache Diagnostic wrapper-->
+    <!-- Note: This diagnostic service uses Spring Cache abstraction but accesses native EhCache for statistics -->
     <bean id="EhCacheDiagnostic_aclCache" class="com.jaspersoft.jasperserver.api.logging.diagnostic.service.impl.EhCacheDiagnosticService" lazy-init="false">
-        <property name="cacheStatistics">
-            <bean class="net.sf.ehcache.management.CacheStatistics">
-                <constructor-arg ref="cacheForStatistics"/>
+        <property name="cache">
+            <bean class="org.springframework.cache.ehcache.EhCacheCache">
+                <constructor-arg>
+                    <bean factory-bean="cacheManager" factory-method="getCache">
+                        <constructor-arg value="aclCache"/>
+                    </bean>
+                </constructor-arg>
             </bean>
         </property>
     </bean>

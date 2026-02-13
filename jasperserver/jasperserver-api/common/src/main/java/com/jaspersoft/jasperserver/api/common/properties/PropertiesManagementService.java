@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -32,7 +34,7 @@ import com.jaspersoft.jasperserver.api.common.domain.ValidationResult;
  * This service manages setting, retrieving and storing of
  * configurable properties.  by convention, the property keys
  * should be qualified with dots to avoid namespace conflict.
- *   for example:  mondrian.query.limit
+ *   for example: report.scheduling.repository.content
  *
  * @author sbirney (sbirney@users.sourceforge.net)
  * @author udavidovich

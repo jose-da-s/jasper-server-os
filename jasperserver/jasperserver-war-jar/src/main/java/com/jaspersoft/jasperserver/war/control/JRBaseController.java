@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.war.control;
 
 import com.jaspersoft.jasperserver.api.common.domain.impl.ExecutionContextImpl;
@@ -25,7 +28,6 @@ import com.jaspersoft.jasperserver.api.common.util.StaticExecutionContextProvide
 import com.jaspersoft.jasperserver.api.metadata.common.domain.ResourceLookup;
 import com.jaspersoft.jasperserver.api.metadata.common.service.RepositoryService;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit;
-import com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit;
 import com.jaspersoft.jasperserver.api.metadata.user.service.ObjectPermissionService;
 import com.jaspersoft.jasperserver.api.metadata.user.service.UserAuthorityService;
 import com.jaspersoft.jasperserver.api.metadata.view.domain.FilterCriteria;
@@ -86,23 +88,6 @@ public abstract class JRBaseController extends WebContentGenerator {
 		return reportUnits;
 	}
 
-	protected final ResourceLookup[] getOlapUnits()
-	{
-		//ExecutionContextImpl executionContext = new ExecutionContextImpl();
-		//ResourceLookup[] olapUnits = repository.findResource(executionContext, FilterCriteria.createFilter(OlapUnit.class));
-
-		List olapUnitsList = repository.loadResourcesList(
-				StaticExecutionContextProvider.getExecutionContext(),
-				FilterCriteria.createFilter(OlapUnit.class));
-		
-		ResourceLookup[] olapUnits = new ResourceLookup[0];
-		
-		if (olapUnitsList != null && !olapUnitsList.isEmpty()) {
-			olapUnits = (ResourceLookup[]) olapUnitsList.toArray(olapUnits);
-		}
-
-		return olapUnits;
-	}
 
 	protected final ReportUnit getReportUnit(HttpServletRequest req)
 	{

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -108,9 +109,7 @@
                 <entry key="prop" value-ref="fileHandler"/>
                 <entry key="jrtx" value-ref="fileHandler"/>
                 <entry key="reference" value-ref="fileHandler"/>
-                <entry key="olapMondrianSchema" value-ref="fileHandler"/>
                 <entry key="reportUnit" value-ref="reportUnitHandler"/>
-                <entry key="olapUnit" value-ref="olapUnitHandler"/>
                 <entry key="datasource" value-ref="dataSourceHandler"/>
                 <entry key="jdbc" value-ref="jdbcDataSourceHandler"/>
                 <entry key="aws" value-ref="awsDataSourceHandler"/>
@@ -121,8 +120,6 @@
                 <entry key="custom" value-ref="customDataSourceHandler"/>
                 <entry key="inputControl" value-ref="inputControlHandler"/>
                 <entry key="dataType" value-ref="dataTypeHandler"/>
-                <entry key="olapXmlaCon" value-ref="xmlaConnectionHandler"/>
-                <entry key="xmlaConnection" value-ref="xmlaConnectionHandler"/>
                 <entry key="unknow" value-ref="unknownResourceHandler"/>
                 <entry key="lov" value-ref="listOfValuesHandler"/>
                 <entry key="query" value-ref="queryHandler"/>
@@ -258,7 +255,6 @@
         <value>json</value>
         <value>css</value>
         <value>accessGrantSchema</value>
-        <value>olapMondrianSchema</value>
         <value>dashboardComponent</value>
         <value>img</value>
         <value>secureFile</value>
@@ -283,7 +279,6 @@
         <!--<value>xlsxDataSource</value> Full domain support XLSX custom data source -->
         <value>textDataSource</value> <!-- Full domain support TEXT/ CSV custom data source -->
         <value>JsonSeriesDataSource</value> <!-- Simple single table remote XML custom data source -->
-        <value>xmlaQueryDataSource</value> <!-- Simple single table XMLA Query custom data source -->
         <value>cassandraQueryDataSource</value> <!-- Deprecated.  Please use cassandra SIMBA JDBC driver to run native CQL.  Append "QueryMode=1" in URL in order to run CQL  -->
         <value>HiveDataSource</value> <!-- Deprecated.  Please use Hive/ Impala JDBC drivers instead -->
     </util:set>

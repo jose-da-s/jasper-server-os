@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -116,7 +118,6 @@ public class ClientFile extends ClientResource<ClientFile> implements ClientRefe
         json("application/json"),
         css("text/css"),
         accessGrantSchema("application/accessGrantSchema"),
-        olapMondrianSchema("application/olapMondrianSchema"),
         mongoDbSchema("application/mongoDbSchema"),
         dashboardComponent("application/dashboardComponentsSchema+json"),
         secureFile("application/secureFile"),

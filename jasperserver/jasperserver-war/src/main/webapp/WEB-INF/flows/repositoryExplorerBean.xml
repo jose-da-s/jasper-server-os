@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -195,33 +196,6 @@
         <property name="supportedClasses">
             <list>
                 <value>com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValues</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean name="OLAPTreeDataProvider" class="com.jaspersoft.jasperserver.war.model.impl.TypedTreeDataProvider">
-        <property name="repositoryService" ref="${bean.repositoryService}" />
-        <property name="supportedClasses">
-            <list>
-                <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection</value>
-            </list>
-        </property>
-    </bean>
-
-     <bean name="MondrianTreeDataProvider" class="com.jaspersoft.jasperserver.war.model.impl.TypedTreeDataProvider">
-        <property name="repositoryService" ref="${bean.repositoryService}" />
-        <property name="supportedClasses">
-            <list>
-                <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean name="XMLATreeDataProvider" class="com.jaspersoft.jasperserver.war.model.impl.TypedTreeDataProvider">
-        <property name="repositoryService" ref="${bean.repositoryService}" />
-        <property name="supportedClasses">
-            <list>
-                <value>com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection</value>
             </list>
         </property>
     </bean>

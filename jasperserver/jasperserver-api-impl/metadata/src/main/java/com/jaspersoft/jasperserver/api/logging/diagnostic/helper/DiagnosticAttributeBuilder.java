@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -87,7 +89,6 @@ public class DiagnosticAttributeBuilder {
 
     //Diagnostic JS settings section
     public final static String AWS_SETTINGS = "AwsSettings";
-    public final static String OLAP_SETTINGS = "OlapSettings";
     public final static String ADHOC_SETTINGS = "AdhocSettings";
     public final static String LOG_SETTINGS = "LogSettings";
     public final static String GLOBAL_PROPERTIES_LIST = "GlobalPropertiesList";
@@ -103,7 +104,6 @@ public class DiagnosticAttributeBuilder {
     public final static String TOTAL_DASHBOARDS_COUNT = "TotalDashboardsCount";
     public final static String TOTAL_ADHOC_VIEWS_COUNT = "TotalAdhocViewsCount";
     public final static String TOTAL_REPORT_OUTPUTS_COUNT = "TotalReportOutputsCount";
-    public final static String TOTAL_OLAP_VIEWS_COUNT = "TotalOlapViewsCount";
     public final static String TOTAL_DOMAINS_COUNT = "TotalDomainsCount";
     public final static String TOTAL_DATA_SOURCES_COUNT = "TotalDataSourcesCount";
     public final static String TOTAL_ORGANIZATIONS_COUNT = "TotalOrganizationsCount";

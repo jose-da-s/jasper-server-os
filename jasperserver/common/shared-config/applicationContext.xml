@@ -123,13 +123,10 @@
                 <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoAwsDataSource.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoAzureSqlDataSource.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoListOfValues.hbm.xml</value>
-                <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoOlapClientConnection.hbm.xml</value>
-                <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoOlapUnit.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoQuery.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoReportUnit.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoResource.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoResourceLight.hbm.xml</value>
-                <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoXMLAConnection.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/user/domain/impl/hibernate/RepoUser.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/user/domain/impl/hibernate/RepoRole.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/user/domain/impl/hibernate/RepoTenant.hbm.xml</value>
@@ -141,8 +138,6 @@
                 <value>/com/jaspersoft/jasperserver/api/engine/scheduling/hibernate/PersistentReportJobMailNotification.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/engine/scheduling/hibernate/PersistentReportJobAlert.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/common/domain/impl/LogEvent.hbm.xml</value>
-                <value>${property.hbm.RepoMondrianConnection}</value>
-                <value>${property.hbm.RepoMondrianXMLADefinition}</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/data/snapshot/hibernate/DataSnapshot.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/data/snapshot/hibernate/DataSnapshotContents.hbm.xml</value>
                 <value>${property.hbm.NamedQueries}</value>
@@ -280,11 +275,6 @@
         <property name="persistentClassMappings" ref="persistentMappings"/>
     </bean>
 
-    <bean id="olapConnectionRepositoryPostUpdateListener" class="com.jaspersoft.jasperserver.api.metadata.olap.service.impl.OlapConnectionHibernatePostUpdateListener">
-        <property name="resourceFactory" ref="mappingResourceFactory"/>
-        <property name="olapManagementServiceBean" value="olapManagementService"/>
-    </bean>
-
     <bean id="ehcacheEngineServicePostUpdateListener" class="com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl.EhcacheEngineServiceListener">
     	<property name="ehcacheEngineServiceName" value="ehcacheEngineService"/>
     </bean>
@@ -358,20 +348,6 @@
                value="com.jaspersoft.jasperserver.api.metadata.user.domain.client.ObjectPermissionImpl"/>
         <entry key="com.jaspersoft.jasperserver.api.metadata.user.domain.ProfileAttribute"
                value="com.jaspersoft.jasperserver.api.metadata.user.domain.client.ProfileAttributeImpl"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.MondrianXMLADefinitionImpl"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.OlapUnitImpl"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.OlapClientConnectionImpl"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.XMLAConnectionImpl"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.JdbcOlapDataSource"
-               value="com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.client.JdbcReportDataSourceImpl"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.JndiJdbcOlapDataSource"
-               value="com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.client.JndiJdbcReportDataSourceImpl"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.MondrianConnectionImpl"/>
         <entry key="com.jaspersoft.jasperserver.api.logging.access.domain.AccessEvent"
                value="com.jaspersoft.jasperserver.api.logging.access.domain.AccessEventImpl"/>
         <entry key="com.jaspersoft.jasperserver.api.metadata.user.domain.ExternalUserLoginEvent"
@@ -444,22 +420,6 @@
                value="com.jaspersoft.jasperserver.api.metadata.user.domain.impl.hibernate.RepoRole"/>
         <entry key="com.jaspersoft.jasperserver.api.metadata.user.domain.Tenant"
                value="com.jaspersoft.jasperserver.api.metadata.user.domain.impl.hibernate.RepoTenant"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.impl.hibernate.RepoOlapUnit"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.impl.hibernate.RepoOlapClientConnection"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.impl.hibernate.RepoXMLAConnection"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapDataSource"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.impl.hibernate.RepoOlapDataSource"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.JdbcOlapDataSource"
-               value="com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.impl.datasource.RepoJdbcDataSource"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.JndiJdbcOlapDataSource"
-               value="com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.impl.datasource.RepoJndiJdbcDataSource"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.impl.hibernate.RepoMondrianConnection"/>
-        <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition"
-               value="com.jaspersoft.jasperserver.api.metadata.olap.domain.impl.hibernate.RepoMondrianXMLADefinition"/>
         <entry key="com.jaspersoft.jasperserver.api.logging.access.domain.AccessEvent"
                value="com.jaspersoft.jasperserver.api.logging.access.domain.hibernate.RepoAccessEvent"/>
         <entry key="com.jaspersoft.jasperserver.api.metadata.user.domain.ExternalUserLoginEvent"
@@ -502,7 +462,6 @@
                 <ref bean="objectPermissionsRepositoryListener"/>
                 <ref bean="engineCacheDeleteListener"/>
                 <ref bean="dataSnapshotReportUnitCopyListener"/>
-                <ref bean="mondrianXMLADefinitionListener"/>
                 <ref bean="accessEventListener"/>
             </list>
         </constructor-arg>
@@ -631,28 +590,6 @@
 			value="com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.CustomReportDataSource" />
 		<property name="serviceBeanName" value="customDataSourceServiceFactory" />
 		<property name="anyLanguage" value="true" />
-	</bean>
-	<bean class="com.jaspersoft.jasperserver.api.engine.jasperreports.util.DataSourceServiceDefinition">
-		<property name="dataSourceInterface"
-			value="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection" />
-		<property name="serviceBeanName" value="olapConnectionService" />
-		<property name="supportedQueryLanguages">
-			<set>
-				<value>mdx</value>
-				<value>MDX</value>
-			</set>
-		</property>
-	</bean>
-	<bean class="com.jaspersoft.jasperserver.api.engine.jasperreports.util.DataSourceServiceDefinition">
-		<property name="dataSourceInterface"
-			value="com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection" />
-		<property name="serviceBeanName" value="olapConnectionService" />
-		<property name="supportedQueryLanguages">
-			<set>
-				<value>mdx</value>
-				<value>MDX</value>
-			</set>
-		</property>
 	</bean>
 
     <bean id="dataSourceObjectPoolFactory" class="org.apache.commons.pool.impl.GenericObjectPoolFactory">
@@ -1440,20 +1377,14 @@
                 <value>${resource.root}/bundles/jasperserver_messages</value>
                 <value>${resource.root}/bundles/accessibility_messages</value>
                 <value>${resource.root}/bundles/jasperserver_config</value>
-                <value>${resource.root}/bundles/jpivot_messages</value>
                 <value>${resource.root}/bundles/calendar</value>
                 <value>${resource.root}/bundles/jsexceptions_messages</value>
                 <value>${resource.root}/bundles/scheduling_ws</value>
-                <value>${resource.root}/bundles/ja-pro_messages</value>
-                <value>${resource.root}/bundles/ja_mondrian_messages</value>
-                <value>${resource.root}/bundles/mondrian_exception_messages</value>
                 <value>${resource.root}/bundles/security</value>
                 <value>${resource.root}/bundles/logger_descriptions</value>
                 <value>${resource.root}/bundles/jasperreports_messages</value>
 
-                <value>${resource.root}/internal/jpivot_internal_messages</value>
                 <value>${resource.root}/internal/jasperserver</value>
-                <value>${resource.root}/internal/ja-pro_internal_messages</value>
 
                 <value>${resource.root}/bundles/ScalableInputControlsBundle</value>
                 <value>${resource.root}/bundles/ValidationBundle</value>
@@ -1674,8 +1605,6 @@
         <property name="engine" ref="${bean.engineCacheDeleteListener.engine}"/>
     </bean>
 
-    <bean id="mondrianXMLADefinitionListener" class="com.jaspersoft.jasperserver.api.metadata.olap.service.impl.MondrianXMLADefinitionListener"/>
-
     <bean class="com.jaspersoft.jasperserver.api.metadata.common.service.ResourceEventListenerProcessor" lazy-init="false">
         <property name="registry" ref="metadataRepositoryDeleteListener"/>
         <property name="listenerBeanName" value="engineCacheDeleteListener"/>
@@ -1836,17 +1765,6 @@
         </property>
     </bean>
      -->
-
-
-    <!-- resources bean for jpivot -->
-    <bean id="jpivot-resources" class="com.tonbeller.tbutils.res.Resources">
-        <property name="resourceBundle">
-            <ref bean="messageSource"/>
-        </property>
-        <property name="encodingProvider">
-            <ref bean="encodingProvider"/>
-        </property>
-    </bean>
 
     <!-- updater definitions so other bean files can add items to beans defined here,
          instead of running tweakWar.js or manually hacking

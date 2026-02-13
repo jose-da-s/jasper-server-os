@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -82,7 +84,6 @@ public class RootDocumentRelationsVisitor extends RelationsVisitor<RootDocumentR
         criteria.setResourceTypes(Arrays.asList(
                 ResourceMediaType.REPORT_UNIT_CLIENT_TYPE,
                 ResourceMediaType.ADHOC_DATA_VIEW_CLIENT_TYPE,
-                ResourceMediaType.OLAP_UNIT_CLIENT_TYPE,
                 ResourceMediaType.DASHBOARD_CLIENT_TYPE
         ));
         criteria = setCriteriaForSearchResourcesActivity(criteria, relation, isLink);
@@ -103,7 +104,6 @@ public class RootDocumentRelationsVisitor extends RelationsVisitor<RootDocumentR
         criteria.setResourceTypes(Arrays.asList(
                 ResourceMediaType.REPORT_UNIT_CLIENT_TYPE,
                 ResourceMediaType.ADHOC_DATA_VIEW_CLIENT_TYPE,
-                ResourceMediaType.OLAP_UNIT_CLIENT_TYPE,
                 ResourceMediaType.DASHBOARD_CLIENT_TYPE,
                 ResourceMediaType.REPORT_OPTIONS_CLIENT_TYPE
         ));

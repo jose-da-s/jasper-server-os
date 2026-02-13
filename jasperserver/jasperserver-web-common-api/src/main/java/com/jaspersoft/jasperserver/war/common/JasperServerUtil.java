@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -20,36 +22,14 @@
  */
 package com.jaspersoft.jasperserver.war.common;
 
-import com.jaspersoft.jasperserver.api.common.domain.ExecutionContext;
-import com.jaspersoft.jasperserver.api.common.util.StaticExecutionContextProvider;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.DataType;
-import com.jaspersoft.jasperserver.core.util.validators.ValidationUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.regex.PatternSyntaxException;
 
 /**
  * @author aztec
  * @version $Id$
  */
 public class JasperServerUtil {
-
     public static boolean isDateType(byte type) {
         return type == DataType.TYPE_DATE || type == DataType.TYPE_DATE_TIME || type == DataType.TYPE_TIME;
     }
-
-    /**
-     * We should leave this helper method, because it is used in our third-party jpivot: {@link com.tonbeller.jpivot.table.RepoFolderList}
-     */
-    public static boolean regExValidateLabel(String inp) throws PatternSyntaxException {
-        return ValidationUtil.regExValidateLabel(inp);
-    }
-
-    /**
-     * We should leave this helper method, because it is used in our third-party jpivot: {@link com.tonbeller.jpivot.table.RepoFolderList}
-     */
-    public static ExecutionContext getExecutionContext(HttpServletRequest request) {
-        return StaticExecutionContextProvider.getExecutionContext();
-    }
-
 }

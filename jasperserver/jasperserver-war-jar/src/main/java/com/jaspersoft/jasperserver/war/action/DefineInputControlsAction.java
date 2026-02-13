@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.war.action;
 
 import com.jaspersoft.jasperserver.api.JSDuplicateResourceException;
@@ -58,14 +61,12 @@ public class DefineInputControlsAction extends FormAction {
     private static final String DATATYPE_TREE_DATA_PROVIDER = "dataTypeTreeDataProvider";
     private static final String LISTOFVALUES_TREE_DATA_PROVIDER = "listOfValuesTreeDataProvider";
     private static final String QUERY_TREE_DATA_PROVIDER = "queryTreeDataProvider";
-    private static final String OLAP_TREE_DATA_PROVIDER = "oLAPTreeDataProvider";
 	private RepositoryService repository;
 	private String queryReferenceReqAttrName;
 	private String queryReferenceOutpuAttrName;
     private TypedTreeDataProvider dataTypeTreeDataProvider;
     private TypedTreeDataProvider listOfValuesTreeDataProvider;
     private TypedTreeDataProvider queryTreeDataProvider;
-    private TypedTreeDataProvider oLAPTreeDataProvider;
     private RepositoryConfiguration configuration;
     private Map<String, Map<String, Object>> inputControlTypeConfiguration;
     private CalendarFormatProvider formatProvider;
@@ -103,7 +104,6 @@ public class DefineInputControlsAction extends FormAction {
         context.getExternalContext().getSessionMap().put(DATATYPE_TREE_DATA_PROVIDER, dataTypeTreeDataProvider);
         context.getExternalContext().getSessionMap().put(LISTOFVALUES_TREE_DATA_PROVIDER, listOfValuesTreeDataProvider);
         context.getExternalContext().getSessionMap().put(QUERY_TREE_DATA_PROVIDER, queryTreeDataProvider);
-        context.getExternalContext().getSessionMap().put(OLAP_TREE_DATA_PROVIDER, queryTreeDataProvider);
 		/*When in Stand alone new mode get a list of all
 		 * previously existing resources to validate name uniqueness*/
 		if(formObject.isAloneNewMode()){
@@ -531,14 +531,6 @@ public class DefineInputControlsAction extends FormAction {
 
     public void setQueryTreeDataProvider(TypedTreeDataProvider queryTreeDataProvider) {
         this.queryTreeDataProvider = queryTreeDataProvider;
-    }
-
-    public TypedTreeDataProvider getOLAPTreeDataProvider() {
-        return oLAPTreeDataProvider;
-    }
-
-    public void setOLAPTreeDataProvider(TypedTreeDataProvider oLAPTreeDataProvider) {
-        this.oLAPTreeDataProvider = oLAPTreeDataProvider;
     }
 
     public void setConfiguration(ConfigurationBean configuration) {

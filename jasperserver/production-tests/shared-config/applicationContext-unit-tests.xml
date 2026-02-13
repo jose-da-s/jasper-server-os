@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -60,7 +61,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
         <value>classpath:js.spring.export.properties</value>
         <value>classpath:js.spring.tests.properties</value>
         <value>classpath:js.scheduling.properties</value>
-        <value>classpath:mondrian.connect.string.properties</value>
         <value>classpath:js.aws.datasource.properties</value>
         <value>classpath:js.config.properties</value>
         <value>classpath:js.externalAuth.properties</value>
@@ -71,7 +71,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <property name="properties">
       <props>
         <prop key="resource.root">classpath:</prop>
-        <prop key="bean.olapCacheManager">cacheManager</prop>
       </props>
     </property>
   </bean>
@@ -165,11 +164,11 @@ TODO: SSU
    </bean>
 
   <bean id="hibernateCompositePostUpdateListeners" class="java.util.ArrayList">
-        <constructor-arg index="0" type="java.util.Collection">
-            <list>
-                  <ref bean="olapConnectionRepositoryPostUpdateListener"/>
-            </list>
-        </constructor-arg>
+    <constructor-arg index="0" type="java.util.Collection">
+      <list>
+        <!-- Empty list. Removed OLAP listener. -->
+      </list>
+    </constructor-arg>
   </bean>
 
     <!--request bean is added to the testing applicationContext configuration to avoid errors

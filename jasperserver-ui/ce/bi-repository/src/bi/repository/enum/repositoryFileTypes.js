@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -39,7 +41,6 @@ export default {
     JRTX: 'jrtx',
     XML: 'xml',
     CSS: 'css',
-    OLAP_MONDRIAN_SCHEMA: 'olapMondrianSchema',
     ACCESS_GRANT_SCHEMA: 'accessGrantSchema',
     DASHBOARD_COMPONENTS_SCHEMA: 'dashboardComponent',
     UNSPECIFIED: 'unspecified'

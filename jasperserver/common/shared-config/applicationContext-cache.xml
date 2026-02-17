@@ -30,6 +30,23 @@
 
         <cache:annotation-driven cache-manager="springCacheManager" mode="proxy" />
 
+        <!-- Cache Manager Validator - validates required caches exist at startup -->
+        <bean id="cacheManagerValidator"
+              class="com.jaspersoft.jasperserver.api.common.util.spring.CacheManagerValidator"
+              depends-on="springCacheManager">
+            <property name="cacheManager" ref="springCacheManager"/>
+            <!-- Default required caches are defined in the class. Override if needed:
+            <property name="requiredCacheNames">
+                <list>
+                    <value>aclCache</value>
+                    <value>inputControlCache</value>
+                </list>
+            </property>
+            -->
+            <!-- Set to false to only warn instead of failing on missing caches -->
+            <property name="failOnMissingCache" value="true"/>
+        </bean>
+
     </beans>
 
 </beans>

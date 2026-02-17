@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.RepositoryCacheMap;
+import com.jaspersoft.jasperserver.api.metadata.common.domain.util.DataContainerStreamUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.cache.Cache;
 
 import org.apache.commons.collections.OrderedMap;
@@ -44,7 +47,10 @@ import org.apache.logging.log4j.Logger;
 
 public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements EhcacheEngineService {
 
+	private static final Log log = LogFactory.getLog(EhcacheEngineServiceImpl.class);
+
 	private static class DiagnosticCacheKey implements Serializable {
+
 		private static final long serialVersionUID = 20150210130500L;
 
 		private final String uri;
@@ -213,8 +219,7 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 				}
 			}
 		} catch (Exception e) {
-			// Key iteration not supported by this cache provider
-			// Log warning and continue
+			log.error("Key iteration not supported by cache provider: {}", e);
 		}
 	}
 

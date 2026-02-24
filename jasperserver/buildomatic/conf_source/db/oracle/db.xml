@@ -298,36 +298,4 @@
       </if>
     </sequential>
   </macrodef>
-    <target name="load-foodmart-db"
-            description="load the foodmart database using the Mondrian loader">
-        <!-- make the ie classpath jar (we can assume that import/export is there) -->
-        <property name="iecpjar" value="${ieLib}/iecp.jar"/>
-        <make-ie-classpath-jar ieLibDir="${ieLib}" classpathjar="${iecpjar}"/>
-        <echo message=" "/>
-        <echo message="Jars loaded from import-export classpath jar: ${iecpjar}"/>
-        <echo message="foodMartData: ${foodMartData}"/>
-        <echo message="jdbcJar: ${jdbcJar}" />
-        <echo message="Using jdbc Jar: ${currentDbJDBCDir}/${jdbcJar}" />
-        <echo message=" "/>
-
-        <java classname="com.jaspersoft.buildomatic.loader.MondrianFoodMartLoader" failonerror="true" fork="true" inputstring="">
-            <arg value="-tables"/>
-            <arg value="-data"/>
-            <arg value="-indexes"/>
-            <arg value="-jdbcDrivers=${jdbcDriverClass}"/>
-            <arg value="-inputFile=${foodMartData}"/>
-            <arg value="-outputJdbcURL=${foodmart.jdbcUrl}"/>
-            <arg value="-outputJdbcUser=${foodmart.dbName}"/> <!-- this line changed -->
-            <arg value="-outputJdbcPassword=${foodmart.dbPassword}"/>
-            <arg value="-outputInitFile=${currentDbDir}/supermart-update.sql"/>
-
-            <classpath>
-                <fileset dir="${basedir}/lib" includes="*.jar"/>
-                <fileset dir="${currentDbJDBCDir}" includes="${jdbcJar}"/>
-                <!-- classpath jar for lib dir -->
-                <pathelement location="${iecpjar}"/>
-            </classpath>
-         </java>
-
-     </target>
 </project>

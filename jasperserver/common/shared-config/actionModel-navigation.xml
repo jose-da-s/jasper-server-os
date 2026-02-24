@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -74,21 +76,6 @@
                   <option labelKey="menu.roles" action="primaryNavModule.navigationOption" actionArgs="role"/>
                 </condition>
 
-                <!--pro only-->
-<!--
-                <condition test="isProVersion">
-                <condition test="!banUserRole">
-                    <condition test="checkAuthenticationRoles" testArgs="ROLE_SUPERUSER">
-                        <condition test="isAvailableProFeature" testArgs="ANA">
-                            <option labelKey="menu.mondrian.properties" action="primaryNavModule.navigationOption" actionArgs="analysisOptions"/>
-                        </condition>
-                        <option labelKey="menu.adhoc.options" action="primaryNavModule.navigationOption" actionArgs="designerOptions"/>
-                        <option labelKey="menu.adhoc.cache" action="primaryNavModule.navigationOption" actionArgs="designerCache"/>
-                    </condition>
-                </condition>
-                </condition>
--->
-                <!--end pro only-->
                 <condition test="isProVersion">
                 <condition test="!banUserRole">
                     <condition test="checkAuthenticationRoles" testArgs="ROLE_SUPERUSER">
@@ -97,9 +84,6 @@
                 </condition>
                 </condition>
                 <condition test="isCEVersion">
-<!--
-                    <option labelKey="menu.mondrian.properties" action="primaryNavModule.navigationOption" actionArgs="mondrianProperties"/>
--->
                     <option labelKey="menu.server.settings" action="primaryNavModule.navigationOption" actionArgs="logSettings"/>
                 </condition>
                 <condition test="isProVersion">

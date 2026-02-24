@@ -272,27 +272,6 @@ public class POSTTest extends RESTTest{
 //		
 //		deleteResource(SAMPLE_LIST_OF_VALUES_SERVER_PATH);
 //    }
-//	
-//	@Test 
-//    public void Put200NewOlapMondrianCon() throws Exception 
-//    {
-//		String rdFileName = LOCAL_RDS+SAMPLE_OLAP_MONDRIAN_CON_RD;
-//		
-//    	//building the body
-//		BasicHttpEntity reqEntity = new BasicHttpEntity();
-//		
-//		//appending the file descriptor from a file 
-//		reqEntity.setContent(new FileInputStream(new File(rdFileName)));
-//		
-//		((HttpEntityEnclosingRequestBase)httpReq).setEntity(reqEntity);
-//		
-//		
-//		//executing the request
-//		httpRes = executeCall(httpReq, SAMPLE_OLAP_MONDRIAN_CON_SERVER_PATH);
-//		Assert.assertTrue("basic response check did not pass", isValidResposnse());
-//		
-//		deleteResource(SAMPLE_OLAP_MONDRIAN_CON_SERVER_PATH);
-//    }
 	
 	/**/
 	/* SERVER RESOURCES */

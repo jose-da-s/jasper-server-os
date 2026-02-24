@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -163,8 +165,6 @@ public class ConfigurationBean implements DateTimeConfiguration, WebConfiguratio
 					messages.getMessage(JasperServerConst.TYPE_RSRC_CLASS_JAR, null, "Jar", LocaleContextHolder.getLocale()));
         allTypes.put(FileResource.TYPE_JRXML,
 					messages.getMessage(JasperServerConst.TYPE_RSRC_SUB_REPORT, null, "Jrxml", LocaleContextHolder.getLocale()));
-        allTypes.put(FileResource.TYPE_MONDRIAN_SCHEMA,
-					messages.getMessage(JasperServerConst.TYPE_RSRC_OLAP_SCHEMA, null, "OLAP Schema", LocaleContextHolder.getLocale()));
         allTypes.put(FileResource.TYPE_RESOURCE_BUNDLE,
 					messages.getMessage(JasperServerConst.TYPE_RSRC_RESOURCE_BUNDLE, null, "Properties", LocaleContextHolder.getLocale()));
         allTypes.put(FileResource.TYPE_STYLE_TEMPLATE,

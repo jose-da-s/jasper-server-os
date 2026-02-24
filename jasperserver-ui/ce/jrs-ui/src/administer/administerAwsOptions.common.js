@@ -1,5 +1,7 @@
 /*
- * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2005 - 2019 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
  * Unless you have purchased a commercial license agreement from Jaspersoft,
@@ -18,18 +20,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.api.metadata.olap.domain.impl.hibernate;
 
-import com.jaspersoft.jasperserver.api.metadata.common.service.impl.hibernate.persistent.RepoDataSource;
+import Administer from '../administer/administer.base';
+import Options from '../administer/administer.options';
+import jrsConfigs from 'js-sdk/src/jrs.configs';
+import _ from 'underscore';
 
-
-/**
- * @author Lucian Chirita (lucianc@users.sourceforge.net)
- * @version $Id: RepoOlapDataSource.java 2995 2006-04-07 14:05:32Z tdanciu $
- *
- * @hibernate.joined-subclass table="OlapDataSource" abstract="true"
- * @hibernate.joined-subclass-key column="id"
- */
-public abstract class RepoOlapDataSource extends RepoDataSource
-{
-}
+_.extend(Administer._messages, jrsConfigs.Administer._messages);
+Administer.urlContext = jrsConfigs.urlContext;
+Administer.flowExecutionKey = jrsConfigs.Administer.flowExecutionKey;
+Options.initialize();

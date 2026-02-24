@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -262,15 +264,6 @@ public class RepositorySearchServiceImpl implements RepositorySearchService, Dia
                 @Override
                 public Integer getDiagnosticAttributeValue() {
                     return repositoryService.getFoldersCount(null);
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.TOTAL_OLAP_VIEWS_COUNT, new DiagnosticCallback<Integer>() {
-                @Override
-                public Integer getDiagnosticAttributeValue() {
-                    final List<SearchFilter> allFiltersList = new ArrayList<SearchFilter>(createAllFiltersList(configuration, repositorySearchCriteria));
-                    repositorySearchCriteria.setResourceTypes(filterOptionToResourceTypes.get("resourceTypeFilter-view"));
-                    return repositoryService.getResourcesCount(putCriteriaToContext(null, repositorySearchCriteria), factory, allFiltersList,
-                            searchSorter, transformerFactory);
                 }
             })
             .addDiagnosticAttribute(DiagnosticAttributeBuilder.TOTAL_DATA_SOURCES_COUNT, new DiagnosticCallback<Integer>() {

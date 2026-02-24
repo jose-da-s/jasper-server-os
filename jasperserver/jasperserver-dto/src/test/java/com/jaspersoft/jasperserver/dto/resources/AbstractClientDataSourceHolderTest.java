@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -85,7 +87,6 @@ class AbstractClientDataSourceHolderTest {
                 new DataSourceHolder(new ClientSemanticLayerDataSource().setUri(TEST_URI), "semanticLayerDataSource"),
                 new DataSourceHolder(new ClientAdhocDataView().setUri(TEST_URI), "advDataSource"),
                 new DataSourceHolder(new ClientAzureSqlDataSource().setUri(TEST_URI), "azureSqlDataSource"),
-                new DataSourceHolder(new ClientSecureMondrianConnection().setUri(TEST_URI), "secureMondrianConnection"),
                 new DataSourceHolder(new AnotherDataSource().setUri(TEST_URI), "AbstractClientDataSourceHolderTest$AnotherDataSource")
         );
     }

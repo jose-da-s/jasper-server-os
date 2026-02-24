@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -626,31 +628,6 @@ and (max-device-width : 1024px) {
     background-position: 0 1px;
 }
 
-/* olap dimensions */
-.dimension .list.folders .leaf > .wrap > .icon {
-    background-position: 0 -420px;
-    width: 30px;
-}
-.dimension .list.folders .leaf.selected > .wrap > .icon {
-    background-position: -50px -420px;
-}
-
-.dimension .list.folders .node.open > .wrap > .icon {
-    background-position: 0 -359px;
-    width: 30px;
-}
-.dimension .list.folders .node.selected.open > .wrap > .icon {
-    background-position: -50px -359px;
-}
-
-.dimension .list.folders .node.closed > .wrap > .icon {
-    background-position: 0 -389px;
-    width: 30px;
-}
-.dimension .list.folders .node.selected.closed > .wrap > .icon {
-    background-position: -50px -389px;
-}
-
 
 /* generic field & measure (using string and numeric icons accordingly) */
 .attribute .list.folders .leaf > .wrap > .icon,
@@ -1001,14 +978,6 @@ and (max-device-width : 1024px) {
 }
 .folders .node.open.selected > .wrap > .icon {
     background-position: -58px -28px;
-}
-
-/* olap */
-.folders .leaf.olap > .wrap > .icon {
-    background-position: 0 -58px;
-}
-.folders .leaf.olap.selected > .wrap > .icon {
-    background-position: -58px -58px;
 }
 
 /* domain */

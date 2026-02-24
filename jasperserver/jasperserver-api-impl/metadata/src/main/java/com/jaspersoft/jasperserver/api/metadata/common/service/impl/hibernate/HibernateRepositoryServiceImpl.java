@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.api.metadata.common.service.impl.hibernate;
 
 import com.jaspersoft.jasperserver.api.JSDuplicateResourceException;
@@ -1150,7 +1153,6 @@ public class HibernateRepositoryServiceImpl extends HibernateDaoImpl implements 
         Class persistentClass;
         if (filterClass == null) {
             persistentClass = RepoResource.class;
-            //persistentClass = RepoOlapUnit.class;    
         } else {
             persistentClass = getPersistentClassMappings().getImplementationClass(filterClass);
         }

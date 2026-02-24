@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -37,7 +39,6 @@ var Options = {
     CANCEL_PFX: 'cancel',
     ERROR_PFX: 'error_',
     INPUT_PFX: 'input_',
-    BUTTON_FLASH: 'flushOLAPCache',
     initialize: function () {
         if (jQuery('#serverSettingsMenu').length > 0) {
             layoutModule.resizeOnClient('serverSettingsMenu', 'settings');
@@ -51,11 +52,6 @@ var Options = {
                     document.location = Administer.menuActions[pattern]();
                     return;
                 }
-            }
-            if (matchAny(elem, ['#' + Options.BUTTON_FLASH], true)) {
-                Event.stop(e);
-                Options.flushCache();
-                return;
             }
             var button = matchAny(elem, ['#' + Options.SAVE_PFX], true);
             if (button && !button.disabled) {

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -177,13 +179,6 @@
 #addResource_locateQuery #fromLocal {
     display: none;
 } /* can't find */
-
-
-/* RESOURCE: OLAP Client Connection */
-#addResource_analysisConnection.mondrian #xmlA {
-    display: none;
-} /* can't find */
-
 
 /* RESOURCE: List of Values */
 #addResource_listOfValues .list.attributesTable .column {
@@ -653,11 +648,6 @@
     display: none;
 } /* can't find */
 
-#addResource_locateOLAPSchema #noLink,
-#addResource_locateOLAPSchema #create {
-    display: none;
-} /* can't find */
-
 #addResource_locateAccessGrant #create {
     display: none;
 } /* can't find */
@@ -671,11 +661,6 @@
 #addResource_locateResource #create {
     display: none;
 } /* can't find */
-
-#addResource_analysisConnection div.title label.wrap {
-    color: inherit;
-} /* can't find */
-
 /* Virtual Data Source */
 #dataSourcesSelector {
     position: relative;
@@ -872,13 +857,6 @@ x:-o-prefocus, #selectedDataSources label {
 
 #designer .toolbar > .list.buttonSet > .node > .list.buttonSet.last {
     border-left: 1px solid var(--border-white);
-}
-
-
-#designer .toolbar > .list.buttonSet > .node > .list.buttonSet.olapNo,
-#designer .toolbar > .list.buttonSet > .node > .list.buttonSet.olapYes {
-    margin: 0;
-    padding: 0 6px;
 }
 
 #adhocToolbar > .list.buttonSet > .node:first-of-type,
@@ -1272,14 +1250,6 @@ and (max-device-width: 1024px) {
 
 #designer #titleCaption.highChartsTitle > input {
     width: calc(100% - 80px);
-}
-
-#designer .OLAP {
-    border-bottom: 1px solid #e0e0e0;
-}
-
-#designer .OLAP .dropTarget {
-    background-color: transparent !important;
 }
 
 #designer .calculatedField {
@@ -3222,8 +3192,7 @@ and (orientation: portrait) {
     border-radius: 9px;
 }
 
-.resourceBlock-list .fileType-icon.adhocDataView,
-.resourceBlock-list .fileType-icon.olapUnit {
+.resourceBlock-list .fileType-icon.adhocDataView {
     background-position: -1px -108px;
 }
 
@@ -7199,7 +7168,6 @@ body.locale-pt_BR .schedulerApp .outputTab .control.browser input {
     bottom: 0;
 }
 
-#analysisOptions #settings > .content.hasFooter > .footer,
 #logSettings #settings > .content.hasFooter > .footer,
 #designerOptions #settings > .content.hasFooter > .footer,
 #awsOptions #settings > .content.hasFooter > .footer {
@@ -7207,7 +7175,6 @@ body.locale-pt_BR .schedulerApp .outputTab .control.browser input {
     display: none;
 }
 
-#analysisOptions #settings > .content.hasFooter > .body,
 #logSettings #settings > .content.hasFooter > .body,
 #designerOptions #settings > .content.hasFooter > .body,
 #awsOptions #settings > .content.hasFooter > .body {
@@ -7215,7 +7182,6 @@ body.locale-pt_BR .schedulerApp .outputTab .control.browser input {
     bottom: 0;
 }
 
-#analysisOptions .pane.settings .header,
 #designerOptions .pane.settings .header,
 #awsOptions .pane.settings .header {
     display: inline-block;
@@ -7224,7 +7190,6 @@ body.locale-pt_BR .schedulerApp .outputTab .control.browser input {
     margin-top: 8px;
 }
 
-#analysisOptions .pane.settings .header .title,
 #designerOptions .pane.settings .header .title,
 #awsOptions .pane.settings .header .title {
     font-size: 11px;
@@ -7388,7 +7353,6 @@ body.locale-pt_BR .schedulerApp .outputTab .control.browser input {
     padding-left: 8px;
 }
 
-#analysisOptions #settings .pane.settings .control.input.text > .wrap,
 #designerOptions #settings .pane.settings .control.input.text > .wrap {
     align-self: center;
     line-height: 1.4;
@@ -7416,25 +7380,18 @@ body.locale-pt_BR .schedulerApp .outputTab .control.browser input {
 }
 
 #awsOptions .pane.settings .control.checkBox + .control.description,
-#analysisOptions .pane.settings .control.checkBox + .control.description,
 #designerOptions .pane.settings .control.checkBox + .control.description {
     margin-left: 32px;
     margin-right: 56px;
 }
 
-#analysisOptions .pane.settings .control.input.text,
 #designerOptions .pane.settings .control.input.text {
     display: flex;
     margin-bottom: 8px;
 }
 
-#analysisOptions .pane.settings .control.input.text + .control.description,
 #designerOptions .pane.settings .control.input.text + .control.description{
     margin-left: 64px;
-}
-
-#analysisOptions .pane.settings .control.input.text + .description:not(.control) {
-    margin-left: 114px;
 }
 
 #logSettings .list.js-logSettings > li:first-of-type > .wrap,

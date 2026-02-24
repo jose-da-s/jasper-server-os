@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,7 +23,6 @@
 
 import _ from 'underscore';
 import defaultSettings from 'js-sdk/src/jrs.configs';
-import olapConnectionTypesEnum from '../../../enum/olapConnectionTypesEnum';
 import repositoryResourceTypes from '../../../enum/repositoryResourceTypes';
 import commonMessagesBundle from 'js-sdk/src/i18n/CommonBundle.properties';
 function cssClassItemProcessor(item) {
@@ -34,9 +35,6 @@ function cssClassItemProcessor(item) {
         break;
     case repositoryResourceTypes.SEMANTIC_LAYER_DATA_SOURCE:
         item.cssClass = 'domain';
-        break;
-    case repositoryResourceTypes.OLAP_CUBE:
-        item.cssClass = 'olap';
         break;
     default:
         break;
@@ -52,7 +50,7 @@ var processors = {
     },
     treeNodeProcessor: {
         processItem: function (item) {
-            item._node = _.contains(_.union([repositoryResourceTypes.FOLDER], olapConnectionTypesEnum), item.value.resourceType);
+            item._node = repositoryResourceTypes.FOLDER === item.value.resourceType;
             return item;
         }
     },

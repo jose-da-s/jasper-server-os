@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -44,10 +45,6 @@
                 <entry key="queryTreeDataProvider" value="queryTreeDataProvider"/>
                 <entry key="inputControlResourceTreeDataProvider" value="inputControlResourceTreeDataProvider"/>
                 <entry key="dataSourceTreeDataProvider" value="dsTreeDataProvider"/>
-                <entry key="OLAPTreeDataProvider" value="OLAPTreeDataProvider"/>
-                <entry key="MondrianTreeDataProvider" value="MondrianTreeDataProvider"/>
-                <entry key="XMLATreeDataProvider" value="XMLATreeDataProvider"/>
-                <entry key="olapSchemaTreeDataProvider" value="olapSchemaTreeDataProvider"/>
                 <entry key="nonSemanticDataSourceTreeDataProvider" value="dsTreeDataProvider"/>
                 <entry key="joinableDsTreeDataProvider" value="joinableDsTreeDataProvider"/>
                 <entry key="awsDataSourceTreeDataProvider" value="awsDataSourceTreeDataProvider"/>

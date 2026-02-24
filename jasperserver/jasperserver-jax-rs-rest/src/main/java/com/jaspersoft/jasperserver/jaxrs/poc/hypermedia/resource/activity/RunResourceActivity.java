@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -44,7 +46,6 @@ public class RunResourceActivity extends ReadResourceActivity {
 
     private List<String> canBeRunTypes = Arrays.asList(
             ResourceMediaType.REPORT_UNIT_CLIENT_TYPE,
-            ResourceMediaType.OLAP_UNIT_CLIENT_TYPE,
             ResourceMediaType.DASHBOARD_CLIENT_TYPE,
             ResourceMediaType.ADHOC_DATA_VIEW_CLIENT_TYPE,
             ResourceMediaType.REPORT_OPTIONS_CLIENT_TYPE
@@ -88,10 +89,6 @@ public class RunResourceActivity extends ReadResourceActivity {
 
             if (ResourceMediaType.REPORT_UNIT_CLIENT_TYPE.equals(resourceType)){
                 url += MessageFormat.format("viewReportFlow&standAlone=true&ParentFolderUri={0}&reportUnit={1}",
-                        parentFolderUri, resourceUri);
-            }else if (ResourceMediaType.OLAP_UNIT_CLIENT_TYPE.equals(resourceType)){
-                url = MessageFormat.format("{0}olap/viewOlap.html?", requestInfoProvider.getBaseUrl());
-                url += MessageFormat.format("new=true&parentFlow=searchFlow&ParentFolderUri={0}&name={1}",
                         parentFolderUri, resourceUri);
             }else if (ResourceMediaType.DASHBOARD_CLIENT_TYPE.equals(resourceType)){
                 url = requestInfoProvider.getBaseUrl().concat("dashboard/viewer.html#").concat(resourceUri);

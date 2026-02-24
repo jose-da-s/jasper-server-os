@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -41,18 +43,12 @@ export default {
     VIRTUAL_DATA_SOURCE: 'virtualDataSource',
     CUSTOM_DATA_SOURCE: 'customDataSource',
     BEAN_DATA_SOURCE: 'beanDataSource',
-    XMLA_CONNECTION: 'xmlaConnection',
     LIST_OF_VALUES: 'listOfValues',
     REPORT_OPTIONS: 'reportOptions',
     QUERY: 'query',
-    OLAP_UNIT: 'olapUnit',
     DOMAIN_TOPIC: 'domainTopic',
     DOMAIN: 'domain',
     SEMANTIC_LAYER_DATA_SOURCE: 'semanticLayerDataSource',
-    SECURE_MONDRIAN_CONNECTION: 'secureMondrianConnection',
-    MONDRIAN_XMLA_DEFINITION: 'mondrianXmlaDefinition',
-    MONDRIAN_CONNECTION: 'mondrianConnection',
     INPUT_CONTROL: 'inputControl',
     ORGANIZATION: 'organization',
-    OLAP_CUBE: 'olapCube'
 };

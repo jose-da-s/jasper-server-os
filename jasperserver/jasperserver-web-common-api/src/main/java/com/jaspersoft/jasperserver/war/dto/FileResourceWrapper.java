@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -124,8 +126,6 @@ public class FileResourceWrapper extends BaseDTO implements Serializable {
 					JasperServerConst.TYPE_RSRC_RESOURCE_BUNDLE);
 			allTypes.put(FileResource.TYPE_STYLE_TEMPLATE,
 					JasperServerConst.TYPE_RSRC_STYLE_TEMPLATE);
-			allTypes.put(FileResource.TYPE_MONDRIAN_SCHEMA,
-					JasperServerConst.TYPE_RSRC_OLAP_SCHEMA);
 			allTypes.put(FileResource.TYPE_ACCESS_GRANT_SCHEMA,
 						 JasperServerConst.TYPE_RSRC_ACCESS_GRANT_SCHEMA); // pro-only
 			allTypes.put(FileResource.TYPE_XML,

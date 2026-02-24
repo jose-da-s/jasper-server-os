@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -62,22 +63,6 @@
 	       value="com.jaspersoft.jasperserver.api.metadata.user.domain.client.ObjectPermissionImpl"/>
 	<entry key="com.jaspersoft.jasperserver.api.metadata.user.domain.ProfileAttribute"
 	       value="com.jaspersoft.jasperserver.api.metadata.user.domain.client.ProfileAttributeImpl"/>
-	<entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection"
-               value="com.jaspersoft.ji.ja.security.domain.SecureMondrianConnectionImpl"/>
-	<entry key="com.jaspersoft.ji.ja.security.domain.SecureMondrianConnection"
-               value="com.jaspersoft.ji.ja.security.domain.SecureMondrianConnectionImpl"/>
-	<!--
-	    <entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection"
-		   value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.MondrianConnectionImpl"/>
-	    -->
-	<entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition"
-	       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.MondrianXMLADefinitionImpl"/>
-	<entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit"
-	       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.OlapUnitImpl"/>
-	<entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection"
-	       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.OlapClientConnectionImpl"/>
-	<entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection"
-	       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.client.XMLAConnectionImpl"/>
 	<entry key="com.jaspersoft.ji.adhoc.AdhocReportUnit"
 	       value="com.jaspersoft.ji.adhoc.AdhocReportUnitImpl"/>
       </map>
@@ -123,19 +108,6 @@
 	<entry key="com.jaspersoft.jasperserver.api.metadata.user.domain.Tenant"
 		   value="com.jaspersoft.jasperserver.api.metadata.user.domain.impl.hibernate.RepoTenant"/>
 	<!-- these values override OS values -->
-	<entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection"
-               value="com.jaspersoft.ji.ja.security.domain.RepoSecureMondrianConnection"/>
-	<entry key="com.jaspersoft.ji.ja.security.domain.SecureMondrianConnection"
-               value="com.jaspersoft.ji.ja.security.domain.RepoSecureMondrianConnection"/>
-	<entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition"
-	       value="com.jaspersoft.ji.ja.security.domain.RepoSecureMondrianXMLADefinition"/>
-
-	<entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit"
-	       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.impl.hibernate.RepoOlapUnit"/>
-	<entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection"
-	       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.impl.hibernate.RepoOlapClientConnection"/>
-	<entry key="com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection"
-	       value="com.jaspersoft.jasperserver.api.metadata.olap.domain.impl.hibernate.RepoXMLAConnection"/>
 	<entry key="com.jaspersoft.ji.adhoc.AdhocReportUnit"
 	       value="com.jaspersoft.ji.adhoc.hibernate.RepoAdhocReportUnit"/>
 	<entry key="com.jaspersoft.ji.adhoc.AdhocColumn"

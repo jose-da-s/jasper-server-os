@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -68,9 +70,6 @@
                                 className="up"/>
                         <option labelKey="resourceTypes.jrxml" action="invokeCreate" actionArgs="FileResource@@jrxml"
                                 className="up"/>
-                        <option labelKey="resourceTypes.olap.schema" action="invokeCreate"
-                                actionArgs="FileResource@@olapMondrianSchema"
-                                className="up"/>
                         <option labelKey="resourceTypes.resource.bundle" action="invokeCreate"
                                 actionArgs="FileResource@@prop"
                                 className="up"/>
@@ -105,17 +104,6 @@
                             clientTest="canResourceBeCreated" clientTestArgs="ReportUnit" className="up"/>
                     <option labelKey="RM_NEW_RESOURCE_LIST_OF_VALUES" action="invokeCreate" actionArgs="ListOfValues"
                             clientTest="canResourceBeCreated" clientTestArgs="ListOfValues" className="up"/>
-
-                    <option labelKey="RM_NEW_RESOURCE_MONDRIAN_XMLA_SOURCE" action="invokeCreate"
-                            actionArgs="XMLAConnection"
-                            clientTest="canResourceBeCreated" clientTestArgs="XMLAConnection" className="up"/>
-
-                    <option labelKey="RM_NEW_RESOURCE_OLAP_CLIENT_CONNECTION" action="invokeCreate"
-                            actionArgs="OlapClientConnection"
-                            clientTest="canResourceBeCreated" clientTestArgs="OlapClientConnection" className="up"/>
-
-                    <option labelKey="RM_NEW_RESOURCE_ANALYSIS_VIEW" action="invokeCreate" actionArgs="OlapUnit"
-                            clientTest="canResourceBeCreated" clientTestArgs="OlapUnit" className="up"/>
 
                     <option labelKey="RM_NEW_RESOURCE_QUERY" action="invokeCreate" actionArgs="Query"
                             clientTest="canResourceBeCreated" clientTestArgs="Query" className="up"/>

@@ -78,14 +78,6 @@
                                <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoAwsDataSource.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoAzureSqlDataSource.hbm.xml</value>
                 <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoListOfValues.hbm.xml</value>
-			       <value>/security/SecureMondrianConnection.hbm.xml</value>
-			       <value>/security/RepoMondrianXMLADefinition.hbm.xml</value>
-<!-- RepoMondrianConnection is in the process of being deprecated, 
-                               <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoMondrianConnection.hbm.xml</value>
-                               <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoMondrianXMLADefinition.hbm.xml</value>
--->
-                               <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoOlapClientConnection.hbm.xml</value>
-                               <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoOlapUnit.hbm.xml</value>
                                <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoQuery.hbm.xml</value>
                                <value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoReportUnit.hbm.xml</value>
 				<value>/com/jaspersoft/jasperserver/api/metadata/common/service/impl/hibernate/persistent/RepoResource.hbm.xml</value>

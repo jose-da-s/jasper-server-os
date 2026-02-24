@@ -1,4 +1,6 @@
 /*!
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2020 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -103,10 +105,6 @@
     background-position: 0 -390px;
 }
 
-.jr-mTree-leaf.jr > .jr-mTree-icon.jr.olaphierarchy {
-    background-position: 0 -480px;
-}
-
 // dashboard content
 .jr-mTree-leaf.jr > .jr-mTree-icon.jr.chart {
     background-position: -38px 0;
@@ -163,10 +161,6 @@
 
 .jr-mTree-leaf.jr > .jr-mTree-icon.jr.domaintopic {
     background-position: -78px -179px;
-}
-
-.jr-mTree-leaf.jr > .jr-mTree-icon.jr.olap {
-    background-position: -76px -210px;
 }
 
 /* domain items */
@@ -270,12 +264,4 @@
 
 .jr-mTree-node.jr-isOpen.jr > .jr-mTree-icon.jr.hierarchy {
     background-position: 0 -360px;
-}
-
-.jr-mTree-node.jr-isClosed.jr > .jr-mTree-icon.jr.olaphierarchy {
-    background-position: 0 -420px;
-}
-
-.jr-mTree-node.jr-isOpen.jr > .jr-mTree-icon.jr.olaphierarchy {
-    background-position: 0 -450px;
 }

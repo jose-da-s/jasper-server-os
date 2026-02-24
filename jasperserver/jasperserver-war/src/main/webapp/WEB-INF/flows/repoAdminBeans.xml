@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -44,10 +45,6 @@
               <entry key="resourceTypes.list.of.values" value="com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValues"/>
 			  <entry key="resourceTypes.query" value="com.jaspersoft.jasperserver.api.metadata.common.domain.Query"/>
 			  <entry key="resourceTypes.jrxml" value="com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource"/>
-              <entry key="resourceTypes.olap.view" value="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit"/>
-              <entry key="resourceTypes.olap.client.connection" value="com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapClientConnection"/>
-              <entry key="resourceTypes.olap.schema" value="com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource"/>
-              <entry key="resourceTypes.mondrian.xmla.source" value="com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition"/>
               <entry key="resourceTypes.image" value="com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource"/>
               <entry key="resourceTypes.font" value="com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource"/>
               <entry key="resourceTypes.jar" value="com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource"/>

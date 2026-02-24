@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.war.action;
 
 import com.jaspersoft.jasperserver.api.JSDuplicateResourceException;
@@ -96,62 +99,6 @@ public class FileResourceAction extends FormAction {
 
     public Event initAction(RequestContext context) throws Exception {
 		FileResourceWrapper wrapper = (FileResourceWrapper) getFormObject(context);
-		if (wrapper.isSubflowMode()) {
-//			FilterCriteria criteria = FilterCriteria
-//					.createFilter(FileResource.class);
-//			if (wrapper.getFileResource().getFileType() != null
-//					&& wrapper.getFileResource().getFileType().trim().length() != 0) {
-//				criteria.addFilterElement(FilterCriteria
-//						.createPropertyEqualsFilter("fileType", wrapper
-//								.getFileResource().getFileType()));
-//			} else if (isMasterFlowReportUnit(context)) {
-//				FilterElementDisjunction olapTypesFilter = new FilterElementDisjunction();
-//				olapTypesFilter.addFilterElement(FilterCriteria.createPropertyEqualsFilter("fileType",
-//						ResourceDescriptor.TYPE_MONDRIAN_SCHEMA));
-//				olapTypesFilter.addFilterElement(FilterCriteria.createPropertyEqualsFilter("fileType",
-//						ResourceDescriptor.TYPE_ACCESS_GRANT_SCHEMA));
-//				criteria.addNegatedFilterElement(olapTypesFilter);
-//			}
-//			ResourceLookup[] lookups = repository.findResource(StaticExecutionContextProvider.getExecutionContext(), criteria);
-//			List allResources = null;
-//			if (lookups != null && lookups.length != 0) {
-//				allResources = new ArrayList();
-//				log("Found lookups size=" + lookups.length);
-//				for (int i = 0; i < lookups.length; i++) {
-//					allResources.add(lookups[i].getURIString());
-//				}
-//			}
-//			wrapper.setAllResources(allResources);
-		}
-		/**
-		 * TODO(stas): Remove next block. I didn't find any usage of getExistingResources
-		 */
-//		 In new Mode get a list of all resources already present in the chosen
-//		 * folder, to validate resource name's uniqueness
-//		if (wrapper.isNewMode()) {
-//			String folderURI = wrapper.getFileResource().getParentFolder();
-//			if (folderURI == null)
-//			{
-//				folderURI = "/";
-//			}
-//			FilterCriteria resourcesInFolder = FilterCriteria.createFilter();
-//			resourcesInFolder.addFilterElement(FilterCriteria
-//					.createParentFolderFilter(folderURI));
-//			log("Searching for resources in the chosen folder:"+folderURI);
-//			ResourceLookup[] existingResources = repository.findResource(null,
-//					resourcesInFolder);
-//
-//			if (existingResources != null && existingResources.length != 0) {
-//				log("res lookup size="+existingResources.length);
-//				List allResources = new ArrayList();
-//				for (int i = 0; i < existingResources.length; i++) {
-//					ResourceLookup rLookup = existingResources[i];
-//					allResources.add(rLookup.getName());
-//					log("adding resource: "+rLookup.getName()+ " to the list");
-//				}
-//				wrapper.setExistingResources(allResources);
-//			}
-//		}
 
 		if (wrapper.isSubflowMode()) {
 //			getAllFolders(wrapper); // TODO get this from main flow
@@ -240,12 +187,6 @@ public class FileResourceAction extends FormAction {
 				if (FileResource.class.isAssignableFrom(resource.getClass())) {
 					FileResource fileR = (FileResource) resource;
 					wrapper.getFileResource().setFileType(fileR.getFileType());
-				}	
-				// for olap subflow reusing an existing resource
-				if (ResourceDescriptor.TYPE_MONDRIAN_SCHEMA.equals(wrapper.getFileResource().getFileType()) ||
-				    ResourceDescriptor.TYPE_ACCESS_GRANT_SCHEMA.equals(wrapper.getFileResource().getFileType())) { // TODO: refactor pro				
-					((FileResource) resource).setReferenceURI(wrapper.getFileResource().getReferenceURI());
-					wrapper.setFileResource((FileResource) resource);
 				}
 			}
 			wrapper.setLocated(true);
@@ -273,7 +214,7 @@ public class FileResourceAction extends FormAction {
 			else if (extension.equalsIgnoreCase("ttf"))
 				type = FileResource.TYPE_FONT;
 			else if (extension.equalsIgnoreCase("xml")) {
-				type = determineXmlResourceType(context);
+				type = FileResource.TYPE_XML;
 			}
 			else if (extension.equalsIgnoreCase("agxml"))
 				type = ResourceDescriptor.TYPE_ACCESS_GRANT_SCHEMA; // pro-only
@@ -291,20 +232,6 @@ public class FileResourceAction extends FormAction {
 					}
 				}
 			}
-		}
-		return type;
-	}
-
-	protected String determineXmlResourceType(RequestContext context) {
-		String expectedType = (String) context.getFlowScope().get(
-				expectedFileTypeAttribute);
-		String type;
-		if (expectedType != null && FileResource.TYPE_XML.equals(expectedType)) {
-			type = FileResource.TYPE_XML;
-		} else {
-			// if not explicitly expecting XML file
-			// default to Mondrian schema for backward compatibility
-			type = ResourceDescriptor.TYPE_MONDRIAN_SCHEMA;
 		}
 		return type;
 	}

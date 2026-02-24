@@ -1,7 +1,0 @@
-
-This does not work against the Foodmart_ja schema. There is a problem with the schema
-
-select {[Measures].[Unit Sales???], [Measures].[Store Cost???], [Measures].[Store Sales???]} ON COLUMNS,
-  Hierarchize(Union(Crossjoin({[Promotion Media???].[All Media???]}, {[Product???].[All Products???]}),
-Crossjoin({[Promotion Media???].[All Media???]}, [Product???].[All Products???].Children))) ON ROWS
-from [Sales]

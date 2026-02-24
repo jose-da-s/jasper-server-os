@@ -35,17 +35,6 @@
                 <option labelKey="menu.all" action="primaryNavModule.navigationOption" actionArgs="browse"/>
                 <option labelKey="menu.favorites" action="primaryNavModule.navigationOption" actionArgs="favorites"/>
                 <option labelKey="menu.jobs" action="primaryNavModule.navigationOption" actionArgs="jobs"/>
-<!--
-                <option labelKey="menu.reports" action="primaryNavModule.navigationOption" actionArgs="report"/>
-                <condition test="isCEVersion">
-                    <option labelKey="menu.olap.views" action="primaryNavModule.navigationOption" actionArgs="olap"/>
-                </condition>
-                <condition test="isProVersion">
-                    <condition test="isAvailableProFeature" testArgs="ANA">
-                        <option labelKey="menu.olap.views" action="primaryNavModule.navigationOption" actionArgs="olap"/>
-                    </condition>
-                </condition>
--->
                 <option labelKey="menu.events" action="primaryNavModule.navigationOption" actionArgs="event"/>
             </selectAction>
         </context>

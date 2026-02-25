@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -184,7 +184,7 @@ Make sure you have compiled the jasperserver source code.
 
                 <!-- Uncomment to debug remotely     -->
 <!--                <jvmarg value="-Xdebug"/>
-                <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000"/>-->
+                <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8001"/>-->
 
                 <classpath>
     <!--
@@ -659,7 +659,7 @@ Linux Example:
                         <!-- Uncomment to debug remotely     -->
                         <!--
                                         <jvmarg value="-Xdebug"/>
-                                        <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000"/>
+                                        <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8001"/>
                         -->
                         <classpath>
                             <!--

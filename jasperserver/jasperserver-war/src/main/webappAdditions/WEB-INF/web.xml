@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -102,6 +102,11 @@
     <!-- SSO -  single sign out listener -->
     <listener>
         <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
+
+    <!-- CSRFGuard - create virtual session based on HttpSession -->
+    <listener>
+        <listener-class>org.owasp.csrfguard.CsrfGuardHttpSessionListener</listener-class>
     </listener>
 
     <!-- XSS jsp ELResolver -->
@@ -520,11 +525,12 @@
     <servlet>
         <description>
             GET: returns jrs.csrfguard.js, which injects CSRF token on the page.
-            POST: returns CSRF token when requested from jrs.csrfguard.js
+            POST: returns per-page CSRF tokens when requested from jrs.csrfguard.js
+              (disabled in JRS)
             JavaScriptServlet is further configured in jrs.csrfguard.properties
         </description>
         <servlet-name>CSRFGuard.JavaScriptServlet</servlet-name>
-        <servlet-class>com.jaspersoft.jasperserver.api.security.csrf.JSJavaScriptServlet</servlet-class>
+        <servlet-class>org.owasp.csrfguard.servlet.JavaScriptServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CSRFGuard.JavaScriptServlet</servlet-name>

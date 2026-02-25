@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,7 +23,6 @@
 package com.jaspersoft.jasperserver.war;
 
 import com.jaspersoft.jasperserver.api.JasperServerAPI;
-import org.owasp.csrfguard.CsrfGuard;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
 
 import javax.servlet.http.HttpSession;
@@ -46,7 +47,6 @@ public class JSSessionFixationProtectionStrategy extends SessionFixationProtecti
     @Override
     protected Map<String, Object> extractAttributes(HttpSession session) {
         Map<String, Object> attrMap = super.extractAttributes(session);
-        attrMap.remove(CsrfGuard.getInstance().getSessionKey());
         attrMap.remove(SessionXssNonceSetterFilter.XSS_NONCE_ATTRIB_NAME);
         return attrMap;
     }

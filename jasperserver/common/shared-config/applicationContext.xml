@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -1661,15 +1661,11 @@
         <description>Servlet delegating requests to CSRFGuardFilter based on User-Agent header</description>
         <property name="protectedUserAgentRegexs">
             <description>
-                A list of regular expressions for the User Agent's that are not protected against CSRF.
-                CSRF is an attack perpetrated via browsers.  This property is to whitelist non-browser User Agent's.
-                User-Agent is a request header normally set by a client (e.g. browser).
+                A list of regular expressions for the User Agent's that are protected against CSRF.
+                CSRF is an attack perpetrated via browsers, so only browsers are checked.
 
-                Each regex is matched against the ENTIRE user-agent header.  The match is case insensitive. If there is
-                a match, the request is not checked for the presence of a CSRF token in the req. header or parameters.
-
-                Make sure the regex expressions are valid and are not too permissive.  Having unprotectedUserAgentRegexs
-                set to .* opens up the server to CSRF.  It's paramount to turning CSRFGuard off.
+                Each regex is matched against the ENTIRE user-agent header. The match is case insensitive. If there is
+                a match, the request is checked for the presence of a CSRF token in the req. header or parameters.
             </description>
             <list>
                 <value>Mozilla/.*</value>

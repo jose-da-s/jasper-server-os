@@ -610,11 +610,6 @@
             <version>3.10</version> <!-- update causes errors with crypto -->
         </dependency>
         <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.4.01</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>1.10.0</version>
@@ -915,11 +910,6 @@
                 <groupId>org.codelibs.xerces</groupId>
                 <artifactId>xercesImpl</artifactId>
                 <version>2.12.1-sp1</version>
-            </dependency>
-            <dependency>
-                <groupId>xml-apis</groupId>
-                <artifactId>xml-apis</artifactId>
-                <version>1.4.01</version>
             </dependency>
             <dependency>
                 <groupId>org.dom4j</groupId>

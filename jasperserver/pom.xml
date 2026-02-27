@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -345,6 +345,11 @@
                         <target>17</target>
                         <forceJavacCompilerUse>true</forceJavacCompilerUse>
                     </configuration>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                        <arg>-Xlint:deprecation</arg>
+                        <arg>-Xlint:unchecked</arg>
+                    </compilerArgs>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
@@ -548,6 +553,11 @@
                     <source>17</source>
                     <target>17</target>
                 </configuration>
+                <compilerArgs>
+                    <arg>-parameters</arg>
+                    <arg>-Xlint:deprecation</arg>
+                    <arg>-Xlint:unchecked</arg>
+                </compilerArgs>
             </plugin>
         </plugins>
     </build>

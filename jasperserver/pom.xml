@@ -622,11 +622,6 @@
             <version>3.10</version> <!-- update causes errors with crypto -->
         </dependency>
         <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.4.01</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>1.10.0</version>
@@ -635,6 +630,11 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.30</version>
+            </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongo-java-driver</artifactId>
@@ -922,11 +922,6 @@
                 <groupId>org.codelibs.xerces</groupId>
                 <artifactId>xercesImpl</artifactId>
                 <version>2.12.1-sp1</version>
-            </dependency>
-            <dependency>
-                <groupId>xml-apis</groupId>
-                <artifactId>xml-apis</artifactId>
-                <version>1.4.01</version>
             </dependency>
             <dependency>
                 <groupId>org.dom4j</groupId>
@@ -1320,7 +1315,12 @@
             <dependency>
                 <groupId>org.owasp</groupId>
                 <artifactId>csrfguard</artifactId>
-                <version>3.1.0</version>
+                <version>${csrfguard.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.owasp</groupId>
+                <artifactId>csrfguard-extension-session</artifactId>
+                <version>${csrfguard.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.ehcache</groupId>
@@ -1523,6 +1523,7 @@
         <opentelemetry.version>1.31.0</opentelemetry.version>
         <jaxen.version>2.0.0</jaxen.version>
         <javax.el.version>2.2.6</javax.el.version>
+        <csrfguard.version>4.3.0</csrfguard.version>
     </properties>
 
 </project>

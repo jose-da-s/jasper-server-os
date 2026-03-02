@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors 
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -325,6 +327,58 @@ public class ReportJobEditAction extends FormAction {
 		binder.registerCustomEditor(SortedSet.class, "trigger.weekDays", byteSortedSetEditor);
 		binder.registerCustomEditor(SortedSet.class, "trigger.months", byteSortedSetEditor);
 		binder.registerCustomEditor(String.class, "contentRepositoryDestination.timestampPattern", new StringTrimmerEditor(true));
+		binder.setAllowedFields(
+				"label",
+				"description",
+				"baseOutputFilename",
+				"outputFormats",
+				"outputLocale",
+				"trigger.startType",
+				"trigger.startDate",
+				"trigger.endDate",
+				"trigger.timezone",
+				"trigger.calendarName",
+				"trigger.occurrenceCount",
+				"trigger.recurrenceInterval",
+				"trigger.recurrenceIntervalUnit",
+				"trigger.minutes",
+				"trigger.hours",
+				"trigger.daysTypeCode",
+				"trigger.monthDays",
+				"trigger.months",
+				"trigger.weekDays",
+				"contentRepositoryDestination.folderURI",
+				"contentRepositoryDestination.sequentialFilenames",
+				"contentRepositoryDestination.overwriteFiles",
+				"contentRepositoryDestination.outputDescription",
+				"contentRepositoryDestination.timestampPattern",
+				"contentRepositoryDestination.saveToRepository",
+				"contentRepositoryDestination.defaultReportOutputFolderURI",
+				"contentRepositoryDestination.usingDefaultReportOutputFolderURI",
+				"contentRepositoryDestination.outputLocalFolder",
+				"contentRepositoryDestination.outputFTPInfo.serverName",
+				"contentRepositoryDestination.outputFTPInfo.port",
+				"contentRepositoryDestination.outputFTPInfo.userName",
+				"contentRepositoryDestination.outputFTPInfo.password",
+				"contentRepositoryDestination.outputFTPInfo.protocol",
+				"contentRepositoryDestination.outputFTPInfo.type",
+				"contentRepositoryDestination.outputFTPInfo.prot",
+				"contentRepositoryDestination.outputFTPInfo.pbsz",
+				"contentRepositoryDestination.outputFTPInfo.sshKey",
+				"contentRepositoryDestination.outputFTPInfo.sshPassphrase",
+				"contentRepositoryDestination.outputFTPInfo.folderPath",
+				"contentRepositoryDestination.outputFTPInfo.propertiesMap[*]",
+				"mailNotification.toAddresses",
+				"mailNotification.ccAddresses",
+				"mailNotification.bccAddresses",
+				"mailNotification.subject",
+				"mailNotification.messageText",
+				"mailNotification.resultSendType",
+				"mailNotification.skipEmptyReports",
+				"mailNotification.messageTextWhenJobFails",
+				"mailNotification.includingStackTraceWhenJobFails",
+				"mailNotification.skipNotificationWhenJobFails"
+		);
 	}
 
 	public Event setupForm(RequestContext context) throws Exception {

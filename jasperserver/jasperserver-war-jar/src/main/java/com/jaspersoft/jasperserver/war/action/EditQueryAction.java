@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors 
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -99,6 +101,13 @@ public class EditQueryAction extends FormAction {
 
     protected void initBinder(RequestContext context, DataBinder binder) {
 		binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+		binder.setAllowedFields(
+				"query.name",
+				"query.label",
+				"query.description",
+				"query.language",
+				"query.sql"
+		);
 	}
 
 
@@ -367,4 +376,3 @@ public class EditQueryAction extends FormAction {
         this.configuration = configuration;
     }
 }
-

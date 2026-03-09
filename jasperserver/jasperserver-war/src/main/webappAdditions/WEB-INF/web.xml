@@ -399,7 +399,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>jasperserver</servlet-name>
-        <url-pattern>/flow.html/*</url-pattern>
+        <url-pattern>/flow.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>jasperserver</servlet-name>
+        <url-pattern>/flow.html/flowFile/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>jasperserver</servlet-name>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
@@ -59,6 +59,9 @@
     <mvc:view-controller path="/logCollectors.html" view-name="modules/administer/logCollectors"/>
 
     <!-- Handler for URL Mapping in the JS Application -->
+    <bean id="pathPatternParser"
+      class="org.springframework.web.util.pattern.PathPatternParser" />
+
     <bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <ref bean="${bean.handlerMapping.mappings}"/>
@@ -66,6 +69,7 @@
         <property name="interceptors">
             <ref bean="renderViewExceptionInterceptor"/>
         </property>
+        <property name="patternParser" ref="pathPatternParser" />
     </bean>
 
     <bean id="urlHandlerMapping" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
@@ -79,8 +83,8 @@
 
 
                 <!-- admin pages -->
-                <prop key="/**/flow.html">flowController</prop>
-                <prop key="/**/flowFile/**">flowController</prop>
+                <prop key="/flow.html">flowController</prop>
+                <prop key="/flow.html/flowFile/**">flowController</prop>
 				<prop key="/reportimage">reportImageController</prop>
 				<prop key="/reportresource/**">reportResourceController</prop>
 
@@ -190,6 +194,7 @@
                 <prop key="/adminConsole.html">ServerMonitoringController</prop>
             </props>
 		</property>
+        <property name="patternParser" ref="pathPatternParser" />
 	</bean>
 
 	<bean id="logSettingsController" class="com.jaspersoft.jasperserver.war.control.LogSettingsController">

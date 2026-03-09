@@ -23,15 +23,10 @@
 package com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.jaspersoft.jasperserver.api.engine.jasperreports.util.RepositoryCacheMap;
-import com.jaspersoft.jasperserver.api.metadata.common.domain.util.DataContainerStreamUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.cache.Cache;
@@ -42,8 +37,6 @@ import com.jaspersoft.jasperserver.api.common.domain.ExecutionContext;
 import com.jaspersoft.jasperserver.api.engine.common.service.EngineService;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.ResourceReference;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements EhcacheEngineService {
 
@@ -203,13 +196,12 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 		}
 
 		// Spring Cache abstraction doesn't provide key iteration
-		// Fall back to native Ehcache cache if available
+		// Fall back to native JCache cache if available
 		try {
 			Object nativeCache = diagnosticCache.getNativeCache();
-			if (nativeCache instanceof net.sf.ehcache.Ehcache) {
-				net.sf.ehcache.Ehcache ehcache = (net.sf.ehcache.Ehcache) nativeCache;
-				List keys = Collections.unmodifiableList(ehcache.getKeys());
-				for (Object key : keys) {
+			if (nativeCache instanceof javax.cache.Cache) {
+				for (javax.cache.Cache.Entry<Object, Object> entry : (javax.cache.Cache<Object, Object>) nativeCache) {
+					Object key = entry.getKey();
 					if (key instanceof DiagnosticCacheKey) {
 						DiagnosticCacheKey cacheKey = (DiagnosticCacheKey) key;
 						if (cacheKey.getUri().equals(uri)) {
@@ -254,16 +246,15 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 		}
 
 		// Spring Cache abstraction doesn't provide key iteration
-		// Fall back to native Ehcache cache if available
+		// Fall back to native JCache cache if available
 		try {
 			Object nativeCache = diagnosticCache.getNativeCache();
-			if (nativeCache instanceof net.sf.ehcache.Ehcache) {
-				net.sf.ehcache.Ehcache ehcache = (net.sf.ehcache.Ehcache) nativeCache;
-				List keys = ehcache.getKeys();
-				for (Object key : keys) {
+			if (nativeCache instanceof javax.cache.Cache) {
+				for (javax.cache.Cache.Entry<Object, Object> entry : (javax.cache.Cache<Object, Object>) nativeCache) {
+					Object key = entry.getKey();
 					if (key instanceof DiagnosticCacheKey) {
 						DiagnosticCacheKey cacheKey = (DiagnosticCacheKey) key;
-						if (cacheKey.getUri().equals(uri) && cacheKey.getType().equals(type)) {
+						if (cacheKey.getUri().equals(uri)) {
 							result.add(cacheKey.getKey());
 						}
 					}

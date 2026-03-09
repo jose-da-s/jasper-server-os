@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -163,30 +163,60 @@ public class DiagnosticAttributeBuilder {
     public final static String HIBERNATE_OPTIMISTIC_FAILURE_COUNT = "OptimisticFailureCount";
     public final static String HIBERNATE_QUERY_EXECUTION_MAX_TIME_QUERY_STRING = "QueryExecutionMaxTimeQueryString";
 
-    //Diagnostic EhCache Statistics Section
-    public final static String EHCACHE_STAT_CACHEHIT_PERCENTAGE = "CacheHitPercentage";
-    public final static String EHCACHE_STAT_CACHEHITS = "CacheHits";
-    public final static String EHCACHE_STAT_CACHEMISS_PERCENTAGE = "CacheMissPercentage";
-    public final static String EHCACHE_STAT_CACHEMISSES = "CacheMisses";
+    //Diagnostic JCache Statistics Section
+    public final static String JCACHE_STAT_CACHEHITS = "CacheHits";
+    public final static String JCACHE_STAT_CACHEHITPERCENTAGE = "CacheHitPercentage";
+    public final static String JCACHE_STAT_CACHEMISSES = "CacheMisses";
+    public final static String JCACHE_STAT_CACHEMISSPERCENTAGE = "CacheMissPercentage";
+    public final static String JCACHE_STAT_CACHEGETS = "CacheGets";
+    public final static String JCACHE_STAT_CACHEPUTS = "CachePuts";
+    public final static String JCACHE_STAT_CACHEREMOVALS = "CacheRemovals";
+    public final static String JCACHE_STAT_CACHEEVICTIONS = "CacheEvictions";
+    public final static String JCACHE_STAT_AVERAGEGETTIME = "AverageGetTime";
+    public final static String JCACHE_STAT_AVERAGEPUTTIME = "AveragePutTime";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_DISKSTORECOUNT = "DiskStoreObjectCount";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_DISKHITT_PERCENTAGE = "OnDiskHitPercentage";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_DISKHITS = "OnDiskHits";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_DISKMISSES = "OnDiskMisses";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_MEMORYSTORECOUNT = "MemoryStoreObjectCount";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_MEMORYHITS = "InMemoryHits";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_MEMORYHITT_PERCENTAGE = "InMemoryHitPercentage";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_MEMORYMISSES = "InMemoryMisses";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_OFFHEAPSTORECOUNT = "OffHeapStoreObjectCount";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_OFFHEAPHITS = "OffHeapHits";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_OFFHEAPHITT_PERCENTAGE = "OffHeapHitPercentage";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_OFFHEAPMISSES = "OffHeapMisses";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_OBJECTCOUNT = "ObjectCount";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_WRITEMAXQUEUE = "WriteMaxQueueSize";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_WRITEQUEUELENGTH = "WriteQueueLength";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_ACCURACY = "StatisticsAccuracy";
+    /** No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_ACCURACYDESCR = "StatisticsAccuracyDescription";
 
     //Diagnostic EhCache Configuration Section
+    public final static String JCACHE_CONF_KEYTYPE = "KeyType";
+    public final static String JCACHE_CONF_VALUETYPE = "ValueType";
+    public final static String JCACHE_CONF_READTHROUGH = "ReadThrough";
+    public final static String JCACHE_CONF_WRITETHROUGH = "WriteThrough";
+    public final static String JCACHE_CONF_STOREBYVALUE = "StoreByValue";
+    public final static String JCACHE_CONF_STATISTICSENABLED = "StatisticsEnabled";
+    public final static String JCACHE_CONF_MANAGEMENTENABLED = "ManagementEnabled";
     public final static String EHCACHE_CONF_STATISTICS = "Conf.Statistics";
     public final static String EHCACHE_CONF_DISKEXPIRYTHREAD = "Conf.DiskExpiryThreadIntervalSeconds";
     public final static String EHCACHE_CONF_DISKEPERSISTENT = "DiskPersistent";

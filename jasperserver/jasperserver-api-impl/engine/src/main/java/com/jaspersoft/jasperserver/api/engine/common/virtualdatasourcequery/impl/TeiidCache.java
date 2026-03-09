@@ -84,8 +84,11 @@ public class TeiidCache<K, V> implements Cache<K, V> {
 
     public int size() {
         Object nativeCache = springCache.getNativeCache();
-        if (nativeCache instanceof net.sf.ehcache.Ehcache) {
-            return ((net.sf.ehcache.Ehcache) nativeCache).getSize();
+        if (nativeCache instanceof javax.cache.Cache) {
+        	int size = 0;
+        	for (javax.cache.Cache.Entry<Object,Object> entry : ((javax.cache.Cache<Object,Object>) nativeCache)) 
+        		size++;
+			return size;
         }
         return 0;
     }
@@ -100,8 +103,10 @@ public class TeiidCache<K, V> implements Cache<K, V> {
 
     public Set<K> keySet() {
         Object nativeCache = springCache.getNativeCache();
-        if (nativeCache instanceof net.sf.ehcache.Ehcache) {
-            return new HashSet<K>(((net.sf.ehcache.Ehcache) nativeCache).getKeys());
+        if (nativeCache instanceof javax.cache.Cache) {
+        	Set<K> keys = new HashSet<K>();
+        	for (javax.cache.Cache.Entry<Object,Object> entry : ((javax.cache.Cache<Object,Object>) nativeCache))
+        		keys.add((K) entry.getKey());
         }
         return new HashSet<K>();
     }

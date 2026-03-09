@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -20,8 +22,9 @@
  */
 package com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring;
 
+import org.springframework.cache.jcache.JCacheManagerFactoryBean;
+
 import com.jaspersoft.jasperserver.api.JasperServerAPI;
-import org.springframework.cache.ehcache.EhCacheFactoryBean;
 
 /**
  * Wrapper class for org.springframework.cache.ehcache.EhCacheFactoryBean
@@ -30,5 +33,5 @@ import org.springframework.cache.ehcache.EhCacheFactoryBean;
  * @since 6.0
  */
 @JasperServerAPI
-public class JSEhCacheFactoryBean extends EhCacheFactoryBean {
+public class JSEhCacheFactoryBean extends JCacheManagerFactoryBean {
 }

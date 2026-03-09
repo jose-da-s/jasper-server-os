@@ -1,3 +1,25 @@
+/*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
+ * http://www.jaspersoft.com.
+ *
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.jaspersoft.jasperserver.api.metadata.user.service.impl;
 
 import com.jaspersoft.jasperserver.api.metadata.user.service.impl.CreateExecutionApplicationEvent.ExecutionType;
@@ -77,12 +99,15 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
             for (Cache sharedCache : sharedCaches) {
                 // Spring Cache doesn't support removeAll with collection, so we need to use native cache
                 Object nativeCache = sharedCache.getNativeCache();
-                if (nativeCache instanceof net.sf.ehcache.Ehcache) {
-                    net.sf.ehcache.Ehcache ehcache = (net.sf.ehcache.Ehcache) nativeCache;
-                    ehcache.removeAll(cache);
+                if (nativeCache instanceof javax.cache.Cache) {
+                	javax.cache.Cache<String, Object> jcache = (javax.cache.Cache<String, Object>) nativeCache;
+                	jcache.removeAll(cache);
                     if (log.isDebugEnabled()) {
+                    	int size = 0;
+						for (javax.cache.Cache.Entry<String, Object> entry : jcache)
+							size++;
                         log.debug("Removed {} {} executions from the {} cache. Total number of executions left: {}",
-                                cache.size(), type, sharedCache.getName(), ehcache.getSize());
+                                cache.size(), type, sharedCache.getName(), size);
                     }
                 } else {
                     // Fallback: evict one by one

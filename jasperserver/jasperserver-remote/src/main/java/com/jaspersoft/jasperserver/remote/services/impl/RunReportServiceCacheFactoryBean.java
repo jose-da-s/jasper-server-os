@@ -32,14 +32,23 @@ import net.sf.jasperreports.engine.ReportContext;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ehcache.core.events.CacheEventListenerConfiguration;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.cache.event.CacheEntryEvent;
+import javax.cache.event.CacheEntryEventFilter;
+import javax.cache.configuration.CacheEntryListenerConfiguration;
+import javax.cache.configuration.MutableCacheEntryListenerConfiguration;
+import javax.cache.configuration.FactoryBuilder;
+import javax.cache.event.CacheEntryCreatedListener;
+import javax.cache.event.CacheEntryRemovedListener;
 
 import static java.lang.String.format;
 
@@ -62,6 +71,9 @@ public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache>, Ini
 
     private Cache cache;
 
+    private CacheEntryListenerConfiguration<Object, Object> runReportCacheCreateEventListenerConfiguration;
+    private CacheEntryListenerConfiguration<Object, Object> runReportCacheRemoveEventListenerConfiguration;
+    
     public String getCacheName() {
         return cacheName;
     }
@@ -113,75 +125,71 @@ public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache>, Ini
         }
 
         // Register cache event listener if using EhCache
-        if (cacheManager instanceof EhCacheCacheManager) {
-            net.sf.ehcache.Ehcache ehcache = (net.sf.ehcache.Ehcache) cache.getNativeCache();
+        if (cacheManager instanceof JCacheCacheManager) {
+        	javax.cache.Cache<Object, Object> jcache = (javax.cache.Cache<Object, Object>) cache.getNativeCache();
+        	// all of this just to register an event listener... i am dying inside
+        	runReportCacheCreateEventListenerConfiguration = new MutableCacheEntryListenerConfiguration<Object, Object>(
+        			new FactoryBuilder.SingletonFactory<RunReportCacheCreateEventListener>(new RunReportCacheCreateEventListener()),
+        			new FactoryBuilder.SingletonFactory<CacheEntryEventFilter<Object, Object>>(new TrueCacheEntryEventFilter()),
+        			false,
+        			false
+        			);
+        	runReportCacheRemoveEventListenerConfiguration = new MutableCacheEntryListenerConfiguration<Object, Object>(
+        			new FactoryBuilder.SingletonFactory<RunReportCacheRemoveEventListener>(new RunReportCacheRemoveEventListener()),
+        			new FactoryBuilder.SingletonFactory<CacheEntryEventFilter<Object, Object>>(new TrueCacheEntryEventFilter()),
+        			false,
+        			false
+        			);
 
-            if (ehcache.getCacheEventNotificationService() == null) {
-                throw new IllegalStateException(format("%s Cache is not initialized.", FAIL_MSG));
-            }
-
-            final net.sf.ehcache.event.RegisteredEventListeners cacheEventNotificationService =
-                    ehcache.getCacheEventNotificationService();
-
-            cacheEventNotificationService.getCacheEventListeners().clear();
-            cacheEventNotificationService.registerListener(new RunReportCacheEventListener());
+        	jcache.deregisterCacheEntryListener(runReportCacheCreateEventListenerConfiguration);
+        	jcache.deregisterCacheEntryListener(runReportCacheRemoveEventListenerConfiguration);
+        	jcache.registerCacheEntryListener(runReportCacheCreateEventListenerConfiguration);
+        	jcache.registerCacheEntryListener(runReportCacheRemoveEventListenerConfiguration);
         }
     }
 
-    static class RunReportCacheEventListener implements net.sf.ehcache.event.CacheEventListener {
-        // freaking Oracle edge case
+    static class RunReportCacheCreateEventListener implements CacheEntryCreatedListener<Object, Object> {
+    	public RunReportCacheCreateEventListener() {}
+        // freaking Oracle edge case (wat? comment and clone() method carried over during ehcache 2->3 migration)
         public Object clone() {
             return this.clone();
         }
 
         @Override
-        public void notifyRemoveAll(net.sf.ehcache.Ehcache arg0) {
-        }
-
-        @Override
-        public void notifyElementUpdated(net.sf.ehcache.Ehcache arg0, net.sf.ehcache.Element arg1) {
-        }
-
-        @Override
-        public void notifyElementRemoved(net.sf.ehcache.Ehcache arg0, net.sf.ehcache.Element element) {
+        public void onCreated(Iterable<CacheEntryEvent<?, ?>> events) {
             if (log.isDebugEnabled()) {
-                log.debug("33816 DEBUG: remove element: " + element.getObjectKey());
+            	for (CacheEntryEvent<?, ?> event : events)
+            		log.debug("33816 DEBUG: put element: " + event.getKey());
             }
         }
+    }
 
-        @Override
-        public void notifyElementPut(net.sf.ehcache.Ehcache arg0, net.sf.ehcache.Element element) {
-            if (log.isDebugEnabled()) {
-                log.debug("33816 DEBUG: put element: " + element.getObjectKey());
-            }
+    static class RunReportCacheRemoveEventListener implements CacheEntryRemovedListener<Object, Object> {
+    	public RunReportCacheRemoveEventListener() {}
+        // freaking Oracle edge case (wat? comment and clone() method carried over during ehcache 2->3 migration)
+        public Object clone() {
+            return this.clone();
         }
 
         @Override
-        public void notifyElementExpired(net.sf.ehcache.Ehcache arg0, net.sf.ehcache.Element arg1) {
-        }
-
-        @Override
-        public void notifyElementEvicted(net.sf.ehcache.Ehcache arg0, net.sf.ehcache.Element element) {
-            String requestId = (String) element.getObjectKey();
-            Pair<String, ReportExecution> pair = (Pair<String, ReportExecution>) element.getObjectValue();
-            ReportExecution execution = pair.getRight();
-            try {
-                // cancelReportExecution((String)requestId);
-                if (execution.getStatus() == ExecutionStatus.ready
-                        || execution.getStatus() == ExecutionStatus.cancelled) {
-                    cleanupRUR(execution.getFinalReportUnitResult());
+        public void onRemoved(Iterable<CacheEntryEvent<?, ?>> events) {
+        	for (CacheEntryEvent<?, ?> event : events) {
+        		if (log.isDebugEnabled()) {
+            		log.debug("33816 DEBUG: remove element: " + event.getKey());
+        		}
+                String requestId = (String) event.getKey();
+                Pair<String, ReportExecution> pair = (Pair<String, ReportExecution>) event.getValue();
+                ReportExecution execution = pair.getRight();
+                try {
+                    // cancelReportExecution((String)requestId);
+                    if (execution.getStatus() == ExecutionStatus.ready
+                            || execution.getStatus() == ExecutionStatus.cancelled) {
+                        cleanupRUR(execution.getFinalReportUnitResult());
+                    }
+                } catch (RuntimeException ex) {
+                    log.warn("Report execution cleanup failed: ", ex);
                 }
-            } catch (RuntimeException ex) {
-                log.warn("Report execution cleanup failed: ", ex);
-            }
-            if (log.isDebugEnabled()) {
-                log.debug("33816 DEBUG: evicted element: " + requestId);
-            }
-        }
-
-        @Override
-        public void dispose() {
-        }
+        	}}
 
         private void cleanupRUR(ReportUnitResult rur) {
             if (rur == null) {
@@ -213,5 +221,11 @@ public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache>, Ini
             // cleanup printer
             rur.setJasperPrintAccessor(null);
         }
+    }
+
+    static class TrueCacheEntryEventFilter implements CacheEntryEventFilter<Object, Object> {
+    	public TrueCacheEntryEventFilter(){}
+    	@Override
+    	public boolean evaluate(CacheEntryEvent<? extends Object, ? extends Object> e) { return true; };
     }
 }

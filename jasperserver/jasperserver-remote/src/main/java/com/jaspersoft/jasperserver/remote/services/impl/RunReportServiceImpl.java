@@ -1309,23 +1309,21 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
         Cache cache = getExecutionsCache();
         Object nativeCache = cache.getNativeCache();
 
-        if (nativeCache instanceof net.sf.ehcache.Ehcache) {
-            net.sf.ehcache.Ehcache ehcache = (net.sf.ehcache.Ehcache) nativeCache;
-            List<?> keys = ehcache.getKeys();
-            keys.stream()
-                    .map(Object::toString)
-                    .forEach(requestId -> {
-                        ReportExecution execution = getReportExecutionFromCache(requestId);
-                        try {
-                            cancelReportExecution(requestId, unsecuredEngine);
-                            if (execution != null && execution.getStatus() == ExecutionStatus.ready) {
-                                virtualizerFactory.disposeReport(execution.getFinalReportUnitResult());
-                            }
-                        } catch (RuntimeException ex) {
-                            log.warn("Report execution cleanup failed: ", ex);
-                        }
-                    });
-            ehcache.removeAll(keys);
+        if (nativeCache instanceof javax.cache.Cache) {
+        	javax.cache.Cache<Object, Object> jcache = (javax.cache.Cache<Object, Object>) nativeCache;
+        	for (javax.cache.Cache.Entry<Object, Object> entry : jcache) {
+        		String requestId = entry.getKey().toString();
+                ReportExecution execution = getReportExecutionFromCache(requestId);
+                try {
+                    cancelReportExecution(requestId, unsecuredEngine);
+                    if (execution != null && execution.getStatus() == ExecutionStatus.ready) {
+                        virtualizerFactory.disposeReport(execution.getFinalReportUnitResult());
+                    }
+                } catch (RuntimeException ex) {
+                    log.warn("Report execution cleanup failed: ", ex);
+                }
+                jcache.remove(entry.getKey());
+        	}
         } else {
             // For non-EhCache implementations, just clear the entire cache
             cache.clear();

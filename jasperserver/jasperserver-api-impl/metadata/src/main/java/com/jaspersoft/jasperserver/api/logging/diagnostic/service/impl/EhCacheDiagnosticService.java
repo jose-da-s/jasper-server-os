@@ -26,9 +26,16 @@ import com.jaspersoft.jasperserver.api.logging.diagnostic.domain.DiagnosticAttri
 import com.jaspersoft.jasperserver.api.logging.diagnostic.helper.DiagnosticAttributeBuilder;
 import com.jaspersoft.jasperserver.api.logging.diagnostic.service.Diagnostic;
 import com.jaspersoft.jasperserver.api.logging.diagnostic.service.DiagnosticCallback;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.cache.Cache;
 
 import java.util.Map;
+
+import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
 
 /**
  * Implementation of the EhCache Diagnostic service (Service which collecting statistics and configuration on specified cache).
@@ -38,230 +45,151 @@ import java.util.Map;
  * @author ogavavka, vsabadosh
  */
 public class EhCacheDiagnosticService implements Diagnostic {
+    private final static Logger logger = LogManager.getLogger(EhCacheDiagnosticService.class);
 
+	private MBeanServer mBeanServer;
     private Cache cache;
 
     public Map<DiagnosticAttribute, DiagnosticCallback> getDiagnosticData() {
         // Access native EhCache instance for statistics
-        final net.sf.ehcache.Ehcache ehcache = getNativeEhcache();
-        if (ehcache == null) {
-            // Return empty map if cache is not EhCache
+        Object nativeCache = cache.getNativeCache();
+        if (!(nativeCache instanceof javax.cache.Cache)) {
+            // Return empty map if cache is not JCache
+        	logger.warn("cache implementation is not JCache, but " + nativeCache.getClass());
+            return new DiagnosticAttributeBuilder().build();
+        }
+        javax.cache.Cache<Object, Object> jCache = (javax.cache.Cache<Object, Object>) nativeCache;
+
+        ObjectName mgmt = getManagementObjectName(jCache);
+        ObjectName stats = getStatisticsObjectName(jCache);
+        if (mgmt == null || stats == null) {
+        	// Error creating object names: return empty map. The above methods already logged errors.
             return new DiagnosticAttributeBuilder().build();
         }
 
-        final net.sf.ehcache.management.CacheStatistics cacheStatistics =
-            new net.sf.ehcache.management.CacheStatistics(ehcache);
-        final net.sf.ehcache.config.CacheConfiguration cacheConfig = ehcache.getCacheConfiguration();
         return new DiagnosticAttributeBuilder()
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_OBJECTCOUNT, new DiagnosticCallback<Long>() {
+                .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_CACHEHITS, new DiagnosticCallback<Long>() {
+                    public Long getDiagnosticAttributeValue() {
+                    	return (Long) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_CACHEHITS);
+                    }
+                })
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_CACHEHITPERCENTAGE, new DiagnosticCallback<Float>() {
+                public Float getDiagnosticAttributeValue() {
+                	return (Float) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_CACHEHITPERCENTAGE);
+                }
+            })
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_CACHEMISSES, new DiagnosticCallback<Long>() {
                 public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getObjectCount();
+                	return (Long) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_CACHEMISSES);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_CACHEHIT_PERCENTAGE, new DiagnosticCallback<Double>() {
-                public Double getDiagnosticAttributeValue() {
-                    return cacheStatistics.getCacheHitPercentage();
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_CACHEMISSPERCENTAGE, new DiagnosticCallback<Float>() {
+                public Float getDiagnosticAttributeValue() {
+                	return (Float) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_CACHEMISSPERCENTAGE);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_CACHEHITS, new DiagnosticCallback<Long>() {
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_CACHEGETS, new DiagnosticCallback<Long>() {
                 public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getCacheHits();
+                	return (Long) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_CACHEGETS);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_CACHEMISS_PERCENTAGE, new DiagnosticCallback<Double>() {
-                public Double getDiagnosticAttributeValue() {
-                    return cacheStatistics.getCacheMissPercentage();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_CACHEMISSES, new DiagnosticCallback<Long>() {
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_CACHEPUTS, new DiagnosticCallback<Long>() {
                 public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getCacheMisses();
+                	return (Long) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_CACHEPUTS);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_DISKSTORECOUNT, new DiagnosticCallback<Long>() {
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_CACHEREMOVALS, new DiagnosticCallback<Long>() {
                 public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getDiskStoreObjectCount();
+                	return (Long) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_CACHEREMOVALS);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_DISKHITT_PERCENTAGE, new DiagnosticCallback<Double>() {
-                public Double getDiagnosticAttributeValue() {
-                    return cacheStatistics.getOnDiskHitPercentage();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_DISKHITS, new DiagnosticCallback<Long>() {
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_CACHEEVICTIONS, new DiagnosticCallback<Long>() {
                 public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getOnDiskHits();
+                	return (Long) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_CACHEEVICTIONS);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_DISKMISSES, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getOnDiskMisses();
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_AVERAGEGETTIME, new DiagnosticCallback<Float>() {
+                public Float getDiagnosticAttributeValue() {
+                	return (Float) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_AVERAGEGETTIME);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_DISKHITS, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getOnDiskHits();
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_AVERAGEPUTTIME, new DiagnosticCallback<Float>() {
+                public Float getDiagnosticAttributeValue() {
+                	return (Float) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_AVERAGEPUTTIME);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_MEMORYSTORECOUNT, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getMemoryStoreObjectCount();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_MEMORYHITT_PERCENTAGE, new DiagnosticCallback<Double>() {
-                public Double getDiagnosticAttributeValue() {
-                    return cacheStatistics.getInMemoryHitPercentage();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_MEMORYHITS, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getInMemoryHits();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_MEMORYMISSES, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getInMemoryMisses();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_OFFHEAPSTORECOUNT, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getOffHeapStoreObjectCount();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_OFFHEAPHITT_PERCENTAGE, new DiagnosticCallback<Double>() {
-                public Double getDiagnosticAttributeValue() {
-                    return cacheStatistics.getOffHeapHitPercentage();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_OFFHEAPHITS, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getOffHeapHits();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_OFFHEAPMISSES, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getOffHeapMisses();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_WRITEMAXQUEUE, new DiagnosticCallback<Integer>() {
-                public Integer getDiagnosticAttributeValue() {
-                    return cacheStatistics.getWriterMaxQueueSize();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_STAT_WRITEQUEUELENGTH, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheStatistics.getWriterQueueLength();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_STATISTICS, new DiagnosticCallback<Boolean>() {
-                public Boolean getDiagnosticAttributeValue() {
-                    return cacheConfig.getStatistics();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_DISKSPOOL, new DiagnosticCallback<Integer>() {
-                public Integer getDiagnosticAttributeValue() {
-                    return cacheConfig.getDiskSpoolBufferSizeMB();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_DISKEXPIRYTHREAD, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheConfig.getDiskExpiryThreadIntervalSeconds();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_LOGGING, new DiagnosticCallback<Boolean>() {
-                public Boolean getDiagnosticAttributeValue() {
-                    return cacheConfig.getLogging();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_MBYTE_LOCALDISK, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheConfig.getMaxBytesLocalDisk();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_MBYTE_LOCALHEAP, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheConfig.getMaxBytesLocalHeap();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_MBYTE_LOCALOFFHEAP, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheConfig.getMaxBytesLocalOffHeap();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_MELEMENTS_LOCALDISK, new DiagnosticCallback<Integer>() {
-                public Integer getDiagnosticAttributeValue() {
-                    return cacheConfig.getMaxElementsOnDisk();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_MELEMENTS_MEMORY, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheConfig.getMaxEntriesLocalHeap();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_TIME_IDLE, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheConfig.getTimeToIdleSeconds();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_TIME_LIVE, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheConfig.getTimeToLiveSeconds();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_MEMORYSTORE_POLICY, new DiagnosticCallback<String>() {
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_CONF_KEYTYPE, new DiagnosticCallback<String>() {
                 public String getDiagnosticAttributeValue() {
-                    return cacheConfig.getMemoryStoreEvictionPolicy().toString();
+                	return (String) getMBeanAttribute(mgmt, DiagnosticAttributeBuilder.JCACHE_CONF_KEYTYPE);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_MENTRYES_MEMORY, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheConfig.getMaxEntriesLocalDisk();
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_CONF_VALUETYPE, new DiagnosticCallback<String>() {
+                public String getDiagnosticAttributeValue() {
+                	return (String) getMBeanAttribute(mgmt, DiagnosticAttributeBuilder.JCACHE_CONF_VALUETYPE);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_MENTRYES_LOCALHEAP, new DiagnosticCallback<Long>() {
-                public Long getDiagnosticAttributeValue() {
-                    return cacheConfig.getMaxEntriesLocalHeap();
-                }
-            })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_DISKEPERSISTENT, new DiagnosticCallback<Boolean>() {
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_CONF_READTHROUGH, new DiagnosticCallback<Boolean>() {
                 public Boolean getDiagnosticAttributeValue() {
-                    return cacheConfig.isDiskPersistent();
+                	return (Boolean) getMBeanAttribute(mgmt, DiagnosticAttributeBuilder.JCACHE_CONF_READTHROUGH);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_ETERNAL, new DiagnosticCallback<Boolean>() {
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_CONF_WRITETHROUGH, new DiagnosticCallback<Boolean>() {
                 public Boolean getDiagnosticAttributeValue() {
-                    return cacheConfig.isEternal();
+                	return (Boolean) getMBeanAttribute(mgmt, DiagnosticAttributeBuilder.JCACHE_CONF_WRITETHROUGH);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_OVERFLOW_DISK, new DiagnosticCallback<Boolean>() {
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_CONF_STOREBYVALUE, new DiagnosticCallback<Boolean>() {
                 public Boolean getDiagnosticAttributeValue() {
-                    return cacheConfig.isOverflowToDisk();
+                	return (Boolean) getMBeanAttribute(mgmt, DiagnosticAttributeBuilder.JCACHE_CONF_STOREBYVALUE);
                 }
             })
-            .addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_OVERFLOW_OFFHEAP, new DiagnosticCallback<Boolean>() {
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_CONF_STATISTICSENABLED, new DiagnosticCallback<Boolean>() {
                 public Boolean getDiagnosticAttributeValue() {
-                    return cacheConfig.isOverflowToOffHeap();
+                	return (Boolean) getMBeanAttribute(mgmt, DiagnosticAttributeBuilder.JCACHE_CONF_STATISTICSENABLED);
+                }
+            })
+            .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_CONF_MANAGEMENTENABLED, new DiagnosticCallback<Boolean>() {
+                public Boolean getDiagnosticAttributeValue() {
+                	return (Boolean) getMBeanAttribute(mgmt, DiagnosticAttributeBuilder.JCACHE_CONF_MANAGEMENTENABLED);
                 }
             }).build();
     }
 
-    /**
-     * Gets the native EhCache instance from the Spring Cache wrapper.
-     *
-     * @return the native EhCache instance, or null if the cache is not EhCache
-     */
-    private net.sf.ehcache.Ehcache getNativeEhcache() {
-        if (cache == null) {
-            return null;
-        }
-        Object nativeCache = cache.getNativeCache();
-        if (nativeCache instanceof net.sf.ehcache.Ehcache) {
-            return (net.sf.ehcache.Ehcache) nativeCache;
-        }
-        return null;
-    }
-
     public void setCache(Cache cache) {
         this.cache = cache;
+    }
+
+    private ObjectName getManagementObjectName(javax.cache.Cache<Object, Object> jCache) {
+        try {
+        	ObjectName mgmt = new ObjectName("javax.cache:type=CacheConfiguration"
+        		+ ",CacheManager=" + (jCache.getCacheManager().getURI().toString())
+        		+ ",Cache=" + jCache.getName());
+        	return mgmt;
+        } catch (MalformedObjectNameException e) {
+        	logger.error("error constructing ObjectName for management cache", e);
+        	return null;
+        }
+    }
+
+    private ObjectName getStatisticsObjectName(javax.cache.Cache<Object, Object> jCache) {
+
+        try {
+        	ObjectName stats = new ObjectName("javax.cache:type=CacheStatistics"
+        		+ ",CacheManager=" + (jCache.getCacheManager().getURI().toString())
+        		+ ",Cache=" + jCache.getName());
+        	return stats;
+        } catch (MalformedObjectNameException e) {
+        	logger.error("error constructing ObjectName for statistics cache", e);
+        	return null;
+        }
+    }
+
+    private Object getMBeanAttribute(ObjectName mBeanName, String attribute) {
+    	try {
+    		return mBeanServer.getAttribute(mBeanName, attribute);
+    	} catch (Exception e) {
+    		logger.error("failed to get attribute " + attribute + " from MBean " + mBeanName.getCanonicalName(), e);
+    		return null;
+    	}
     }
 }

@@ -62,14 +62,15 @@
 <beans profile="engine">
 	<bean id="dataSnapshotSerializer" class="com.jaspersoft.jasperserver.api.metadata.data.cache.JavaDataSnapshotSerializer"  lazy-init="true"/>
 
-	<bean id="dataSnapshotEhCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" depends-on="sysProperties"  lazy-init="true">
-		<property name="configLocation" value="${resource.root}/ehcache-data-snapshots.xml"/>
+	<bean id="dataSnapshotCacheManager" factory-bean="cachingProvider" factory-method="getCacheManager">
+		<constructor-arg name="uri" value="classpath:ehcache-data-snapshots.xml"/>
+		<constructor-arg name="classLoader"><null/></constructor-arg>
 	</bean>
 
 	<!-- Spring Cache Manager wrapper for the native Ehcache CacheManager -->
 	<!-- This provides org.springframework.cache.CacheManager interface required by cache consumers -->
-	<bean id="dataSnapshotSpringCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-		<property name="cacheManager" ref="dataSnapshotEhCacheManager"/>
+	<bean id="dataSnapshotSpringCacheManager" class="org.springframework.cache.jcache.JCacheCacheManager">
+		<constructor-arg ref="dataSnapshotCacheManager"/>
 	</bean>
 
 	<bean id="snapshotMetadataCache" factory-bean="dataSnapshotSpringCacheManager" factory-method="getCache" lazy-init="true">

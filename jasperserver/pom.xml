@@ -1310,10 +1310,23 @@
                 <artifactId>csrfguard</artifactId>
                 <version>3.1.0</version>
             </dependency>
+            <!-- for some reason, Maven selects a pre-release version 2.3.0-b170127.1453 for this transitive dep of -->
+            <!-- org.ehcache:ehcache, and that depends on jaxb-core, and that in turn on jaxb-api:2.3.0-b161121.1438, -->
+            <!-- and THAT doesn't exist in Maven Central any more. -->
             <dependency>
-                <groupId>net.sf.ehcache</groupId>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>2.3.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ehcache</groupId>
                 <artifactId>ehcache</artifactId>
                 <version>${ehcache.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.cache</groupId>
+                <artifactId>cache-api</artifactId>
+                <version>${jcache.version}</version>
             </dependency>
             <!-- Spring Cache Abstraction Support -->
             <dependency>
@@ -1475,7 +1488,8 @@
         <!-- last javax-based version  -->
         <hibernate.tools.version>5.6.15.Final</hibernate.tools.version>
         <!-- last javax-based version -->
-        <ehcache.version>2.10.9.2</ehcache.version>
+        <ehcache.version>3.11.1</ehcache.version>
+        <jcache.version>1.1.1</jcache.version>
         <jboss.logging.version>3.5.3.Final</jboss.logging.version>
         <quartz.version>2.3.2</quartz.version>
         <junit.version>4.13.2</junit.version>

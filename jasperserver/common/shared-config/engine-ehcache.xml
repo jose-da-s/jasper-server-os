@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -21,58 +23,42 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<ehcache
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="ehcache.xsd"
-	name="engineCache" updateCheck="false">
+<config
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns='http://www.ehcache.org/v3'
+        xmlns:jcache="http://www.ehcache.org/v3/jsr107"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+        					http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
 
-    <diskStore path="${ehcache.disk.store.dir}/main"/>
+	<service>
+		<jcache:defaults default-template="defaultCacheTemplate" enable-management="true" enable-statistics="true">
+		</jcache:defaults>
+	</service>
 
-	<!-- Below is a configuration for ehcache distribution over RMI with autodiscovery based on multicast.
-		 to use it uncomment this section, and the one below under the cache decleration.
-		 For this to work IP-Multicasting must be enabled on all nodes --> 
-	<!--
-	<cacheManagerPeerProviderFactory
-	   class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
-	   properties="peerDiscovery=automatic,multicastGroupAddress=224.0.0.1,multicastGroupPort=4446,timeToLive=1"/>
-	               
-	<cacheManagerPeerListenerFactory
-		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
-		properties="hostName=<insert-ip-address-or-host-name>,port=40001,socketTimeoutMillis=120000"/>
-	 -->
-		
-	<defaultCache 
-		maxElementsInMemory="10000" 
-		eternal="false" 
-		overflowToDisk="true" 
-		timeToIdleSeconds="120" 
-		timeToLiveSeconds="120" 
-		diskPersistent="false" 
-		diskExpiryThreadIntervalSeconds="120"/>
+    <persistence directory="${ehcache.disk.store.dir}/engine"/>
 
-	<!-- cache used for Input Control values -->
-	<cache name="engineCache"
-		maxElementsInMemory="10000"
-		eternal="false" 
-		overflowToDisk="false"
-		timeToIdleSeconds="360000"
-		timeToLiveSeconds="720000"
-		diskPersistent="false">
-		<!-- Uncomment this section to allow distribution of this cache -->
-		<!-- 
-		<cacheEventListenerFactory
-			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
-			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
-        <bootstrapCacheLoaderFactory
-            class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"
-            properties="bootstrapAsynchronously=true, maximumChunkSizeBytes=5000000"/>
-		-->
-   </cache>
+	<cache-template name="defaultCacheTemplate">
+		<expiry>
+            <ttl unit="seconds">120</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache-template>
 
-	<cache name="diagnosticCache"
-		   maxElementsInMemory="10000"
-		   overflowToDisk="true"
-		   diskPersistent="true">
+	<cache alias="engineCacheTemplate">
+		<expiry>
+            <ttl unit="days">5</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
 	</cache>
 
-</ehcache>
+	<cache alias="diagnosticCacheTemplate">
+		<expiry>
+            <none/>
+		</expiry>
+		<resources>
+		    <heap unit="entries">10000</heap>
+            <disk persistent="true" unit="MB">10</disk>
+		</resources>
+	</cache>
+
+</config>

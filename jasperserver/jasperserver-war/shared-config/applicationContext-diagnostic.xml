@@ -434,17 +434,27 @@
         <property name="hibernateStatistics" ref="hibernateStatistics"/>
     </bean>
 
-    <!-- Can expose one EhCache using EhCache Diagnostic wrapper-->
-    <!-- Note: This diagnostic service uses Spring Cache abstraction but accesses native EhCache for statistics -->
     <bean id="EhCacheDiagnostic_aclCache" class="com.jaspersoft.jasperserver.api.logging.diagnostic.service.impl.EhCacheDiagnosticService" lazy-init="false">
+    	<property name="mBeanServer" ref="jasperJMXServer"/>
         <property name="cache">
-            <bean class="org.springframework.cache.ehcache.EhCacheCache">
-                <constructor-arg>
-                    <bean factory-bean="cacheManager" factory-method="getCache">
-                        <constructor-arg value="aclCache"/>
-                    </bean>
-                </constructor-arg>
+        	<bean factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+                <constructor-arg value="aclCache"/>
             </bean>
+        </property>
+    </bean>
+
+<!--
+    <bean id="ehCacheMBeanRegistration" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" lazy-init="false">
+        <property name="staticMethod" value="net.sf.ehcache.management.ManagementService.registerMBeans"/>
+        <property name="arguments">
+            <list>
+                <ref bean="cacheManager"/>
+                <ref bean="jasperJMXServer"/>
+                <value>false</value>
+                <value>false</value>
+                <value>true</value>
+                <value>true</value>
+            </list>
         </property>
     </bean>
 
@@ -461,21 +471,7 @@
             </list>
         </property>
     </bean>
-
-    <bean id="ehCacheMBeanRegistration" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" lazy-init="false">
-        <property name="staticMethod" value="net.sf.ehcache.management.ManagementService.registerMBeans"/>
-        <property name="arguments">
-            <list>
-                <ref bean="cacheManager"/>
-                <ref bean="jasperJMXServer"/>
-                <value>false</value>
-                <value>false</value>
-                <value>true</value>
-                <value>true</value>
-            </list>
-        </property>
-    </bean>
-
+ -->
     <bean class="org.springframework.jmx.export.MBeanExporter" lazy-init="false">
         <property name="server" ref="jasperJMXServer"/>
         <property name="beans">

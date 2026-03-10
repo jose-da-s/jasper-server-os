@@ -32,12 +32,10 @@ import net.sf.jasperreports.engine.ReportContext;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.ehcache.core.events.CacheEventListenerConfiguration;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.stereotype.Component;
 

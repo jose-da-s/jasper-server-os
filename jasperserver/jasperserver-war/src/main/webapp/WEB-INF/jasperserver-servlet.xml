@@ -3,8 +3,6 @@
 <!--
   ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
-  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
-  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -32,12 +30,12 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
            http://www.springframework.org/schema/webflow-config
            http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd
-           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd
+           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
     <bean id="servletPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -50,7 +48,10 @@
 
     <!-- Enable annotation-based wiring -->
     <context:annotation-config/>
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:path-matching trailing-slash="false"/>
+    </mvc:annotation-driven>
+
     <!-- ENTRIES FOR JASPER SERVER OS BEGINS HERE -->
 
     <mvc:view-controller path="/awsconfiguration.html" view-name="modules/administer/awsConfiguration"/>
@@ -84,6 +85,7 @@
 
                 <!-- admin pages -->
                 <prop key="/flow.html">flowController</prop>
+                <prop key="/flow.html/">flowController</prop>
                 <prop key="/flow.html/flowFile/**">flowController</prop>
 				<prop key="/reportimage">reportImageController</prop>
 				<prop key="/reportresource/**">reportResourceController</prop>

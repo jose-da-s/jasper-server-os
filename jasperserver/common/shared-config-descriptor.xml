@@ -30,10 +30,7 @@
                 <include>**/applicationContext-remote-services.xml</include>
                 <include>**/applicationContext-events-logging.xml</include>
                 <include>**/applicationContext-security.xml</include>
-                <include>**/ehcache.xml</include>
                 <include>**/query-executor-ehcache.xml</include>
-                <include>**/engine-ehcache.xml</include>
-                <include>**/olap-ehcache.xml</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -41,6 +38,8 @@
             <outputDirectory></outputDirectory>
             <includes>
                 <include>**/esapi/**</include>
+                <include>**/ehcache.xml</include>
+                <include>**/engine-ehcache.xml</include>
             </includes>
         </fileSet>
     </fileSets>

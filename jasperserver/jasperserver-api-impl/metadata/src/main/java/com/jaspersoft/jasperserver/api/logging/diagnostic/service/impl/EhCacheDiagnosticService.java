@@ -48,7 +48,8 @@ public class EhCacheDiagnosticService implements Diagnostic {
     private final static Logger logger = LogManager.getLogger(EhCacheDiagnosticService.class);
 
 	private MBeanServer mBeanServer;
-    private Cache cache;
+
+	private Cache cache;
 
     public Map<DiagnosticAttribute, DiagnosticCallback> getDiagnosticData() {
         // Access native EhCache instance for statistics
@@ -155,15 +156,11 @@ public class EhCacheDiagnosticService implements Diagnostic {
             }).build();
     }
 
-    public void setCache(Cache cache) {
-        this.cache = cache;
-    }
-
     private ObjectName getManagementObjectName(javax.cache.Cache<Object, Object> jCache) {
         try {
         	ObjectName mgmt = new ObjectName("javax.cache:type=CacheConfiguration"
-        		+ ",CacheManager=" + (jCache.getCacheManager().getURI().toString())
-        		+ ",Cache=" + jCache.getName());
+        		+ ",CacheManager=" + sanitizeMbeanProperty(jCache.getCacheManager().getURI().toString())
+        		+ ",Cache=" + sanitizeMbeanProperty(jCache.getName()));
         	return mgmt;
         } catch (MalformedObjectNameException e) {
         	logger.error("error constructing ObjectName for management cache", e);
@@ -175,8 +172,8 @@ public class EhCacheDiagnosticService implements Diagnostic {
 
         try {
         	ObjectName stats = new ObjectName("javax.cache:type=CacheStatistics"
-        		+ ",CacheManager=" + (jCache.getCacheManager().getURI().toString())
-        		+ ",Cache=" + jCache.getName());
+        		+ ",CacheManager=" + sanitizeMbeanProperty(jCache.getCacheManager().getURI().toString())
+        		+ ",Cache=" + sanitizeMbeanProperty(jCache.getName()));
         	return stats;
         } catch (MalformedObjectNameException e) {
         	logger.error("error constructing ObjectName for statistics cache", e);
@@ -192,4 +189,16 @@ public class EhCacheDiagnosticService implements Diagnostic {
     		return null;
     	}
     }
+
+    public void setCache(Cache cache) {
+        this.cache = cache;
+    }
+
+    public void setmBeanServer(MBeanServer mBeanServer) {
+		this.mBeanServer = mBeanServer;
+	}
+
+    private String sanitizeMbeanProperty(String string) {
+        return string == null ? "" : string.replaceAll(",|:|=|\n", ".");
+      }
 }

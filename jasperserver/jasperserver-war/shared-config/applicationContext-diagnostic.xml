@@ -443,35 +443,6 @@
         </property>
     </bean>
 
-<!--
-    <bean id="ehCacheMBeanRegistration" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" lazy-init="false">
-        <property name="staticMethod" value="net.sf.ehcache.management.ManagementService.registerMBeans"/>
-        <property name="arguments">
-            <list>
-                <ref bean="cacheManager"/>
-                <ref bean="jasperJMXServer"/>
-                <value>false</value>
-                <value>false</value>
-                <value>true</value>
-                <value>true</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ehCacheMBeanRegistration2" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" lazy-init="false">
-        <property name="staticMethod" value="net.sf.ehcache.management.ManagementService.registerMBeans"/>
-        <property name="arguments">
-            <list>
-                <ref bean="dataSnapshotEhCacheManager"/>
-                <ref bean="jasperJMXServer"/>
-                <value>false</value>
-                <value>false</value>
-                <value>true</value>
-                <value>true</value>
-            </list>
-        </property>
-    </bean>
- -->
     <bean class="org.springframework.jmx.export.MBeanExporter" lazy-init="false">
         <property name="server" ref="jasperJMXServer"/>
         <property name="beans">

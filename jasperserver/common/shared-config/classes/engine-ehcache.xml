@@ -44,14 +44,14 @@
 		<heap unit="entries">10000</heap>
 	</cache-template>
 
-	<cache alias="engineCacheTemplate">
+	<cache alias="engineCache">
 		<expiry>
             <ttl unit="days">5</ttl>
 		</expiry>
 		<heap unit="entries">10000</heap>
 	</cache>
 
-	<cache alias="diagnosticCacheTemplate">
+	<cache alias="diagnosticCache">
 		<expiry>
             <none/>
 		</expiry>

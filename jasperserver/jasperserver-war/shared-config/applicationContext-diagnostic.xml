@@ -324,7 +324,7 @@
         <entry key="jasperserver:name=Repository" value-ref="${bean.diagnosticRepository}"/>
         <entry key="jasperserver:name=About" value-ref="${bean.diagnosticJSAbout}"/>
         <entry key="jasperserver:name=HibernateStatics" value-ref="${bean.diagnosticHibernate}"/>
-        <entry key="jasperserver:name=EhCache" value-ref="${bean.diagnosticEhCache}"/>
+        <entry key="jasperserver:name=JCache" value-ref="${bean.diagnosticEhCache}"/>
         <entry key="jasperserver:name=ExternalInfo" value-ref="${bean.diagnosticExternalInfo}"/>
         <entry key="jasperserver:name=RepositoryDatabase" value-ref="${bean.diagnosticRepositoryDatabaseInfo}"/>
     </util:map>

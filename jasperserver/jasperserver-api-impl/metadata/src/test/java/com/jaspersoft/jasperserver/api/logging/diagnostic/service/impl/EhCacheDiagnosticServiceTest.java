@@ -92,7 +92,7 @@ public class EhCacheDiagnosticServiceTest {
         Map<DiagnosticAttribute, DiagnosticCallback> resultDiagnosticData = ehCacheDiagnosticService.getDiagnosticData();
 
         // Test total size of diagnostic attributes collected from EhCacheDiagnosticService
-        assertEquals(17, resultDiagnosticData.size());
+        assertEquals(25, resultDiagnosticData.size());
 
         // Verify configuration values are present and not null
         assertNotNull(resultDiagnosticData);
@@ -103,6 +103,8 @@ public class EhCacheDiagnosticServiceTest {
                 .anyMatch(attr -> DiagnosticAttributeBuilder.JCACHE_STAT_CACHEHITPERCENTAGE.equals(attr.getAttributeName())));
         assertTrue(resultDiagnosticData.keySet().stream()
                 .anyMatch(attr -> DiagnosticAttributeBuilder.JCACHE_CONF_STOREBYVALUE.equals(attr.getAttributeName())));
+        assertTrue(resultDiagnosticData.keySet().stream()
+                .anyMatch(attr -> DiagnosticAttributeBuilder.EHCACHE_CONF_HEAPSIZE.equals(attr.getAttributeName())));
     }
 
     @Test

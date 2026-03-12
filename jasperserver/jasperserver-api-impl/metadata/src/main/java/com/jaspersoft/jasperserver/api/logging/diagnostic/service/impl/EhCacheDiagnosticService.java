@@ -22,6 +22,8 @@
  */
 package com.jaspersoft.jasperserver.api.logging.diagnostic.service.impl;
 
+import java.time.Duration;
+
 import com.jaspersoft.jasperserver.api.logging.diagnostic.domain.DiagnosticAttribute;
 import com.jaspersoft.jasperserver.api.logging.diagnostic.helper.DiagnosticAttributeBuilder;
 import com.jaspersoft.jasperserver.api.logging.diagnostic.service.Diagnostic;
@@ -29,9 +31,13 @@ import com.jaspersoft.jasperserver.api.logging.diagnostic.service.DiagnosticCall
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.cache.Cache;
+import org.ehcache.config.ResourceUnit;
+import org.ehcache.config.SizedResourcePool;
 
 import java.util.Map;
+import java.util.Optional;
+
+import javax.cache.Cache;
 
 import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
@@ -49,17 +55,17 @@ public class EhCacheDiagnosticService implements Diagnostic {
 
 	private MBeanServer mBeanServer;
 
-	private Cache cache;
+	private org.springframework.cache.Cache cache;
 
     public Map<DiagnosticAttribute, DiagnosticCallback> getDiagnosticData() {
-        // Access native EhCache instance for statistics
+        // Access native JCache instance for statistics
         Object nativeCache = cache.getNativeCache();
-        if (!(nativeCache instanceof javax.cache.Cache)) {
+        if (!(nativeCache instanceof Cache)) {
             // Return empty map if cache is not JCache
         	logger.warn("cache implementation is not JCache, but " + nativeCache.getClass());
             return new DiagnosticAttributeBuilder().build();
         }
-        javax.cache.Cache<Object, Object> jCache = (javax.cache.Cache<Object, Object>) nativeCache;
+        Cache<Object, Object> jCache = (Cache<Object, Object>) nativeCache;
 
         ObjectName mgmt = getManagementObjectName(jCache);
         ObjectName stats = getStatisticsObjectName(jCache);
@@ -68,7 +74,7 @@ public class EhCacheDiagnosticService implements Diagnostic {
             return new DiagnosticAttributeBuilder().build();
         }
 
-        return new DiagnosticAttributeBuilder()
+        DiagnosticAttributeBuilder builder = new DiagnosticAttributeBuilder()
                 .addDiagnosticAttribute(DiagnosticAttributeBuilder.JCACHE_STAT_CACHEHITS, new DiagnosticCallback<Long>() {
                     public Long getDiagnosticAttributeValue() {
                     	return (Long) getMBeanAttribute(stats, DiagnosticAttributeBuilder.JCACHE_STAT_CACHEHITS);
@@ -153,10 +159,81 @@ public class EhCacheDiagnosticService implements Diagnostic {
                 public Boolean getDiagnosticAttributeValue() {
                 	return (Boolean) getMBeanAttribute(mgmt, DiagnosticAttributeBuilder.JCACHE_CONF_MANAGEMENTENABLED);
                 }
-            }).build();
+            });
+        // Ehcache-specific props if possible. Only the ones explicitly configured in ehcache-*.xml, though.
+        try {
+        	@SuppressWarnings("unchecked")
+        	org.ehcache.jsr107.Eh107Configuration<Object, Object> eh107Configuration = 
+        		    jCache.getConfiguration(org.ehcache.jsr107.Eh107Configuration.class); // <3>
+
+        	@SuppressWarnings("unchecked")
+        	org.ehcache.config.CacheRuntimeConfiguration<Object, Object> runtimeConfiguration = 
+        		    eh107Configuration.unwrap(org.ehcache.config.CacheRuntimeConfiguration.class);
+
+        	org.ehcache.config.ResourcePools resourcePools = runtimeConfiguration.getResourcePools();
+
+        	builder.addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_TIME_LIVE, new DiagnosticCallback<Duration>() {
+				public Duration getDiagnosticAttributeValue() {
+					return runtimeConfiguration.getExpiryPolicy().getExpiryForCreation(null, null);
+				}
+			})
+			.addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_TIME_IDLE, new DiagnosticCallback<Duration>() {
+				public Duration getDiagnosticAttributeValue() {
+					return runtimeConfiguration.getExpiryPolicy().getExpiryForAccess(null, null);
+				}
+			})
+			.addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_HEAPSIZE, new DiagnosticCallback<Long>() {
+				public Long getDiagnosticAttributeValue() {
+					return Optional.ofNullable(resourcePools.getPoolForResource(org.ehcache.config.ResourceType.Core.HEAP))
+							.map(SizedResourcePool::getSize)
+							.orElse(0L);
+				}
+			})
+			.addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_HEAPUNIT, new DiagnosticCallback<String>() {
+				public String getDiagnosticAttributeValue() {
+					return Optional.ofNullable(resourcePools.getPoolForResource(org.ehcache.config.ResourceType.Core.HEAP))
+							.map(SizedResourcePool::getUnit)
+							.map(ResourceUnit::toString)
+							.orElse("");
+				}
+			})
+			.addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_OFFHEAPSIZE, new DiagnosticCallback<Long>() {
+				public Long getDiagnosticAttributeValue() {
+					return Optional.ofNullable(resourcePools.getPoolForResource(org.ehcache.config.ResourceType.Core.OFFHEAP))
+							.map(SizedResourcePool::getSize)
+							.orElse(0L);
+				}
+			})
+			.addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_OFFHEAPUNIT, new DiagnosticCallback<String>() {
+				public String getDiagnosticAttributeValue() {
+					return Optional.ofNullable(resourcePools.getPoolForResource(org.ehcache.config.ResourceType.Core.OFFHEAP))
+							.map(SizedResourcePool::getUnit)
+							.map(ResourceUnit::toString)
+							.orElse("");
+				}
+			})
+			.addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_DISKSIZE, new DiagnosticCallback<Long>() {
+				public Long getDiagnosticAttributeValue() {
+					return Optional.ofNullable(resourcePools.getPoolForResource(org.ehcache.config.ResourceType.Core.DISK))
+							.map(SizedResourcePool::getSize)
+							.orElse(0L);
+				}
+			})
+			.addDiagnosticAttribute(DiagnosticAttributeBuilder.EHCACHE_CONF_DISKUNIT, new DiagnosticCallback<String>() {
+				public String getDiagnosticAttributeValue() {
+					return Optional.ofNullable(resourcePools.getPoolForResource(org.ehcache.config.ResourceType.Core.DISK))
+							.map(SizedResourcePool::getUnit)
+							.map(ResourceUnit::toString)
+							.orElse("");
+				}
+			});
+        } catch (IllegalArgumentException e) {
+        	logger.error("Could not unwrap Ehcache configuration from JCache", e);
+        }
+        return builder.build();
     }
 
-    private ObjectName getManagementObjectName(javax.cache.Cache<Object, Object> jCache) {
+    private ObjectName getManagementObjectName(Cache<Object, Object> jCache) {
         try {
         	ObjectName mgmt = new ObjectName("javax.cache:type=CacheConfiguration"
         		+ ",CacheManager=" + sanitizeMbeanProperty(jCache.getCacheManager().getURI().toString())
@@ -168,7 +245,7 @@ public class EhCacheDiagnosticService implements Diagnostic {
         }
     }
 
-    private ObjectName getStatisticsObjectName(javax.cache.Cache<Object, Object> jCache) {
+    private ObjectName getStatisticsObjectName(Cache<Object, Object> jCache) {
 
         try {
         	ObjectName stats = new ObjectName("javax.cache:type=CacheStatistics"
@@ -190,7 +267,7 @@ public class EhCacheDiagnosticService implements Diagnostic {
     	}
     }
 
-    public void setCache(Cache cache) {
+    public void setCache(org.springframework.cache.Cache cache) {
         this.cache = cache;
     }
 
@@ -198,6 +275,9 @@ public class EhCacheDiagnosticService implements Diagnostic {
 		this.mBeanServer = mBeanServer;
 	}
 
+    /*
+     * Copied from org.ehcache.jsr107.Eh107MXBean
+     */
     private String sanitizeMbeanProperty(String string) {
         return string == null ? "" : string.replaceAll(",|:|=|\n", ".");
       }

@@ -127,9 +127,9 @@
     </util:map>
 
     <!-- handle file uploads using commons-fileupload -->
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
         <!-- property should be kept in sync with one in applicationContext-security-web.xml-->
-        <property name="maxUploadSize" value="${file.upload.max.size}" />
+      
     </bean>
 
     <!-- js common controller -->

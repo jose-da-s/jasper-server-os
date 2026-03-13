@@ -26,7 +26,7 @@ import com.jaspersoft.jasperserver.api.metadata.user.service.impl.CreateExecutio
 import com.jaspersoft.jasperserver.api.common.util.spring.StaticApplicationContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.cache.Cache;
+import javax.cache.Cache;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -50,20 +50,20 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
 
     // Run Report Service cache
     @Resource(name = "runReportServiceCacheFactoryBean")
-    private Cache sharedReportExecutionsCache;
+    private Cache<String, ?> sharedReportExecutionsCache;
 
     // Dashboard caches
     @Resource(name = "dashboardTasks")
-    private Cache sharedDashboardTasks;
+    private Cache<String, ?> sharedDashboardTasks;
 
     @Resource(name = "dashboardResults")
-    private Cache sharedDashboardResults;
+    private Cache<String, ?> sharedDashboardResults;
 
     @Resource(name = "dashboardProcesses")
-    private Cache sharedDashboardProcesses;
+    private Cache<String, ?> sharedDashboardProcesses;
 
     @Resource(name = "dashboardIDToUsers")
-    private Cache sharedDashboardIDToUsers;
+    private Cache<String, ?> sharedDashboardIDToUsers;
 
     private Map<ExecutionType, Set<String>> sessionExecutionsCache;
 
@@ -95,29 +95,16 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
                 log.debug("No executions were found, skipping");
                 continue;
             }
-            Cache[] sharedCaches = getSharedCachesForType(type);
-            for (Cache sharedCache : sharedCaches) {
-                // Spring Cache doesn't support removeAll with collection, so we need to use native cache
-                Object nativeCache = sharedCache.getNativeCache();
-                if (nativeCache instanceof javax.cache.Cache) {
-                	javax.cache.Cache<String, Object> jcache = (javax.cache.Cache<String, Object>) nativeCache;
-                	jcache.removeAll(cache);
-                    if (log.isDebugEnabled()) {
-                    	int size = 0;
-						for (javax.cache.Cache.Entry<String, Object> entry : jcache)
-							size++;
-                        log.debug("Removed {} {} executions from the {} cache. Total number of executions left: {}",
-                                cache.size(), type, sharedCache.getName(), size);
-                    }
-                } else {
-                    // Fallback: evict one by one
-                    for (String executionId : cache) {
-                        sharedCache.evict(executionId);
-                    }
-                    if (log.isDebugEnabled()) {
-                        log.debug("Removed {} {} executions from the {} cache",
-                                cache.size(), type, sharedCache.getName());
-                    }
+            @SuppressWarnings("unchecked")
+            Cache<String, ?>[] sharedCaches = (Cache<String, ?>[]) getSharedCachesForType(type);
+            for (Cache<String, ?> sharedCache : sharedCaches) {
+            	sharedCache.removeAll(cache);
+                if (log.isDebugEnabled()) {
+                	int size = 0;
+					for (@SuppressWarnings("unused") javax.cache.Cache.Entry<String, ?> entry : sharedCache)
+						size++;
+                    log.debug("Removed {} {} executions from the {} cache. Total number of executions left: {}",
+                            cache.size(), type, sharedCache.getName(), size);
                 }
             }
             cache.clear();
@@ -132,7 +119,7 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
     @Override
     @SuppressWarnings("unchecked")
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        sharedReportExecutionsCache = (Cache) StaticApplicationContext.getApplicationContext()
+        sharedReportExecutionsCache = (Cache<String, ?>) StaticApplicationContext.getApplicationContext()
                 .getBean("runReportServiceCacheFactoryBean");
         sessionExecutionsCache = (Map<ExecutionType, Set<String>>) in.readObject();
     }
@@ -141,15 +128,15 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
         return sessionExecutionsCache.computeIfAbsent(type, executionType -> new HashSet<>());
     }
 
-    private Cache[] getSharedCachesForType(ExecutionType type) {
+    private Cache<?, ?>[] getSharedCachesForType(ExecutionType type) {
         switch (type) {
             case REPORT:
-                return new Cache[]{sharedReportExecutionsCache};
+                return new Cache<?, ?>[]{sharedReportExecutionsCache};
             case DASHBOARD:
-                return new Cache[]{sharedDashboardTasks, sharedDashboardResults,
+                return new Cache<?, ?>[]{sharedDashboardTasks, sharedDashboardResults,
                         sharedDashboardProcesses, sharedDashboardIDToUsers};
             default:
-                return new Cache[0];
+                return new Cache<?, ?>[0];
         }
     }
 }

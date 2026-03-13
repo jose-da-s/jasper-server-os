@@ -23,7 +23,7 @@
 package com.jaspersoft.jasperserver.remote.connection.storage;
 
 import com.jaspersoft.jasperserver.remote.exception.ResourceNotFoundException;
-import org.springframework.cache.Cache;
+import javax.cache.Cache;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,7 +38,7 @@ import java.util.UUID;
 @Service
 public class ContextDataStorage {
     @Resource(name = "contextsCache")
-    private Cache cache;
+    private Cache<UUID, ContextDataPair> cache;
 
     public UUID save(ContextDataPair item){
         final UUID uuid = UUID.randomUUID();
@@ -47,8 +47,8 @@ public class ContextDataStorage {
     }
 
     public ContextDataPair get(UUID uuid, boolean throwExceptionIfNotFound){
-        final Cache.ValueWrapper wrapper = cache.get(uuid);
-        if (wrapper == null) {
+    	ContextDataPair value = cache.get(uuid);
+        if (value == null) {
             if (throwExceptionIfNotFound) {
                 throw new ResourceNotFoundException(uuid.toString());
             } else {
@@ -56,7 +56,7 @@ public class ContextDataStorage {
                 return null;
             }
         }
-        return (ContextDataPair) wrapper.get();
+        return value;
     }
 
     public ContextDataPair get(UUID uuid){
@@ -64,7 +64,7 @@ public class ContextDataStorage {
     }
 
     public void delete(UUID uuid){
-        cache.evict(uuid);
+        cache.remove(uuid);
     }
 
     public void update(UUID uuid, ContextDataPair item){

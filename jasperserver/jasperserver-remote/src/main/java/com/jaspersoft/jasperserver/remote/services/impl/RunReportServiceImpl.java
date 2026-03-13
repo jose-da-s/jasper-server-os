@@ -87,7 +87,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.cache.Cache;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -97,6 +96,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+
+import javax.cache.Cache;
 
 import javax.annotation.Resource;
 import javax.ws.rs.core.Response;
@@ -178,15 +179,14 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
     @Autowired
     private ApplicationContext applicationContext;
 
-    private Cache getExecutionsCache() {
+    private Cache<String, Pair<String, ReportExecution>> getExecutionsCache() {
         return cacheFactoryBean.getObject();
     }
 
     private ReportExecution getReportExecutionFromCache(final String requestId) {
-        final Cache.ValueWrapper wrapper = getExecutionsCache().get(requestId);
-        if (missesExecution(wrapper)) return null;
+    	Pair<String, ReportExecution> value = getExecutionsCache().get(requestId);
+        if (value == null) return null;
 
-        Pair<String, ReportExecution> value = (Pair<String, ReportExecution>) wrapper.get();
         if (!isSameUser(value.getKey())) return null;
 
         return value.getValue();
@@ -200,8 +200,8 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
      * @return a report execution that might belong to another user
      */
     private ReportExecution getReportExecutionFromCacheNoUserCheck(final String requestId) {
-        final Cache.ValueWrapper wrapper = getExecutionsCache().get(requestId);
-        return (!missesExecution(wrapper)) ? ((Pair<String, ReportExecution>) wrapper.get()).getValue() : null;
+    	Pair<String, ReportExecution> value = getExecutionsCache().get(requestId);
+        return (value != null) ? value.getValue() : null;
     }
 
     private void putReportExecutionToCache(final String requestId, final ReportExecution reportExecution) {
@@ -1290,7 +1290,7 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
                         virtualizerFactory.disposeReport(execution.getReportUnitResult());
                     }
                 }
-                getExecutionsCache().evict(requestId);
+                getExecutionsCache().remove(requestId);
                 return true;
             }
             return false;
@@ -1305,29 +1305,21 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
 
     @Override
     public void destroy() {
-        // Spring Cache doesn't provide a way to iterate over keys, so we need to get the native cache
-        Cache cache = getExecutionsCache();
-        Object nativeCache = cache.getNativeCache();
+    	Cache<String, Pair<String, ReportExecution>> cache = getExecutionsCache();
 
-        if (nativeCache instanceof javax.cache.Cache) {
-        	javax.cache.Cache<Object, Object> jcache = (javax.cache.Cache<Object, Object>) nativeCache;
-        	for (javax.cache.Cache.Entry<Object, Object> entry : jcache) {
-        		String requestId = entry.getKey().toString();
-                ReportExecution execution = getReportExecutionFromCache(requestId);
-                try {
-                    cancelReportExecution(requestId, unsecuredEngine);
-                    if (execution != null && execution.getStatus() == ExecutionStatus.ready) {
-                        virtualizerFactory.disposeReport(execution.getFinalReportUnitResult());
-                    }
-                } catch (RuntimeException ex) {
-                    log.warn("Report execution cleanup failed: ", ex);
-                }
-                jcache.remove(entry.getKey());
-        	}
-        } else {
-            // For non-EhCache implementations, just clear the entire cache
-            cache.clear();
-        }
+		for (javax.cache.Cache.Entry<String, Pair<String, ReportExecution>> entry : cache) {
+			String requestId = entry.getKey().toString();
+	        ReportExecution execution = getReportExecutionFromCache(requestId);
+	        try {
+	            cancelReportExecution(requestId, unsecuredEngine);
+	            if (execution != null && execution.getStatus() == ExecutionStatus.ready) {
+	                virtualizerFactory.disposeReport(execution.getFinalReportUnitResult());
+	            }
+	        } catch (RuntimeException ex) {
+	            log.warn("Report execution cleanup failed: ", ex);
+	        }
+	        cache.remove(entry.getKey());
+		}
     }
 
     private boolean isSameUser(String userName) {
@@ -1337,10 +1329,6 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
         return new EqualsBuilder()
                 .append(userName, currentUserName)
                 .isEquals();
-    }
-
-    private boolean missesExecution(Cache.ValueWrapper wrapper) {
-        return wrapper == null || wrapper.get() == null;
     }
 
 

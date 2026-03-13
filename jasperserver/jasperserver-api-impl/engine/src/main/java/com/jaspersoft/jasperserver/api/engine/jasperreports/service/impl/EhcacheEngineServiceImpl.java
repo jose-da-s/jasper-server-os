@@ -29,7 +29,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.cache.Cache;
+import javax.cache.Cache;
 
 import org.apache.commons.collections.OrderedMap;
 
@@ -96,23 +96,23 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 	}
 
 
-	private Cache cache;
+	private Cache<String, OrderedMap> cache;
 
-	private Cache diagnosticCache;
+	private Cache<Serializable, Object> diagnosticCache;
 
-	public Cache getCache() {
+	public Cache<String, OrderedMap> getCache() {
 		return cache;
 	}
 
-	public void setCache(Cache cache) {
+	public void setCache(Cache<String, OrderedMap> cache) {
 		this.cache = cache;
 	}
 
-	public Cache getDiagnosticCache() {
+	public Cache<Serializable, Object> getDiagnosticCache() {
 		return diagnosticCache;
 	}
 
-	public void setDiagnosticCache(Cache diagnosticCache) {
+	public void setDiagnosticCache(Cache<Serializable, Object> diagnosticCache) {
 		this.diagnosticCache = diagnosticCache;
 	}
 
@@ -123,12 +123,11 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 	public EngineService getEngineService() {
 		return getDecoratedEngine();
 	}
-		
+
     public OrderedMap executeQuery(ExecutionContext context,
-		ResourceReference queryReference, String keyColumn, String[] resultColumns,
-		ResourceReference defaultDataSourceReference,
-		Map parameterValues, Map<String, Class<?>> parameterTypes, boolean formatValueColumns) 
-    {
+    		ResourceReference queryReference, String keyColumn, String[] resultColumns,
+    		ResourceReference defaultDataSourceReference,
+    		Map parameterValues, Map<String, Class<?>> parameterTypes, boolean formatValueColumns) {
 		String key = (String)parameterValues.get(IC_CACHE_KEY);
 		OrderedMap value = null;
         boolean refresh = parameterValues!=null&&parameterValues.containsKey(IC_REFRESH_KEY);
@@ -152,24 +151,23 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 
 		if (key!=null) {
 			if (refresh) {
-				cache.evict(key);
+				cache.remove(key);
 				if (diagnostic) {
 					removeFromDiagnosticCache(diagnosticKey);
 				}
 			} else {
-				Cache.ValueWrapper wrapper = cache.get(key);
-	    		if (wrapper != null) {
-	    			value = (OrderedMap)(wrapper.get());
-	    			if (value!=null) return value;
-	    		}
+				value = cache.get(key);
+	    		if (value != null)
+	    			return value;
 				if (diagnostic) {
 					value = (OrderedMap) getFromDiagnosticCache(diagnosticKey);
-					if (value != null) return value;
+					if (value != null)
+						return value;
 				}
 			}
 		}
 		value=getDecoratedEngine().executeQuery(context, queryReference, keyColumn, resultColumns, defaultDataSourceReference, parameterValues, parameterTypes, formatValueColumns);
-		if (key!=null&&value!=null) {
+		if (key != null && value != null) {
 			cache.put(key, value);
 			if (diagnostic) {
 				putToDiagnocsticCache(diagnosticKey, value);
@@ -184,10 +182,8 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
     }
 
 	public synchronized void removeFromDiagnosticCache(Serializable key) {
-		if (key != null) {
-			// Spring Cache doesn't expose status checks - assume cache is available
-			diagnosticCache.evict(key);
-		}
+		if (key != null)
+			diagnosticCache.remove(key);
 	}
 
 	public synchronized void removeDiagnosticKeys(String uri) {
@@ -195,34 +191,21 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 			return;
 		}
 
-		// Spring Cache abstraction doesn't provide key iteration
-		// Fall back to native JCache cache if available
-		try {
-			Object nativeCache = diagnosticCache.getNativeCache();
-			if (nativeCache instanceof javax.cache.Cache) {
-				for (javax.cache.Cache.Entry<Object, Object> entry : (javax.cache.Cache<Object, Object>) nativeCache) {
-					Object key = entry.getKey();
-					if (key instanceof DiagnosticCacheKey) {
-						DiagnosticCacheKey cacheKey = (DiagnosticCacheKey) key;
-						if (cacheKey.getUri().equals(uri)) {
-							diagnosticCache.evict(cacheKey);
-						}
-					}
+		for (javax.cache.Cache.Entry<Serializable, Object> entry : diagnosticCache) {
+			Object key = entry.getKey();
+			if (key instanceof DiagnosticCacheKey) {
+				DiagnosticCacheKey cacheKey = (DiagnosticCacheKey) key;
+				if (cacheKey.getUri().equals(uri)) {
+					diagnosticCache.remove(cacheKey);
 				}
 			}
-		} catch (Exception e) {
-			log.error("Key iteration not supported by cache provider: {}", e);
 		}
 	}
 
 	public synchronized Serializable getFromDiagnosticCache(Serializable key) {
-		if (key != null) {
-			Cache.ValueWrapper wrapper = diagnosticCache.get(key);
-			if (wrapper != null) {
-				return (Serializable) wrapper.get();
-			}
-		}
-		return null;
+		if (key == null)
+			return null;
+		return (Serializable) diagnosticCache.get(key);
 	}
 
 	public synchronized void putToDiagnocsticCache(Serializable key, Object value) {
@@ -245,24 +228,14 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 			return result;
 		}
 
-		// Spring Cache abstraction doesn't provide key iteration
-		// Fall back to native JCache cache if available
-		try {
-			Object nativeCache = diagnosticCache.getNativeCache();
-			if (nativeCache instanceof javax.cache.Cache) {
-				for (javax.cache.Cache.Entry<Object, Object> entry : (javax.cache.Cache<Object, Object>) nativeCache) {
-					Object key = entry.getKey();
-					if (key instanceof DiagnosticCacheKey) {
-						DiagnosticCacheKey cacheKey = (DiagnosticCacheKey) key;
-						if (cacheKey.getUri().equals(uri)) {
-							result.add(cacheKey.getKey());
-						}
-					}
+		for (javax.cache.Cache.Entry<Serializable, Object> entry : diagnosticCache) {
+			Object key = entry.getKey();
+			if (key instanceof DiagnosticCacheKey) {
+				DiagnosticCacheKey cacheKey = (DiagnosticCacheKey) key;
+				if (cacheKey.getUri().equals(uri)) {
+					result.add(cacheKey.getKey());
 				}
 			}
-		} catch (Exception e) {
-			// Key iteration not supported by this cache provider
-			// Log warning and return empty result
 		}
 
 		return result;

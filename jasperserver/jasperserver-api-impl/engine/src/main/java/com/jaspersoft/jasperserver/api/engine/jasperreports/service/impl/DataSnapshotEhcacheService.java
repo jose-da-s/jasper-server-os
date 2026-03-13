@@ -23,7 +23,7 @@
 package com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl;
 
 import net.sf.jasperreports.data.cache.DataSnapshot;
-import org.springframework.cache.Cache;
+import javax.cache.Cache;
 
 import com.jaspersoft.jasperserver.api.common.domain.ExecutionContext;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.service.DataSnapshotCachingService;
@@ -38,20 +38,15 @@ import com.jaspersoft.jasperserver.api.metadata.data.cache.DefaultDataSnapshotPe
  */
 public class DataSnapshotEhcacheService implements DataSnapshotCachingService {
 
-	private Cache metadataCache;
-	private Cache contentsCache;
+	private Cache<Long, DataSnapshotPersistentMetadata> metadataCache;
+	private Cache<Long, DataSnapshot> contentsCache;
 
 	public DataSnapshotPersistentMetadata getSnapshotMetadata(ExecutionContext context, long snapshotId) {
 		if (metadataCache == null) {
 			return null;
 		}
 
-		Cache.ValueWrapper wrapper = metadataCache.get(snapshotId);
-		if (wrapper == null) {
-			return null;
-		}
-		
-		return (DataSnapshotPersistentMetadata) wrapper.get();
+		return  metadataCache.get(snapshotId);
 	}
 
 	public void putSnapshotMetadata(ExecutionContext context, 
@@ -66,12 +61,7 @@ public class DataSnapshotEhcacheService implements DataSnapshotCachingService {
 			return null;
 		}
 
-		Cache.ValueWrapper wrapper = contentsCache.get(contentsId);
-		if (wrapper == null) {
-			return null;
-		}
-		
-		return (DataSnapshot) wrapper.get();
+		return contentsCache.get(contentsId);
 	}
 
 	public void putSnapshotContents(ExecutionContext context, 
@@ -99,33 +89,32 @@ public class DataSnapshotEhcacheService implements DataSnapshotCachingService {
 			return;
 		}
 
-		Cache.ValueWrapper wrapper = metadataCache.get(snapshotId);
-		if (wrapper == null) {
+		DataSnapshotPersistentMetadata metadata = metadataCache.get(snapshotId);
+		if (metadata == null) {
 			// nothing to do
 			return;
 		}
-		
-		DataSnapshotPersistentMetadata metadata = (DataSnapshotPersistentMetadata) wrapper.get();
+
 		// remove from the two caches
-		metadataCache.evict(snapshotId);
+		metadataCache.remove(snapshotId);
 		if (contentsCache != null && metadata != null) {
-			contentsCache.evict(metadata.getContentsId());
+			contentsCache.remove(metadata.getContentsId());
 		}
 	}
 
-	public Cache getMetadataCache() {
+	public Cache<Long, DataSnapshotPersistentMetadata> getMetadataCache() {
 		return metadataCache;
 	}
 
-	public void setMetadataCache(Cache metadataCache) {
+	public void setMetadataCache(Cache<Long, DataSnapshotPersistentMetadata> metadataCache) {
 		this.metadataCache = metadataCache;
 	}
 
-	public Cache getContentsCache() {
+	public Cache<Long, DataSnapshot> getContentsCache() {
 		return contentsCache;
 	}
 
-	public void setContentsCache(Cache contentsCache) {
+	public void setContentsCache(Cache<Long, DataSnapshot> contentsCache) {
 		this.contentsCache = contentsCache;
 	}
 

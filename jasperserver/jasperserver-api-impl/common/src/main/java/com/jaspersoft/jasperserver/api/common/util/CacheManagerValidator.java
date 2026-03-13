@@ -20,11 +20,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.api.common.util.spring;
+package com.jaspersoft.jasperserver.api.common.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.cache.CacheManager;
+import javax.cache.CacheManager;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;

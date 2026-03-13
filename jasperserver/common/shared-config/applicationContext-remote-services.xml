@@ -69,23 +69,23 @@
     </util:map>
 </beans>
 <beans profile="jrs">
-    <bean id="contextsCache" factory-bean="springCacheManager" factory-method="getCache">
+    <bean id="contextsCache" factory-bean="cacheManager" factory-method="getCache">
         <constructor-arg value="connection.descriptions"/>
     </bean>
 
-    <bean id="dashboardTasks" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="dashboardTasks" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="dashboardTasks"/>
     </bean>
 
-    <bean id="dashboardResults" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="dashboardResults" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="dashboardResults"/>
     </bean>
 
-    <bean id="dashboardProcesses" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="dashboardProcesses" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="dashboardProcesses"/>
     </bean>
 
-    <bean id="dashboardIDToUsers" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="dashboardIDToUsers" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="dashboardIDToUsers"/>
     </bean>
 </beans>

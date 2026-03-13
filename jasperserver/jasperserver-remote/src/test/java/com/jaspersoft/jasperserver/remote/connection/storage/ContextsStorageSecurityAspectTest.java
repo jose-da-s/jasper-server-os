@@ -28,7 +28,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.springframework.cache.Cache;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -108,8 +107,7 @@ public class ContextsStorageSecurityAspectTest {
         when(joinPoint.getArgs()).thenReturn(new Object[]{uuid});
         final String expectedOwner = "someOwnerUser";
         when(aspect.getCurrentUserQualifiedName()).thenReturn(expectedOwner);
-        Cache.ValueWrapper wrapper = () -> new ContextsStorageSecurityAspect.OwnedContextDataPair(new Object(), new HashMap(), expectedOwner);
-        when(aspect.getElement(uuid)).thenReturn(wrapper);
+        when(aspect.getElement(uuid)).thenReturn(new ContextsStorageSecurityAspect.OwnedContextDataPair(new Object(), new HashMap(), expectedOwner));
         doCallRealMethod().when(aspect).checkOwner(joinPoint);
         Exception exception = null;
 
@@ -128,8 +126,7 @@ public class ContextsStorageSecurityAspectTest {
         final UUID uuid = UUID.randomUUID();
         when(joinPoint.getArgs()).thenReturn(new Object[]{uuid});
         when(aspect.getCurrentUserQualifiedName()).thenReturn("someAnotherUser");
-        Cache.ValueWrapper wrapper = () -> new ContextsStorageSecurityAspect.OwnedContextDataPair(new Object(), new HashMap(), "someOwnerUser");
-        when(aspect.getElement(uuid)).thenReturn(wrapper);
+        when(aspect.getElement(uuid)).thenReturn(new ContextsStorageSecurityAspect.OwnedContextDataPair(new Object(), new HashMap(), "someOwnerUser"));
         doCallRealMethod().when(aspect).checkOwner(joinPoint);
 
         aspect.checkOwner(joinPoint);

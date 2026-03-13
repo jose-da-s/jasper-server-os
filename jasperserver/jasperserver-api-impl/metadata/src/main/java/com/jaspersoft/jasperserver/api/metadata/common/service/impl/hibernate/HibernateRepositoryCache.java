@@ -33,7 +33,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.cache.Cache;
+import javax.cache.Cache;
 import org.springframework.orm.hibernate5.HibernateCallback;
 
 import com.jaspersoft.jasperserver.api.common.domain.ExecutionContext;
@@ -61,7 +61,7 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 	private LockManager lockManager = new LocalLockManager();
 	private boolean setFindByCriteriaToReadOnly = false;
 	private boolean isEnabledRepositoryCaching = false;
-	private Cache hibernateRepositoryEhcache;
+	private Cache<String, CachedItem> hibernateRepositoryEhcache;
 
 	public HibernateRepositoryCache() {
 	}
@@ -141,9 +141,9 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 			log.debug("HibernateRepositoryCache:  Looking in repository cache \"" + cacheableItem.getCacheName() + "\" for resource \"" + uri);
 		}
 		if (hibernateRepositoryEhcache != null) {
-			Cache.ValueWrapper wrapper = hibernateRepositoryEhcache.get(uri);
-			if (wrapper != null) {
-				return (CachedItem) wrapper.get();
+			CachedItem value = hibernateRepositoryEhcache.get(uri);
+			if (value != null) {
+				return value;
 			}
 		}
 		if (isEnabledRepositoryCaching) {
@@ -321,7 +321,7 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 		}
 
 		if (hibernateRepositoryEhcache != null) {
-			hibernateRepositoryEhcache.evict(uri);
+			hibernateRepositoryEhcache.remove(uri);
 		}
 
 		if (isEnabledRepositoryCaching) {
@@ -385,11 +385,11 @@ public class HibernateRepositoryCache extends HibernateDaoImpl implements Reposi
 		return RepositoryCacheIndicator.isOn();
 	}
 
-	public Cache getHibernateRepositoryEhcache() {
+	public Cache<String, CachedItem> getHibernateRepositoryEhcache() {
 		return hibernateRepositoryEhcache;
 	}
 
-	public void setHibernateRepositoryEhcache(Cache hibernateRepositoryEhcache) {
+	public void setHibernateRepositoryEhcache(Cache<String, CachedItem> hibernateRepositoryEhcache) {
 		this.hibernateRepositoryEhcache = hibernateRepositoryEhcache;
 	}
 

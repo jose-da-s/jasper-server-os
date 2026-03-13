@@ -46,14 +46,13 @@ import static org.mockito.Mockito.verifyNoInteractions;
 public class RunReportServiceCacheFactoryBeanTest {
     private final RunReportCacheRemoveEventListener listener = new RunReportCacheRemoveEventListener();
 
-    private final Cache<Object, Object> cache = mock(Cache.class);
+    private final Cache<String, Pair<String, ReportExecution>> cache = mock(Cache.class);
 
     @Test
     public void notifyElementEvicted_statusReady_evicted() {
-    	Cache.Entry<Object, Object> element = newReportExecution("superuser", "/public/Samples/report", ExecutionStatus.ready);
+    	Cache.Entry<String, Pair<String, ReportExecution>> element = newReportExecution("superuser", "/public/Samples/report", ExecutionStatus.ready);
         listener.onRemoved(List.of(createRemoveEvent(cache, element)));
-        @SuppressWarnings("unchecked")
-        ReportExecution reportExecution = ((Pair<String, ReportExecution>) element.getValue()).getRight();
+        ReportExecution reportExecution = element.getValue().getRight();
 
         ReportUnitResult reportUnitResult = reportExecution.getReportUnitResult();
         verify(reportUnitResult.getVirtualizer()).cleanup();
@@ -62,15 +61,14 @@ public class RunReportServiceCacheFactoryBeanTest {
 
     @Test
     public void notifyElementEvicted_statusCanceled_exception() {
-    	Cache.Entry<Object, Object> element = newReportExecution("superuser", "/public/Samples/report", ExecutionStatus.cancelled);
+    	Cache.Entry<String, Pair<String, ReportExecution>> element = newReportExecution("superuser", "/public/Samples/report", ExecutionStatus.cancelled);
     	listener.onRemoved(List.of(createRemoveEvent(cache, element)));
-        @SuppressWarnings("unchecked")
-        ReportExecution reportExecution = ((Pair<String, ReportExecution>) element.getValue()).getRight();
+        ReportExecution reportExecution = element.getValue().getRight();
 
         verifyNoInteractions(reportExecution.getReportUnitResult());
     }
 
-    private Cache.Entry<Object, Object> newReportExecution(String username, String resourceUri, ExecutionStatus status) {
+    private Cache.Entry<String, Pair<String, ReportExecution>> newReportExecution(String username, String resourceUri, ExecutionStatus status) {
         JRVirtualizer virtualizer = mock(JRVirtualizer.class);
         ReportUnitResult result = mock(ReportUnitResult.class);
 
@@ -83,9 +81,9 @@ public class RunReportServiceCacheFactoryBeanTest {
 
         // Username to ReportExecution
         Pair<String, ReportExecution> pair = Pair.of(username, reportExecution);
-        return new Cache.Entry<Object, Object>(){
-        	public Object getKey() { return UUID.randomUUID().toString(); }
-        	public Object getValue() { return pair; }
+        return new Cache.Entry<String, Pair<String, ReportExecution>>(){
+        	public String getKey() { return UUID.randomUUID().toString(); }
+        	public Pair<String, ReportExecution> getValue() { return pair; }
         	public <T> T unwrap(Class<T> clazz) { throw new IllegalArgumentException("anonymous interface"); }
         };
     }

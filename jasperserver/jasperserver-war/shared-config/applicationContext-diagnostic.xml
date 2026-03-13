@@ -437,7 +437,7 @@
     <bean id="EhCacheDiagnostic_aclCache" class="com.jaspersoft.jasperserver.api.logging.diagnostic.service.impl.EhCacheDiagnosticService" lazy-init="false">
     	<property name="mBeanServer" ref="jasperJMXServer"/>
         <property name="cache">
-        	<bean factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+        	<bean factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
                 <constructor-arg value="aclCache"/>
             </bean>
         </property>

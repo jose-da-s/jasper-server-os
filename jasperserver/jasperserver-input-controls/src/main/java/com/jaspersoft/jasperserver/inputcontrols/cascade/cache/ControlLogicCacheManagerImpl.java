@@ -26,8 +26,8 @@ import com.jaspersoft.jasperserver.api.metadata.user.service.impl.UserManagerSer
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
+import javax.cache.Cache;
+import javax.cache.CacheManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ControlLogicCacheManagerImpl implements ControlLogicCacheManager, InitializingBean {
 
-    private Cache inputControlCache;
+    private Cache<Object, SessionCache> inputControlCache;
     private CacheManager cacheManager;
     private static final Logger log = LogManager.getLogger(ControlLogicCacheManagerImpl.class);
     private long cacheCleanTriggerTime = TimeUnit.MINUTES.toMillis(30);
@@ -81,10 +81,9 @@ public class ControlLogicCacheManagerImpl implements ControlLogicCacheManager, I
 
     public SessionCache getItem(Object key) {
         if (inputControlCache != null) {
-            Cache.ValueWrapper wrapper = inputControlCache.get(key);
-            if (wrapper != null) {
+        	SessionCache value = inputControlCache.get(key);
+            if (value != null) {
                 log.debug("element found for key: {}", key);
-                SessionCache value = (SessionCache) wrapper.get();
                 logEvent("GET", key, value);
                 return value;
             }
@@ -119,7 +118,7 @@ public class ControlLogicCacheManagerImpl implements ControlLogicCacheManager, I
         }
     }
 
-    public void setInputControlCache(Cache inputControlCache) {
+    public void setInputControlCache(Cache<Object, SessionCache> inputControlCache) {
         this.inputControlCache = inputControlCache;
     }
 

@@ -747,7 +747,7 @@
         <property name="hibernateRepositoryEhcache" ref="hibernateRepositoryEhcache"/>
     </bean>
 
-    <bean id="hibernateRepositoryEhcache" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="hibernateRepositoryEhcache" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="hibernate_repository_ehcache"/>
     </bean>
 
@@ -890,17 +890,11 @@
 		<constructor-arg name="classLoader"><null/></constructor-arg>
 	</bean>
 
-	<!-- Spring Cache Manager wrapper for the JCache CacheManager -->
-	<!-- This provides org.springframework.cache.CacheManager interface required by cache consumers -->
-	<bean id="engineSpringCacheManager" class="org.springframework.cache.jcache.JCacheCacheManager">
-		<constructor-arg ref="engineCacheManager"/>
-	</bean>
-
-	<bean id="engineCache" factory-bean="engineSpringCacheManager" factory-method="getCache" lazy-init="true">
+	<bean id="engineCache" factory-bean="engineCacheManager" factory-method="getCache" lazy-init="true">
 		<constructor-arg value="engineCache"/>
 	</bean>
 
-    <bean id="diagnosticCache" factory-bean="engineSpringCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="diagnosticCache" factory-bean="engineCacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="diagnosticCache"/>
     </bean>
 
@@ -1220,13 +1214,24 @@
 		<constructor-arg name="classLoader"><null/></constructor-arg>
 	</bean>
 
-    <!-- Spring Cache Manager wrapper for the JCache CacheManager -->
-    <!-- This provides org.springframework.cache.CacheManager interface required by @Cacheable and TeiidCache -->
-    <bean id="springCacheManager" class="org.springframework.cache.jcache.JCacheCacheManager">
-        <constructor-arg ref="cacheManager"/>
+    <!-- Cache Manager Validator - validates required caches exist at startup -->
+    <bean id="cacheManagerValidator"
+          class="com.jaspersoft.jasperserver.api.common.util.CacheManagerValidator"
+          depends-on="cacheManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        <!-- Default required caches are defined in the class. Override if needed:
+        <property name="requiredCacheNames">
+            <list>
+                <value>aclCache</value>
+                <value>inputControlCache</value>
+            </list>
+        </property>
+        -->
+        <!-- Set to false to only warn instead of failing on missing caches -->
+        <property name="failOnMissingCache" value="true"/>
     </bean>
 
-    <bean id="aclCache" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="aclCache" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="aclCache"/>
     </bean>
 
@@ -1236,11 +1241,11 @@
 
     </bean>
 
-    <bean id="attributeCache" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="attributeCache" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="attributeCache"/>
     </bean>
 
-    <bean id="inputControlCache" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="inputControlCache" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="inputControlCache"/>
     </bean>
 
@@ -1256,34 +1261,34 @@
 
     <bean id="teiidResultsetCache" class="com.jaspersoft.jasperserver.api.engine.common.virtualdatasourcequery.impl.TeiidCache"
           destroy-method="shutdown">
-        <property name="springCache" ref="teiidResultsetEhCache"/>
+        <property name="cache" ref="teiidResultsetEhCache"/>
         <property name="cacheName" value="resultset" />
         <property name="transactional" value="true" />
     </bean>
 
     <bean id="teiidResultsetReplCache" class="com.jaspersoft.jasperserver.api.engine.common.virtualdatasourcequery.impl.TeiidCache"
           destroy-method="shutdown">
-        <property name="springCache" ref="teiidResultsetReplEhCache"/>
+        <property name="cache" ref="teiidResultsetReplEhCache"/>
         <property name="cacheName" value="resultset-repl" />
         <property name="transactional" value="true" />
     </bean>
 
     <bean id="teiidPreparedPlanCache" class="com.jaspersoft.jasperserver.api.engine.common.virtualdatasourcequery.impl.TeiidCache"
           destroy-method="shutdown">
-        <property name="springCache" ref="teiidPreparedPlanEhCache"/>
+        <property name="cache" ref="teiidPreparedPlanEhCache"/>
         <property name="cacheName" value="preparedplan" />
         <property name="transactional" value="false" />
     </bean>
 
-    <bean id="teiidResultsetEhCache" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="teiidResultsetEhCache" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="teiidResultsetEhCache"/>
     </bean>
 
-    <bean id="teiidResultsetReplEhCache" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="teiidResultsetReplEhCache" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="teiidResultsetReplEhCache"/>
     </bean>
 
-    <bean id="teiidPreparedPlanEhCache" factory-bean="springCacheManager" factory-method="getCache" lazy-init="true">
+    <bean id="teiidPreparedPlanEhCache" factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
         <constructor-arg value="teiidPreparedPlanEhCache"/>
     </bean>
 
@@ -2147,7 +2152,7 @@
     </bean>
 
     <!-- Cache for SystemLoggedInUserStorage - Spring Cache abstraction wrapper -->
-    <bean id="systemUserStorageCache" factory-bean="springCacheManager" factory-method="getCache">
+    <bean id="systemUserStorageCache" factory-bean="cacheManager" factory-method="getCache">
         <constructor-arg value="systemUserStorageCache" />
     </bean>
 

@@ -23,11 +23,10 @@
 
 package com.jaspersoft.jasperserver.api.metadata.user.service.impl;
 
-import com.jaspersoft.jasperserver.api.metadata.user.domain.ProfileAttribute;
 import com.jaspersoft.jasperserver.api.metadata.user.service.ProfileAttributeCache;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.cache.Cache;
+import javax.cache.Cache;
 
 
 /**
@@ -41,13 +40,13 @@ public class ProfileAttributeCacheImpl implements ProfileAttributeCache {
 
     static final Log log = LogFactory.getLog(ProfileAttributeCacheImpl.class);
 
-    private Cache attributeCache;
+    private Cache<Object, Object> attributeCache;
 
-    public Cache getAttributeCache() {
+    public Cache<Object, Object> getAttributeCache() {
         return attributeCache;
     }
 
-    public void setAttributeCache(Cache attributeCache) {
+    public void setAttributeCache(Cache<Object, Object> attributeCache) {
         this.attributeCache = attributeCache;
     }
 
@@ -61,12 +60,12 @@ public class ProfileAttributeCacheImpl implements ProfileAttributeCache {
     @Override
     public Object getItem(Object key) {
         if (attributeCache != null) {
-            Cache.ValueWrapper wrapper = attributeCache.get(key);
-            if (wrapper != null) {
+            Object value = attributeCache.get(key);
+            if (value != null) {
                 if (log.isDebugEnabled()) {
                     log.debug("element found for key:" + key.toString());
                 }
-                return wrapper.get();
+                return value;
             }
         }
         return null;
@@ -75,7 +74,7 @@ public class ProfileAttributeCacheImpl implements ProfileAttributeCache {
     @Override
     public void removeItem(Object key) {
         if (attributeCache != null) {
-            attributeCache.evict(key);
+            attributeCache.remove(key);
         }
     }
 

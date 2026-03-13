@@ -34,9 +34,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.jcache.JCacheCacheManager;
+import javax.cache.Cache;
+import javax.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -57,20 +56,20 @@ import static java.lang.String.format;
  * @author esytnik, schubar
  */
 @Component
-public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache>, InitializingBean {
+public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache<String, Pair<String, ReportExecution>>>, InitializingBean {
     private static final Log log = LogFactory.getLog(RunReportServiceCacheFactoryBean.class);
 
     private static final String DEFAULT_CACHE_NAME = "RRSCache";
 
-    @Resource(name = "springCacheManager")
+    @Resource(name = "cacheManager")
     private CacheManager cacheManager;
 
     private String cacheName = DEFAULT_CACHE_NAME;
 
-    private Cache cache;
+    private Cache<String, Pair<String, ReportExecution>> cache;
 
-    private CacheEntryListenerConfiguration<Object, Object> runReportCacheCreateEventListenerConfiguration;
-    private CacheEntryListenerConfiguration<Object, Object> runReportCacheRemoveEventListenerConfiguration;
+    private CacheEntryListenerConfiguration<String, Pair<String, ReportExecution>> runReportCacheCreateEventListenerConfiguration;
+    private CacheEntryListenerConfiguration<String, Pair<String, ReportExecution>> runReportCacheRemoveEventListenerConfiguration;
     
     public String getCacheName() {
         return cacheName;
@@ -81,7 +80,7 @@ public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache>, Ini
     }
 
     @Override
-    public Cache getObject() {
+    public Cache<String, Pair<String, ReportExecution>> getObject() {
         if (cache == null) {
             throw new IllegalStateException(format("Cache '%s' is not configured.", getCacheName()));
         }
@@ -122,31 +121,27 @@ public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache>, Ini
             log.debug(format("************ RRS *********: Cache: %s", cache.getName()));
         }
 
-        // Register cache event listener if using EhCache
-        if (cacheManager instanceof JCacheCacheManager) {
-        	javax.cache.Cache<Object, Object> jcache = (javax.cache.Cache<Object, Object>) cache.getNativeCache();
-        	// all of this just to register an event listener... i am dying inside
-        	runReportCacheCreateEventListenerConfiguration = new MutableCacheEntryListenerConfiguration<Object, Object>(
-        			new FactoryBuilder.SingletonFactory<RunReportCacheCreateEventListener>(new RunReportCacheCreateEventListener()),
-        			new FactoryBuilder.SingletonFactory<CacheEntryEventFilter<Object, Object>>(new TrueCacheEntryEventFilter()),
-        			false,
-        			false
-        			);
-        	runReportCacheRemoveEventListenerConfiguration = new MutableCacheEntryListenerConfiguration<Object, Object>(
-        			new FactoryBuilder.SingletonFactory<RunReportCacheRemoveEventListener>(new RunReportCacheRemoveEventListener()),
-        			new FactoryBuilder.SingletonFactory<CacheEntryEventFilter<Object, Object>>(new TrueCacheEntryEventFilter()),
-        			false,
-        			false
-        			);
+    	// all of this just to register an event listener... i am dying inside
+    	runReportCacheCreateEventListenerConfiguration = new MutableCacheEntryListenerConfiguration<String, Pair<String, ReportExecution>>(
+    			new FactoryBuilder.SingletonFactory<RunReportCacheCreateEventListener>(new RunReportCacheCreateEventListener()),
+    			new FactoryBuilder.SingletonFactory<CacheEntryEventFilter<String, Pair<String, ReportExecution>>>(new TrueCacheEntryEventFilter()),
+    			false,
+    			false
+    			);
+    	runReportCacheRemoveEventListenerConfiguration = new MutableCacheEntryListenerConfiguration<String, Pair<String, ReportExecution>>(
+    			new FactoryBuilder.SingletonFactory<RunReportCacheRemoveEventListener>(new RunReportCacheRemoveEventListener()),
+    			new FactoryBuilder.SingletonFactory<CacheEntryEventFilter<String, Pair<String, ReportExecution>>>(new TrueCacheEntryEventFilter()),
+    			false,
+    			false
+    			);
 
-        	jcache.deregisterCacheEntryListener(runReportCacheCreateEventListenerConfiguration);
-        	jcache.deregisterCacheEntryListener(runReportCacheRemoveEventListenerConfiguration);
-        	jcache.registerCacheEntryListener(runReportCacheCreateEventListenerConfiguration);
-        	jcache.registerCacheEntryListener(runReportCacheRemoveEventListenerConfiguration);
-        }
+        	cache.deregisterCacheEntryListener(runReportCacheCreateEventListenerConfiguration);
+        	cache.deregisterCacheEntryListener(runReportCacheRemoveEventListenerConfiguration);
+        	cache.registerCacheEntryListener(runReportCacheCreateEventListenerConfiguration);
+        	cache.registerCacheEntryListener(runReportCacheRemoveEventListenerConfiguration);
     }
 
-    static class RunReportCacheCreateEventListener implements CacheEntryCreatedListener<Object, Object> {
+    static class RunReportCacheCreateEventListener implements CacheEntryCreatedListener<String, Pair<String, ReportExecution>> {
     	public RunReportCacheCreateEventListener() {}
         // freaking Oracle edge case (wat? comment and clone() method carried over during ehcache 2->3 migration)
         public Object clone() {
@@ -154,15 +149,15 @@ public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache>, Ini
         }
 
         @Override
-        public void onCreated(Iterable<CacheEntryEvent<?, ?>> events) {
+        public void onCreated(Iterable<CacheEntryEvent<? extends String, ? extends Pair<String, ReportExecution>>> events) {
             if (log.isDebugEnabled()) {
-            	for (CacheEntryEvent<?, ?> event : events)
+            	for (CacheEntryEvent<? extends String, ? extends Pair<String, ReportExecution>> event : events)
             		log.debug("33816 DEBUG: put element: " + event.getKey());
             }
         }
     }
 
-    static class RunReportCacheRemoveEventListener implements CacheEntryRemovedListener<Object, Object> {
+    static class RunReportCacheRemoveEventListener implements CacheEntryRemovedListener<String, Pair<String, ReportExecution>> {
     	public RunReportCacheRemoveEventListener() {}
         // freaking Oracle edge case (wat? comment and clone() method carried over during ehcache 2->3 migration)
         public Object clone() {
@@ -170,13 +165,13 @@ public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache>, Ini
         }
 
         @Override
-        public void onRemoved(Iterable<CacheEntryEvent<?, ?>> events) {
-        	for (CacheEntryEvent<?, ?> event : events) {
+        public void onRemoved(Iterable<CacheEntryEvent<? extends String, ? extends Pair<String, ReportExecution>>> events) {
+        	for (CacheEntryEvent<? extends String, ? extends Pair<String, ReportExecution>> event : events) {
         		if (log.isDebugEnabled()) {
             		log.debug("33816 DEBUG: remove element: " + event.getKey());
         		}
                 String requestId = (String) event.getKey();
-                Pair<String, ReportExecution> pair = (Pair<String, ReportExecution>) event.getValue();
+                Pair<String, ReportExecution> pair = event.getValue();
                 ReportExecution execution = pair.getRight();
                 try {
                     // cancelReportExecution((String)requestId);
@@ -221,9 +216,9 @@ public class RunReportServiceCacheFactoryBean implements FactoryBean<Cache>, Ini
         }
     }
 
-    static class TrueCacheEntryEventFilter implements CacheEntryEventFilter<Object, Object> {
+    static class TrueCacheEntryEventFilter implements CacheEntryEventFilter<String, Pair<String, ReportExecution>> {
     	public TrueCacheEntryEventFilter(){}
     	@Override
-    	public boolean evaluate(CacheEntryEvent<? extends Object, ? extends Object> e) { return true; };
+    	public boolean evaluate(CacheEntryEvent<? extends String, ? extends Pair<String, ReportExecution>> e) { return true; };
     }
 }

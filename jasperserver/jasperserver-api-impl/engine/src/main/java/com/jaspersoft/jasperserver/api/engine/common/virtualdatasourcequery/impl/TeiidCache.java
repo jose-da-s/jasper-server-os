@@ -36,18 +36,18 @@ import java.util.Set;
 
 public class TeiidCache<K, V> implements Cache<K, V> {
 
-    org.springframework.cache.Cache springCache;
+    javax.cache.Cache<K, V> cache;
     String cacheName;
     boolean transactional;
 
     static final Log log = LogFactory.getLog(TeiidCacheFactory.class);
 
-    public org.springframework.cache.Cache getSpringCache() {
-        return springCache;
+    public javax.cache.Cache<K, V> getCache() {
+        return cache;
     }
 
-    public void setSpringCache(org.springframework.cache.Cache springCache) {
-        this.springCache = springCache;
+    public void setCache(javax.cache.Cache<K, V> cache) {
+        this.cache = cache;
     }
 
     public String getCacheName() {
@@ -59,42 +59,39 @@ public class TeiidCache<K, V> implements Cache<K, V> {
     }
 
     public V get(K key) {
-        org.springframework.cache.Cache.ValueWrapper wrapper = springCache.get(key);
-        if (wrapper != null) {
+        V value = cache.get(key);
+        if (value != null) {
             if (log.isDebugEnabled()) {
                 log.debug("element found for key:" + key.toString());
             }
-            return (V) wrapper.get();
+            return (V) value;
         }
         return null;
     }
 
     public V put(K var1, V var2, Long var3) {
-        springCache.put(var1, var2);
+        cache.put(var1, var2);
         return var2;
     }
 
     public V remove(K var1) {
         V val = get(var1);
         if (val != null) {
-            springCache.evict(var1);
+        	cache.remove(var1);
             return val;
         } else return null;
     }
 
     public int size() {
-        Object nativeCache = springCache.getNativeCache();
-        if (nativeCache instanceof javax.cache.Cache) {
-        	int size = 0;
-        	for (javax.cache.Cache.Entry<Object,Object> entry : ((javax.cache.Cache<Object,Object>) nativeCache)) 
-        		size++;
-			return size;
-        }
-        return 0;
+    	// forgive me mother
+    	int size = 0;
+    	for (javax.cache.Cache.Entry<K, V> entry : cache) 
+    		size++;
+		return size;
     }
 
     public void clear() {
-        springCache.clear();
+        cache.clear();
     }
 
     public String getName() {
@@ -102,13 +99,10 @@ public class TeiidCache<K, V> implements Cache<K, V> {
     }
 
     public Set<K> keySet() {
-        Object nativeCache = springCache.getNativeCache();
-        if (nativeCache instanceof javax.cache.Cache) {
-        	Set<K> keys = new HashSet<K>();
-        	for (javax.cache.Cache.Entry<Object,Object> entry : ((javax.cache.Cache<Object,Object>) nativeCache))
-        		keys.add((K) entry.getKey());
-        }
-        return new HashSet<K>();
+    	Set<K> keys = new HashSet<K>();
+    	for (javax.cache.Cache.Entry<K, V> entry : cache)
+    		keys.add((K) entry.getKey());
+    	return keys;
     }
 
     @Override
@@ -122,7 +116,7 @@ public class TeiidCache<K, V> implements Cache<K, V> {
 
     public void shutdown() {
         log.warn(" -- JasperServer:  TeiidCache " + cacheName + " shutdown called.  This normal shutdown operation. ");
-        springCache.clear();
+        cache.clear();
     }
 }
 

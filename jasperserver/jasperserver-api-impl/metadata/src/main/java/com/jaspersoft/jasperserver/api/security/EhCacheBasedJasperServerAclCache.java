@@ -25,7 +25,7 @@ package com.jaspersoft.jasperserver.api.security;
 import com.jaspersoft.jasperserver.api.metadata.security.JasperServerAclImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.cache.Cache;
+import javax.cache.Cache;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.PermissionGrantingStrategy;
@@ -38,10 +38,10 @@ import org.springframework.util.Assert;
 
 public class EhCacheBasedJasperServerAclCache implements NonMutableAclCache {
     private static final Log log = LogFactory.getLog(EhCacheBasedJasperServerAclCache.class);
-    private final Cache cache;
+    private final Cache<String, Acl> cache;
     private PermissionGrantingStrategy permissionGrantingStrategy;
 
-    public EhCacheBasedJasperServerAclCache(Cache cache, PermissionGrantingStrategy permissionGrantingStrategy) {
+    public EhCacheBasedJasperServerAclCache(Cache<String, Acl> cache, PermissionGrantingStrategy permissionGrantingStrategy) {
         Assert.notNull(cache, "Cache required");
         Assert.notNull(permissionGrantingStrategy, "PermissionGrantingStrategy required");
         this.cache = cache;
@@ -53,9 +53,9 @@ public class EhCacheBasedJasperServerAclCache implements NonMutableAclCache {
     public void evictFromCache(ObjectIdentity objectIdentity) {
         Assert.notNull(objectIdentity, "ObjectIdentity required");
         String key = objectIdentity.getIdentifier().toString();
-        Cache.ValueWrapper wrapper = cache.get(key);
-        boolean existed = (wrapper != null);
-        cache.evict(key);
+        Acl value = cache.get(key);
+        boolean existed = (value != null);
+        cache.remove(key);
 
         // Alarm when we try to evict root permissions - this means we was changing them
         if (existed && (key.equals("/") || key.equals("repo:/"))) {
@@ -68,19 +68,18 @@ public class EhCacheBasedJasperServerAclCache implements NonMutableAclCache {
     public Acl getFromCache(ObjectIdentity objectIdentity) {
         Assert.notNull(objectIdentity, "ObjectIdentity required");
 
-        Cache.ValueWrapper wrapper = null;
+        Acl value = null;
 
         try {
-            wrapper = cache.get(objectIdentity.getIdentifier().toString());
+        	value = cache.get(objectIdentity.getIdentifier().toString());
         } catch (RuntimeException ignored) {
             log.error("**** Error getting ACL from cache for " + objectIdentity.getIdentifier().toString(), ignored);
         }
 
-        if (wrapper == null) {
+        if (value == null)
             return null;
-        }
 
-        Acl toreturn = initializeTransientFields((Acl) wrapper.get());
+        Acl toreturn = initializeTransientFields(value);
         return toreturn;
     }
 

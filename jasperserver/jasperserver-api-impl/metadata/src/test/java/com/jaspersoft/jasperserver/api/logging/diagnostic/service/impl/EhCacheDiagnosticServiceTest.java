@@ -40,7 +40,6 @@ import org.ehcache.jsr107.EhcacheCachingProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.cache.ehcache.EhCacheCache;
 
 import java.util.Map;
 
@@ -67,16 +66,15 @@ public class EhCacheDiagnosticServiceTest {
     public void setUp() {
     	CacheManager cacheManager = Caching.getCachingProvider(EhcacheCachingProvider.class.getName()).getCacheManager();
 
-    	Configuration<String, String> jcacheConfig = Eh107Configuration.fromEhcacheCacheConfiguration(CacheConfigurationBuilder.newCacheConfigurationBuilder(
-    	            String.class, // Key type
-    	            String.class, // Value type
-    	            ResourcePoolsBuilder.heap(100) // Heap size
-    	        ));
+    	Configuration<Object, Object> jcacheConfig = Eh107Configuration.fromEhcacheCacheConfiguration(CacheConfigurationBuilder.newCacheConfigurationBuilder(
+    			Object.class, // Key type
+    			Object.class, // Value type
+	            ResourcePoolsBuilder.heap(100) // Heap size
+	        ));
 
-    	Cache<String, String> testCache = cacheManager.createCache(TEST_CACHE_NAME, jcacheConfig);
-    	Cache<String, String> ehcache = cacheManager.getCache(TEST_CACHE_NAME, String.class, String.class);
+    	Cache<Object, Object> testCache = cacheManager.createCache(TEST_CACHE_NAME, jcacheConfig);
 
-        ehCacheDiagnosticService.setCache(new org.springframework.cache.jcache.JCacheCache((Cache<Object,Object>) (Object) testCache));
+        ehCacheDiagnosticService.setCache(testCache);
     }
 
     @After
@@ -89,6 +87,7 @@ public class EhCacheDiagnosticServiceTest {
 
     @Test
     public void getDiagnosticDataTest() {
+    	@SuppressWarnings("rawtypes")
         Map<DiagnosticAttribute, DiagnosticCallback> resultDiagnosticData = ehCacheDiagnosticService.getDiagnosticData();
 
         // Test total size of diagnostic attributes collected from EhCacheDiagnosticService
@@ -112,6 +111,7 @@ public class EhCacheDiagnosticServiceTest {
         EhCacheDiagnosticService service = new EhCacheDiagnosticService();
         // Don't set a cache - it should be null
 
+    	@SuppressWarnings("rawtypes")
         Map<DiagnosticAttribute, DiagnosticCallback> result = service.getDiagnosticData();
 
         assertNotNull(result);

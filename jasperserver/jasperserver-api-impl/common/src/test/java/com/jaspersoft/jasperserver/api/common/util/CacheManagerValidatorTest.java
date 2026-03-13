@@ -20,15 +20,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.api.common.util.spring;
+package com.jaspersoft.jasperserver.api.common.util;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
+
+import javax.cache.Cache;
+import javax.cache.CacheManager;
 
 import java.util.Arrays;
 
@@ -47,7 +48,7 @@ public class CacheManagerValidatorTest {
     private CacheManager cacheManager;
 
     @Mock
-    private Cache mockCache;
+    private Cache<Object, Object> mockCache;
 
     private CacheManagerValidator validator;
 

@@ -20,7 +20,6 @@
             <outputDirectory></outputDirectory>
             <includes>
                 <include>**/applicationContext.xml</include>
-                <include>**/applicationContext-cache.xml</include>
                 <include>**/applicationContext-profileAttributes.xml</include>
                 <include>**/applicationContext-aws.xml</include>
                 <include>**/applicationContext-data-snapshots.xml</include>

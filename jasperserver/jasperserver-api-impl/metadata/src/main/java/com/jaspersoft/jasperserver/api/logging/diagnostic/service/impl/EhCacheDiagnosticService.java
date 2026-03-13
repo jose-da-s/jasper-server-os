@@ -46,7 +46,6 @@ import javax.management.ObjectName;
 /**
  * Implementation of the EhCache Diagnostic service (Service which collecting statistics and configuration on specified cache).
  * <p>
- * This service uses Spring Cache abstraction but accesses native EhCache instance for diagnostic purposes.
  *
  * @author ogavavka, vsabadosh
  */
@@ -55,20 +54,13 @@ public class EhCacheDiagnosticService implements Diagnostic {
 
 	private MBeanServer mBeanServer;
 
-	private org.springframework.cache.Cache cache;
+	private Cache<?, ?> cache;
 
+	@SuppressWarnings("rawtypes")
     public Map<DiagnosticAttribute, DiagnosticCallback> getDiagnosticData() {
-        // Access native JCache instance for statistics
-        Object nativeCache = cache.getNativeCache();
-        if (!(nativeCache instanceof Cache)) {
-            // Return empty map if cache is not JCache
-        	logger.warn("cache implementation is not JCache, but " + nativeCache.getClass());
-            return new DiagnosticAttributeBuilder().build();
-        }
-        Cache<Object, Object> jCache = (Cache<Object, Object>) nativeCache;
 
-        ObjectName mgmt = getManagementObjectName(jCache);
-        ObjectName stats = getStatisticsObjectName(jCache);
+        ObjectName mgmt = getManagementObjectName(cache);
+        ObjectName stats = getStatisticsObjectName(cache);
         if (mgmt == null || stats == null) {
         	// Error creating object names: return empty map. The above methods already logged errors.
             return new DiagnosticAttributeBuilder().build();
@@ -164,7 +156,7 @@ public class EhCacheDiagnosticService implements Diagnostic {
         try {
         	@SuppressWarnings("unchecked")
         	org.ehcache.jsr107.Eh107Configuration<Object, Object> eh107Configuration = 
-        		    jCache.getConfiguration(org.ehcache.jsr107.Eh107Configuration.class); // <3>
+        		    cache.getConfiguration(org.ehcache.jsr107.Eh107Configuration.class); // <3>
 
         	@SuppressWarnings("unchecked")
         	org.ehcache.config.CacheRuntimeConfiguration<Object, Object> runtimeConfiguration = 
@@ -233,7 +225,7 @@ public class EhCacheDiagnosticService implements Diagnostic {
         return builder.build();
     }
 
-    private ObjectName getManagementObjectName(Cache<Object, Object> jCache) {
+    private ObjectName getManagementObjectName(Cache<?, ?> jCache) {
         try {
         	ObjectName mgmt = new ObjectName("javax.cache:type=CacheConfiguration"
         		+ ",CacheManager=" + sanitizeMbeanProperty(jCache.getCacheManager().getURI().toString())
@@ -245,7 +237,7 @@ public class EhCacheDiagnosticService implements Diagnostic {
         }
     }
 
-    private ObjectName getStatisticsObjectName(Cache<Object, Object> jCache) {
+    private ObjectName getStatisticsObjectName(Cache<?, ?> jCache) {
 
         try {
         	ObjectName stats = new ObjectName("javax.cache:type=CacheStatistics"
@@ -267,7 +259,7 @@ public class EhCacheDiagnosticService implements Diagnostic {
     	}
     }
 
-    public void setCache(org.springframework.cache.Cache cache) {
+    public void setCache(Cache<Object, Object> cache) {
         this.cache = cache;
     }
 

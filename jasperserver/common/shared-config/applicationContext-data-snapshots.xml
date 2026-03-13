@@ -67,17 +67,11 @@
 		<constructor-arg name="classLoader"><null/></constructor-arg>
 	</bean>
 
-	<!-- Spring Cache Manager wrapper for the native Ehcache CacheManager -->
-	<!-- This provides org.springframework.cache.CacheManager interface required by cache consumers -->
-	<bean id="dataSnapshotSpringCacheManager" class="org.springframework.cache.jcache.JCacheCacheManager">
-		<constructor-arg ref="dataSnapshotCacheManager"/>
-	</bean>
-
-	<bean id="snapshotMetadataCache" factory-bean="dataSnapshotSpringCacheManager" factory-method="getCache" lazy-init="true">
+	<bean id="snapshotMetadataCache" factory-bean="dataSnapshotCacheManager" factory-method="getCache" lazy-init="true">
 		<constructor-arg value="snapshotMetadata"/>
 	</bean>
 
-	<bean id="snapshotContentsCache" factory-bean="dataSnapshotSpringCacheManager" factory-method="getCache" lazy-init="true">
+	<bean id="snapshotContentsCache" factory-bean="dataSnapshotCacheManager" factory-method="getCache" lazy-init="true">
 		<constructor-arg value="snapshotContents"/>
 	</bean>
 

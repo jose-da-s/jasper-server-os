@@ -112,7 +112,7 @@
 	<bean id="controlLogicCacheManager" class="com.jaspersoft.jasperserver.inputcontrols.cascade.cache.ControlLogicCacheManagerImpl">
         <!-- seconds between server cleanup process checks for invalid user sessions -->
         <property name="cacheCleanTriggerTime" value="60"/>
-        <property name="cacheManager" ref="springCacheManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
 	</bean>
     </beans>
     <beans profile="engine">

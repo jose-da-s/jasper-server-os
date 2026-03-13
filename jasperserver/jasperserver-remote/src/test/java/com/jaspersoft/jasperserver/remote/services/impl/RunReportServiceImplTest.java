@@ -47,7 +47,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.cache.Cache;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
@@ -59,6 +58,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import javax.cache.Cache;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -120,7 +121,7 @@ public class RunReportServiceImplTest extends AbstractTestNGSpringContextTests {
     @Mock
     private ExecutionsPublishingEventService publishingEventService;
 
-    private final Cache cache = mock(Cache.class);
+    private final Cache<String, Pair<String, ReportExecution>> cache = mock(Cache.class);
 
     private List<ReportInputControl> controlsCascade = new ArrayList<>();
 
@@ -444,12 +445,11 @@ public class RunReportServiceImplTest extends AbstractTestNGSpringContextTests {
         ReportExecution reportExecution = service.createReportExecution("uri", rawParameters, options);
 
         ArgumentCaptor<String> keyCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<Object> valueCaptor = ArgumentCaptor.forClass(Object.class);
+        ArgumentCaptor<Pair<String, ReportExecution>> valueCaptor = ArgumentCaptor.forClass(Pair.class);
         verify(cache).put(keyCaptor.capture(), valueCaptor.capture());
 
-        Object cacheValue = valueCaptor.getValue();
-        assertNotNull(cacheValue);
-        Pair<String, ReportExecution> pair = (Pair<String, ReportExecution>) cacheValue;
+        Pair<String, ReportExecution> pair = valueCaptor.getValue();
+        assertNotNull(pair);
         ReportExecution actualReportExecution = pair.getValue();
         assertEquals("jasperadmin|org_1", pair.getKey());
         assertEquals(reportExecution, actualReportExecution);
@@ -512,8 +512,7 @@ public class RunReportServiceImplTest extends AbstractTestNGSpringContextTests {
         reportExecution.setRequestId(requestId);
 
         Pair<String, ReportExecution> pair = Pair.of(username, reportExecution);
-        Cache.ValueWrapper wrapper = () -> pair;
-        doReturn(wrapper).when(cache).get(eq(requestId));
+        doReturn(pair).when(cache).get(eq(requestId));
 
         return reportExecution;
     }

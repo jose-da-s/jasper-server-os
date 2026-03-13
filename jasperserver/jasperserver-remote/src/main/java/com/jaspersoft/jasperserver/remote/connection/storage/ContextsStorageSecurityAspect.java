@@ -29,7 +29,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.springframework.cache.Cache;
+import javax.cache.Cache;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +47,7 @@ import java.util.UUID;
 @Aspect
 public class ContextsStorageSecurityAspect {
     @Resource(name = "contextsCache")
-    private Cache cache;
+    private Cache<UUID, Object> cache;
     @Around("execution(* ContextDataStorage.save(com.jaspersoft.jasperserver.remote.connection.storage.ContextDataPair))")
     public Object saveOwnedContext(ProceedingJoinPoint joinPoint) throws Throwable {
         final Object[] args = joinPoint.getArgs();
@@ -66,9 +66,8 @@ public class ContextsStorageSecurityAspect {
     )
     public void checkOwner(JoinPoint joinPoint){
         final UUID uuid = (UUID) joinPoint.getArgs()[0];
-        final Cache.ValueWrapper wrapper = getElement(uuid);
-        if(wrapper != null){
-            final Object pair = wrapper.get();
+        final Object pair = getElement(uuid);
+        if(pair != null){
             if(pair != null){
                 if(!(pair instanceof OwnedContextDataPair &&
                         getCurrentUserQualifiedName().equals(((OwnedContextDataPair) pair).getOwner()))){
@@ -85,7 +84,7 @@ public class ContextsStorageSecurityAspect {
      * @param uuid the context UUID
      * @return element with context or null if doesn't exist
      */
-    protected Cache.ValueWrapper getElement(UUID uuid){
+    protected Object getElement(UUID uuid){
         return cache.get(uuid);
     }
 

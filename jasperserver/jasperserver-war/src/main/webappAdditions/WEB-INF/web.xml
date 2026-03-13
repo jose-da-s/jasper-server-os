@@ -378,16 +378,7 @@
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
 
-    <!-- Filter to help parse the file name and extension of uplaoded files-->
-    <!--filter>  com.jaspersoft.jasperserver.war.MultipartRequestWrapperFilter takes over the processing
-       <filter-name>multiPartHelperFilter</filter-name>
-       <filter-class>com.jaspersoft.jasperserver.war.common.UploadMultipartFilter</filter-class>
-   </filter>
-
-   <filter-mapping>
-       <filter-name>multiPartHelperFilter</filter-name>
-       <url-pattern>/*</url-pattern>
-   </filter-mapping-->
+    
 
     <!-- dispatcher servlet for the application -->
     <servlet>
@@ -401,6 +392,13 @@
             <param-name>threadContextInheritable</param-name>
             <param-value>true</param-value>
         </init-param>
+
+        <multipart-config>
+            <max-file-size>-1</max-file-size>
+            <max-request-size>-1</max-request-size>
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
+
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -474,6 +472,11 @@
         <!--<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>-->
         <!--<param-value>com.sun.jersey.api.container.filter.LoggingFilter</param-value>-->
         <!--</init-param>-->
+        <multipart-config>
+            <max-file-size>-1</max-file-size>
+            <max-request-size>-1</max-request-size>
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

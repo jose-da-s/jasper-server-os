@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * The OWASP CSRFGuard Project, BSD License
  * Copyright (c) 2011, Eric Sheridan (eric@infraredsecurity.com)
  * All rights reserved.
@@ -358,7 +360,7 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
             }
 
             var value = tokenValue;
-            var action = form.getAttribute('action');
+            var action = form.getAttribute('action') || form.action; // " || form.action;" jRS: some forms are loaded with no action and the action is computed later. so, we  inject the token before sending instead
 
             if (action !== null && isValidUrl(action)) {
                 var uri = parseUri(action);
@@ -498,9 +500,11 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
                     if (injectForms) {
                         injectTokenForm(element, tokenName, tokenValue, pageTokens, injectGetForms);
 
+                       
                         /* adjust array length after addition of new element */
                         len = domElements.length; // TODO review
                     }
+                   
                     if (injectFormAttributes) {
                         injectTokenAttribute(element, 'action', tokenName, tokenValue, pageTokens);
                     }
@@ -607,6 +611,40 @@ if (owaspCSRFGuardScriptHasLoaded !== true) {
             var isLoadedWrapper = {isDomContentLoaded: false};
 
             var pageTokenWrapper = {pageTokens: {}};
+
+            /*
+            JRS: some forms are loaded with no action and the action is computed later. so, we  inject the token before sending instead
+            */
+            var injectForms = '%INJECT_FORMS%';
+            var injectGetForms = '%INJECT_GET_FORMS%';
+
+            if (injectForms && !HTMLFormElement.prototype.__csrfguardSubmitPatched) {
+                HTMLFormElement.prototype.__csrfguardSubmitPatched = true;
+
+                var originalSubmit = HTMLFormElement.prototype.submit;
+                HTMLFormElement.prototype.submit = function () {
+                    try {
+                        injectTokenForm(this, tokenName, masterTokenValue, pageTokenWrapper.pageTokens, injectGetForms);
+                    } catch (e) {
+                    }
+                    return originalSubmit.apply(this, arguments);
+                };
+
+                if (HTMLFormElement.prototype.requestSubmit) {
+                    var originalRequestSubmit = HTMLFormElement.prototype.requestSubmit;
+                    HTMLFormElement.prototype.requestSubmit = function () {
+                        try {
+                            injectTokenForm(this, tokenName, masterTokenValue, pageTokenWrapper.pageTokens, injectGetForms);
+                        } catch (e) {
+                        }
+                        return originalRequestSubmit.apply(this, arguments);
+                    };
+                }
+            }
+
+            /*
+            end JRS customization
+            */
 
             addEvent(window, 'unload', EventCache.flush);
 

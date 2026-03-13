@@ -348,8 +348,8 @@
 
     <bean id="multipartRequestWrapperFilter" class="com.jaspersoft.jasperserver.war.MultipartRequestWrapperFilter">
         <property name="multipartResolver">
-            <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-                <property name="maxUploadSize" value="${file.upload.max.size}" />
+            <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+                
             </bean>
         </property>
     </bean>

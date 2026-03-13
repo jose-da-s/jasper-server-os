@@ -30,7 +30,6 @@
                 <include>**/applicationContext-remote-services.xml</include>
                 <include>**/applicationContext-events-logging.xml</include>
                 <include>**/applicationContext-security.xml</include>
-                <include>**/query-executor-ehcache.xml</include>
             </includes>
         </fileSet>
         <fileSet>

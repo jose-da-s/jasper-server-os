@@ -54,7 +54,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
  	</context:component-scan>
        
 
-  <bean id="propertyConfigurer" class="com.jaspersoft.jasperserver.api.common.properties.DecryptingPropertyPlaceholderConfigurer">
+  <bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
     <property name="locations">
       <list>
         <value>classpath:js.jdbc.properties</value>

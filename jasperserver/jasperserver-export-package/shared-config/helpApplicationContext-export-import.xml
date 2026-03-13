@@ -32,7 +32,7 @@
        xmlns:util="http://www.springframework.org/schema/util"
        default-lazy-init="true">
 
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:js.spring.properties</value>

@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -21,7 +23,7 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- ########## External JDBC Auth ###########
       - Sample configuration of JasperServer authentication via an external database
@@ -108,7 +110,7 @@
     </bean>
 
     <!--  It's recommended to store secret key in the keystore ~/.jrsks (java keystore, encrypted) and ~/.jrsksp (properties, base64 encoded: $cat ~/.jrsksp | openssl base64 -d) -->
-    <!--  To generate new key: $ ./js-import.sh ——input-key ——genkey ——keyalias passwordValidatorSecret ——keypasswd 'mYvErYsEcUrEpASs' ——keyalg "AES" ——keysize 128  -->
+    <!--  To generate new key: $ ./js-import.sh â€”â€”input-key â€”â€”genkey â€”â€”keyalias passwordValidatorSecret â€”â€”keypasswd 'mYvErYsEcUrEpASs' â€”â€”keyalg "AES" â€”â€”keysize 128  -->
     <bean id="passwordValidator" class="com.jaspersoft.jasperserver.api.common.crypto.CipherFactory" lazy-init="false">
         <property name="cipherClass" value="com.jaspersoft.jasperserver.api.metadata.common.service.impl.PasswordValidator"/>
         <property name="transformation" value="AES/CBC/PKCS5Padding"/>

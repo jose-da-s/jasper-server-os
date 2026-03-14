@@ -496,7 +496,7 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
 
     private ReportExecution createFreshReportExecutionCopy(ReportExecution copy, ReportExecutionOptions options) {
         String requestId = copy.getRequestId();
-        Assert.notNull(requestId);
+        Assert.notNull(requestId, "Request ID is required to create a fresh report execution copy");
 
         options.setRequestId(requestId);
 

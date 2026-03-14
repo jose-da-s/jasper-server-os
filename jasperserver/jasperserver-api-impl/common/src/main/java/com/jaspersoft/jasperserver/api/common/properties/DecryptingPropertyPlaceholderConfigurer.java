@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,7 +25,7 @@ package com.jaspersoft.jasperserver.api.common.properties;
 
 import com.jaspersoft.jasperserver.crypto.EncryptionEngine;
 import com.jaspersoft.jasperserver.crypto.KeystoreManager;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import java.util.Collections;
 import java.util.Hashtable;
@@ -32,8 +34,13 @@ import java.util.Properties;
 
 import static com.jaspersoft.jasperserver.crypto.conf.Defaults.BuildEnc;
 
-public class DecryptingPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
+public class DecryptingPropertyPlaceholderConfigurer extends PropertySourcesPlaceholderConfigurer {
 	private static final Map<String, String> springImportedProperties = new Hashtable<String, String>();
+
+
+	public DecryptingPropertyPlaceholderConfigurer() {
+		setLocalOverride(true);
+	}
 
 	protected void convertProperties(Properties properties) {
 		super.convertProperties(properties);
@@ -61,13 +68,16 @@ public class DecryptingPropertyPlaceholderConfigurer extends PropertyPlaceholder
 	 */
 	@Override
 	protected String convertPropertyValue(String originalValue) {
-		originalValue = originalValue.trim();
-		if (EncryptionEngine.isEncrypted(originalValue)) {
+		if(originalValue == null) {
+			return null;
+		}
+		String value = originalValue.trim();
+		if (EncryptionEngine.isEncrypted(value)) {
 			KeystoreManager ksManager = KeystoreManager.getInstance();
-			originalValue = EncryptionEngine.decrypt(ksManager.getKeystore(null).getKey(BuildEnc.getConfId()), originalValue);
+			value = EncryptionEngine.decrypt(ksManager.getKeystore(null).getKey(BuildEnc.getConfId()), value);
 		}
 
-		return originalValue;
+		return value;
 	}
 
 	public static Map<String, String> getSpringImportedProperties() {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -104,6 +104,11 @@
         <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
     </listener>
 
+    <!-- CSRFGuard - create virtual session based on HttpSession -->
+    <listener>
+        <listener-class>org.owasp.csrfguard.CsrfGuardHttpSessionListener</listener-class>
+    </listener>
+
     <!-- XSS jsp ELResolver -->
     <listener>
         <listener-class>com.jaspersoft.jasperserver.jsp.XSSEscapeXmlELResolverListener</listener-class>
@@ -164,6 +169,11 @@
         </description>
         <filter-name>SessionXssNonceSetterFilter</filter-name>
         <filter-class>com.jaspersoft.jasperserver.war.SessionXssNonceSetterFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>trailingSlashFilter</filter-name>
+        <filter-class>com.jaspersoft.jasperserver.war.TrailingSlashFilter</filter-class>
     </filter>
 
     <filter>
@@ -297,6 +307,11 @@
     </filter-mapping>
 
     <filter-mapping>
+       <filter-name>trailingSlashFilter</filter-name>
+       <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
         <filter-name>SessionXssNonceSetterFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
@@ -363,16 +378,7 @@
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
 
-    <!-- Filter to help parse the file name and extension of uplaoded files-->
-    <!--filter>  com.jaspersoft.jasperserver.war.MultipartRequestWrapperFilter takes over the processing
-       <filter-name>multiPartHelperFilter</filter-name>
-       <filter-class>com.jaspersoft.jasperserver.war.common.UploadMultipartFilter</filter-class>
-   </filter>
-
-   <filter-mapping>
-       <filter-name>multiPartHelperFilter</filter-name>
-       <url-pattern>/*</url-pattern>
-   </filter-mapping-->
+    
 
     <!-- dispatcher servlet for the application -->
     <servlet>
@@ -386,6 +392,13 @@
             <param-name>threadContextInheritable</param-name>
             <param-value>true</param-value>
         </init-param>
+
+        <multipart-config>
+            <max-file-size>-1</max-file-size>
+            <max-request-size>-1</max-request-size>
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
+
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -394,7 +407,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>jasperserver</servlet-name>
-        <url-pattern>/flow.html/*</url-pattern>
+        <url-pattern>/flow.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>jasperserver</servlet-name>
+        <url-pattern>/flow.html/flowFile/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>jasperserver</servlet-name>
@@ -455,6 +472,11 @@
         <!--<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>-->
         <!--<param-value>com.sun.jersey.api.container.filter.LoggingFilter</param-value>-->
         <!--</init-param>-->
+        <multipart-config>
+            <max-file-size>-1</max-file-size>
+            <max-request-size>-1</max-request-size>
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -520,11 +542,12 @@
     <servlet>
         <description>
             GET: returns jrs.csrfguard.js, which injects CSRF token on the page.
-            POST: returns CSRF token when requested from jrs.csrfguard.js
+            POST: returns per-page CSRF tokens when requested from jrs.csrfguard.js
+              (disabled in JRS)
             JavaScriptServlet is further configured in jrs.csrfguard.properties
         </description>
         <servlet-name>CSRFGuard.JavaScriptServlet</servlet-name>
-        <servlet-class>com.jaspersoft.jasperserver.api.security.csrf.JSJavaScriptServlet</servlet-class>
+        <servlet-class>org.owasp.csrfguard.servlet.JavaScriptServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CSRFGuard.JavaScriptServlet</servlet-name>

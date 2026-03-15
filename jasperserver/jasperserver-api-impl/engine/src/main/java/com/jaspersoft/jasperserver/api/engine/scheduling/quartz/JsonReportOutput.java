@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,7 +25,12 @@ package com.jaspersoft.jasperserver.api.engine.scheduling.quartz;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
+import net.sf.jasperreports.json.export.SimpleJsonMetadataReportConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -32,10 +39,9 @@ import com.jaspersoft.jasperserver.api.metadata.common.domain.ContentResource;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.DataContainer;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JsonMetadataExporter;
+import net.sf.jasperreports.json.export.JsonMetadataExporter;
 
 
 /**
@@ -51,43 +57,49 @@ public class JsonReportOutput extends AbstractReportOutput
 	{
 	}
 
-	@Override
-	protected DataContainer export(ReportJobContext jobContext, 
-			JasperPrint jasperPrint, Integer startPageIndex, Integer endPageIndex) {
-		try {
-			JsonMetadataExporter exporter = new JsonMetadataExporter(getJasperReportsContext());
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporter.setParameter(JRExporterParameter.START_PAGE_INDEX, startPageIndex);
-			exporter.setParameter(JRExporterParameter.END_PAGE_INDEX, endPageIndex);
-			
-			boolean close = false;
-			DataContainer dataContainer = jobContext.createDataContainer(this);
-			OutputStream dataOut = dataContainer.getOutputStream();
-			try {
-				exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, jobContext.getCharacterEncoding());
-				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, dataOut);
-				
-				exporter.exportReport();
-				
-				close = false;
-				dataOut.close();
-				return dataContainer;
-			} catch (IOException e) {
-				throw new JSExceptionWrapper(e);
-			} finally {
-				if (close) {
-					try {
-						dataOut.close();
-					} catch (IOException e) {
-						log.error("Error closing stream", e);
-					}
-				}
-			}
-			
-		} catch (JRException e) {
-			throw new JSExceptionWrapper(e);
-		}
-	}
+    @Override
+    protected DataContainer export(ReportJobContext jobContext,
+                                   JasperPrint jasperPrint,
+                                   Integer startPageIndex,
+                                   Integer endPageIndex) {
+        try {
+            JsonMetadataExporter exporter = new JsonMetadataExporter(getJasperReportsContext());
+
+            if (jasperPrint == null) {
+                throw new IllegalArgumentException("JasperPrint is required");
+            }
+            exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+
+            DataContainer dataContainer = jobContext.createDataContainer(this);
+            OutputStream dataOut = dataContainer.getOutputStream();
+
+            try (dataOut) {
+                String encoding = jobContext.getCharacterEncoding();
+                Writer writer = new OutputStreamWriter(dataOut, encoding);
+
+                exporter.setExporterOutput(new SimpleWriterExporterOutput(writer));
+
+                SimpleJsonMetadataReportConfiguration reportConfig = new SimpleJsonMetadataReportConfiguration();
+                if (startPageIndex != null) {
+                    reportConfig.setStartPageIndex(startPageIndex);
+                }
+                if (endPageIndex != null) {
+                    reportConfig.setEndPageIndex(endPageIndex);
+                }
+
+                exporter.setConfiguration(reportConfig);
+
+                exporter.exportReport();
+                return dataContainer;
+
+            } catch (IOException e) {
+                throw new JSExceptionWrapper(e);
+            }
+
+        } catch (JRException e) {
+            throw new JSExceptionWrapper(e);
+        }
+    }
 
 	@Override
 	public String getFileExtension()

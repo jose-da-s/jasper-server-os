@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -75,7 +77,6 @@ import com.jaspersoft.jasperserver.api.engine.jasperreports.util.RepositoryResou
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.RepositoryResourceKey;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.RepositoryUtil;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.ResourceCollector;
-import com.jaspersoft.jasperserver.api.engine.jasperreports.util.repo.RepositoryURLHandlerFactory;
 import com.jaspersoft.jasperserver.api.engine.scheduling.quartz.ReportExecutionJob;
 import com.jaspersoft.jasperserver.api.logging.audit.context.AuditContext;
 import com.jaspersoft.jasperserver.api.logging.audit.domain.AuditEvent;
@@ -129,7 +130,10 @@ import net.sf.ehcache.pool.impl.DefaultSizeOfEngine;
 import net.sf.jasperreports.data.cache.DataSnapshotException;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.ExporterInputItem;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.pdf.JRPdfExporter;
 import net.sf.jasperreports.engine.fill.*;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -139,6 +143,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
+import net.sf.jasperreports.pdf.SimplePdfReportConfiguration;
 import net.sf.jasperreports.repo.JasperDesignCache;
 import net.sf.jasperreports.repo.ReportCompiler;
 import net.sf.jasperreports.web.servlets.AsyncJasperPrintAccessor;
@@ -155,10 +160,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
-import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.naming.NameNotFoundException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -171,7 +174,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InvalidClassException;
 import java.io.OutputStream;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -608,32 +610,62 @@ public class EngineServiceImpl implements EngineService, ReportExecuter,
 		}
 		return jrContext;
 	}
-	
-	/**
-	 *
-	 */
-	public void exportToPdf(ExecutionContext context, String reportUnitURI, Map exportParameters)
-	{
-		ReportUnit reportUnit = getRepositoryResource(context, reportUnitURI, ReportUnit.class);
-		RepositoryContextHandle repositoryContextHandle = setThreadRepositoryContext(context, null, reportUnitURI);
-		try {
-			OrigContextClassLoader origContext = setContextClassLoader(context, reportUnit, false, 
-					repositoryContextHandle);
-			try {
-				exportParameters.put(JRExporterParameter.URL_HANDLER_FACTORY, RepositoryURLHandlerFactory.getInstance());
-				JRPdfExporter exporter = createPdfExporter(context);
-				exporter.setParameters(exportParameters);
-				exporter.exportReport();
-			} finally {
-				revert(origContext);
-			}
-		} catch(JRException e) {
-			log.error("Error while exporting report to PDF", e);
-			throw new JSExceptionWrapper(e);
-		} finally {
-			resetThreadRepositoryContext(repositoryContextHandle);
-		}
-	}
+
+    @Override
+    public void exportToPdf(ExecutionContext context,
+                            String reportUnitURI,
+                            JasperPrint jasperPrint,
+                            OutputStream outputStream,
+                            Integer startPageIndex,
+                            Integer endPageIndex,
+                            Boolean overrideReportHints,
+                            List<ExporterInputItem> inputItems,
+                            Integer pageIndex
+                            ) {
+        ReportUnit reportUnit = getRepositoryResource(context, reportUnitURI, ReportUnit.class);
+        RepositoryContextHandle repositoryContextHandle = setThreadRepositoryContext(context, null, reportUnitURI);
+
+        try {
+            OrigContextClassLoader origContext = setContextClassLoader(context, reportUnit, false, repositoryContextHandle);
+            try {
+                JRPdfExporter exporter = createPdfExporter(context);
+
+                if (inputItems != null && !inputItems.isEmpty()) {
+                    exporter.setExporterInput(new SimpleExporterInput(inputItems));
+                } else {
+                    exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+                }
+
+                exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+
+                SimplePdfReportConfiguration configuration = new SimplePdfReportConfiguration();
+                if (overrideReportHints != null) {
+                    configuration.setOverrideHints(overrideReportHints);
+                }
+                if(startPageIndex != null){
+                    configuration.setStartPageIndex(startPageIndex);
+                }
+                if(endPageIndex != null){
+                    configuration.setEndPageIndex(endPageIndex);
+                }
+                if(pageIndex != null){
+                    configuration.setPageIndex(pageIndex);
+                }
+
+                exporter.setConfiguration(configuration);
+
+                exporter.exportReport();
+
+            } finally {
+                revert(origContext);
+            }
+        } catch (JRException e) {
+            log.error("Error while exporting report to PDF", e);
+            throw new JSExceptionWrapper(e);
+        } finally {
+            resetThreadRepositoryContext(repositoryContextHandle);
+        }
+    }
 
 	protected JRPdfExporter createPdfExporter(ExecutionContext context) {
 		return new JRPdfExporter(getEffectiveJasperReportsContext());

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,8 +23,6 @@
 package com.jaspersoft.jasperserver.war.action;
 
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,21 +49,13 @@ public class ReportPdfExporter extends AbstractReportExporter
 
 	private EngineService engine;
 	private PdfExportParametersBean exportParameters;
-	
+
 	public void export(RequestContext context, ExecutionContext executionContext, JasperPrint jasperPrint, OutputStream outputStream) throws JRException
 	{
-		Map baseParameters = new HashMap();
-		baseParameters.put(net.sf.jasperreports.engine.JRExporterParameter.JASPER_PRINT, jasperPrint);
-		baseParameters.put(net.sf.jasperreports.engine.JRExporterParameter.OUTPUT_STREAM, outputStream);
-		
-		if (exportParameters.isOverrideReportHints()) {
-			baseParameters.put(net.sf.jasperreports.engine.JRExporterParameter.PARAMETERS_OVERRIDE_REPORT_HINTS, Boolean.TRUE);
-		}
-
-		AttributeMap flowAttrs = context.getFlowScope();
+		AttributeMap<Object> flowAttrs = context.getFlowScope();
 		String reportUnitURI = flowAttrs.getRequiredString(getFlowAttributeReportUnitURI());
-		
-		engine.exportToPdf(executionContext, reportUnitURI, baseParameters);
+
+		engine.exportToPdf(executionContext, reportUnitURI, jasperPrint, outputStream, null, null, exportParameters.isOverrideReportHints(), null, null);
 	}
 
 	protected String getContentType(RequestContext context) {

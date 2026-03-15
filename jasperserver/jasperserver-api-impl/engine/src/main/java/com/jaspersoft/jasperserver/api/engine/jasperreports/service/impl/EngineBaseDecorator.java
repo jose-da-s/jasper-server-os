@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -38,9 +40,12 @@ import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.CustomRepor
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportDataSource;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.service.ReportDataSourceService;
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.export.ExporterInputItem;
 import org.apache.commons.collections.OrderedMap;
 
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -95,10 +100,18 @@ public class EngineBaseDecorator implements EngineService
                 defaultDataSourceReference, parameterValues, parameterTypes, formatValueColumns);
     }
 
-    public void exportToPdf(ExecutionContext context, String reportUnitURI, Map exportParameters)
-	{
-		decoratedEngine.exportToPdf(context, reportUnitURI, exportParameters);
-	}
+    @Override
+    public void exportToPdf(ExecutionContext context,
+                            String reportUnitURI,
+                            JasperPrint jasperPrint,
+                            OutputStream outputStream,
+                            Integer startPageIndex,
+                            Integer endPageIndex,
+                            Boolean overrideReportHints,
+                            List<ExporterInputItem> inputItems,
+                            Integer pageIndex) {
+        decoratedEngine.exportToPdf(context, reportUnitURI, jasperPrint, outputStream, startPageIndex, endPageIndex, overrideReportHints, inputItems, pageIndex);
+    }
 
 	public Set getDataSourceTypes(ExecutionContext context, String queryLanguage)
 	{

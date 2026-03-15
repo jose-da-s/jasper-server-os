@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,10 +21,10 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PermissionsByUser" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="PermissionsByUser" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="62ee0752-2814-44e6-a3ee-12e813d51787">
 	<parameter name="RolesOfLoggedInUser" class="java.util.Collection"/>
-	<queryString>
-		<![CDATA[SELECT
+	<query language="sql"><![CDATA[SELECT
      perm.id as jiobjectpermission_id,
      folder.uri AS jiresourcefolder_uri,
      null as jiresource_name,
@@ -63,44 +64,33 @@ FROM
 where $X{IN, role.rolename, RolesOfLoggedInUser}
 
 
-order by jiresourcefolder_uri, jiresource_name, jirole_rolename desc, jiuser_username]]>
-	</queryString>
+order by jiresourcefolder_uri, jiresource_name, jirole_rolename desc, jiuser_username]]></query>
 	<field name="jiresourcefolder_uri" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="jiresource_name" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="jirole_rolename" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="permission" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="jiuser_username" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<group name="jiresourcefolder_uri">
-		<groupExpression><![CDATA[$F{jiresourcefolder_uri}]]></groupExpression>
+		<expression><![CDATA[$F{jiresourcefolder_uri}]]></expression>
 		<groupHeader>
 			<band height="33">
-				<staticText>
-					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
+				<element kind="staticText" uuid="122ee415-aaed-43ba-bb16-239da37aadf1" mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6" fontSize="12.0">
 					<text><![CDATA[Folder]]></text>
-				</staticText>
-				<textField>
-					<reportElement mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6"/>
-					<textElement>
-						<font size="12" isBold="true"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{jiresourcefolder_uri}]]></textFieldExpression>
-				</textField>
-				<line>
-					<reportElement x="-20" y="32" width="595" height="1" forecolor="#666666"/>
-				</line>
+				</element>
+				<element kind="textField" uuid="213cbb97-0782-435c-82fc-b63be05e3d9b" mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6" fontSize="12.0" bold="true">
+					<expression><![CDATA[$F{jiresourcefolder_uri}]]></expression>
+				</element>
+				<element kind="line" uuid="250990b9-7e0a-4559-80b8-eaa75ef739e3" x="-20" y="32" width="595" height="1" forecolor="#666666"/>
 			</band>
 		</groupHeader>
 		<groupFooter>
@@ -108,24 +98,16 @@ order by jiresourcefolder_uri, jiresource_name, jirole_rolename desc, jiuser_use
 		</groupFooter>
 	</group>
 	<group name="jiresource_name">
-		<groupExpression><![CDATA[$F{jiresource_name}]]></groupExpression>
+		<expression><![CDATA[$F{jiresource_name}]]></expression>
 		<groupHeader>
 			<band height="32">
 				<printWhenExpression><![CDATA[Boolean.valueOf($F{jiresource_name} != null)]]></printWhenExpression>
-				<textField>
-					<reportElement mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6"/>
-					<textElement>
-						<font size="12" isBold="true"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{jiresourcefolder_uri} + "/" + $F{jiresource_name}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
+				<element kind="textField" uuid="160659b7-6bf6-411e-925b-df9d455f455a" mode="Opaque" x="100" y="0" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6" fontSize="12.0" bold="true">
+					<expression><![CDATA[$F{jiresourcefolder_uri} + "/" + $F{jiresource_name}]]></expression>
+				</element>
+				<element kind="staticText" uuid="cd987d38-d365-4ede-ace8-c3af501059ea" mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6" fontSize="12.0">
 					<text><![CDATA[Resource Name]]></text>
-				</staticText>
+				</element>
 			</band>
 		</groupHeader>
 		<groupFooter>
@@ -133,51 +115,32 @@ order by jiresourcefolder_uri, jiresource_name, jirole_rolename desc, jiuser_use
 		</groupFooter>
 	</group>
 	<group name="jirole_rolename">
-		<groupExpression><![CDATA[$F{jirole_rolename}]]></groupExpression>
+		<expression><![CDATA[$F{jirole_rolename}]]></expression>
 		<groupHeader>
 			<band height="51">
-				<textField>
-					<reportElement x="100" y="0" width="299" height="32" forecolor="#006699"/>
-					<textElement>
-						<font size="12" isBold="true"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{jirole_rolename} != null ? $F{jirole_rolename} : "User level"]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="0" y="0" width="100" height="20" forecolor="#666666"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
+				<element kind="textField" uuid="fc8ccae1-414f-4c86-8ab7-7dcfee6eead0" x="100" y="0" width="299" height="32" forecolor="#006699" fontSize="12.0" bold="true">
+					<expression><![CDATA[$F{jirole_rolename} != null ? $F{jirole_rolename} : "User level"]]></expression>
+				</element>
+				<element kind="staticText" uuid="13fd5d5d-efbc-4625-a681-0c51dd647ec6" x="0" y="0" width="100" height="20" forecolor="#666666" fontSize="12.0">
 					<text><![CDATA[Role]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="0" y="29" width="100" height="20" forecolor="#666666"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
+				</element>
+				<element kind="staticText" uuid="fe865d1e-61e1-4bac-8705-3cfe2ce84011" x="0" y="29" width="100" height="20" forecolor="#666666" fontSize="12.0">
 					<text><![CDATA[User]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="true">
-					<reportElement x="436" y="0" width="106" height="20">
-						<printWhenExpression><![CDATA[Boolean.valueOf($F{jirole_rolename} != null)]]></printWhenExpression>
-					</reportElement>
-					<textElement>
-						<font size="10"/>
-					</textElement>
-					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{permission}]]></textFieldExpression>
-				</textField>
+				</element>
+				<element kind="textField" uuid="80b1d929-5805-4790-b088-8228ad00c73f" x="436" y="0" width="106" height="20" fontSize="10.0" textAdjust="StretchHeight">
+					<printWhenExpression><![CDATA[Boolean.valueOf($F{jirole_rolename} != null)]]></printWhenExpression>
+					<expression><![CDATA[$F{permission}]]></expression>
+				</element>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="10">
-				<line>
-					<reportElement x="-20" y="9" width="595" height="1" forecolor="#666666"/>
-				</line>
+				<element kind="line" uuid="0ae26ebb-97de-4f70-b51a-fa2731666130" x="-20" y="9" width="595" height="1" forecolor="#666666"/>
 			</band>
 		</groupFooter>
 	</group>
 	<group name="jiuser_username">
-		<groupExpression><![CDATA[$F{jiuser_username}]]></groupExpression>
+		<expression><![CDATA[$F{jiuser_username}]]></expression>
 		<groupHeader>
 			<band/>
 		</groupHeader>
@@ -185,88 +148,47 @@ order by jiresourcefolder_uri, jiresource_name, jirole_rolename desc, jiuser_use
 			<band/>
 		</groupFooter>
 	</group>
-	<background>
-		<band/>
-	</background>
-	<title>
-		<band height="60">
-			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="55" backcolor="#006699"/>
-				<textField>
-					<reportElement mode="Transparent" x="20" y="20" width="555" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF"/>
-					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" lineSpacing="Single" markup="none">
-						<font fontName="SansSerif" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA["Permissions By User and Role for Roles"]]></textFieldExpression>
-				</textField>
-			</frame>
-			<textField>
-				<reportElement x="0" y="40" width="309" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA["" + $P{RolesOfLoggedInUser}]]></textFieldExpression>
-			</textField>
-		</band>
+	<background/>
+	<title height="60">
+		<element kind="frame" uuid="97b454d1-5dd2-4495-b0e5-fa625eca2ad4" mode="Opaque" x="-20" y="-20" width="595" height="55" backcolor="#006699">
+			<element kind="textField" uuid="72bb3a97-f854-408a-bd01-ec9c73c37faa" mode="Transparent" x="20" y="20" width="555" height="20" forecolor="#FFFFFF" backcolor="#FFFFFF" rotation="None" markup="none" fontName="SansSerif" fontSize="14.0" pdfFontName="Helvetica" pdfEncoding="Cp1252" bold="true" underline="false" strikeThrough="false" italic="false" pdfEmbedded="false" hTextAlign="Center" vTextAlign="Top">
+				<paragraph lineSpacing="Single"/>
+				<expression><![CDATA["Permissions By User and Role for Roles"]]></expression>
+			</element>
+		</element>
+		<element kind="textField" uuid="7d6419d7-813b-42f9-886e-8436ca636d09" x="0" y="40" width="309" height="20">
+			<expression><![CDATA["" + $P{RolesOfLoggedInUser}]]></expression>
+		</element>
 	</title>
-	<pageHeader>
-		<band/>
-	</pageHeader>
-	<columnHeader>
-		<band height="21">
-			<line>
-				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666"/>
-			</line>
-			<staticText>
-				<reportElement mode="Opaque" x="431" y="0" width="119" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
-				<textElement>
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[permission]]></text>
-			</staticText>
-		</band>
+	<pageHeader/>
+	<columnHeader height="21">
+		<element kind="line" uuid="7dcdc2b3-b3b9-4365-ac39-299fef7c0a0c" x="-20" y="20" width="595" height="1" forecolor="#666666"/>
+		<element kind="staticText" uuid="633d2e14-9851-474d-9414-b7c9f3dbc7f4" mode="Opaque" x="431" y="0" width="119" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true">
+			<text><![CDATA[permission]]></text>
+		</element>
 	</columnHeader>
 	<detail>
 		<band height="20">
-			<textField isStretchWithOverflow="true">
-				<reportElement x="436" y="0" width="106" height="20">
-					<printWhenExpression><![CDATA[Boolean.valueOf($F{jirole_rolename} == null)]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{permission}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="100" y="0" width="187" height="19" forecolor="#006699"/>
-				<textElement>
-					<font size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{jiuser_username}]]></textFieldExpression>
-			</textField>
+			<element kind="textField" uuid="75594e48-9454-4e6a-9a3b-1b9af49772de" x="436" y="0" width="106" height="20" fontSize="10.0" textAdjust="StretchHeight">
+				<printWhenExpression><![CDATA[Boolean.valueOf($F{jirole_rolename} == null)]]></printWhenExpression>
+				<expression><![CDATA[$F{permission}]]></expression>
+			</element>
+			<element kind="textField" uuid="4a93c9f1-403e-4d3d-ba69-13dae09249dc" x="100" y="0" width="187" height="19" forecolor="#006699" fontSize="10.0" bold="true">
+				<expression><![CDATA[$F{jiuser_username}]]></expression>
+			</element>
 		</band>
 	</detail>
-	<columnFooter>
-		<band/>
-	</columnFooter>
-	<pageFooter>
-		<band height="17">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="0" y="4" width="100" height="13"/>
-				<textElement/>
-				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-		</band>
+	<columnFooter/>
+	<pageFooter height="17">
+		<element kind="textField" uuid="fed7d299-4806-41d9-8499-e3b1782ec8a9" mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" hTextAlign="Right">
+			<expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></expression>
+		</element>
+		<element kind="textField" uuid="eb30c1c4-6b7c-446f-9ec1-09ab48ba135d" mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" evaluationTime="Report">
+			<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="5d443944-d228-4ac1-ac31-b3ee972662c6" x="0" y="4" width="100" height="13" pattern="EEEEE dd MMMMM yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
 	</pageFooter>
-	<summary>
-		<band/>
-	</summary>
+	<summary/>
 </jasperReport>

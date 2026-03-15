@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,8 +25,8 @@ package com.jaspersoft.jasperserver.war.action;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.web.JRInteractiveException;
-import net.sf.jasperreports.web.actions.Action;
-import net.sf.jasperreports.web.actions.ActionException;
+import net.sf.jasperreports.interactivity.actions.Action;
+import net.sf.jasperreports.interactivity.actions.ActionException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

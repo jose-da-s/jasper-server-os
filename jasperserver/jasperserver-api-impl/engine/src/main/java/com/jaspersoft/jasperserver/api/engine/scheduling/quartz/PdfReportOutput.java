@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -35,7 +37,6 @@ import com.jaspersoft.jasperserver.api.engine.jasperreports.common.PdfExportPara
 import com.jaspersoft.jasperserver.api.metadata.common.domain.ContentResource;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.DataContainer;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -58,22 +59,13 @@ public class PdfReportOutput extends AbstractReportOutput
 	@Override
 	protected DataContainer export(ReportJobContext jobContext, JasperPrint jasperPrint,
 			Integer startPageIndex, Integer endPageIndex) {
-		Map params = new HashMap();
-		params.put(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		if (startPageIndex != null) {
-			params.put(JRExporterParameter.START_PAGE_INDEX, startPageIndex);
-			params.put(JRExporterParameter.END_PAGE_INDEX, endPageIndex);
-		}
-		
 		boolean close = true;
 		DataContainer pdfData = jobContext.createDataContainer(this);
 		OutputStream pdfDataOut = pdfData.getOutputStream();
 		
 		try {
-			params.put(JRExporterParameter.OUTPUT_STREAM, pdfDataOut);
-			
 			EngineService engineService = jobContext.getEngineService();
-			engineService.exportToPdf(jobContext.getExecutionContext(), jobContext.getReportUnitURI(), params);
+			engineService.exportToPdf(jobContext.getExecutionContext(), jobContext.getReportUnitURI(), jasperPrint, pdfDataOut, startPageIndex, endPageIndex, null, null, null);
 			
 			close = false;
 			pdfDataOut.close();

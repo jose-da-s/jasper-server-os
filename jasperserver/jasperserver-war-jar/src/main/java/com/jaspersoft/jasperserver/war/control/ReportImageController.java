@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -120,7 +122,7 @@ public class ReportImageController  implements Controller
 			Renderable renderer = image.getRenderer();
 			
 			Dimension dimension = new Dimension(image.getWidth(), image.getHeight());
-			Color backcolor = ModeEnum.OPAQUE == image.getModeValue() ? image.getBackcolor() : null;
+			Color backcolor = ModeEnum.OPAQUE == image.getMode() ? image.getBackcolor() : null;
 			
 			RendererUtil rendererUtil = RendererUtil.getInstance(getJasperReportsContext());
 			
@@ -132,7 +134,7 @@ public class ReportImageController  implements Controller
 			{
 				try
 				{
-					Renderable onErrorRenderer = rendererUtil.handleImageError(e, image.getOnErrorTypeValue());
+					Renderable onErrorRenderer = rendererUtil.handleImageError(e, image.getOnErrorType());
 					if (onErrorRenderer != null)
 					{
 						imageData = process(onErrorRenderer, dimension, backcolor);

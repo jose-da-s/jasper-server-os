@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -48,21 +50,21 @@ import com.jaspersoft.jasperserver.api.engine.export.HyperlinkProducerFactoryFlo
 import com.jaspersoft.jasperserver.war.util.JSExceptionUtils;
 import com.jaspersoft.jasperserver.war.util.SessionObjectSerieAccessor;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.GenericElementJsonHandler;
+import net.sf.jasperreports.json.export.GenericElementJsonHandler;
 import net.sf.jasperreports.engine.fill.JRFillInterruptedException;
 import net.sf.jasperreports.web.JRInteractiveException;
 import net.sf.jasperreports.web.JRInteractiveRuntimeException;
-import net.sf.jasperreports.web.WebReportContext;
-import net.sf.jasperreports.web.actions.AbstractAction;
-import net.sf.jasperreports.web.actions.Action;
-import net.sf.jasperreports.web.actions.MultiAction;
-import net.sf.jasperreports.web.commands.CommandStack;
+import net.sf.jasperreports.j2ee.web.WebReportContext;
+import net.sf.jasperreports.interactivity.actions.AbstractAction;
+import net.sf.jasperreports.interactivity.actions.Action;
+import net.sf.jasperreports.interactivity.actions.MultiAction;
+import net.sf.jasperreports.interactivity.commands.CommandStack;
 import net.sf.jasperreports.web.servlets.AsyncJasperPrintAccessor;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
 import net.sf.jasperreports.web.servlets.ReportExecutionStatus;
 import net.sf.jasperreports.web.servlets.ReportPageStatus;
-import net.sf.jasperreports.web.util.JacksonUtil;
-import net.sf.jasperreports.web.util.WebUtil;
+import net.sf.jasperreports.jackson.util.JacksonUtil;
+import net.sf.jasperreports.web.util.WebConstants;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
@@ -848,7 +850,7 @@ public class ViewReportAction extends ReportParametersAction
 	public Event initFlowScope(RequestContext context) {
 		getReportContextAccessor().initFlowScope(context);
         ReportContext reportContext = getReportContext(context);
-		reportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_REPORT_URI, getReportURI(context));
+		reportContext.setParameterValue(WebConstants.REQUEST_PARAMETER_REPORT_URI, getReportURI(context));
         reportContext.setParameterValue(GenericElementJsonHandler.PARAMETER_CLEAR_CONTEXT_CACHE, Boolean.TRUE);
 		return success();
 	}

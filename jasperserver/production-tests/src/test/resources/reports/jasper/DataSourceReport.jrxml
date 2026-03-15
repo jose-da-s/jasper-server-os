@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,168 +21,117 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DataSourceReport" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
-	<style name="Sans_Normal" isDefault="true" fontName="SansSerif" fontSize="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Sans_Bold" isDefault="false" fontName="SansSerif" fontSize="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
-	<style name="Sans_Italic" isDefault="false" fontName="SansSerif" fontSize="12" isBold="false" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="DataSourceReport" language="java" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="4509d89b-e73c-4d37-849b-2922bbdab836">
+	<style name="Sans_Normal" default="true" fontName="SansSerif" fontSize="12.0" bold="false" italic="false" underline="false" strikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" pdfEmbedded="false"/>
+	<style name="Sans_Bold" fontName="SansSerif" fontSize="12.0" bold="true" italic="false" underline="false" strikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1252" pdfEmbedded="false"/>
+	<style name="Sans_Italic" fontName="SansSerif" fontSize="12.0" bold="false" italic="true" underline="false" strikeThrough="false" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" pdfEmbedded="false"/>
 	<parameter name="ReportTitle" class="java.lang.String"/>
 	<parameter name="DataFile" class="java.lang.String"/>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="street" class="java.lang.String"/>
 	<field name="the_city" class="java.lang.String">
-		<fieldDescription><![CDATA[me.me.city]]></fieldDescription>
+		<description><![CDATA[me.me.city]]></description>
 	</field>
-	<variable name="CityNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
-		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+	<variable name="CityNumber" incrementType="Group" calculation="Count" incrementGroup="CityGroup" class="java.lang.Integer">
+		<expression><![CDATA[Boolean.TRUE]]></expression>
 	</variable>
 	<group name="CityGroup" minHeightToStartNewPage="60">
-		<groupExpression><![CDATA[$F{the_city}]]></groupExpression>
+		<expression><![CDATA[$F{the_city}]]></expression>
 		<groupHeader>
 			<band height="20" splitType="Stretch">
-				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="CityGroup" bookmarkLevel="1">
-					<reportElement style="Sans_Bold" mode="Opaque" x="0" y="4" width="515" height="16" backcolor="#C0C0C0"/>
-					<box leftPadding="10">
+				<element kind="textField" uuid="772814af-779d-4c0e-8b63-3b1aa843f1c0" mode="Opaque" x="0" y="4" width="515" height="16" backcolor="#C0C0C0" textAdjust="StretchHeight" evaluationTime="Group" evaluationGroup="CityGroup" bookmarkLevel="1" style="Sans_Bold">
+					<expression><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{the_city})]]></expression>
+					<anchorNameExpression><![CDATA[String.valueOf($F{the_city})]]></anchorNameExpression>
+					<box leftPadding="10" style="Sans_Bold">
 						<bottomPen lineWidth="1.0" lineStyle="Solid"/>
 					</box>
-					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA["  " + String.valueOf($V{CityNumber}) + ". " + String.valueOf($F{the_city})]]></textFieldExpression>
-					<anchorNameExpression><![CDATA[String.valueOf($F{the_city})]]></anchorNameExpression>
-				</textField>
+				</element>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="20" splitType="Stretch">
-				<staticText>
-					<reportElement style="Sans_Bold" x="400" y="1" width="60" height="16"/>
-					<textElement textAlignment="Right"/>
+				<element kind="staticText" uuid="4a713fe7-697d-4885-b9a0-4747e5033914" x="400" y="1" width="60" height="16" hTextAlign="Right" style="Sans_Bold">
 					<text><![CDATA[Count :]]></text>
-				</staticText>
-				<textField>
-					<reportElement style="Sans_Bold" x="460" y="1" width="42" height="16"/>
-					<textElement textAlignment="Right"/>
-					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{CityGroup_COUNT}]]></textFieldExpression>
-				</textField>
+				</element>
+				<element kind="textField" uuid="49d63677-40e7-4617-aafb-931dfffa53ed" x="460" y="1" width="42" height="16" hTextAlign="Right" style="Sans_Bold">
+					<expression><![CDATA[$V{CityGroup_COUNT}]]></expression>
+				</element>
 			</band>
 		</groupFooter>
 	</group>
-	<title>
-		<band height="70" splitType="Stretch">
-			<line>
-				<reportElement x="0" y="0" width="515" height="1"/>
-			</line>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true" bookmarkLevel="1">
-				<reportElement style="Sans_Normal" x="0" y="10" width="515" height="30"/>
-				<textElement textAlignment="Center">
-					<font size="22"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Sans_Normal" x="0" y="40" width="515" height="20"/>
-				<textElement textAlignment="Center">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{DataFile}]]></textFieldExpression>
-			</textField>
-		</band>
+	<title height="70" splitType="Stretch">
+		<element kind="line" uuid="e656483f-4962-488f-a187-34e9bf3c1653" x="0" y="0" width="515" height="1"/>
+		<element kind="textField" uuid="de7b8e9a-749d-4ef0-b1d7-4926e2b90b11" x="0" y="10" width="515" height="30" fontSize="22.0" textAdjust="StretchHeight" bookmarkLevel="1" blankWhenNull="true" hTextAlign="Center" style="Sans_Normal">
+			<expression><![CDATA[$P{ReportTitle}]]></expression>
+			<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
+		</element>
+		<element kind="textField" uuid="29f2a555-8ae1-4c10-9231-6c9053fb3199" x="0" y="40" width="515" height="20" fontSize="14.0" textAdjust="StretchHeight" blankWhenNull="true" hTextAlign="Center" style="Sans_Normal">
+			<expression><![CDATA[$P{DataFile}]]></expression>
+		</element>
 	</title>
-	<pageHeader>
-		<band height="20" splitType="Stretch">
-			<rectangle>
-				<reportElement x="0" y="4" width="515" height="16" forecolor="#333333" backcolor="#333333"/>
-			</rectangle>
-			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="0" y="4" width="55" height="16" forecolor="#FFFFFF" backcolor="#333333"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[ID]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="55" y="4" width="205" height="16" forecolor="#FFFFFF" backcolor="#333333"/>
-				<textElement/>
-				<text><![CDATA[Name]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Sans_Bold" mode="Opaque" x="260" y="4" width="255" height="16" forecolor="#FFFFFF" backcolor="#333333"/>
-				<textElement/>
-				<text><![CDATA[Street]]></text>
-			</staticText>
-		</band>
+	<pageHeader height="20" splitType="Stretch">
+		<element kind="rectangle" uuid="9d325c41-ea5b-4337-8eb3-24c963967412" x="0" y="4" width="515" height="16" forecolor="#333333" backcolor="#333333"/>
+		<element kind="staticText" uuid="e8759f39-da5c-42f6-b9d1-521332800231" mode="Opaque" x="0" y="4" width="55" height="16" forecolor="#FFFFFF" backcolor="#333333" hTextAlign="Center" style="Sans_Bold">
+			<text><![CDATA[ID]]></text>
+		</element>
+		<element kind="staticText" uuid="56bdcfc4-078c-4231-8746-8493bf825278" mode="Opaque" x="55" y="4" width="205" height="16" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
+			<text><![CDATA[Name]]></text>
+		</element>
+		<element kind="staticText" uuid="eb586847-094e-4228-a836-fba462c887d8" mode="Opaque" x="260" y="4" width="255" height="16" forecolor="#FFFFFF" backcolor="#333333" style="Sans_Bold">
+			<text><![CDATA[Street]]></text>
+		</element>
 	</pageHeader>
 	<detail>
 		<band height="16" splitType="Stretch">
-			<textField isStretchWithOverflow="true" bookmarkLevel="2">
-				<reportElement x="0" y="0" width="50" height="16"/>
-				<box leftPadding="10" rightPadding="10">
-					<leftPen lineWidth="0.5" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
-				</box>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{id}]]></textFieldExpression>
+			<element kind="textField" uuid="8c3cb1d4-127c-4729-a476-2ef57e31d444" x="0" y="0" width="50" height="16" textAdjust="StretchHeight" bookmarkLevel="2" hTextAlign="Right">
+				<expression><![CDATA[$F{id}]]></expression>
 				<anchorNameExpression><![CDATA[$F{name} + " (" + $F{id} + ")"]]></anchorNameExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="50" y="0" width="200" height="16"/>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{name}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="250" y="0" width="265" height="16"/>
+			</element>
+			<element kind="textField" uuid="c46704da-7fa7-40b5-9416-06364f591e7c" positionType="Float" x="50" y="0" width="200" height="16" textAdjust="StretchHeight">
+				<expression><![CDATA[$F{name}]]></expression>
+				<box leftPadding="10" rightPadding="10">
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="1b2eff78-bf0f-4b16-8cc4-54e02297099b" positionType="Float" x="250" y="0" width="265" height="16" textAdjust="StretchHeight">
+				<expression><![CDATA[$F{street}]]></expression>
 				<box leftPadding="10" rightPadding="10">
 					<leftPen lineWidth="0.5" lineStyle="Solid"/>
 					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
 					<rightPen lineWidth="0.5" lineStyle="Solid"/>
 				</box>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{street}]]></textFieldExpression>
-			</textField>
+			</element>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="40" splitType="Stretch">
-			<line>
-				<reportElement x="0" y="10" width="515" height="1"/>
-			</line>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="200" y="20" width="80" height="16"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" evaluationTime="Report">
-				<reportElement x="280" y="20" width="75" height="16"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
-			</textField>
-		</band>
+	<pageFooter height="40" splitType="Stretch">
+		<element kind="line" uuid="cb7e376c-2ff2-48a3-8fe6-88bf78a93fc3" x="0" y="10" width="515" height="1"/>
+		<element kind="textField" uuid="c2446391-d1a5-46a5-a601-c27b9872bbcf" x="200" y="20" width="80" height="16" textAdjust="StretchHeight" hTextAlign="Right">
+			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
+		</element>
+		<element kind="textField" uuid="6bd9d3da-9d33-46b7-aef0-4bdbfe29249d" x="280" y="20" width="75" height="16" textAdjust="StretchHeight" evaluationTime="Report">
+			<expression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></expression>
+		</element>
 	</pageFooter>
-	<lastPageFooter>
-		<band height="60" splitType="Stretch">
-			<textField isStretchWithOverflow="true" bookmarkLevel="1">
-				<reportElement x="0" y="10" width="515" height="16"/>
-				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["There were " + 
+	<lastPageFooter height="60" splitType="Stretch">
+		<element kind="textField" uuid="64a6a4c9-3a8b-4bc2-bc82-da4d53c92330" x="0" y="10" width="515" height="16" textAdjust="StretchHeight" bookmarkLevel="1" hTextAlign="Center">
+			<expression><![CDATA["There were " + 
 					String.valueOf($V{REPORT_COUNT}) + 
-					" address records on this report."]]></textFieldExpression>
-				<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
-			</textField>
-			<line>
-				<reportElement x="0" y="30" width="515" height="1"/>
-			</line>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="200" y="40" width="80" height="16"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" evaluationTime="Report">
-				<reportElement x="280" y="40" width="75" height="16"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
-			</textField>
-		</band>
+					" address records on this report."]]></expression>
+			<anchorNameExpression><![CDATA["Summary"]]></anchorNameExpression>
+		</element>
+		<element kind="line" uuid="6442b8a4-1d61-4823-b287-49c6caf6f05e" x="0" y="30" width="515" height="1"/>
+		<element kind="textField" uuid="5a56be87-fd9f-45b1-bbc8-e991d1bbd2f0" x="200" y="40" width="80" height="16" textAdjust="StretchHeight" hTextAlign="Right">
+			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
+		</element>
+		<element kind="textField" uuid="99eb8c3a-1f3a-4774-976c-69a846f8decd" x="280" y="40" width="75" height="16" textAdjust="StretchHeight" evaluationTime="Report">
+			<expression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></expression>
+		</element>
 	</lastPageFooter>
 </jasperReport>

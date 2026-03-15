@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,26 +21,20 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<!-- Created with Jaspersoft Studio -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AllAccounts" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" isSummaryWithPageHeaderAndFooter="true">
-	<!-- fixmejive
-	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
-	-->
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="AllAccounts" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="2a72cfd8-c2f3-4d4f-a66f-7be296f03ab1" summaryWithPageHeaderAndFooter="true">
 	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
-	<style name="Sans_Normal" isDefault="true" fontName="DejaVu Sans" fontSize="12"/>
-	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12" isBold="true"/>
-	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12" isItalic="true"/>
+	<style name="Sans_Normal" default="true" fontName="DejaVu Sans" fontSize="12.0"/>
+	<style name="Sans_Bold" fontName="DejaVu Sans" fontSize="12.0" bold="true"/>
+	<style name="Sans_Italic" fontName="DejaVu Sans" fontSize="12.0" italic="true"/>
 	<style name="PageHeader" style="Sans_Bold" forecolor="#FFFFFF" backcolor="#333333"/>
-	<style name="detail" fontName="DejaVu Sans" fontSize="12">
-		<conditionalStyle>
+	<style name="detail" fontName="DejaVu Sans" fontSize="12.0">
+		<conditionalStyle mode="Opaque" backcolor="#E0E0E0">
 			<conditionExpression><![CDATA[new Boolean($V{CityGroup_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
-			<style mode="Opaque" backcolor="#E0E0E0"/>
 		</conditionalStyle>
 	</style>
-	<subDataset name="Table Dataset 1">
-		<queryString>
-			<![CDATA[SELECT name, phone_office, billing_address_city, billing_address_street, billing_address_country FROM accounts ORDER BY billing_address_country, billing_address_city]]>
-		</queryString>
+	<dataset name="Table Dataset 1" uuid="21654222-273c-4323-ab37-ef0e468a1a03">
+		<query language="sql"><![CDATA[SELECT name, phone_office, billing_address_city, billing_address_street, billing_address_country FROM accounts ORDER BY billing_address_country, billing_address_city]]></query>
 		<field name="name" class="java.lang.String"/>
 		<field name="phone_office" class="java.lang.String"/>
 		<field name="billing_address_city" class="java.lang.String"/>
@@ -47,184 +42,136 @@
 		<field name="billing_address_country" class="java.lang.String"/>
 		<sortField name="billing_address_country"/>
 		<sortField name="billing_address_city"/>
-		<variable name="CityyNumber" class="java.lang.Integer" incrementType="Group" incrementGroup="CityGroup" calculation="Count">
-			<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+		<variable name="CityyNumber" incrementType="Group" calculation="Count" incrementGroup="CityGroup" class="java.lang.Integer">
+			<expression><![CDATA[Boolean.TRUE]]></expression>
 			<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
 		</variable>
 		<group name="CityGroup">
-			<groupExpression><![CDATA[$F{billing_address_city}]]></groupExpression>
+			<expression><![CDATA[$F{billing_address_city}]]></expression>
 		</group>
-	</subDataset>
-	<title>
-		<band height="75" splitType="Stretch">
-			<image scaleImage="Clip" hAlign="Right" onErrorType="Icon">
-				<reportElement x="365" y="0" width="150" height="26"/>
-				<imageExpression><![CDATA["repo:/images/JRLogo"]]></imageExpression>
-				<hyperlinkTooltipExpression><![CDATA["JasperReports Logo"]]></hyperlinkTooltipExpression>
-			</image>
-			<line>
-				<reportElement x="0" y="27" width="515" height="1" forecolor="#000000"/>
-			</line>
-			<textField isBlankWhenNull="true">
-				<reportElement style="Sans_Normal" x="0" y="35" width="515" height="30"/>
-				<textElement textAlignment="Center">
-					<font size="22"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Accounts"]]></textFieldExpression>
-			</textField>
-		</band>
+	</dataset>
+	<title height="75" splitType="Stretch">
+		<element kind="image" uuid="7c59583a-a140-4f9c-bb15-483da65ccb56" x="365" y="0" width="150" height="26" scaleImage="Clip" onErrorType="Icon" hImageAlign="Right">
+			<expression><![CDATA["repo:/images/JRLogo"]]></expression>
+			<hyperlinkTooltipExpression><![CDATA["JasperReports Logo"]]></hyperlinkTooltipExpression>
+		</element>
+		<element kind="line" uuid="5ecfb17c-de81-48a0-a656-902d0fa7b793" x="0" y="27" width="515" height="1" forecolor="#000000"/>
+		<element kind="textField" uuid="6c94686d-740d-4431-8e2c-20d524dcbbe2" x="0" y="35" width="515" height="30" fontSize="22.0" blankWhenNull="true" hTextAlign="Center" style="Sans_Normal">
+			<expression><![CDATA["Accounts"]]></expression>
+		</element>
 	</title>
-	<pageFooter>
-		<band height="40">
-			<line>
-				<reportElement x="0" y="10" width="515" height="1">
-					<property name="net.sf.jasperreports.export.pdf.tag.table" value="end"/>
-				</reportElement>
-			</line>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="200" y="20" width="80" height="16"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" evaluationTime="Report">
-				<reportElement x="280" y="20" width="75" height="16"/>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
-			</textField>
-		</band>
+	<pageFooter height="40">
+		<element kind="line" uuid="6efc9f4c-f98b-4f24-a5cd-9e7cee74a352" x="0" y="10" width="515" height="1">
+			<property name="net.sf.jasperreports.export.pdf.tag.table" value="end"/>
+		</element>
+		<element kind="textField" uuid="b283da31-24f3-4d0b-8734-36e82787ac2d" x="200" y="20" width="80" height="16" textAdjust="StretchHeight" hTextAlign="Right">
+			<expression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></expression>
+		</element>
+		<element kind="textField" uuid="28648798-6ea9-4b5e-83e2-12924e1587fb" x="280" y="20" width="75" height="16" textAdjust="StretchHeight" evaluationTime="Report" hTextAlign="Left">
+			<expression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></expression>
+		</element>
 	</pageFooter>
-	<summary>
-		<band height="149" splitType="Stretch">
-			<image scaleImage="Clip" hAlign="Right" vAlign="Middle" onErrorType="Icon">
-				<reportElement positionType="Float" x="0" y="71" width="250" height="70"/>
-				<imageExpression><![CDATA["repo:LogoLink"]]></imageExpression>
-				<hyperlinkTooltipExpression><![CDATA["JasperReports Logo"]]></hyperlinkTooltipExpression>
-			</image>
-			<image scaleImage="Clip" hAlign="Right" vAlign="Middle" onErrorType="Icon">
-				<reportElement positionType="Float" x="265" y="71" width="250" height="70"/>
-				<imageExpression><![CDATA["repo:AllAccounts_Res2"]]></imageExpression>
-				<hyperlinkTooltipExpression><![CDATA["Jaspersoft Logo"]]></hyperlinkTooltipExpression>
-			</image>
-			<componentElement>
-				<reportElement key="table" x="0" y="0" width="515" height="70"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
-					<datasetRun subDataset="Table Dataset 1">
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					</datasetRun>
-					<jr:columnGroup width="515">
-						<jr:groupHeader groupName="CityGroup">
-							<jr:cell height="30" rowSpan="1">
-								<textField isStretchWithOverflow="true">
-									<reportElement style="Sans_Bold" positionType="Float" stretchType="NoStretch" mode="Opaque" x="0" y="14" width="515" height="16" isPrintWhenDetailOverflows="true" backcolor="#C0C0C0"/>
-									<box leftPadding="0" bottomPadding="0" rightPadding="0">
-										<bottomPen lineWidth="1.0" lineStyle="Solid"/>
-									</box>
-									<textElement textAlignment="Left"/>
-									<textFieldExpression><![CDATA["  " + String.valueOf($V{CityyNumber}.intValue() + 1) + ". " + $F{billing_address_city}+ ", " + $F{billing_address_country}]]></textFieldExpression>
-									<anchorNameExpression><![CDATA[String.valueOf($F{billing_address_city})]]></anchorNameExpression>
-								</textField>
-							</jr:cell>
-						</jr:groupHeader>
-						<jr:column width="30">
-							<jr:columnHeader height="20" rowSpan="1">
-								<textField isStretchWithOverflow="true">
-									<reportElement style="PageHeader" positionType="Float" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="4" width="30" height="16" isPrintWhenDetailOverflows="true">
-										<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
-										<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="1"/>
-									</reportElement>
-									<textElement/>
-									<textFieldExpression><![CDATA[" "]]></textFieldExpression>
-								</textField>
-							</jr:columnHeader>
-							<jr:detailCell height="20" rowSpan="1">
-								<textField>
-									<reportElement style="detail" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="30" height="20" isPrintWhenDetailOverflows="true">
-										<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-									</reportElement>
-									<box topPadding="4" leftPadding="0" bottomPadding="0" rightPadding="10">
-										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#808080"/>
-									</box>
-									<textElement textAlignment="Right"/>
-									<textFieldExpression><![CDATA[$V{CityGroup_COUNT}+"."]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="240">
-							<jr:columnHeader height="20" rowSpan="1">
-								<textField isStretchWithOverflow="true">
-									<reportElement style="PageHeader" positionType="Float" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="4" width="240" height="16" isPrintWhenDetailOverflows="true">
-										<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
-										<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
-									</reportElement>
-									<box leftPadding="0" bottomPadding="0" rightPadding="0"/>
-									<textElement/>
-									<textFieldExpression><![CDATA["Name"]]></textFieldExpression>
-								</textField>
-							</jr:columnHeader>
-							<jr:detailCell style="detail" height="20" rowSpan="1">
-								<textField isStretchWithOverflow="true">
-									<reportElement style="detail" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="240" height="20" isPrintWhenDetailOverflows="true">
-										<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-									</reportElement>
-									<box topPadding="4" leftPadding="0" bottomPadding="0" rightPadding="5">
-										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#808080"/>
-									</box>
-									<textElement/>
-									<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="100">
-							<jr:columnHeader height="20" rowSpan="1">
-								<textField isStretchWithOverflow="true">
-									<reportElement style="PageHeader" positionType="Float" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="4" width="100" height="16" isPrintWhenDetailOverflows="true">
-										<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
-									</reportElement>
-									<box leftPadding="10" bottomPadding="0" rightPadding="0"/>
-									<textElement/>
-									<textFieldExpression><![CDATA["Phone"]]></textFieldExpression>
-								</textField>
-							</jr:columnHeader>
-							<jr:detailCell height="20" rowSpan="1">
-								<textField isStretchWithOverflow="true">
-									<reportElement style="detail" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="100" height="20" isPrintWhenDetailOverflows="true">
-										<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-									</reportElement>
-									<box topPadding="4" leftPadding="0" bottomPadding="0" rightPadding="5">
-										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#808080"/>
-									</box>
-									<textElement/>
-									<textFieldExpression><![CDATA[$F{phone_office}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-						<jr:column width="145">
-							<jr:columnHeader height="20" rowSpan="1">
-								<textField isStretchWithOverflow="true">
-									<reportElement style="PageHeader" positionType="Float" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="4" width="145" height="16" isPrintWhenDetailOverflows="true">
-										<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
-									</reportElement>
-									<box leftPadding="0" bottomPadding="0" rightPadding="0"/>
-									<textElement/>
-									<textFieldExpression><![CDATA["Address"]]></textFieldExpression>
-								</textField>
-							</jr:columnHeader>
-							<jr:detailCell height="20" rowSpan="1">
-								<textField isStretchWithOverflow="true">
-									<reportElement style="detail" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="145" height="20" isPrintWhenDetailOverflows="true">
-										<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
-									</reportElement>
-									<box topPadding="4" leftPadding="0" bottomPadding="0" rightPadding="0">
-										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#808080"/>
-									</box>
-									<textElement/>
-									<textFieldExpression><![CDATA[$F{billing_address_street}]]></textFieldExpression>
-								</textField>
-							</jr:detailCell>
-						</jr:column>
-					</jr:columnGroup>
-				</jr:table>
-			</componentElement>
-		</band>
+	<summary height="149" splitType="Stretch">
+		<element kind="image" uuid="1fcfed35-bf02-4ebb-889b-cd317263b166" positionType="Float" x="0" y="71" width="250" height="70" scaleImage="Clip" onErrorType="Icon" hImageAlign="Right" vImageAlign="Middle">
+			<expression><![CDATA["repo:LogoLink"]]></expression>
+			<hyperlinkTooltipExpression><![CDATA["JasperReports Logo"]]></hyperlinkTooltipExpression>
+		</element>
+		<element kind="image" uuid="d6e94e5e-9b7f-49fb-9358-6cfb1a6f349f" positionType="Float" x="265" y="71" width="250" height="70" scaleImage="Clip" onErrorType="Icon" hImageAlign="Right" vImageAlign="Middle">
+			<expression><![CDATA["repo:AllAccounts_Res2"]]></expression>
+			<hyperlinkTooltipExpression><![CDATA["Jaspersoft Logo"]]></hyperlinkTooltipExpression>
+		</element>
+		<element kind="component" uuid="2b63b66b-2fcd-4213-b813-e482c66094e9" key="table" x="0" y="0" width="515" height="70">
+			<component kind="table" whenNoDataType="AllSectionsNoDetail">
+				<datasetRun uuid="775d5384-f589-4128-876f-3732f99881c8" subDataset="Table Dataset 1">
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				</datasetRun>
+				<column kind="group" uuid="ba6acd2b-af0f-4cd9-af77-25f8edb42ed5" width="515">
+					<groupHeader groupName="CityGroup">
+						<cell height="30" rowSpan="1">
+							<element kind="textField" uuid="e8ee0c15-2527-4bd0-a3a9-bf64e064ddd4" positionType="Float" mode="Opaque" x="0" y="14" width="515" height="16" backcolor="#C0C0C0" textAdjust="StretchHeight" printWhenDetailOverflows="true" hTextAlign="Left" style="Sans_Bold">
+								<expression><![CDATA["  " + String.valueOf($V{CityyNumber}.intValue() + 1) + ". " + $F{billing_address_city}+ ", " + $F{billing_address_country}]]></expression>
+								<anchorNameExpression><![CDATA[String.valueOf($F{billing_address_city})]]></anchorNameExpression>
+								<box leftPadding="0" bottomPadding="0" rightPadding="0" style="Sans_Bold">
+									<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+								</box>
+							</element>
+						</cell>
+					</groupHeader>
+					<column kind="single" uuid="008a6ab8-b96e-472a-bd48-e2dac115ce59" width="30">
+						<columnHeader height="20" rowSpan="1">
+							<element kind="textField" uuid="28479a35-6b4d-4c50-8786-495a8b83d825" positionType="Float" stretchType="ContainerHeight" mode="Opaque" x="0" y="4" width="30" height="16" textAdjust="StretchHeight" printWhenDetailOverflows="true" style="PageHeader">
+								<expression><![CDATA[" "]]></expression>
+								<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+								<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="1"/>
+							</element>
+						</columnHeader>
+						<detailCell height="20" rowSpan="1">
+							<element kind="textField" uuid="f5fb55c3-8fb4-4f5c-982e-04d618d0a2d3" positionType="Float" stretchType="ContainerHeight" x="0" y="0" width="30" height="20" printWhenDetailOverflows="true" hTextAlign="Right" style="detail">
+								<expression><![CDATA[$V{CityGroup_COUNT}+"."]]></expression>
+								<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+								<box topPadding="4" leftPadding="0" bottomPadding="0" rightPadding="10" style="detail">
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#808080"/>
+								</box>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="a145933d-d4b1-419b-b0c4-2c6fd0ce8566" width="240">
+						<columnHeader height="20" rowSpan="1">
+							<element kind="textField" uuid="8fefac3a-1927-414d-9ae1-940c9c633eae" positionType="Float" stretchType="ContainerHeight" mode="Opaque" x="0" y="4" width="240" height="16" textAdjust="StretchHeight" printWhenDetailOverflows="true" style="PageHeader">
+								<expression><![CDATA["Name"]]></expression>
+								<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+								<property name="net.sf.jasperreports.export.pdf.tag.colspan" value="2"/>
+								<box leftPadding="0" bottomPadding="0" rightPadding="0" style="PageHeader"/>
+							</element>
+						</columnHeader>
+						<detailCell height="20" rowSpan="1" style="detail">
+							<element kind="textField" uuid="95a3858b-2ab1-4d0c-a613-a5163fe5d0b4" positionType="Float" stretchType="ContainerHeight" x="0" y="0" width="240" height="20" textAdjust="StretchHeight" printWhenDetailOverflows="true" style="detail">
+								<expression><![CDATA[$F{name}]]></expression>
+								<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+								<box topPadding="4" leftPadding="0" bottomPadding="0" rightPadding="5" style="detail">
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#808080"/>
+								</box>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="25604dbd-deeb-437c-80ca-ad75ebfae803" width="100">
+						<columnHeader height="20" rowSpan="1">
+							<element kind="textField" uuid="dcbed12f-2ee7-43b5-95ef-41f3d172a8b1" positionType="Float" stretchType="ContainerHeight" mode="Opaque" x="0" y="4" width="100" height="16" textAdjust="StretchHeight" printWhenDetailOverflows="true" style="PageHeader">
+								<expression><![CDATA["Phone"]]></expression>
+								<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+								<box leftPadding="10" bottomPadding="0" rightPadding="0" style="PageHeader"/>
+							</element>
+						</columnHeader>
+						<detailCell height="20" rowSpan="1">
+							<element kind="textField" uuid="df6748b2-e9e2-4256-8f9e-ea307ee32929" positionType="Float" stretchType="ContainerHeight" x="0" y="0" width="100" height="20" textAdjust="StretchHeight" printWhenDetailOverflows="true" style="detail">
+								<expression><![CDATA[$F{phone_office}]]></expression>
+								<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+								<box topPadding="4" leftPadding="0" bottomPadding="0" rightPadding="5" style="detail">
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#808080"/>
+								</box>
+							</element>
+						</detailCell>
+					</column>
+					<column kind="single" uuid="45a348f3-004c-4122-a297-dfcfe1a0c106" width="145">
+						<columnHeader height="20" rowSpan="1">
+							<element kind="textField" uuid="b146f184-2f53-4d21-ba46-15bbdc8a140e" positionType="Float" stretchType="ContainerHeight" mode="Opaque" x="0" y="4" width="145" height="16" textAdjust="StretchHeight" printWhenDetailOverflows="true" style="PageHeader">
+								<expression><![CDATA["Address"]]></expression>
+								<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+								<box leftPadding="0" bottomPadding="0" rightPadding="0" style="PageHeader"/>
+							</element>
+						</columnHeader>
+						<detailCell height="20" rowSpan="1">
+							<element kind="textField" uuid="f86c5852-102a-4f1d-9096-25fe1b83b6c8" positionType="Float" stretchType="ContainerHeight" x="0" y="0" width="145" height="20" textAdjust="StretchHeight" printWhenDetailOverflows="true" style="detail">
+								<expression><![CDATA[$F{billing_address_street}]]></expression>
+								<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+								<box topPadding="4" leftPadding="0" bottomPadding="0" rightPadding="0" style="detail">
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#808080"/>
+								</box>
+							</element>
+						</detailCell>
+					</column>
+				</column>
+			</component>
+		</element>
 	</summary>
 </jasperReport>

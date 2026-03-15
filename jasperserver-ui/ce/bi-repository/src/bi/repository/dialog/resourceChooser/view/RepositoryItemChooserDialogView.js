@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -64,9 +66,6 @@ function cssClassItemProcessor(item) {
         break;
     case repositoryResourceTypes.ADHOC_DATA_VIEW:
         item.cssClass = 'adhocDataView';
-        break;
-    case repositoryResourceTypes.OLAP_CUBE:
-        item.cssClass = 'olap';
         break;
     default:
         item.cssClass = 'adhocDataView';

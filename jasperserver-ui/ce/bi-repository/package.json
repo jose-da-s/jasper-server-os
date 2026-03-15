@@ -1,6 +1,6 @@
 {
   "name": "bi-repository",
-  "version": "8.4.0",
+  "version": "9.0.0",
   "private": true,
   "license": "AGPLv3",
   "scripts": {
@@ -46,7 +46,7 @@
     "jquery.selection": "git+ssh://git@git.jaspersoft.com:js-eng-all/jquery.selection#1.0.1-npm-package",
     "jquery.urldecoder": "git+ssh://git@git.jaspersoft.com:js-eng-all/jquery.urldecoder#0.0.1-npm-package",
     "jqueryui-timepicker-addon": "git+ssh://git@git.jaspersoft.com:js-eng-all/jQuery-Timepicker-Addon#1.6.3",
-    "js-sdk": "8.4.0",
+    "js-sdk": "9.0.0",
     "jss": "10.5.1",
     "jss-plugin-camel-case": "10.5.1",
     "jss-plugin-default-unit": "10.5.1",

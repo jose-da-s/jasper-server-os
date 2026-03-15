@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,7 +28,7 @@ import com.jaspersoft.jasperserver.api.metadata.common.domain.Resource;
 import com.jaspersoft.jasperserver.api.metadata.common.service.RepositoryService;
 import com.jaspersoft.jasperserver.api.metadata.xml.domain.impl.ResourceDescriptor;
 import com.jaspersoft.jasperserver.remote.utils.RepositoryHelper;
-import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.export.Exporter;
 
 import java.util.List;
 import java.util.Locale;
@@ -66,7 +68,7 @@ public interface RepositoryRemoteServiceContext {
 
     String delete(String requestXmlString);
 
-    JRExporter getExporter(String type, Map exportParameters);
+    Exporter getExporter(String type, Map exportParameters);
 
     String getContentType(String type);
 

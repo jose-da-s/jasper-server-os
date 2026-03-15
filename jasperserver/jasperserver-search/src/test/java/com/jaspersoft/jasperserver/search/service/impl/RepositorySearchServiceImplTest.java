@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -198,7 +200,7 @@ public class RepositorySearchServiceImplTest {
         Map<DiagnosticAttribute, DiagnosticCallback> resultDiagnosticData = repositorySearchService.getDiagnosticData();
 
         // Testing total size of diagnostic attributes collected from SessionRegistryDiagnosticService
-        assertEquals(5, resultDiagnosticData.size());
+        assertEquals(4, resultDiagnosticData.size());
 
         doReturn(30).when(repositoryService).getResourcesCount(eq(executionContext), eq(factory), eq(allFiltersList), nullable(SearchSorter.class), eq(transformerFactory));
 
@@ -225,13 +227,6 @@ public class RepositorySearchServiceImplTest {
         // Refresh getResourceCount for repository service mock
         reset(repositoryService);
         doReturn(50).when(repositoryService).getResourcesCount(eq(executionContext), eq(factory), eq(allFiltersList), nullable(SearchSorter.class), eq(transformerFactory));
-
-        // Test getting total olap views count
-        int totalOlapViewCount = (Integer) resultDiagnosticData.
-                get(new DiagnosticAttributeImpl(DiagnosticAttributeBuilder.TOTAL_OLAP_VIEWS_COUNT, null, null)).getDiagnosticAttributeValue();
-
-        verify(filterOptionToResourceTypes).get("resourceTypeFilter-view");
-        assertEquals(50, totalOlapViewCount);
 
         //Refresh getResourceCount for repository service mock
         reset(repositoryService);

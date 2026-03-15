@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -31,17 +33,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;
 
-import com.jaspersoft.jasperserver.api.common.domain.ExecutionContext;
-import com.jaspersoft.jasperserver.api.common.domain.impl.ExecutionContextImpl;
-import com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl.ReportLoadingService;
-import com.jaspersoft.jasperserver.api.metadata.common.domain.Resource;
-import com.jaspersoft.jasperserver.api.metadata.common.domain.ResourceReference;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.AbstractHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
-import net.sf.jasperreports.engine.export.JsonExporter;
+import net.sf.jasperreports.json.export.JsonExporter;
 import net.sf.jasperreports.engine.export.type.ZoomTypeEnum;
 import net.sf.jasperreports.export.HtmlExporterConfiguration;
 import net.sf.jasperreports.export.HtmlReportConfiguration;
@@ -49,13 +46,13 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
-import net.sf.jasperreports.web.actions.SaveZoomCommand;
+import net.sf.jasperreports.interactivity.actions.SaveZoomCommand;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
 import net.sf.jasperreports.web.servlets.ReportExecutionStatus;
 import net.sf.jasperreports.web.servlets.ReportPageStatus;
-import net.sf.jasperreports.web.util.JacksonUtil;
+import net.sf.jasperreports.jackson.util.JacksonUtil;
+import net.sf.jasperreports.web.util.WebConstants;
 import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
-import net.sf.jasperreports.web.util.WebUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -229,7 +226,8 @@ public class JasperViewerTag extends RequestContextAwareTag
 				request.setAttribute("exporter", exporter);
 
                 JsonExporter jsonExporter = null;
-                boolean isComponentMetadataEmbedded = WebUtil.getInstance(jasperReportsContext).isComponentMetadataEmbedded();
+                boolean isComponentMetadataEmbedded = JRPropertiesUtil.getInstance(jasperReportsContext)
+                        .getBooleanProperty(WebConstants.PROPERTY_EMBED_COMPONENT_METADATA, false);
                 if (isComponentMetadataEmbedded) {
                     jsonExporter = new JsonExporter(jasperReportsContext);
                     jsonExporter.setReportContext(webflowReportContext);

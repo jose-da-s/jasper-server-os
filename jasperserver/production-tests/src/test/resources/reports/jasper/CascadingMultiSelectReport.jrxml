@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,13 +21,14 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cascading_multi_select_report" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="Cascading_multi_select_report" language="java" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="38508a70-ea17-41f0-accf-f34d07867fd9">
 	<property name="ireport.jasperserver.reportUnit" value="/reports/samples/Cascading_multi_select_report"/>
 	<property name="ireport.jasperserver.url" value="http://50.17.167.193:8080/jasperserver-pro/services/repository"/>
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<import value="java.util.*"/>
+	<import>java.util.*</import>
 	<parameter name="Country_multi_select" class="java.util.Collection">
 		<defaultValueExpression><![CDATA[new ArrayList(Arrays.asList(new String[] {"USA"}))]]></defaultValueExpression>
 	</parameter>
@@ -36,257 +38,208 @@
 	<parameter name="Cascading_name_single_select" class="java.lang.String">
 		<defaultValueExpression><![CDATA["Alcorn-Miller Transportation Holdings"]]></defaultValueExpression>
 	</parameter>
-	<queryString>
-		<![CDATA[SELECT * FROM accounts
+	<query language="sql"><![CDATA[SELECT * FROM accounts
 WHERE $X{IN, billing_address_state, Cascading_state_multi_select}
 AND $X{IN, billing_address_country, Country_multi_select}
-ORDER BY billing_address_country, billing_address_state, name]]>
-	</queryString>
+ORDER BY billing_address_country, billing_address_state, name]]></query>
 	<field name="id" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="date_entered" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="date_modified" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="modified_user_id" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="assigned_user_id" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="created_by" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="name" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="parent_id" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="account_type" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="industry" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="annual_revenue" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="phone_fax" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="billing_address_street" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="billing_address_city" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="billing_address_state" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="billing_address_postalcode" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="billing_address_country" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="description" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="rating" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="phone_office" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="phone_alternate" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="email1" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="email2" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="website" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="ownership" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="employees" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="sic_code" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="ticker_symbol" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="shipping_address_street" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="shipping_address_city" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="shipping_address_state" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="shipping_address_postalcode" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="shipping_address_country" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="deleted" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<group name="Country" minHeightToStartNewPage="60">
-		<groupExpression><![CDATA[$F{billing_address_country}]]></groupExpression>
+		<expression><![CDATA[$F{billing_address_country}]]></expression>
 		<groupHeader>
 			<band height="20">
-				<textField>
-					<reportElement x="0" y="0" width="802" height="20"/>
-					<textElement/>
-					<textFieldExpression><![CDATA[$F{billing_address_country}]]></textFieldExpression>
-				</textField>
+				<element kind="textField" uuid="e83d7ebd-3374-4834-bdb3-8107dc993c00" x="0" y="0" width="802" height="20">
+					<expression><![CDATA[$F{billing_address_country}]]></expression>
+				</element>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="30">
-				<textField evaluationTime="Group" evaluationGroup="Country" pattern="">
-					<reportElement x="0" y="0" width="802" height="30"/>
-					<box leftPadding="0"/>
-					<textElement verticalAlignment="Middle">
-						<font isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{Country_COUNT}.toString()
+				<element kind="textField" uuid="4830340e-b15c-45aa-bc2c-4ad371218551" x="0" y="0" width="802" height="30" evaluationTime="Group" pattern="" evaluationGroup="Country" bold="true" vTextAlign="Middle">
+					<expression><![CDATA[$V{Country_COUNT}.toString()
 + " Accounts in "
-+ $F{billing_address_country}]]></textFieldExpression>
-				</textField>
++ $F{billing_address_country}]]></expression>
+					<box leftPadding="0"/>
+				</element>
 			</band>
 		</groupFooter>
 	</group>
 	<group name="State" minHeightToStartNewPage="40">
-		<groupExpression><![CDATA[$F{billing_address_state}]]></groupExpression>
+		<expression><![CDATA[$F{billing_address_state}]]></expression>
 		<groupHeader>
 			<band height="20">
-				<textField>
-					<reportElement x="0" y="0" width="802" height="20"/>
+				<element kind="textField" uuid="12833782-dd39-4524-a2ee-e3095a0b2db8" x="0" y="0" width="802" height="20">
+					<expression><![CDATA[$F{billing_address_state}]]></expression>
 					<box leftPadding="20"/>
-					<textElement/>
-					<textFieldExpression><![CDATA[$F{billing_address_state}]]></textFieldExpression>
-				</textField>
+				</element>
 			</band>
 		</groupHeader>
 		<groupFooter>
 			<band height="30">
-				<textField>
-					<reportElement x="0" y="0" width="802" height="30"/>
-					<box leftPadding="40"/>
-					<textElement verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[msg("The first {0} of {1} total records for {2} are displayed",
+				<element kind="textField" uuid="4f3d920d-58a7-43fe-a1b7-680818cc449a" x="0" y="0" width="802" height="30" vTextAlign="Middle">
+					<expression><![CDATA[msg("The first {0} of {1} total records for {2} are displayed",
     Math.min(15,$V{State_COUNT}), $V{State_COUNT}.toString(), $F{billing_address_state} + ", " + $F{billing_address_country}
-)]]></textFieldExpression>
-				</textField>
+)]]></expression>
+					<box leftPadding="40"/>
+				</element>
 			</band>
 		</groupFooter>
 	</group>
-	<background>
-		<band/>
-	</background>
-	<title>
-		<band height="156">
-			<textField>
-				<reportElement x="0" y="0" width="402" height="96"/>
-				<textElement textAlignment="Center">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Sample Report displaying Cascading Parameters"]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="120" y="96" width="682" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$P{Country_multi_select}.toString()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="120" y="116" width="682" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$P{Cascading_state_multi_select}.toString()]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="120" y="136" width="682" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$P{Cascading_name_single_select}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="96" width="120" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA["Country parameter:"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="116" width="120" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA["State parameter:"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="136" width="120" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA["Customer parameter:"]]></textFieldExpression>
-			</textField>
-			<image onErrorType="Blank">
-				<reportElement x="402" y="0" width="400" height="96"/>
-				<imageExpression><![CDATA["repo:js_samples.png"]]></imageExpression>
-			</image>
-		</band>
+	<background/>
+	<title height="156">
+		<element kind="textField" uuid="1ce5b856-be3f-4c37-909e-8df1452a5354" x="0" y="0" width="402" height="96" fontSize="14.0" hTextAlign="Center">
+			<expression><![CDATA["Sample Report displaying Cascading Parameters"]]></expression>
+		</element>
+		<element kind="textField" uuid="79b3adbf-e418-4d60-924a-4a4b83e6297c" x="120" y="96" width="682" height="20" blankWhenNull="true">
+			<expression><![CDATA[$P{Country_multi_select}.toString()]]></expression>
+		</element>
+		<element kind="textField" uuid="bdd0e3ea-7077-4207-a1af-3b9c3af58cb4" x="120" y="116" width="682" height="20" blankWhenNull="true">
+			<expression><![CDATA[$P{Cascading_state_multi_select}.toString()]]></expression>
+		</element>
+		<element kind="textField" uuid="6fa5d148-acae-48c5-88a4-76f0c4c09476" x="120" y="136" width="682" height="20">
+			<expression><![CDATA[$P{Cascading_name_single_select}]]></expression>
+		</element>
+		<element kind="textField" uuid="799dae3c-4c92-45f2-8689-ef5f575a057c" x="0" y="96" width="120" height="20">
+			<expression><![CDATA["Country parameter:"]]></expression>
+		</element>
+		<element kind="textField" uuid="a12cf899-71e8-49ef-bbdb-9e5d31863a89" x="0" y="116" width="120" height="20">
+			<expression><![CDATA["State parameter:"]]></expression>
+		</element>
+		<element kind="textField" uuid="cec30b87-449e-49b2-a6e0-99da362d1343" x="0" y="136" width="120" height="20">
+			<expression><![CDATA["Customer parameter:"]]></expression>
+		</element>
+		<element kind="image" uuid="80fb3293-76f4-4041-a361-d688463141d4" x="402" y="0" width="400" height="96" onErrorType="Blank">
+			<expression><![CDATA["repo:js_samples.png"]]></expression>
+		</element>
 	</title>
 	<detail>
 		<band height="20">
 			<printWhenExpression><![CDATA[new Boolean( ($V{State_COUNT} <= 15) || ($F{name}.equals($P{Cascading_name_single_select})) )]]></printWhenExpression>
-			<textField>
-				<reportElement x="40" y="0" width="260" height="20"/>
+			<element kind="textField" uuid="c6c4f59f-9198-471c-b524-f754876616b9" x="40" y="0" width="260" height="20" vTextAlign="Middle">
+				<expression><![CDATA[$F{name}]]></expression>
 				<box leftPadding="0"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="450" y="0" width="352" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{billing_address_street}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="300" y="0" width="150" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{billing_address_city}]]></textFieldExpression>
-			</textField>
-			<image scaleImage="RetainShape" hAlign="Right" onErrorType="Blank">
-				<reportElement x="0" y="0" width="40" height="20">
-					<printWhenExpression><![CDATA[$F{name}.equals($P{Cascading_name_single_select})]]></printWhenExpression>
-				</reportElement>
-				<imageExpression><![CDATA["repo:RightArrow.png"]]></imageExpression>
-			</image>
+			</element>
+			<element kind="textField" uuid="8e3e91c4-0d85-44f5-ba7c-381c38e74e5a" x="450" y="0" width="352" height="20" vTextAlign="Middle">
+				<expression><![CDATA[$F{billing_address_street}]]></expression>
+			</element>
+			<element kind="textField" uuid="8a46c158-c689-423e-9fb4-f7050420f2e4" x="300" y="0" width="150" height="20" vTextAlign="Middle">
+				<expression><![CDATA[$F{billing_address_city}]]></expression>
+			</element>
+			<element kind="image" uuid="ae7d8654-c7a6-4b73-87ce-8c6b94676796" x="0" y="0" width="40" height="20" scaleImage="RetainShape" onErrorType="Blank" hImageAlign="Right">
+				<printWhenExpression><![CDATA[$F{name}.equals($P{Cascading_name_single_select})]]></printWhenExpression>
+				<expression><![CDATA["repo:RightArrow.png"]]></expression>
+			</element>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="20">
-			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="0" y="0" width="682" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="682" y="0" width="80" height="20"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="762" y="0" width="40" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-		</band>
+	<pageFooter height="20">
+		<element kind="textField" uuid="b203b19d-ee4c-4720-ad5b-a5b30b5e84c8" x="0" y="0" width="682" height="20" pattern="MMMMM dd, yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="textField" uuid="e8224f15-bbd8-4ba5-9d5f-23a41d7a2f46" x="682" y="0" width="80" height="20" hTextAlign="Right">
+			<expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></expression>
+		</element>
+		<element kind="textField" uuid="c476c442-08a1-47dd-8f39-b35e7c3a978b" x="762" y="0" width="40" height="20" evaluationTime="Report">
+			<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+		</element>
 	</pageFooter>
 </jasperReport>

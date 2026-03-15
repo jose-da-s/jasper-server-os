@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,90 +21,47 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GroovyReport" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50">
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="GroovyReport" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="035ce891-8440-4922-ae48-ac37467d4ba4">
 	<parameter name="A" class="java.lang.Double">
 		<defaultValueExpression><![CDATA[3]]></defaultValueExpression>
 	</parameter>
 	<parameter name="B" class="java.lang.Double">
 		<defaultValueExpression><![CDATA[5]]></defaultValueExpression>
 	</parameter>
-	<variable name="Chart" class="net.sf.jasperreports.engine.JRRenderable" calculation="System"/>
-	<title>
-		<band height="742" splitType="Stretch">
-			<line>
-				<reportElement x="0" y="0" width="515" height="1"/>
-			</line>
-			<staticText>
-				<reportElement x="0" y="10" width="515" height="30"/>
-				<textElement textAlignment="Center">
-					<font size="22"/>
-				</textElement>
-				<text><![CDATA[Groovy Sample]]></text>
-			</staticText>
-			<textField hyperlinkType="Reference" hyperlinkTarget="Blank">
-				<reportElement x="0" y="50" width="515" height="50"/>
-				<textElement textAlignment="Center">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["This sample uses Groovy Version 1.0 beta 10\n" + "http://groovy.codehaus.org/"]]></textFieldExpression>
-				<hyperlinkReferenceExpression><![CDATA["http://groovy.codehaus.org/"]]></hyperlinkReferenceExpression>
-			</textField>
-			<textField>
-				<reportElement x="280" y="150" width="200" height="35"/>
-				<textElement>
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$P{A}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="150" width="259" height="35"/>
-				<textElement textAlignment="Right">
-					<font size="24"/>
-				</textElement>
-				<text><![CDATA[A =]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="190" width="259" height="35"/>
-				<textElement textAlignment="Right">
-					<font size="24"/>
-				</textElement>
-				<text><![CDATA[B =]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="280" y="190" width="200" height="35"/>
-				<textElement>
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$P{B}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="230" width="259" height="35"/>
-				<textElement textAlignment="Right">
-					<font size="24"/>
-				</textElement>
-				<text><![CDATA[Java   A + B =]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="280" y="230" width="200" height="35" forecolor="#FF0000"/>
-				<textElement>
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[new Double($P{A}.doubleValue() + $P{B}.doubleValue())]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="0" y="270" width="259" height="35"/>
-				<textElement textAlignment="Right">
-					<font size="24"/>
-				</textElement>
-				<text><![CDATA[Groovy   A + B =]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="280" y="270" width="200" height="35" forecolor="#008000"/>
-				<textElement>
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression class="java.lang.Double"><![CDATA[$P{A} + $P{B}]]></textFieldExpression>
-			</textField>
-		</band>
+	<variable name="Chart" calculation="System" class="net.sf.jasperreports.engine.JRRenderable"/>
+	<title height="742" splitType="Stretch">
+		<element kind="line" uuid="761a3edc-44fd-488f-a9d8-40f357572aac" x="0" y="0" width="515" height="1"/>
+		<element kind="staticText" uuid="cad2049f-6241-46d8-b667-176d144aabc5" x="0" y="10" width="515" height="30" fontSize="22.0" hTextAlign="Center">
+			<text><![CDATA[Groovy Sample]]></text>
+		</element>
+		<element kind="textField" uuid="5c5a38cf-8e35-42c0-83e5-fddb4fb46116" x="0" y="50" width="515" height="50" fontSize="12.0" linkType="Reference" linkTarget="Blank" hTextAlign="Center">
+			<expression><![CDATA["This sample uses Groovy Version 1.0 beta 10\n" + "http://groovy.codehaus.org/"]]></expression>
+			<hyperlinkReferenceExpression><![CDATA["http://groovy.codehaus.org/"]]></hyperlinkReferenceExpression>
+		</element>
+		<element kind="textField" uuid="f63dd7b3-9190-4892-8df6-ab7e31749280" x="280" y="150" width="200" height="35" fontSize="24.0">
+			<expression><![CDATA[$P{A}]]></expression>
+		</element>
+		<element kind="staticText" uuid="d0991a56-0e7d-4b8f-a45b-44f475c72d7e" positionType="Float" x="0" y="150" width="259" height="35" fontSize="24.0" hTextAlign="Right">
+			<text><![CDATA[A =]]></text>
+		</element>
+		<element kind="staticText" uuid="80337349-bd8c-4a7a-b0f2-07df4414c3d5" positionType="Float" x="0" y="190" width="259" height="35" fontSize="24.0" hTextAlign="Right">
+			<text><![CDATA[B =]]></text>
+		</element>
+		<element kind="textField" uuid="7e89ca23-add8-426f-a9ac-18190517368d" x="280" y="190" width="200" height="35" fontSize="24.0">
+			<expression><![CDATA[$P{B}]]></expression>
+		</element>
+		<element kind="staticText" uuid="bdc430be-2336-413f-ace6-546f7c82c6d4" positionType="Float" x="0" y="230" width="259" height="35" fontSize="24.0" hTextAlign="Right">
+			<text><![CDATA[Java   A + B =]]></text>
+		</element>
+		<element kind="textField" uuid="8a6ab472-7280-4271-9f9c-2f8af54064c2" x="280" y="230" width="200" height="35" forecolor="#FF0000" fontSize="24.0">
+			<expression><![CDATA[new Double($P{A}.doubleValue() + $P{B}.doubleValue())]]></expression>
+		</element>
+		<element kind="staticText" uuid="f82359ff-f0f2-4030-8718-6306c47c249d" positionType="Float" x="0" y="270" width="259" height="35" fontSize="24.0" hTextAlign="Right">
+			<text><![CDATA[Groovy   A + B =]]></text>
+		</element>
+		<element kind="textField" uuid="1c67ff0b-e6e7-4cfa-892d-97029299b074" x="280" y="270" width="200" height="35" forecolor="#008000" fontSize="24.0">
+			<expression><![CDATA[$P{A} + $P{B}]]></expression>
+		</element>
 	</title>
 </jasperReport>

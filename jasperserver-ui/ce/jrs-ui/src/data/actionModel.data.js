@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005 - 2022 TIBCO Software Inc. All rights reserved.
  * http://www.jaspersoft.com.
  *
@@ -132,16 +134,6 @@ export default {
                         {
                             'type': 'optionAction',
                             'className': 'up',
-                            'text': 'OLAP Schema',
-                            'action': 'invokeCreate',
-                            'actionArgs': [
-                                'FileResource',
-                                'olapMondrianSchema'
-                            ]
-                        },
-                        {
-                            'type': 'optionAction',
-                            'className': 'up',
                             'text': 'Resource Bundle',
                             'action': 'invokeCreate',
                             'actionArgs': [
@@ -197,33 +189,6 @@ export default {
                     'text': 'List of Values',
                     'action': 'invokeCreate',
                     'actionArgs': ['ListOfValues']
-                },
-                {
-                    'type': 'optionAction',
-                    'clientTest': 'canResourceBeCreated',
-                    'clientTestArgs': ['XMLAConnection'],
-                    'className': 'up',
-                    'text': 'Mondrian XML/A Source',
-                    'action': 'invokeCreate',
-                    'actionArgs': ['XMLAConnection']
-                },
-                {
-                    'type': 'optionAction',
-                    'clientTest': 'canResourceBeCreated',
-                    'clientTestArgs': ['OlapClientConnection'],
-                    'className': 'up',
-                    'text': 'OLAP Client Connection',
-                    'action': 'invokeCreate',
-                    'actionArgs': ['OlapClientConnection']
-                },
-                {
-                    'type': 'optionAction',
-                    'clientTest': 'canResourceBeCreated',
-                    'clientTestArgs': ['OlapUnit'],
-                    'className': 'up',
-                    'text': 'OLAP View',
-                    'action': 'invokeCreate',
-                    'actionArgs': ['OlapUnit']
                 },
                 {
                     'type': 'optionAction',

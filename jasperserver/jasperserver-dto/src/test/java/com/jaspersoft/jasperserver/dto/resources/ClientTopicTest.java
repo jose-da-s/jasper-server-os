@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -128,9 +130,6 @@ public class ClientTopicTest extends BaseDTOPresentableTest<ClientTopic> {
                 new ClientBeanDataSource().setUri(uri),
                 new ClientJdbcDataSource().setUri(uri),
                 new ClientJndiJdbcDataSource().setUri(uri),
-                new ClientMondrianConnection().setUri(uri),
-                new ClientMondrianXmlaDefinition().setUri(uri),
-                new ClientSecureMondrianConnection().setUri(uri),
                 new ClientSemanticLayerDataSource().setUri(uri),
                 new ClientVirtualDataSource().setUri(uri)
         );

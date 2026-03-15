@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.test;
 
 /**
@@ -48,12 +51,7 @@ import com.jaspersoft.jasperserver.api.metadata.common.domain.client.FolderImpl;
 import com.jaspersoft.jasperserver.api.metadata.common.service.RepositoryService;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JndiJdbcReportDataSource;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit;
-import com.jaspersoft.jasperserver.api.metadata.olap.service.OlapConnectionService;
-import com.jaspersoft.jasperserver.api.metadata.user.service.UserAuthorityService;
 import com.jaspersoft.jasperserver.export.Parameters;
-
-import com.jaspersoft.jasperserver.test.BaseExportTestCaseTestNG;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -78,7 +76,6 @@ public class ExportCoreObjectsTestTestNG extends BaseExportTestCaseTestNG {
 	static final String IMAGE_NAME = "ExportTestImage03";
 
 
-	private OlapConnectionService m_olapConn;
     private ReportSchedulingService m_sched;
     private ReportSchedulingInternalService m_reportSchedulerInternal;
 
@@ -98,8 +95,6 @@ public class ExportCoreObjectsTestTestNG extends BaseExportTestCaseTestNG {
 		super.onSetUp();
 
 		m_repo = (RepositoryService) getBean("repositoryService");
-
-		m_olapConn = (OlapConnectionService) getBean("olapConnectionService");
 
 	    m_sched = (ReportSchedulingService) getBean(REPORT_SCHEDULING_SERVICE_BEAN_NAME);
 	    m_reportSchedulerInternal = (ReportSchedulingInternalService) getBean(REPORT_SCHEDULING_INTERNAL_SERVICE_BEAN_NAME);

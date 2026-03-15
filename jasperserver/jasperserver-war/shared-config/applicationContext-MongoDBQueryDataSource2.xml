@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -26,12 +28,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
        
-	<bean id="mongoDBQueryDataSource2" class="example.cdspro.MongoDbDataSourceDefinition">
-		<property name="factory" ref="customDataSourceServiceFactory"/>
-		<property name="name" value="mongoDBQueryDataSource2"/>
-		<property name="dataAdapterClassName" value="com.jaspersoft.mongodb.adapter.MongoDbDataAdapterImpl"/>
-        <property name="customFactory" ref="customJDBCReportDataSourceServiceFactory"/>
-	</bean>
+<!--	<bean id="mongoDBQueryDataSource2" class="example.cdspro.MongoDbDataSourceDefinition">-->
+<!--		<property name="factory" ref="customDataSourceServiceFactory"/>-->
+<!--		<property name="name" value="mongoDBQueryDataSource2"/>-->
+<!--		<property name="dataAdapterClassName" value="com.jaspersoft.mongodb.adapter.MongoDbDataAdapterImpl"/>-->
+<!--        <property name="customFactory" ref="customJDBCReportDataSourceServiceFactory"/>-->
+<!--	</bean>-->
 	
     <bean class="com.jaspersoft.jasperserver.api.common.util.spring.GenericBeanUpdater">
         <property name="definition" ref="addMessageCatalog"/>

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -43,7 +45,6 @@ import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.client.Jndi
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.client.VirtualReportDataSourceImpl;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.service.ReportDataSourceService;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.service.ReportDataSourceServiceFactory;
-import com.jaspersoft.jasperserver.api.metadata.olap.service.OlapConnectionService;
 import com.jaspersoft.jasperserver.api.metadata.security.JasperServerPermission;
 import com.jaspersoft.jasperserver.api.metadata.user.domain.*;
 import com.jaspersoft.jasperserver.api.metadata.user.domain.client.ObjectPermissionImpl;
@@ -161,7 +162,6 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
     private ObjectPermissionService m_objectPermissionService;
     private PermissionsService m_permissionsService;
     private ReportSchedulingService m_reportSchedulingService;
-    private OlapConnectionService m_olapConnectionService;
     private EngineService m_engineService;
     private TenantService m_tenantService;
     private ReportJobsScheduler reportScheduler;
@@ -1008,16 +1008,6 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
 
     public ReportSchedulingService getReportSchedulingService() {
         return m_reportSchedulingService;
-    }
-
-    @javax.annotation.Resource(name = "olapConnectionService")
-    public void setOlapConnectionService(OlapConnectionService olapConnectionService) {
-        m_logger.info("setOlapConnectionService() called");
-        this.m_olapConnectionService = olapConnectionService;
-    }
-
-    public OlapConnectionService getOlapConnectionService() {
-        return m_olapConnectionService;
     }
 
     protected void logPermission(ObjectPermission perm) {

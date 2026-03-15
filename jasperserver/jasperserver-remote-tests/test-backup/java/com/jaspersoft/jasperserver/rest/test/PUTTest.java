@@ -186,12 +186,7 @@ public class PUTTest extends RESTTest
 ////		deleteResource(SAMPLE_JDBC_FILE_SERVER_PATH);
 //    }
 //	
-	@Test 
-    public void Put200OlapUnit() throws Exception 
-    {
-		putSampleResource_PRO(LOCAL_NEW_RDS+"/olapUnit_revenue_view.xml", "/resource/supermart/salesByMonth/");
-    	sendAndAssert_PRO(new HttpDelete(), "/resource/supermart/salesByMonth/JUNIT_RevenueView");
-    }
+
 //	
 //	@Test 
 //    public void Put200ListOfValues() throws Exception 
@@ -213,29 +208,6 @@ public class PUTTest extends RESTTest
 ////		
 ////		deleteResource(SAMPLE_LIST_OF_VALUES_SERVER_PATH);
 //    }
-//	
-//	@Test 
-//    public void Put200NewOlapMondrianCon() throws Exception 
-//    {
-////		String rdFileName = LOCAL_NEW_RDS+SAMPLE_OLAP_MONDRIAN_CON_RD;
-////		
-////    	//building the body
-////		BasicHttpEntity reqEntity = new BasicHttpEntity();
-////		
-////		//appending the file descriptor from a file 
-////		reqEntity.setContent(new FileInputStream(new File(rdFileName)));
-////		
-////		((HttpEntityEnclosingRequestBase)httpReqCE).setEntity(reqEntity);
-////		
-////		
-////		//executing the request
-////		httpRes = sendRequestCE(httpReqCE, SAMPLE_OLAP_MONDRIAN_CON_SERVER_PATH);
-////		Assert.assertTrue("basic response check did not pass", isValidResposnse());
-////		
-////		deleteResource(SAMPLE_OLAP_MONDRIAN_CON_SERVER_PATH);
-//    }
-//	
-//	
 //	
 ////	@Test
 ////	public void put200Domain() throws Exception{

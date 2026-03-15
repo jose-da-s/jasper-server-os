@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -57,7 +59,6 @@ public class RepoFileResource extends RepoResource implements FileResourceBase {
 			FileResourceBase.TYPE_XML,
 			FileResourceBase.TYPE_JRXML,
 			FileResourceBase.TYPE_STYLE_TEMPLATE,
-			"olapMondrianSchema",
 			FileResourceBase.TYPE_ACCESS_GRANT_SCHEMA
 	}));
 

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.jaspersoft.jasperserver.dto.resources;
 
 import com.jaspersoft.jasperserver.dto.resources.domain.ClientDomain;
@@ -58,7 +61,6 @@ public abstract class AbstractClientDataSourceHolder<BuilderType extends Abstrac
             @XmlElement(type = ClientDomain.class, name = "domain"),
             @XmlElement(type = ClientAdhocDataView.class, name = "advDataSource"),
             @XmlElement(type = ClientAzureSqlDataSource.class, name = "azureSqlDataSource"),
-            @XmlElement(type = ClientSecureMondrianConnection.class, name = "secureMondrianConnection")
     })
     public ClientReferenceableDataSource getDataSource() {
         return dataSource;

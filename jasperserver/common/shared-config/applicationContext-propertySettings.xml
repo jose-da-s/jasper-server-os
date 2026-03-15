@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -40,7 +41,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <constructor-arg index="0" type="java.util.Map">
             <map>
                 <entry key="log4j" value="log4jPropertyChanger"/>
-                <entry key="mondrian" value="mondrianPropertyChanger"/>
                 <entry key="aws" value="awsPropertyChanger"/>
                 <entry key="jdbc" value="jdbcDriverServicePropertyChanger"/>
             </map>
@@ -65,10 +65,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             </list>
         </constructor-arg>
     </bean>
-
-    <!-- mondrian changer manages settings read and apply from and to mondrian subsystem -->
-	<bean id="mondrianPropertyChanger" class="com.jaspersoft.jasperserver.api.metadata.common.util.MondrianPropertyChanger">
-	</bean>
 
     <!-- AWS changer manages settings read and apply to AwsDataSourceRecovery -->
     <bean id="awsPropertyChanger" class="com.jaspersoft.jasperserver.api.engine.jasperreports.util.AwsPropertyChanger" >

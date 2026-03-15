@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -32,10 +34,7 @@ import com.jaspersoft.jasperserver.api.metadata.jasperreports.service.ReportData
 import com.jaspersoft.jasperserver.api.metadata.user.domain.client.RoleImpl;
 import com.jaspersoft.jasperserver.api.metadata.user.domain.client.UserImpl;
 import net.sf.jasperreports.engine.JasperReport;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -89,7 +88,6 @@ public class EngineServiceImplTest {
     public void setUp() throws Exception {
         doNothing().when(auditContext).doInAuditContext(anyString(), any());
         doReturn(factory).when(dataSourceServiceFactories).getBean(any());
-        doReturn(dataSourceService).when(factory).createService(any(ReportDataSource.class));
         doReturn(dataSourceService).when(factory).createService(any(ReportDataSource.class), anyBoolean());
     }
 
@@ -175,38 +173,40 @@ public class EngineServiceImplTest {
     }
 
     @Test
-    void getDefaultValuesFromJasperReport() throws Exception{
+    public void getDefaultValuesFromJasperReport() throws Exception {
         List<String> defValues = Arrays.asList("ABC\\, 123", "EDG", " HIG\\\\, 345", "XYZ");
-        Map map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("Name1", defValues);
 
         List<String> defValues2 = Arrays.asList("123", "\\,456", "75\\,6");
         map.put("Name2", defValues2);
         map.put("Name3", "xxx");
         Map<String, Object> result = service.getDefaultValuesFromJasperReport(map);
-        Collection collection1 = (Collection) map.get("Name1");
-        Assert.assertTrue(((Collection<?>) map.get("Name1")).contains("ABC, 123"));
-        Assert.assertTrue(((Collection<?>) map.get("Name1")).contains("HIG\\, 345"));
-        Assert.assertTrue(((Collection<?>) map.get("Name2")).contains(",456"));
-        Assert.assertTrue(map.get("Name3").equals("xxx"));
+
+        Assert.assertTrue(((Collection<?>) result.get("Name1")).contains("ABC, 123"));
+        Assert.assertTrue(((Collection<?>) result.get("Name1")).contains(" HIG\\, 345"));
+        Assert.assertTrue(((Collection<?>) result.get("Name2")).contains(",456"));
+        Assert.assertTrue(result.get("Name3").equals("xxx"));
 
     }
 
 
+
     @Test
-    void getDefaultValuesFromJasperReport2() throws Exception {
+    public void getDefaultValuesFromJasperReport2() throws Exception {
         List<String> defValues = Arrays.asList("ABC\\, 123");
-        Map map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("Name1", defValues);
 
-        List<String> defValues2 = Arrays.asList(null);
+        List<String> defValues2 = new ArrayList<>();
+        defValues2.add(null);
         map.put("Name2", defValues2);
         map.put("Name3", null);
         Map<String, Object> result = service.getDefaultValuesFromJasperReport(map);
-        Collection collection1 = (Collection) map.get("Name1");
-        Assert.assertTrue(((Collection<?>) map.get("Name1")).contains("ABC, 123"));
-        Assert.assertTrue(((Collection<?>) map.get("Name2")).contains(null));
-        Assert.assertNull(map.get("Name3"));
+
+        Assert.assertTrue(((Collection<?>) result.get("Name1")).contains("ABC, 123"));
+        Assert.assertTrue(((Collection<?>) result.get("Name2")).contains(null));
+        Assert.assertNull(result.get("Name3"));
 
     }
 }

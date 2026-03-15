@@ -20,9 +20,9 @@
                 "type": "string",
                 "enum": [
                     "folder", "dataType", "jdbcDataSource", "awsDataSource", "jndiJdbcDataSource", "virtualDataSource",
-                    "customDataSource", "beanDataSource", "xmlaConnection", "listOfValues", "file", "reportOptions",
-                    "dashboard", "adhocDataView", "query", "olapUnit", "reportUnit", "domainTopic", "semanticLayerDataSource",
-                    "secureMondrianConnection", "mondrianXmlaDefinition", "mondrianConnection", "inputControl", "legacyDashboard"
+                    "customDataSource", "beanDataSource", "listOfValues", "file", "reportOptions",
+                    "dashboard", "adhocDataView", "query", "reportUnit", "domainTopic", "semanticLayerDataSource",
+                    "inputControl", "legacyDashboard"
                 ]
             }
         },

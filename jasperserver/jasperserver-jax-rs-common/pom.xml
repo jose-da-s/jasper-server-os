@@ -173,7 +173,7 @@
             <version>${jackson.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validator.version}</version>
         </dependency>
@@ -233,10 +233,6 @@
 		      <artifactId>${project.artifactId}</artifactId>
 		      <version>${project.version}</version>
 		      <exclusions>
-                <exclusion>
-                  <groupId>mondrian</groupId>
-		          <artifactId>mondrian</artifactId>
-		        </exclusion>
 		        <exclusion>
 		          <groupId>axis.axis-saaj</groupId>
 		          <artifactId>saaj-ri</artifactId>

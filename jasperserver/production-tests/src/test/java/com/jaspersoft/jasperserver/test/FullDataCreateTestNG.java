@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -28,11 +30,6 @@ import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JdbcReportD
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JndiJdbcReportDataSource;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.VirtualReportDataSource;
-import com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianConnection;
-import com.jaspersoft.jasperserver.api.metadata.olap.domain.MondrianXMLADefinition;
-import com.jaspersoft.jasperserver.api.metadata.olap.domain.OlapUnit;
-import com.jaspersoft.jasperserver.api.metadata.olap.domain.XMLAConnection;
-import com.jaspersoft.jasperserver.api.metadata.olap.service.impl.OlapConnectionServiceImpl;
 import com.jaspersoft.jasperserver.api.metadata.security.JasperServerPermission;
 import com.jaspersoft.jasperserver.api.metadata.user.domain.Role;
 import com.jaspersoft.jasperserver.api.metadata.user.domain.User;
@@ -91,7 +88,7 @@ public class FullDataCreateTestNG extends BaseServiceSetupTestNG {
         addHibernateRepositoryReportResources();
         addContentRepositoryTestResources();
         addUserAuthorityServiceTestResources();
-        addOlapConnectionResources();
+        addAnalysisResources();
         addInteractiveReportResources();
         
         addDefaultDomainWhitelist();
@@ -163,49 +160,22 @@ public class FullDataCreateTestNG extends BaseServiceSetupTestNG {
 
         // 2013-08-14: removed creation of /reports/samples reports in this file 
 
-        // create the main OLAP analysis folder
+        // create the main analysis folder
         m_logger.info("addHibernateRepositoryReportResources() => adding /analysis");
-        Folder olapFolder = new FolderImpl();
-        olapFolder.setName("analysis");
-        olapFolder.setLabel("Analysis Components");
-        olapFolder.setDescription("Analysis Components");
-        getUnsecureRepositoryService().saveFolder(null, olapFolder);
+        Folder analysisFolder = new FolderImpl();
+        analysisFolder.setName("analysis");
+        analysisFolder.setLabel("Analysis Components");
+        analysisFolder.setDescription("Analysis Components");
+        getUnsecureRepositoryService().saveFolder(null, analysisFolder);
 
-        // create the OLAP analysis/connections folder
-        m_logger.info("addHibernateRepositoryReportResources() => adding /analysis/connections");
-        Folder connectionsFolder = new FolderImpl();
-        connectionsFolder.setName("connections");
-        connectionsFolder.setLabel("Analysis Connections");
-        connectionsFolder.setDescription("Connections used by Analysis");
-        connectionsFolder.setParentFolder(olapFolder);
-        getUnsecureRepositoryService().saveFolder(null, connectionsFolder);
-
-        // create the OLAP analysis/schemas folder
-        m_logger.info("addHibernateRepositoryReportResources() => adding /analysis/schemas");
-        Folder schemasFolder = new FolderImpl();
-        schemasFolder.setName("schemas");
-        schemasFolder.setLabel("Analysis Schemas");
-        schemasFolder.setDescription("Schemas used by Analysis");
-        schemasFolder.setParentFolder(olapFolder);
-        getUnsecureRepositoryService().saveFolder(null, schemasFolder);
-
-        // create the OLAP analysis/datasources folder
+        // create the analysis/datasources folder
         m_logger.info("addHibernateRepositoryReportResources() => adding /analysis/datasources");
-        Folder olapDsFolder = new FolderImpl();
-        olapDsFolder.setName("datasources");
-        olapDsFolder.setLabel("Analysis Data Sources");
-        olapDsFolder.setDescription("Data sources used by Analysis");
-        olapDsFolder.setParentFolder(olapFolder);
-        getUnsecureRepositoryService().saveFolder(null, olapDsFolder);
-
-        // create the OLAP analysis/views folder
-        m_logger.info("addHibernateRepositoryReportResources() => adding /analysis/views");
-        Folder olapViewsFolder = new FolderImpl();
-        olapViewsFolder.setName("views");
-        olapViewsFolder.setLabel("Analysis Views");
-        olapViewsFolder.setDescription("Analysis Views");
-        olapViewsFolder.setParentFolder(olapFolder);
-        getUnsecureRepositoryService().saveFolder(null, olapViewsFolder);
+        Folder analysisDsFolder = new FolderImpl();
+        analysisDsFolder.setName("datasources");
+        analysisDsFolder.setLabel("Analysis Data Sources");
+        analysisDsFolder.setDescription("Data sources used by Analysis");
+        analysisDsFolder.setParentFolder(analysisFolder);
+        getUnsecureRepositoryService().saveFolder(null, analysisDsFolder);
 
         // setup the execute only permissions
         setupExecuteOnlyPermissions();
@@ -300,54 +270,6 @@ public class FullDataCreateTestNG extends BaseServiceSetupTestNG {
         res.setDescription(id + " description");
     }
 
-    /*
-     * OLAP Connection Resources
-     */
-    protected final String foodMartSchema2012URI   = "/queries/FoodmartSchema2012.xml";
-    protected final String foodMartSchema2012UpperURI   = "/queries/FoodmartSchema2012Upper.xml";
-    protected final String foodMartJaSchemaURI = "/queries/FoodMart_ja.xml";
-    protected final String sugarCRMSchemaURI   = "/queries/SugarCRMSchema.xml";
-    protected final String sugarCRMSchemaUpperURI   = "/queries/SugarcrmSchemaUpper.xml";
-
-    // direct access to impl to call methods that aren't in the interface...
-    private OlapConnectionServiceImpl olapConnectionServiceTarget;
-
-    protected void createFoodmartSchemaResource() {
-        m_logger.info("createFoodmartSchemaResource() => creating /analysis/schemas/FoodmartSchema");
-        createOrUpdateSchemaResource("/analysis/schemas",
-                "FoodmartSchema",
-                "FoodmartSchema",
-                "Foodmart Analysis Schema",
-                foodMartSchema2012URI);
-    }
-
-    protected void createFoodmartSchemaUpperResource() {
-        m_logger.info("createFoodmartSchemaUpperResource() => creating /analysis/schemas/FoodmartSchemaUpper");
-        createOrUpdateSchemaResource("/analysis/schemas",
-                "FoodmartSchemaUpper",
-                "Foodmart Schema Uppercase",
-                "Foodmart Analysis Schema Uppercase",
-                foodMartSchema2012UpperURI);
-    }
-
-    protected void createSugarCRMSchemaResource() {
-        m_logger.info("createSugarCRMSchemaResource() => creating /analysis/schemas/SugarCRMSchema");
-        createOrUpdateSchemaResource("/analysis/schemas",
-                "SugarCRMSchema",
-                "SugarCRM Schema",
-                "SugarCRM Analysis Schema",
-                sugarCRMSchemaURI);
-    }
-
-    protected void createSugarCRMSchemaUpperResource() {
-        m_logger.info("createSugarCRMSchemaUpperResource() => creating /analysis/schemas/SugarCRMSchemaUpper");
-        createOrUpdateSchemaResource("/analysis/schemas",
-                "SugarCRMSchemaUpper",
-                "SugarCRM Schema Uppercase",
-                "SugarCRM Analysis Schema Upper Case",
-                sugarCRMSchemaUpperURI);
-    }
-
     protected void createFoodmartJDBCDataSourceResource() throws Exception {
         m_logger.info("createFoodmartJDBCDataSourceResource() => creating /analysis/datasources/FoodmartDataSource");
 
@@ -440,142 +362,6 @@ public class FullDataCreateTestNG extends BaseServiceSetupTestNG {
 
     }
 
-    protected void createFoodmartMondrianConnectionResource() throws Exception {
-        m_logger.info("createFoodmartMondrianConnectionResource() => creating /analysis/connections/Foodmart");
-
-        String schemaResourceReference = "/analysis/schemas/FoodmartSchema";
-
-        if (getJdbcProps().getProperty("foodmart.upperCaseNames") != null &&
-        		getJdbcProps().getProperty("foodmart.upperCaseNames").equalsIgnoreCase("true")) {
-            schemaResourceReference = "/analysis/schemas/FoodmartSchemaUpper";
-        }
-
-        createMondrianConnectionResource("/analysis/connections",
-                        "Foodmart",
-                        "Foodmart Mondrian Connection",
-                        "Foodmart Mondrian Analysis Connection",
-                        schemaResourceReference,
-                       "/analysis/datasources/FoodmartDataSourceJNDI");
-    }
-
-    protected void createFoodmartXMLAConnectionResource() {
-        m_logger.info("createFoodmartXMLAConnectionResource() => creating /analysis/connections/FoodmartXmlaConnection");
-        createXMLAConnectionResource("/analysis/connections",
-                        "FoodmartXmlaConnection",
-                        "Foodmart XML/A Connection",
-                        "Foodmart XML/A Connection",
-                        "Foodmart",
-                        "Provider=Mondrian;DataSource=JRS",
-                        "http://localhost:8080/jasperserver/xmla",
-                        "jasperadmin",
-                        "jasperadmin");
-    }
-
-    protected void createSugarCRMMondrianConnectionResource() throws Exception {
-        m_logger.info("createSugarCRMMondrianConnectionResource() => creating /analysis/connections/SugarCRM");
-
-        String schemaResourceReference = "/analysis/schemas/SugarCRMSchema";
-
-        if (getJdbcProps().getProperty("sugarcrm.upperCaseNames") != null &&
-        		getJdbcProps().getProperty("sugarcrm.upperCaseNames").equalsIgnoreCase("true")) {
-            schemaResourceReference = "/analysis/schemas/SugarCRMSchemaUpper";
-        }
-
-        createMondrianConnectionResource("/analysis/connections",
-                        "SugarCRM",
-                        "SugarCRM Mondrian Connection",
-                        "SugarCRM Mondrian Analysis Connection: only opportunities",
-                        schemaResourceReference,
-                       "/analysis/datasources/SugarCRMDataSourceJNDI");
-    }
-
-    protected void createSugarCRMXMLAConnectionResource() {
-        m_logger.info("createSugarCRMXMLAConnectionResource() => creating /analysis/connections/SugarCRMXmlaConnection");
-        createXMLAConnectionResource("/analysis/connections",
-                        "SugarCRMXmlaConnection",
-                        "SugarCRM XML/A Connection",
-                        "SugarCRM XML/A Connection",
-                        "SugarCRM",
-                        "Provider=Mondrian;DataSource=JRS",
-                        "http://localhost:8080/jasperserver/xmla",
-                        "jasperadmin",
-                        "jasperadmin");
-    }
-
-    public static String SAMPLE_FOODMART_MDX_QUERY =
-	"select {[Measures].[Unit Sales], [Measures].[Store Cost], [Measures].[Store Sales]} on columns, " +
-	"{([Promotion Media].[All Media], [Product].[All Products])} ON rows " +
-	"from Sales ";
-
-    protected void createFoodmartOlapUnit() {
-        m_logger.info("createFoodmartOlapUnit() => creating /analysis/views/Foodmart_sample");
-        creatOlapUnitResource("/analysis/views",
-                        "Foodmart_sample",
-                        "Foodmart Sample Analysis View",
-                        "Sample Analysis View: Foodmart Unit Sales",
-                        "/analysis/connections/Foodmart",
-                        SAMPLE_FOODMART_MDX_QUERY,
-                        true);
-    }
-
-    private String SAMPLE_SUGAR_CRM_MDX_QUERY =
-	"select {[Measures].[Total Sale Amount], [Measures].[Number of Sales], [Measures].[Avg Sale Amount], [Measures].[Avg Time To Close (Days)], [Measures].[Avg Close Probability]} ON COLUMNS, " +
-	" NON EMPTY {([Account Categorization].[All Accounts], [Close Period].[All Periods])} ON ROWS " +
-	" from [SalesAnalysis] " +
-	" where [Sale State].[All Types].[Closed Won]";
-
-    protected void createSugarCRMOlapUnit() {
-        m_logger.info("createSugarCRMOlapUnit() => creating /analysis/views/SugarCRM_sample");
-        creatOlapUnitResource("/analysis/views",
-                        "SugarCRM_sample",
-                        "SugarCRM Sample Analysis View",
-                        "Sample SugarCRM Analysis View: Sales Performance by Industry/Account",
-                        "/analysis/connections/SugarCRM",
-                        SAMPLE_SUGAR_CRM_MDX_QUERY,
-                        true);
-    }
-
-    protected void createSugarCRMXmlaOlapUnit() {
-        m_logger.info("createSugarCRMXmlaOlapUnit() => creating /analysis/views/SugarCRM_xmla_sample");
-        creatOlapUnitResource("/analysis/views",
-                        "SugarCRM_xmla_sample",
-                        "SugarCRM Sample XMLA Analysis View",
-                        "Sample SugarCRM Analysis View (XMLA): Sales Performance by Industry/Account",
-                        "/analysis/connections/SugarCRMXmlaConnection",
-                        SAMPLE_SUGAR_CRM_MDX_QUERY,
-                        true);
-    }
-
-    protected void createFoodmartMondrianXMLADefinitionResource() {
-        m_logger.info("createFoodmartMondrianXMLADefinitionResource() => creating /analysis/xmla/definitions/FoodmartXmlaDefinition");
-        creatMondrianXMLADefinitionResource("/analysis/xmla/definitions",
-                        "FoodmartXmlaDefinition",
-                        "Foodmart Mondrian XMLA definition",
-                        "Foodmart Mondrian XMLA definition",
-                        "Foodmart",
-                        "/analysis/connections/Foodmart");
-    }
-
-    protected void createSugarCRMMondrianXMLADefinitionResource() {
-        m_logger.info("createSugarCRMMondrianXMLADefinitionResource() => creating /analysis/xmla/definitions/SugarCRMXmlaDefinition");
-        creatMondrianXMLADefinitionResource("/analysis/xmla/definitions",
-                        "SugarCRMXmlaDefinition",
-                        "SugarCRM Mondrian XMLA definition",
-                        "SugarCRM Mondrian XMLA definition",
-                        "SugarCRM",
-                        "/analysis/connections/SugarCRM");
-    }
-
-    // Pseudo Japanese schema version
-    protected void createFoodmartJaSchemaResource() {
-        m_logger.info("createFoodmartJaSchemaResource() => creating /analysis/schemas/FoodmartJaSchema");
-        createOrUpdateSchemaResource("/analysis/schemas",
-                "FoodmartJaSchema",
-                "Foodmart Schema Pseudo Japanese",
-                "Foodmart Analysis Pseudo Japanese Schema",
-                foodMartJaSchemaURI);
-    }
-
     protected void createFoodmartJaDataSourceResource() throws Exception {
         m_logger.info("createFoodmartJaDataSourceResource() => creating /analysis/datasources/FoodmartJaDataSource");
 
@@ -594,43 +380,12 @@ public class FullDataCreateTestNG extends BaseServiceSetupTestNG {
 					passwd);
     }
 
-    protected void createFoodmartJaMondrianConnectionResource() {
-        m_logger.info("createFoodmartJaMondrianConnectionResource() => creating /analysis/connections/FoodmartJa");
-        createMondrianConnectionResource("/analysis/connections",
-                        "FoodmartJa",
-                        "FoodmartJa Mondrian Connection",
-                        "FoodmartJa Mondrian Analysis Connection",
-                        "/analysis/schemas/FoodmartJaSchema",
-                        "/analysis/datasources/FoodmartJaDataSource");
-    }
-
-    public static String SAMPLE_FOODMART_JA_MDX_QUERY =
-	"select {[Measures].[Unit Sales日本語], [Measures].[Store Cost日本語], [Measures].[Store Sales日本語]} on columns, {([Promotion Media日本語].[All Media日本語], [Product日本語].[All Products日本語])} ON rows from [Sales日本語]";
-
-    protected void createFoodmartJaOlapUnit() {
-        m_logger.info("createFoodmartJaOlapUnit() => creating /analysis/views/FoodmartJa_sample_unit_1");
-        creatOlapUnitResource("/analysis/views",
-                        "FoodmartJa_sample_unit_1",
-                        "FoodmartJa Sample Analysis View",
-                        "Sample Analysis View: FoodmartJa Unit Sales",
-                        "/analysis/connections/FoodmartJa",
-                        SAMPLE_FOODMART_JA_MDX_QUERY,
-                        true);
-    }
-
     // move this to configuration file if people want to use
     // this for testing on a regular basis...
     private final boolean DO_PSEUDO_JAPANESE_FOODMART = false;
 
-    public void addOlapConnectionResources() throws Exception {
-        m_logger.info("addOlapConnectionResources() called");
-
-        // create olap connection test metadata in the repository
-    	createFoodmartSchemaResource();
-        createFoodmartSchemaUpperResource();
-
-        createSugarCRMSchemaResource();
-        createSugarCRMSchemaUpperResource();
+    public void addAnalysisResources() throws Exception {
+        m_logger.info("addAnalysisResources() called");
 
         createFoodmartJDBCDataSourceResource();
         createFoodmartJNDIDataSourceResource();
@@ -641,42 +396,15 @@ public class FullDataCreateTestNG extends BaseServiceSetupTestNG {
         // create virtual data source
         createSugarFoodmartDataSourceResourceVirtual();
 
-        createFoodmartMondrianConnectionResource();
-        createFoodmartXMLAConnectionResource();
-
-        createSugarCRMMondrianConnectionResource();
-        createSugarCRMXMLAConnectionResource();
-
-        createFoodmartOlapUnit();
-        createSugarCRMOlapUnit();
-	    createSugarCRMXmlaOlapUnit();
-
-	    createFoodmartMondrianXMLADefinitionResource();
-	    createSugarCRMMondrianXMLADefinitionResource();
-
         if (DO_PSEUDO_JAPANESE_FOODMART) {
-            createFoodmartJaSchemaResource();
             createFoodmartJaDataSourceResource();
-            createFoodmartJaMondrianConnectionResource();
-            createFoodmartJaOlapUnit();
         }
 
 	    Folder analysisReports = createAnalysisReportsFolder();
-	    createMondrianFoodmartReport(analysisReports);
         createEmployeeAccounts(analysisReports);
         createEmployees(analysisReports);
     }
 
-    private final static String FOODMART_REPORT_JRXML = "/reports/jasper/MondrianFoodMartSalesReport2012.jrxml";
-
-    protected void createMondrianFoodmartReport(Folder parent) {
-	    createOlapFoodmartReport(parent,
-				 "/analysis/reports/",
-				 "FoodmartSalesMondrianReport",
-				 "Foodmart Mondrian Sales Report",
-				 "Report with Mondrian Datasource",
-				 "/analysis/connections/Foodmart");
-    }
 
     private void createEmployees(Folder folder) {
         m_logger.info("createEmployees() => creating /analysis/reports/Employees");
@@ -745,47 +473,6 @@ public class FullDataCreateTestNG extends BaseServiceSetupTestNG {
         return createOrUpdateFolder("/analysis", "reports", "Analysis Reports");
     }
 
-    public void createOlapFoodmartReport(Folder parent,
-					    String path,
-					    String name,
-					    String label,
-					    String desc,
-					    String connectionUri) {
-
-        boolean newReportUnit = false;
-        ExecutionContext executionContext = StaticExecutionContextProvider.getExecutionContext();
-
-        ReportUnit unit = (ReportUnit) getRepositoryService().getResource(null, path + name, ReportUnit.class);
-
-        if (unit == null) {
-            unit = (ReportUnit) getRepositoryService().newResource(executionContext, ReportUnit.class);
-            unit.setParentFolder(parent);
-            unit.setName(name);
-            newReportUnit = true;
-        }
-        unit.setLabel(label);
-        unit.setDescription(desc);
-
-        FileResource report = null;
-
-        if (!newReportUnit) {
-            report = (FileResource) unit.getMainReport().getLocalResource();
-            assert(report != null);
-        } else {
-            report = (FileResource) getRepositoryService().newResource(executionContext, FileResource.class);
-            report.setFileType(FileResource.TYPE_JRXML);
-            report.setName("FoodmartSalesReportJRXML");
-            report.setLabel("FoodmartSalesReportJRXML");
-        }
-        report.readData(getClass().getResourceAsStream(FOODMART_REPORT_JRXML));
-
-        unit.setMainReport(report);
-
-        unit.setDataSourceReference(connectionUri);
-
-        getRepositoryService().saveResource(executionContext, unit);
-    }
-
     public Folder createOrUpdateFolder(String folderParentURI, String folderName, String folderLabel) {
        	Folder aFolder = null;
         ExecutionContext executionContext = StaticExecutionContextProvider.getExecutionContext();
@@ -800,28 +487,6 @@ public class FullDataCreateTestNG extends BaseServiceSetupTestNG {
     	aFolder.setLabel(folderLabel);
     	getRepositoryService().saveFolder(executionContext, aFolder);
         return aFolder;
-    }
-
-    public void createOrUpdateSchemaResource(String schemaFolderParentURI,
-                String schemaName,
-                String schemaLabel,
-                String schemaDescription,
-                String resourcePath) {
-        FileResource schemaResource = (FileResource) getRepositoryService().getResource(null, schemaFolderParentURI + Folder.SEPARATOR + schemaName, FileResource.class);
-
-         if (schemaResource == null) {
-             schemaResource = (FileResource) getRepositoryService().newResource( null, FileResource.class );
-            schemaResource.setParentFolder(schemaFolderParentURI);
-            schemaResource.setName( schemaName );
-        }
-        schemaResource.setLabel( schemaLabel );
-        schemaResource.setDescription( schemaDescription );
-
-        schemaResource.setFileType(ResourceDescriptor.TYPE_MONDRIAN_SCHEMA);
-        InputStream in = getClass().getResourceAsStream( resourcePath );
-        schemaResource.readData(in);
-
-        getOlapConnectionService().saveResource( null, schemaFolderParentURI, schemaResource );
     }
 
     public void createJDBCDataSourceResource(String dataSourceFolderParentURI,
@@ -844,7 +509,7 @@ public class FullDataCreateTestNG extends BaseServiceSetupTestNG {
         dataSourceResource.setConnectionUrl(connectionURL);
         dataSourceResource.setUsername(username);
         dataSourceResource.setPassword(password);
-        getOlapConnectionService().saveResource( null, dataSourceFolderParentURI, dataSourceResource );
+        getUnsecureRepositoryService().saveResource( null, dataSourceResource );
     }
 
     public void createJNDIDataSourceResource(String dataSourceFolderParentURI,
@@ -861,110 +526,8 @@ public class FullDataCreateTestNG extends BaseServiceSetupTestNG {
         dataSourceResource.setLabel( dataSourceLabel );
         dataSourceResource.setDescription( dataSourceDescription );
         dataSourceResource.setJndiName(jndiURI);
-        getOlapConnectionService().saveResource( null, dataSourceFolderParentURI, dataSourceResource );
+        getUnsecureRepositoryService().saveResource( null, dataSourceResource );
     }
-
-
-
-    public void createMondrianConnectionResource(String mondrianConnectionFolderParentURI,
-                String mondrianConnectionName,
-                String mondrianConnectionLabel,
-                String mondrianConnectionDescription,
-                String schemaURI,
-                String dataSourceURI) {
-        MondrianConnection mondrianConnectionResource = (MondrianConnection) getRepositoryService().getResource(null, mondrianConnectionFolderParentURI + Folder.SEPARATOR + mondrianConnectionName, MondrianConnection.class);
-        if (mondrianConnectionResource == null) {
-            mondrianConnectionResource = (MondrianConnection) getRepositoryService().newResource( null, MondrianConnection.class );
-            mondrianConnectionResource.setParentFolder(mondrianConnectionFolderParentURI);
-            mondrianConnectionResource.setName( mondrianConnectionName );
-        }
-        mondrianConnectionResource.setLabel(mondrianConnectionName);
-        mondrianConnectionResource.setDescription(mondrianConnectionDescription);
-
-        mondrianConnectionResource.setSchemaReference(schemaURI);
-        mondrianConnectionResource.setDataSourceReference(dataSourceURI);
-        getOlapConnectionService().saveResource( null, mondrianConnectionFolderParentURI, mondrianConnectionResource );
-    }
-
-    public void createXMLAConnectionResource(String xmlaConnectionFolderParentURI,
-                String xmlaConnectionName,
-                String xmlaConnectionLabel,
-                String xmlaConnectionDescription,
-                String catalog,
-                String xmlaDataSource,
-                String URI,
-                String username,
-                String password) {
-        XMLAConnection xmlaConnection = (XMLAConnection) getRepositoryService().getResource(null, xmlaConnectionFolderParentURI + Folder.SEPARATOR + xmlaConnectionName, XMLAConnection.class);
-        if (xmlaConnection == null) {
-            xmlaConnection = (XMLAConnection) getRepositoryService().newResource( null, XMLAConnection.class );
-            xmlaConnection.setParentFolder(xmlaConnectionFolderParentURI);
-            xmlaConnection.setName( xmlaConnectionName );
-        }
-        xmlaConnection.setLabel(xmlaConnectionLabel);
-        xmlaConnection.setDescription(xmlaConnectionDescription);
-        xmlaConnection.setCatalog(catalog);
-        xmlaConnection.setDataSource(xmlaDataSource);
-        xmlaConnection.setURI(URI);
-
-        // TODO: create a sample USER_XMLA and ROLE_XMLA_USER
-        xmlaConnection.setUsername(username);
-        xmlaConnection.setPassword(password);
-        getOlapConnectionService().saveResource( null, xmlaConnectionFolderParentURI, xmlaConnection );
-    }
-
-    public void creatMondrianXMLADefinitionResource(String xmlaDefinitionFolderParentURI,
-                String xmlaDefinitionName,
-                String xmlaDefinitionLabel,
-                String xmlaDefinitionDescription,
-                String catalog,
-                String mondrianConnectionURI) {
-        MondrianXMLADefinition mondrianXmlaConnection = (MondrianXMLADefinition) getRepositoryService().getResource(null, xmlaDefinitionFolderParentURI + Folder.SEPARATOR + xmlaDefinitionName, MondrianXMLADefinition.class);
-        if (mondrianXmlaConnection == null) {
-            mondrianXmlaConnection = (MondrianXMLADefinition) getRepositoryService().newResource( null, MondrianXMLADefinition.class );
-            mondrianXmlaConnection.setParentFolder(xmlaDefinitionFolderParentURI);
-            mondrianXmlaConnection.setName( xmlaDefinitionName );
-        }
-        mondrianXmlaConnection.setLabel(xmlaDefinitionLabel);
-        mondrianXmlaConnection.setDescription(xmlaDefinitionDescription);
-        mondrianXmlaConnection.setCatalog(catalog);
-        mondrianXmlaConnection.setMondrianConnectionReference(mondrianConnectionURI);
-
-        getOlapConnectionService().saveResource( null, xmlaDefinitionFolderParentURI, mondrianXmlaConnection );
-    }
-
-    public OlapUnit creatOlapUnitResource(String olapUnitFolderParentURI,
-                String olapUnitName,
-                String olapUnitLabel,
-                String olapUnitDescription,
-                String connectionReference,
-                String mdxQuery,
-                boolean saveUnit) {
-        OlapUnit olapUnit = (OlapUnit) getRepositoryService().getResource(null, olapUnitFolderParentURI + Folder.SEPARATOR + olapUnitName, OlapUnit.class);
-        if (olapUnit == null) {
-            olapUnit = (OlapUnit) getRepositoryService().newResource( null, OlapUnit.class );
-            olapUnit.setParentFolder(olapUnitFolderParentURI);
-            olapUnit.setName( olapUnitName );
-        }
-        olapUnit.setLabel(olapUnitLabel);
-        olapUnit.setDescription(olapUnitDescription);
-        olapUnit.setOlapClientConnectionReference(connectionReference);
-        olapUnit.setMdxQuery(mdxQuery);
-
-        if (saveUnit) {
-            getOlapConnectionService().saveResource( null, olapUnitFolderParentURI, olapUnit );
-        }
-
-        return olapUnit;
-    }
-
-	public void setOlapConnectionServiceTarget(OlapConnectionServiceImpl olapConnectionServiceTarget) {
-		this.olapConnectionServiceTarget = olapConnectionServiceTarget;
-	}
-
-	public OlapConnectionServiceImpl getOlapConnectionServiceTarget() {
-		return olapConnectionServiceTarget;
-	}
 
     private void addInteractiveReportResources()  {
         m_logger.info("addInteractiveReportResources() called");

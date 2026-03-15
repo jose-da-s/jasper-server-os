@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,9 +21,8 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<!-- Created with Jaspersoft Studio version 6.3.0.beta-v201606042307 using JasperReports Library version 6.3.0  -->
-<!-- 2016-10-10T17:07:59 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Department" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="department" uuid="72c8215d-c657-479c-b60b-50e6f5aefed0">
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="Department" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="department" uuid="72c8215d-c657-479c-b60b-50e6f5aefed0">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="foodmart"/>
 	<property name="net.sf.jasperreports.export.xls.collapse.row.span" value="false"/>
 	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="false"/>
@@ -31,65 +31,63 @@
 	<parameter name="gender" class="java.util.Collection"/>
 	<parameter name="maritalStatus" class="java.util.Collection"/>
 	<parameter name="department" class="java.lang.Integer"/>
-	<queryString>
-		<![CDATA[select *
+	<query language="sql"><![CDATA[select *
 from employee emp
 inner join department dep ON emp.department_id = dep.department_id
-where dep.department_id=$P{department} and $X{IN, emp.gender, gender} and $X{IN, marital_status, maritalStatus}]]>
-	</queryString>
+where dep.department_id=$P{department} and $X{IN, emp.gender, gender} and $X{IN, marital_status, maritalStatus}]]></query>
 	<field name="employee_id" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="full_name" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="first_name" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="last_name" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="position_id" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="position_title" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="store_id" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="department_id" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="birth_date" class="java.sql.Date">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="hire_date" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="end_date" class="java.sql.Timestamp">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="salary" class="java.math.BigDecimal">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="supervisor_id" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="education_level" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="marital_status" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="gender" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="management_role" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<field name="department_description" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
+		<description><![CDATA[]]></description>
 	</field>
 	<group name="Group1">
 		<groupFooter>
@@ -111,135 +109,68 @@ where dep.department_id=$P{department} and $X{IN, emp.gender, gender} and $X{IN,
 			<band/>
 		</groupFooter>
 	</group>
-	<background>
-		<band/>
-	</background>
-	<title>
-		<band height="72">
-			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="6f10b68a-cdac-4376-8472-a157eb6c7e3d"/>
-				<textField>
-					<reportElement x="20" y="20" width="320" height="43" forecolor="#FFFFFF" uuid="7142970e-833c-4b3b-a903-d3edde630a2d"/>
-					<textElement>
-						<font size="34" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$R{title}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="340" y="43" width="235" height="20" forecolor="#FFFFFF" uuid="eafa24be-f0f3-492b-8492-662d0134a7ae"/>
-					<textElement textAlignment="Right">
-						<font size="14" isBold="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$R{description}]]></textFieldExpression>
-				</textField>
-			</frame>
-		</band>
+	<background/>
+	<title height="72">
+		<element kind="frame" uuid="6f10b68a-cdac-4376-8472-a157eb6c7e3d" mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699">
+			<element kind="textField" uuid="7142970e-833c-4b3b-a903-d3edde630a2d" x="20" y="20" width="320" height="43" forecolor="#FFFFFF" fontSize="34.0" bold="true">
+				<expression><![CDATA[$R{title}]]></expression>
+			</element>
+			<element kind="textField" uuid="eafa24be-f0f3-492b-8492-662d0134a7ae" x="340" y="43" width="235" height="20" forecolor="#FFFFFF" fontSize="14.0" bold="false" hTextAlign="Right">
+				<expression><![CDATA[$R{description}]]></expression>
+			</element>
+		</element>
 	</title>
-	<pageHeader>
-		<band height="13"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="21">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="0" width="200" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="0f701563-3149-41c9-a45c-bc33e87da430"/>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$R{field.department}]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="db02188a-daee-4912-9cee-df55064037a7"/>
-			</line>
-			<textField>
-				<reportElement mode="Opaque" x="200" y="0" width="120" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="390e8255-1829-4fe3-91dc-e3df5555be86"/>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$R{field.name}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="320" y="0" width="120" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="86553df0-826a-44ff-958d-554d8b300557"/>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$R{field.gender}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="440" y="0" width="115" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="b250c408-af5a-4f26-85c4-233ced4dc6db"/>
-				<textElement textAlignment="Center">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$R{field.maritalStatus}]]></textFieldExpression>
-			</textField>
-		</band>
+	<pageHeader height="13"/>
+	<columnHeader height="21">
+		<element kind="textField" uuid="0f701563-3149-41c9-a45c-bc33e87da430" mode="Opaque" x="0" y="0" width="200" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
+			<expression><![CDATA[$R{field.department}]]></expression>
+		</element>
+		<element kind="line" uuid="db02188a-daee-4912-9cee-df55064037a7" x="-20" y="20" width="595" height="1" forecolor="#666666"/>
+		<element kind="textField" uuid="390e8255-1829-4fe3-91dc-e3df5555be86" mode="Opaque" x="200" y="0" width="120" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
+			<expression><![CDATA[$R{field.name}]]></expression>
+		</element>
+		<element kind="textField" uuid="86553df0-826a-44ff-958d-554d8b300557" mode="Opaque" x="320" y="0" width="120" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
+			<expression><![CDATA[$R{field.gender}]]></expression>
+		</element>
+		<element kind="textField" uuid="b250c408-af5a-4f26-85c4-233ced4dc6db" mode="Opaque" x="440" y="0" width="115" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
+			<expression><![CDATA[$R{field.maritalStatus}]]></expression>
+		</element>
 	</columnHeader>
 	<detail>
 		<band height="31">
-			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="0" width="200" height="31" uuid="ed94d7ef-6d06-4ef1-91e9-642823ed1d62">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{department_description}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="200" y="0" width="120" height="31" uuid="8637f5bb-2173-4053-8d70-83bc33dc4f6d">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{full_name}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="320" y="0" width="120" height="31" uuid="bad24718-eaaf-4d39-81fc-0ea8db837a15">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="440" y="0" width="115" height="31" uuid="887ecc66-cec3-4ed9-b7df-9938d1324ec1">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{marital_status}]]></textFieldExpression>
-			</textField>
+			<element kind="textField" uuid="ed94d7ef-6d06-4ef1-91e9-642823ed1d62" x="0" y="0" width="200" height="31" fontSize="14.0" textAdjust="StretchHeight">
+				<expression><![CDATA[$F{department_description}]]></expression>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</element>
+			<element kind="textField" uuid="8637f5bb-2173-4053-8d70-83bc33dc4f6d" x="200" y="0" width="120" height="31" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center">
+				<expression><![CDATA[$F{full_name}]]></expression>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</element>
+			<element kind="textField" uuid="bad24718-eaaf-4d39-81fc-0ea8db837a15" x="320" y="0" width="120" height="31" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center">
+				<expression><![CDATA[$F{gender}]]></expression>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</element>
+			<element kind="textField" uuid="887ecc66-cec3-4ed9-b7df-9938d1324ec1" x="440" y="0" width="115" height="31" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Center">
+				<expression><![CDATA[$F{marital_status}]]></expression>
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			</element>
 		</band>
 	</detail>
-	<columnFooter>
-		<band/>
-	</columnFooter>
-	<pageFooter>
-		<band height="32">
-			<textField>
-				<reportElement mode="Opaque" x="320" y="4" width="195" height="13" backcolor="#E6E6E6" uuid="e3e84558-99fa-4ed2-ac44-52099cf2c8e4">
-					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="23dccd6b-4f92-4c85-b48a-2847ec95c614"/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement mode="Opaque" x="0" y="4" width="320" height="13" backcolor="#E6E6E6" uuid="9097d7ea-10be-47a8-a345-e59925377554">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<propertyExpression name="net.sf.jasperreports.export.xls.pattern"><![CDATA["dddd dd MMMM yyyy"]]></propertyExpression>
-				</reportElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-		</band>
+	<columnFooter/>
+	<pageFooter height="32">
+		<element kind="textField" uuid="e3e84558-99fa-4ed2-ac44-52099cf2c8e4" mode="Opaque" x="320" y="4" width="195" height="13" backcolor="#E6E6E6" hTextAlign="Right">
+			<expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></expression>
+			<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+		</element>
+		<element kind="textField" uuid="23dccd6b-4f92-4c85-b48a-2847ec95c614" mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" evaluationTime="Report">
+			<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="9097d7ea-10be-47a8-a345-e59925377554" mode="Opaque" x="0" y="4" width="320" height="13" backcolor="#E6E6E6" pattern="EEEEE dd MMMMM yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+			<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+			<propertyExpression name="net.sf.jasperreports.export.xls.pattern"><![CDATA["dddd dd MMMM yyyy"]]></propertyExpression>
+		</element>
 	</pageFooter>
-	<summary>
-		<band/>
-	</summary>
+	<summary/>
 </jasperReport>

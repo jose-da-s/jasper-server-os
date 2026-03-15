@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -196,24 +198,6 @@ class ClientDashboardResourceTest extends BaseDTOTest<ClientDashboardResource> {
     }
 
     @Test
-    public void copiedInstanceEqualsToOriginalInstanceWithClientMondrianConnectionResource() {
-        testInstanceWithDefaultParameters.setResource(new ClientMondrianConnection());
-        ClientDashboardResource copied = createInstanceFromOther(testInstanceWithDefaultParameters);
-
-        assertEquals(testInstanceWithDefaultParameters.getResource(), copied.getResource());
-        assertNotSame(testInstanceWithDefaultParameters.getResource(), copied.getResource());
-    }
-
-    @Test
-    public void copiedInstanceEqualsToOriginalInstanceWithClientMondrianXmlaDefinitionResource() {
-        testInstanceWithDefaultParameters.setResource(new ClientMondrianXmlaDefinition());
-        ClientDashboardResource copied = createInstanceFromOther(testInstanceWithDefaultParameters);
-
-        assertEquals(testInstanceWithDefaultParameters.getResource(), copied.getResource());
-        assertNotSame(testInstanceWithDefaultParameters.getResource(), copied.getResource());
-    }
-
-    @Test
     public void copiedInstanceEqualsToOriginalInstanceWithClientQueryResource() {
         testInstanceWithDefaultParameters.setResource(new ClientQuery());
         ClientDashboardResource copied = createInstanceFromOther(testInstanceWithDefaultParameters);
@@ -241,15 +225,6 @@ class ClientDashboardResourceTest extends BaseDTOTest<ClientDashboardResource> {
     }
 
     @Test
-    public void copiedInstanceEqualsToOriginalInstanceWithClientSecureMondrianConnectionResource() {
-        testInstanceWithDefaultParameters.setResource(new ClientSecureMondrianConnection());
-        ClientDashboardResource copied = createInstanceFromOther(testInstanceWithDefaultParameters);
-
-        assertEquals(testInstanceWithDefaultParameters.getResource(), copied.getResource());
-        assertNotSame(testInstanceWithDefaultParameters.getResource(), copied.getResource());
-    }
-
-    @Test
     public void copiedInstanceEqualsToOriginalInstanceWithClientSemanticLayerDataSourceResource() {
         testInstanceWithDefaultParameters.setResource(new ClientSemanticLayerDataSource());
         ClientDashboardResource copied = createInstanceFromOther(testInstanceWithDefaultParameters);
@@ -270,15 +245,6 @@ class ClientDashboardResourceTest extends BaseDTOTest<ClientDashboardResource> {
     @Test
     public void copiedInstanceEqualsToOriginalInstanceWithClientVirtualDataSourceResource() {
         testInstanceWithDefaultParameters.setResource(new ClientVirtualDataSource());
-        ClientDashboardResource copied = createInstanceFromOther(testInstanceWithDefaultParameters);
-
-        assertEquals(testInstanceWithDefaultParameters.getResource(), copied.getResource());
-        assertNotSame(testInstanceWithDefaultParameters.getResource(), copied.getResource());
-    }
-
-    @Test
-    public void copiedInstanceEqualsToOriginalInstanceWithClientXmlaConnectionResource() {
-        testInstanceWithDefaultParameters.setResource(new ClientXmlaConnection());
         ClientDashboardResource copied = createInstanceFromOther(testInstanceWithDefaultParameters);
 
         assertEquals(testInstanceWithDefaultParameters.getResource(), copied.getResource());

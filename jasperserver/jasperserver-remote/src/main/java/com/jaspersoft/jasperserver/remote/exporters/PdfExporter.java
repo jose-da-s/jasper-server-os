@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,13 +25,11 @@ package com.jaspersoft.jasperserver.remote.exporters;
 
 import java.io.OutputStream;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRPropertiesHolder;
 import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -68,66 +68,53 @@ public class PdfExporter implements ReportExporter {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public Map<JRExporterParameter, Object> exportReport(
+	public void exportReport(
 			JasperPrint jasperPrint,
 			OutputStream output,
 			EngineService engineService,
-			HashMap exportParameters,
+            Map<?,?> exportParameters,
 			ExecutionContext executionContext,
 			String reportUnitURI
 			) throws Exception {
-		return exportReport(Collections.singletonList(new SimpleExporterInputItem(jasperPrint)), 
+		exportReport(Collections.singletonList(new SimpleExporterInputItem(jasperPrint)),
 				output, engineService, exportParameters, executionContext, reportUnitURI);
 	}
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public Map<JRExporterParameter, Object> exportReport(
-			List<ExporterInputItem> inputItems,
-			OutputStream output,
-			EngineService engineService,
-			HashMap exportParameters,
-			ExecutionContext executionContext,
-			String reportUnitURI
-			) throws Exception
-	{
-		//set the input/output parameters in the map
-		exportParameters.put(JRExporterParameter.INPUT_ITEM_LIST, inputItems);
-		exportParameters.put(JRExporterParameter.OUTPUT_STREAM, output);
+    @SuppressWarnings("deprecation")
+    @Override
+    public void exportReport(
+            List<ExporterInputItem> inputItems,
+            OutputStream output,
+            EngineService engineService,
+            Map<?,?> exportParameters,
+            ExecutionContext executionContext,
+            String reportUnitURI
+    ) throws Exception {
+        Integer startPageIndex = null;
+        Integer endPageIndex = null;
+        Integer pageIndex = null;
+        // For this implementation, we have to check most of the parameters by our self, we
+        // cannot relais on the benefit of using the AbstractExporter...
 
-		//use the PDF export params bean
-		if (exportParams != null) {
-//			String printLocaleCode = jasperPrint.getLocaleCode();
-//			Locale printLocale = LocaleHelper.getInstance().getLocale(printLocaleCode);
-		}
+        //Check for a RUN_OUTPUT_PAGE key and transform it in a PAGE_INDEX export parameter
+        if (exportParameters.get(Argument.RUN_OUTPUT_PAGE) != null) {
+            pageIndex = Integer.parseInt(String.valueOf(exportParameters.get(Argument.RUN_OUTPUT_PAGE))) - 1;
+        } else if (exportParameters.get(Argument.RUN_OUTPUT_PAGES) != null) {
+            // cast is safe because of known key
+            @SuppressWarnings("unchecked")
+            ReportOutputPages pages = (ReportOutputPages) exportParameters.get(Argument.RUN_OUTPUT_PAGES);
+            if (pages.getPage() != null) {
+                pageIndex = pages.getPage() - 1;
+            } else if (pages.getStartPage() != null && pages.getEndPage() != null) {
+                startPageIndex =  pages.getStartPage() - 1;
+                endPageIndex = pages.getEndPage() - 1;
+            }
+        }
 
-                // For this implementation, we have to check most of the parameters by our self, we
-                // cannot relais on the benefit of using the AbstractExporter...
-
-		//Check for a RUN_OUTPUT_PAGE key and transform it in a PAGE_INDEX export parameter
-                if (exportParameters.get(Argument.RUN_OUTPUT_PAGE) != null)
-                {
-                    int pageIndex = Integer.parseInt( (String)exportParameters.get(Argument.RUN_OUTPUT_PAGE));
-                    pageIndex--; // transform a 1 index page to 0 indexed page...
-                    exportParameters.put(JRExporterParameter.PAGE_INDEX, pageIndex );
-                }else if(exportParameters.get(Argument.RUN_OUTPUT_PAGES) != null){
-                    // cast is safe because of known key
-                    @SuppressWarnings("unchecked")
-                    ReportOutputPages pages = (ReportOutputPages) exportParameters.get(Argument.RUN_OUTPUT_PAGES);
-                    if(pages.getPage() != null){
-                        exportParameters.put(JRExporterParameter.PAGE_INDEX, pages.getPage() - 1);
-                    } else if(pages.getStartPage() != null && pages.getEndPage() != null) {
-                        exportParameters.put(JRExporterParameter.START_PAGE_INDEX, pages.getStartPage() - 1);
-                        exportParameters.put(JRExporterParameter.END_PAGE_INDEX, pages.getEndPage() - 1);
-                    }
-                }
-
-                engineService.exportToPdf(executionContext,
-				reportUnitURI, exportParameters);
-
-		return exportParameters;
-
-	}
+        boolean overrideReportHints = exportParams != null && exportParams.isOverrideReportHints();
+        engineService.exportToPdf(executionContext, reportUnitURI, null, output, startPageIndex, endPageIndex,
+                overrideReportHints, inputItems, pageIndex);
+    }
 
     @Override
     public String getContentType() {

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,34 +23,33 @@
 
 package com.jaspersoft.jasperserver.remote.exporters;
 
+import java.io.OutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.jasperreports.export.*;
+import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.ExportUtil;
-import com.jaspersoft.jasperserver.api.metadata.xml.domain.impl.Argument;
 
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.export.AbstractHtmlExporter;
+import java.util.LinkedHashMap;
+import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.HtmlResourceHandler;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.MapHtmlResourceHandler;
-import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
+
+import com.jaspersoft.jasperserver.api.metadata.xml.domain.impl.Argument;
 
 /*  2012-09-13  thorick: restored 24858 to fix build   */
 /*  2012-09-13  thorick: backout 24858 to fix build
@@ -89,29 +90,36 @@ public class HtmlExporter extends AbstractExporter {
     private String deployBaseUrl;
 
     @Override
-    public JRExporter createExporter() throws Exception {
+    public Exporter createExporter() throws Exception {
         return ExportUtil.getInstance(getJasperReportsContext()).createHtmlExporter();
     }
 
     @Override
-    public void configureExporter(JRExporter exporter, HashMap exportParameters) throws Exception {
+    public ExporterConfiguration createExporterConfiguration() {
+        return new SimpleHtmlExporterConfiguration();
+    }
+
+    @Override
+    public void configureExporter(Exporter exporter, Map<?,?> exportParameters, ExporterConfiguration exporterConfiguration) throws Exception {
         StringBuilder htmlHeader = new StringBuilder();
         final String contextPath;
         if(exportParameters.get(BASE_URL_PARAM_NAME) != null){
-            // if baseUrl is specified fro this export execution, then use it first
+            // if baseUrl is specified for this export execution, then use it first
             contextPath = (String) exportParameters.get(BASE_URL_PARAM_NAME);
         } else if(deployBaseUrl != null && !deployBaseUrl.isEmpty()){
-            // no baseUrl is specified fro this export execution, but it is specified for JRS
+            // no baseUrl is specified for this export execution, but it is specified for JRS
             contextPath = deployBaseUrl;
         } else {
             // no baseUrl is specified, use contextPath from request or no prefix at all
             contextPath = (String) (exportParameters.get(CONTEXT_PATH_PARAM_NAME) != null ?
                     exportParameters.get(CONTEXT_PATH_PARAM_NAME) : "");
         }
-        for (String currentInclude : htmlReportHeaderIncludes) {
-            htmlHeader.append(currentInclude.replaceAll("\\{contextPath\\}", contextPath));
+        if(htmlReportHeaderIncludes != null){
+            for (String currentInclude : htmlReportHeaderIncludes) {
+                htmlHeader.append(currentInclude.replaceAll("\\{contextPath\\}", contextPath));
+            }
         }
-        exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, htmlHeader.toString());
+        ((SimpleHtmlExporterConfiguration) exporterConfiguration).setHtmlHeader(htmlHeader.toString());
         // JR requires HttpServletRequest instance to get contextPath from it.
         // Seems it's the only field queried from the request object.
         // We need to do the trick with proxy to send contextPath to JR without having real request object.
@@ -128,37 +136,41 @@ public class HtmlExporter extends AbstractExporter {
                 return result;
             }
         });
-        exporter.setParameter(ExportUtil.PARAMETER_HTTP_REQUEST, proxy);
-        
-        if (exportParameters.get(JRExporterParameter.IGNORE_PAGE_MARGINS) != null)
-            exporter.setParameter(JRExporterParameter.IGNORE_PAGE_MARGINS, exportParameters.get(JRExporterParameter.IGNORE_PAGE_MARGINS));
+        //proxy set to reportContext below
+
+        if (exportParameters.get(ReportExportConfiguration.PROPERTY_IGNORE_PAGE_MARGINS) != null) {
+            SimpleHtmlReportConfiguration reportConfig = new SimpleHtmlReportConfiguration();
+            reportConfig.setIgnorePageMargins((Boolean)exportParameters.get(ReportExportConfiguration.PROPERTY_IGNORE_PAGE_MARGINS));
+            exporter.setConfiguration(reportConfig);
+        }
 
         AbstractHtmlExporter htmlExporter = (AbstractHtmlExporter)exporter;
-        
+
         // collecting the images into a map
-        Map<String, byte[]> imagesMap = new LinkedHashMap<String, byte[]>();
-        exporter.setParameter(JRHtmlExporterParameter.IMAGES_MAP, imagesMap);
+        Map<String, byte[]> imagesMap = new LinkedHashMap<>();
 
         String resourcePattern;
-        if (exportParameters.get(Argument.RUN_OUTPUT_IMAGES_URI) != null) 
+        if (exportParameters.get(Argument.RUN_OUTPUT_IMAGES_URI) != null)
         {
              resourcePattern = exportParameters.get(Argument.RUN_OUTPUT_IMAGES_URI) + "{0}";
         }
-        else 
+        else
         {
             resourcePattern = "images/{0}";
         }
-        HtmlResourceHandler resourceHandler = 
+        SimpleHtmlExporterOutput htmlExporterOutput = (SimpleHtmlExporterOutput) htmlExporter.getExporterOutput();
+        HtmlResourceHandler resourceHandler =
         	new MapHtmlResourceHandler(
             	new WebHtmlResourceHandler(resourcePattern),
             	imagesMap
         		);
-        htmlExporter.setImageHandler(resourceHandler);
-        htmlExporter.setResourceHandler(resourceHandler);
+        htmlExporterOutput.setImageHandler(resourceHandler);
+        htmlExporterOutput.setResourceHandler(resourceHandler);
         ReportContext reportContext = (ReportContext) exportParameters.get(REPORT_CONTEXT_PARAM_NAME);
-        if (reportContext != null) 
+        if (reportContext != null)
         {
             reportContext.setParameterValue("contextPath", contextPath);// context path to be used by the font handler in JSON exporter
+            reportContext.setParameterValue(HttpServletRequest.class.getName(), proxy); //before done via exporter.setParameter(ExportUtil.PARAMETER_HTTP_REQUEST, proxy);
         }
         htmlExporter.setReportContext(reportContext);
         final boolean allowInlineScripts = exportParameters.get(ALLOW_INLINE_SCRIPTS_PARAM_NAME) != null ? (Boolean)exportParameters.get(ALLOW_INLINE_SCRIPTS_PARAM_NAME) : false;
@@ -166,7 +178,7 @@ public class HtmlExporter extends AbstractExporter {
         if(interactive && allowInlineScripts){
             htmlExporter.getJasperReportsContext().setProperty("com.jaspersoft.jasperreports.highcharts.html.export.type", "standalone");
         }
-        htmlExporter.setFontHandler(new WebHtmlResourceHandler(contextPath + "/reportresource?&font={0}"));
+        htmlExporterOutput.setFontHandler(new WebHtmlResourceHandler(contextPath + "/reportresource?&font={0}"));
     }
 
     @Override
@@ -180,5 +192,10 @@ public class HtmlExporter extends AbstractExporter {
         SimpleJasperReportsContext context = new SimpleJasperReportsContext();
         context.setParent(super.getJasperReportsContext());
         return context;
+    }
+
+    @Override
+    protected ExporterOutput getExporterOutput(OutputStream output) {
+        return new SimpleHtmlExporterOutput(output);
     }
 }

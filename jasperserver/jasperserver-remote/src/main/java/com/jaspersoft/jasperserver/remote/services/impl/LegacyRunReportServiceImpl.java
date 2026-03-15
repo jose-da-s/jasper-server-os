@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -34,11 +36,9 @@ import com.jaspersoft.jasperserver.remote.utils.AuditHelper;
 import com.jaspersoft.jasperserver.inputcontrols.util.ReportParametersUtils;
 import com.jaspersoft.jasperserver.inputcontrols.cascade.InputControlsLogicService;
 import com.jaspersoft.jasperserver.ws.xml.ByteArrayDataSource;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.export.GenericElementReportTransformer;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.util.JRTypeSniffer;
 import net.sf.jasperreports.export.SimpleExporterInputItem;
@@ -219,8 +219,10 @@ public class LegacyRunReportServiceImpl implements LegacyRunReportService, Seria
      * @return OperationResult
      * @throws ServiceException
      */
-    public OperationResult exportReport(String reportUnitURI, JasperPrint jasperPrint, Map<String, String> arguments,
-            Map<String, DataSource> outputResourcesContainer) throws ServiceException {
+    public OperationResult exportReport(String reportUnitURI, JasperPrint jasperPrint,
+                                        Map<String, String> arguments,
+                                        Map<String, DataSource> outputResourcesContainer)
+            throws ServiceException {
 
         long currentTime = System.currentTimeMillis();
         auditHelper.createAuditEvent(RUN_REPORT.toString());
@@ -254,7 +256,7 @@ public class LegacyRunReportServiceImpl implements LegacyRunReportService, Seria
                 bads = new ByteArrayDataSource(bos.toByteArray());
                 outputResourcesContainer.put(KEY_JASPER_PRINT_RESOURCE, bads);
             } else {
-                HashMap<String, Object> exportParameters = new HashMap<String, Object>();
+                Map<String, Object> exportParameters = new HashMap<>();
 
                 String value = arguments.get(Argument.RUN_OUTPUT_PAGE);
                 if (value != null) {
@@ -265,12 +267,15 @@ public class LegacyRunReportServiceImpl implements LegacyRunReportService, Seria
                 if (value != null) exportParameters.put(Argument.RUN_OUTPUT_IMAGES_URI, value);
                 exportParameters.put(HtmlExporter.INTERACTIVE_PARAM_NAME, Boolean.valueOf(arguments.get(Argument.PARAM_INTERACTIVE)));
 
-                Map<JRExporterParameter, Object> exporterParams;
                 try {
-                    exporterParams = reportExecutor.exportReport(reportUnitURI, Collections.singletonList(new SimpleExporterInputItem(jasperPrint)), format, bos, exportParameters);
-                    if (log.isDebugEnabled()) {
-                        log.debug("Exporter params: " + Arrays.asList(exporterParams.keySet().toArray()));
-                    }
+                    // Export to the output stream
+                    reportExecutor.exportReport(
+                            reportUnitURI,
+                            Collections.singletonList(new SimpleExporterInputItem(jasperPrint)),
+                            format,
+                            bos,
+                            exportParameters
+                    );
                 } catch (Exception e) {
                     log.error("Error exporting report", e);
                     throw new ServiceException(ServiceException.EXPORT_ERROR,
@@ -288,7 +293,7 @@ public class LegacyRunReportServiceImpl implements LegacyRunReportService, Seria
 
                 bads = new ByteArrayDataSource(bos.toByteArray(), reportExecutor.getContentType(format));
                 outputResourcesContainer.put("report", bads);
-                addAdditionalAttachmentsForReport(format, exporterParams, outputResourcesContainer);
+                addAdditionalAttachmentsForReport(format, exportParameters, outputResourcesContainer);
             }
 
             if (or.getReturnCode() != 0) {
@@ -324,8 +329,8 @@ public class LegacyRunReportServiceImpl implements LegacyRunReportService, Seria
      * @param outputResourcesContainer - the container to put additional attachments
      * @throws ServiceException
      */
-    private void addAdditionalAttachmentsForReport(String format, Map<JRExporterParameter, Object> exportParameters,
-            Map<String, DataSource> outputResourcesContainer) throws ServiceException {
+    private void addAdditionalAttachmentsForReport(String format, Map<String, Object> exportParameters,
+                                                   Map<String, DataSource> outputResourcesContainer) throws ServiceException {
         if (log.isDebugEnabled()) {
             log.debug("Format requested: " + format + "  " + Argument.RUN_OUTPUT_FORMAT_HTML);
         }
@@ -334,15 +339,24 @@ public class LegacyRunReportServiceImpl implements LegacyRunReportService, Seria
         }
 
         try {
-            // this cast is safe, because of known parameter key
+            // imagesMap wird jetzt unter "IMAGES_MAP" als Standard-String-Key gespeichert
             @SuppressWarnings("unchecked")
-            Map<String, byte[]> imagesMap = (Map<String, byte[]>) exportParameters.get(JRHtmlExporterParameter.IMAGES_MAP);
-            if (log.isDebugEnabled()) {
-                log.debug("imagesMap : " + Arrays.asList(imagesMap.keySet().toArray()));
+            Map<String, byte[]> imagesMap = (Map<String, byte[]>) exportParameters.get("IMAGES_MAP");
+
+            if (imagesMap == null || imagesMap.isEmpty()) {
+                return;
             }
-            for (String name : imagesMap.keySet()) {
-                byte[] data = imagesMap.get(name);
+
+            if (log.isDebugEnabled()) {
+                log.debug("imagesMap : " + imagesMap.keySet());
+            }
+
+            for (Map.Entry<String, byte[]> entry : imagesMap.entrySet()) {
+                String name = entry.getKey();
+                byte[] data = entry.getValue();
+
                 String mimeType = JRTypeSniffer.getImageTypeValue(data).getMimeType();
+
                 if (log.isDebugEnabled()) {
                     log.debug("Adding image for HTML: " + name + ", type: " + mimeType);
                 }

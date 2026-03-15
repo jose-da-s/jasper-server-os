@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -69,17 +71,17 @@ import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.util.PartsUtil;
 import net.sf.jasperreports.export.SimpleExporterInputItem;
 import net.sf.jasperreports.web.JRInteractiveException;
-import net.sf.jasperreports.web.WebReportContext;
-import net.sf.jasperreports.web.actions.AbstractAction;
-import net.sf.jasperreports.web.actions.Action;
-import net.sf.jasperreports.web.actions.MultiAction;
-import net.sf.jasperreports.web.actions.SaveZoomCommand;
+import net.sf.jasperreports.j2ee.web.WebReportContext;
+import net.sf.jasperreports.interactivity.actions.AbstractAction;
+import net.sf.jasperreports.interactivity.actions.Action;
+import net.sf.jasperreports.interactivity.actions.MultiAction;
+import net.sf.jasperreports.interactivity.actions.SaveZoomCommand;
 import net.sf.jasperreports.web.servlets.AsyncJasperPrintAccessor;
 import net.sf.jasperreports.web.servlets.JasperPrintAccessor;
 import net.sf.jasperreports.web.servlets.ReportExecutionStatus;
 import net.sf.jasperreports.web.servlets.ReportPageStatus;
-import net.sf.jasperreports.web.util.JacksonUtil;
-import net.sf.jasperreports.web.util.WebUtil;
+import net.sf.jasperreports.jackson.util.JacksonUtil;
+import net.sf.jasperreports.web.util.WebConstants;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -669,7 +671,7 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
                 exportExecution.getOutputResource().setOutputZoom(outputZoom);
                 exportExecution.getOutputResource().setDataTimestampMessage(getLocalizedTimestampMessage(reportUnitResult.getDataTimestamp()));
                 exportExecution.getOutputResource().setLastPartialPage(
-                        new Integer(jasperPrintAccessor.getReportStatus().getCurrentPageCount()));
+                        jasperPrintAccessor.getReportStatus().getCurrentPageCount());
 
                 ReportContext reportContext = reportUnitResult.getReportContext();
                 DataCacheProvider.SnapshotSaveStatus snapshotSaveStatus =
@@ -973,7 +975,7 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
             ReportContext reportContext = reportExecution.getReportUnitResult().getReportContext();
             JasperReportsContext currentJasperReportsContext = reportExecutor.getJasperReportsContext(reportExecution.getOptions().isInteractive());
 
-            reportContext.setParameterValue(WebUtil.REQUEST_PARAMETER_REPORT_URI, reportExecution.getReportURI());
+            reportContext.setParameterValue(WebConstants.REQUEST_PARAMETER_REPORT_URI, reportExecution.getReportURI());
             Action action = getAction(actionData, currentJasperReportsContext, reportContext);
             JSController controller = new JSController(currentJasperReportsContext);
 
@@ -1207,14 +1209,11 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
                 }
                 HashMap<String, Object> exportParameters = new HashMap<String, Object>(reportExecution.getRawParameters());
                 if (pages != null) exportParameters.put(Argument.RUN_OUTPUT_PAGES, pages);
-                Map<JRExporterParameter, Object> exporterParams;
                 final String reportURI = reportExecution.getReportURI();
                 auditHelper.createAuditEvent(EXPORT.toString());
                 auditHelper.addPropertyToAuditEvent(EXPORT.toString(), "uris", reportURI);
                 try {
-                    exporterParams = reportExecutor.exportReport(reportURI, Collections.singletonList(new SimpleExporterInputItem(jasperPrint)), outputFormat, bos, exportParameters);
-                    if (log.isDebugEnabled())
-                        log.debug("Exporter params: " + Arrays.asList(exporterParams.keySet().toArray()));
+                    reportExecutor.exportReport(reportURI, Collections.singletonList(new SimpleExporterInputItem(jasperPrint)), outputFormat, bos, exportParameters);
                 } catch (ErrorDescriptorException e) {
                     auditHelper.addExceptionToAllAuditEvents(e);
                     throw e;

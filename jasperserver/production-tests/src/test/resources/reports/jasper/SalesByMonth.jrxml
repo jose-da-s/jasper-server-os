@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -34,7 +36,7 @@
 	<style name="Title" isDefault="false" style="Sans_Normal" lineSpacing="Single" fontSize="22"/>
 	<parameter name="TextInput" class="java.lang.Integer"/>
 	<parameter name="CheckboxInput" class="java.lang.Boolean">
-		<defaultValueExpression><![CDATA[new Boolean("true")]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>
 	</parameter>
 	<parameter name="ListInput" class="java.lang.String">
 		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>

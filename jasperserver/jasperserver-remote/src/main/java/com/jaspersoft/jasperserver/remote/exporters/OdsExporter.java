@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,12 +23,13 @@
 package com.jaspersoft.jasperserver.remote.exporters;
 
 import com.jaspersoft.jasperserver.api.engine.jasperreports.common.XlsExportParametersBean;
-import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.export.*;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.OutputStream;
 
 /**
  * @author Yaroslav.Kovalchyk
@@ -34,14 +37,14 @@ import javax.annotation.Resource;
  */
 @Service("remoteOdsExporter")
 @Scope("prototype")
-public class OdsExporter extends XlsExporter{
+public class OdsExporter extends XlsExporter {
     @Override
     public String getContentType() {
         return "application/vnd.oasis.opendocument.spreadsheet";
     }
 
     @Override
-    public JRExporter createExporter() throws Exception {
+    public Exporter createExporter() throws Exception {
         return new JROdsExporter(getJasperReportsContext());
     }
 
@@ -49,5 +52,20 @@ public class OdsExporter extends XlsExporter{
     @Override
     public void setExportParams(XlsExportParametersBean exportParams) {
         super.setExportParams(exportParams);
+    }
+
+    @Override
+    public ExporterConfiguration createExporterConfiguration() {
+        return new SimpleOdsExporterConfiguration();
+    }
+
+    @Override
+    protected ExporterOutput getExporterOutput(OutputStream output) {
+        return new SimpleOutputStreamExporterOutput(output);
+    }
+
+    @Override
+    public AbstractXlsReportConfiguration createReportConfiguration(){
+        return new SimpleOdsReportConfiguration();
     }
 }

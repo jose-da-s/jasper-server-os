@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -32,6 +34,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportDataSource;
+import net.sf.jasperreports.engine.*;
 import org.apache.commons.collections.OrderedMap;
 import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.logging.Log;
@@ -41,24 +44,6 @@ import com.jaspersoft.jasperserver.api.JSException;
 import com.jaspersoft.jasperserver.api.JSExceptionWrapper;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.Query;
 
-import net.sf.jasperreports.engine.DatasetPropertyExpression;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRDataset;
-import net.sf.jasperreports.engine.JRDefaultStyleProvider;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExpression;
-import net.sf.jasperreports.engine.JRField;
-import net.sf.jasperreports.engine.JRGroup;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JRPropertiesHolder;
-import net.sf.jasperreports.engine.JRPropertiesMap;
-import net.sf.jasperreports.engine.JRQuery;
-import net.sf.jasperreports.engine.JRScriptlet;
-import net.sf.jasperreports.engine.JRSortField;
-import net.sf.jasperreports.engine.JRValueParameter;
-import net.sf.jasperreports.engine.JRVariable;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.base.JRBaseDataset;
 import net.sf.jasperreports.engine.base.JRBaseField;
 import net.sf.jasperreports.engine.base.JRBaseObjectFactory;
@@ -66,7 +51,6 @@ import net.sf.jasperreports.engine.base.JRBaseParameter;
 import net.sf.jasperreports.engine.design.JRDesignParameter;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.query.JRQueryExecuter;
-import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.type.WhenResourceMissingTypeEnum;
 import net.sf.jasperreports.engine.util.JRClassLoader;
@@ -133,7 +117,13 @@ public class JRQueryExecuterAdapter {
 				parametersMap.put(parameter.getName(), parameter);
 			}
 
-			JRQueryExecuter executer = queryExecuterFactory.createQueryExecuter(dataset, parametersMap);
+            JasperReportsContext jasperReportsContext = DefaultJasperReportsContext.getInstance();
+            JRQueryExecuter executer = queryExecuterFactory.createQueryExecuter(
+                    jasperReportsContext,
+                    dataset,
+                    parametersMap
+            );
+
 
 			try {
 
@@ -214,12 +204,12 @@ public class JRQueryExecuterAdapter {
 		return (JRField[]) fields.toArray(new JRField[fields.size()]);
 	}
 
-	protected static JRParameter[] getDatasetParameters(JRQueryExecuterFactory queryExecuterFactory,
+	protected static JRParameter[] getDatasetParameters(QueryExecuterFactory queryExecuterFactory,
 			Map parameterValues, List additionalParameters) {
         return getDatasetParameters(queryExecuterFactory, parameterValues, null, additionalParameters);
     }
 
-	protected static JRParameter[] getDatasetParameters(JRQueryExecuterFactory queryExecuterFactory, 
+	protected static JRParameter[] getDatasetParameters(QueryExecuterFactory queryExecuterFactory,
 			Map<String, Object> parameterValues, Map<String, Class<?>> parameterTypes, List additionalParameters) {
 		boolean jdbcConnectionParam = parameterValues.containsKey(JRParameter.REPORT_CONNECTION);
 		
@@ -318,7 +308,12 @@ public class JRQueryExecuterAdapter {
 				parametersMap.put(parameter.getName(), parameterValue);
 			}
 
-			JRQueryExecuter executer = queryExecuterFactory.createQueryExecuter(dataset, parametersMap);
+            JasperReportsContext jasperReportsContext = DefaultJasperReportsContext.getInstance();
+            JRQueryExecuter executer = queryExecuterFactory.createQueryExecuter(
+                    jasperReportsContext,
+                    dataset,
+                    parametersMap
+            );
 			return executer;
 		} catch (JRException e) {
 			throw new JSExceptionWrapper(e);
@@ -399,7 +394,7 @@ public class JRQueryExecuterAdapter {
 		private final JRParameter[] parameters;
 		private final JRQuery query;
 		
-		public ReportQueryDataset(JasperReport report, Query query, JRQueryExecuterFactory queryExecuterFactory) {
+		public ReportQueryDataset(JasperReport report, Query query, QueryExecuterFactory queryExecuterFactory) {
 			this.reportDataset = report.getMainDataset();
 			this.query = getQuery(query);
 			this.parameters = getParams(queryExecuterFactory);
@@ -412,7 +407,7 @@ public class JRQueryExecuterAdapter {
 			return designQuery;
 		}
 
-		private JRParameter[] getParams(JRQueryExecuterFactory queryExecuterFactory) {
+		private JRParameter[] getParams(QueryExecuterFactory queryExecuterFactory) {
 			JRParameter[] paramArray;
 			Object[] builtinParameters = queryExecuterFactory.getBuiltinParameters();
 			if (builtinParameters == null || builtinParameters.length == 0) {
@@ -483,13 +478,9 @@ public class JRQueryExecuterAdapter {
 			return reportDataset.getResourceBundle();
 		}
 
-		public byte getWhenResourceMissingType() {
-			return getWhenResourceMissingTypeValue().getValue();
-		}
-
-		public WhenResourceMissingTypeEnum getWhenResourceMissingTypeValue() {
-			return reportDataset.getWhenResourceMissingTypeValue();
-		}
+		public WhenResourceMissingTypeEnum getWhenResourceMissingType() {
+            return reportDataset.getWhenResourceMissingType();
+        }
 
 		public void setWhenResourceMissingType(byte type) {
 			//nothing

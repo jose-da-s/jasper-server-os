@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,14 +23,14 @@
 
 package com.jaspersoft.jasperserver.remote.exporters;
 
-import java.util.HashMap;
+import java.io.OutputStream;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
-import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.SimpleJasperReportsContext;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
-import net.sf.jasperreports.export.PptxReportConfiguration;
+import net.sf.jasperreports.export.*;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -51,13 +53,18 @@ public class PptxExporter extends AbstractExporter {
 	}
     
     @Override
-    public JRExporter createExporter() throws Exception {
+    public Exporter createExporter() throws Exception {
     	SimpleJasperReportsContext localContext = new SimpleJasperReportsContext(getJasperReportsContext());
         return new JRPptxExporter(localContext);
     }
 
     @Override
-    public void configureExporter(JRExporter exporter, HashMap exportParameters) throws Exception {
+    public ExporterConfiguration createExporterConfiguration() {
+        return new SimplePptxExporterConfiguration();
+    }
+
+    @Override
+    public void configureExporter(Exporter exporter, Map<?,?> exportParameters, ExporterConfiguration exporterConfiguration) throws Exception {
 		if(exportParams != null)
 		{
 			if(exportParams.getIgnoreHyperlink() != null) {
@@ -78,5 +85,10 @@ public class PptxExporter extends AbstractExporter {
     @Override
     public String getContentType() {
         return "application/pptx";
+    }
+
+    @Override
+    protected ExporterOutput getExporterOutput(OutputStream output) {
+        return new SimpleOutputStreamExporterOutput(output);
     }
 }

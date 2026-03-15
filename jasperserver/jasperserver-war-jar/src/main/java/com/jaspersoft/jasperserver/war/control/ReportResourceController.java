@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,19 +24,13 @@ package com.jaspersoft.jasperserver.war.control;
 
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRRuntimeException;
 import net.sf.jasperreports.engine.JasperReportsContext;
-import net.sf.jasperreports.web.util.ContentTypeMapping;
-import net.sf.jasperreports.web.util.DefaultWebResourceHandler;
-import net.sf.jasperreports.web.util.WebResourceHandler;
-import net.sf.jasperreports.web.util.WebUtil;
+import net.sf.jasperreports.j2ee.web.WebResourceHandler;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -465,6 +465,18 @@
             <groupId>com.jaspersoft.jasperserver</groupId>
             <artifactId>jasperserver-dto</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-servlets-j2ee</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-interactivity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-javascript</artifactId>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.sun.mail/all -->
         <dependency>
              <groupId>com.sun.mail</groupId>
@@ -493,12 +505,6 @@
             </exclusions>
             <!--<scope>compile</scope>-->
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>javax.el</groupId>-->
-        <!--<artifactId>el-api</artifactId>-->
-        <!--<version>1.0</version>-->
-        <!--<scope>compile</scope>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

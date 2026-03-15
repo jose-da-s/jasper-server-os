@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -20,12 +22,14 @@
  */
 package com.jaspersoft.jasperserver.remote.exporters;
 
-import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.export.*;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.jaspersoft.jasperserver.api.engine.jasperreports.common.DocxExportParametersBean;
+
+import java.io.OutputStream;
 
 /**
  * @author Yaroslav.Kovalchyk
@@ -40,12 +44,22 @@ public class DocxExporter extends AbstractExporter{
     }
     
     @Override
-    public JRExporter createExporter() throws Exception {
+    public Exporter createExporter() throws Exception {
         return new JRDocxExporter(getJasperReportsContext());
+    }
+
+    @Override
+    public ExporterConfiguration createExporterConfiguration() {
+        return new SimpleDocxExporterConfiguration();
     }
 
     @Override
     public String getContentType() {
         return "application/docx";
+    }
+
+    @Override
+    protected ExporterOutput getExporterOutput(OutputStream output) {
+        return new SimpleOutputStreamExporterOutput(output);
     }
 }

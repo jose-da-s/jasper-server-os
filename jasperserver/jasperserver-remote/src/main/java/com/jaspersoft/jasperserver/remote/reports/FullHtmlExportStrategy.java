@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -30,7 +32,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.ReportContext;
 import net.sf.jasperreports.engine.export.AbstractHtmlExporter;
 import net.sf.jasperreports.engine.export.HtmlResourceHandler;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 
 import org.springframework.stereotype.Service;
@@ -76,7 +79,9 @@ public class FullHtmlExportStrategy extends AbstractHtmlExportStrategy {
         for (String currentInclude : htmlReportHeaderIncludes) {
             htmlHeader.append(currentInclude.replaceAll("\\{contextPath\\}", contextPath));
         }
-        exporter.setParameter(JRHtmlExporterParameter.HTML_HEADER, htmlHeader.toString());
+
+        SimpleHtmlExporterConfiguration exporterConfiguration = new SimpleHtmlExporterConfiguration();
+        exporterConfiguration.setHtmlHeader(htmlHeader.toString());
 
         String resourcesPath = jasperReportsContext.getProperty("net.sf.jasperreports.web.resources.base.path");
         String reportUnitUri = reportExecution.getReportUnitResult().getReportUnitURI();
@@ -84,7 +89,8 @@ public class FullHtmlExportStrategy extends AbstractHtmlExportStrategy {
         com.jaspersoft.jasperserver.api.metadata.common.domain.Resource reportUnitResource = repositoryService.getResource(
                 executionContext, reportUnitUri);
 
-        exporter.setParameter(JRHtmlExporterParameter.RESOURCE_HANDLER, new HtmlResourceHandler() {
+        SimpleHtmlExporterOutput htmlExporterOutput = new SimpleHtmlExporterOutput(new StringBuilder());
+        htmlExporterOutput.setResourceHandler(new HtmlResourceHandler() {
             @Override
             public String getResourcePath(String id) {
                 if (!isUrl(id)) {
@@ -103,8 +109,10 @@ public class FullHtmlExportStrategy extends AbstractHtmlExportStrategy {
                 //NOOP
             }
         });
-        exporter.setFontHandler(new WebHtmlResourceHandler(contextPath + "/reportresource?&font={0}"));
+        htmlExporterOutput.setFontHandler(new WebHtmlResourceHandler(contextPath + "/reportresource?&font={0}"));
 
+        exporter.setExporterOutput(htmlExporterOutput);
+        exporter.setConfiguration(exporterConfiguration);
         return exporter;
     }
 

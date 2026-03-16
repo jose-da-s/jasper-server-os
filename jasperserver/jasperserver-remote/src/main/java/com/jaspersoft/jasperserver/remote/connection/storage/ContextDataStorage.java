@@ -68,14 +68,7 @@ public class ContextDataStorage {
     }
 
     public void update(UUID uuid, ContextDataPair item){
-        // Check if the key exists before updating. In the original EhCache2 implementation,
-        // cache.replace() only updated existing entries. Spring Cache put() always inserts/updates.
-        // This check ensures we maintain the original behavior of only updating existing entries,
-        // preventing potential creation of new contexts through update() calls.
-        if (cache.get(uuid) == null) {
-            throw new ResourceNotFoundException(uuid.toString());
-        }
-        cache.put(uuid, item);
+        cache.replace(uuid, item);
     }
 
 }

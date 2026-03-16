@@ -33,7 +33,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Validates that all required caches are properly configured in the Spring CacheManager.
+ * Validates that all required caches are properly configured in the CacheManager.
  * <p>
  * This validator runs during application startup to fail-fast if any required cache
  * is missing from the configuration (ehcache.xml). This prevents cryptic runtime errors
@@ -94,7 +94,7 @@ public class CacheManagerValidator {
             return;
         }
 
-        log.info("Validating Spring Cache configuration...");
+        log.info("Validating Cache configuration...");
 
         List<String> missingCaches = findMissingCaches();
 
@@ -148,9 +148,9 @@ public class CacheManagerValidator {
     }
 
     /**
-     * Sets the Spring CacheManager to validate.
+     * Sets the CacheManager to validate.
      *
-     * @param cacheManager the cache manager (typically springCacheManager)
+     * @param cacheManager the cache manager
      */
     public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;

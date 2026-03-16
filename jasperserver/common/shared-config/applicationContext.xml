@@ -2147,7 +2147,6 @@
         <property name="cache" ref="systemUserStorageCache"/>
     </bean>
 
-    <!-- Cache for SystemLoggedInUserStorage - Spring Cache abstraction wrapper -->
     <bean id="systemUserStorageCache" factory-bean="cacheManager" factory-method="getCache">
         <constructor-arg value="systemUserStorageCache" />
     </bean>

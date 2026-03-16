@@ -50,7 +50,7 @@ public class ControlLogicCacheManagerImpl implements ControlLogicCacheManager, I
     public void afterPropertiesSet() throws Exception {
         if (cacheManager != null) {
             inputControlCache = cacheManager.getCache("inputControlCache");
-            // Spring Cache automatically handles cache expiration through ehcache.xml configuration (timeToIdleSeconds, timeToLiveSeconds).
+            // Ehache 3 automatically handles cache expiration through ehcache.xml configuration (timeToIdleSeconds, timeToLiveSeconds).
             // Manual timer-based cleanup via EhCacheCleanerRunner is no longer needed.
         }
     }

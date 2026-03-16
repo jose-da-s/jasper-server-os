@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,19 +23,14 @@
 package com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.jaspersoft.jasperserver.api.engine.jasperreports.util.RepositoryCacheMap;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import javax.cache.Cache;
 
-import net.sf.ehcache.Status;
-import net.sf.ehcache.event.CacheEventListener;
 import org.apache.commons.collections.OrderedMap;
 
 import com.jaspersoft.jasperserver.api.common.domain.ExecutionContext;
@@ -43,7 +40,10 @@ import org.apache.commons.lang3.StringUtils;
 
 public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements EhcacheEngineService {
 
+	private static final Log log = LogFactory.getLog(EhcacheEngineServiceImpl.class);
+
 	private static class DiagnosticCacheKey implements Serializable {
+
 		private static final long serialVersionUID = 20150210130500L;
 
 		private final String uri;
@@ -96,23 +96,23 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 	}
 
 
-	private Ehcache cache;
+	private Cache<String, OrderedMap> cache;
 
-	private Ehcache diagnosticCache;
+	private Cache<Serializable, Object> diagnosticCache;
 
-	public Ehcache getCache() {
+	public Cache<String, OrderedMap> getCache() {
 		return cache;
 	}
 
-	public void setCache(Ehcache cache) {
+	public void setCache(Cache<String, OrderedMap> cache) {
 		this.cache = cache;
 	}
 
-	public Ehcache getDiagnosticCache() {
+	public Cache<Serializable, Object> getDiagnosticCache() {
 		return diagnosticCache;
 	}
 
-	public void setDiagnosticCache(Ehcache diagnosticCache) {
+	public void setDiagnosticCache(Cache<Serializable, Object> diagnosticCache) {
 		this.diagnosticCache = diagnosticCache;
 	}
 
@@ -123,14 +123,12 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 	public EngineService getEngineService() {
 		return getDecoratedEngine();
 	}
-		
+
     public OrderedMap executeQuery(ExecutionContext context,
-		ResourceReference queryReference, String keyColumn, String[] resultColumns,
-		ResourceReference defaultDataSourceReference,
-		Map parameterValues, Map<String, Class<?>> parameterTypes, boolean formatValueColumns) 
-    {
+    		ResourceReference queryReference, String keyColumn, String[] resultColumns,
+    		ResourceReference defaultDataSourceReference,
+    		Map parameterValues, Map<String, Class<?>> parameterTypes, boolean formatValueColumns) {
 		String key = (String)parameterValues.get(IC_CACHE_KEY);
-		Element e = null;
 		OrderedMap value = null;
         boolean refresh = parameterValues!=null&&parameterValues.containsKey(IC_REFRESH_KEY);
 
@@ -158,21 +156,19 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 					removeFromDiagnosticCache(diagnosticKey);
 				}
 			} else {
-				e = cache.get(key);
-	    		if (e!=null) {
-	    			value = (OrderedMap)(e.getValue());
-	    			if (value!=null) return value;
-	    		}
+				value = cache.get(key);
+	    		if (value != null)
+	    			return value;
 				if (diagnostic) {
 					value = (OrderedMap) getFromDiagnosticCache(diagnosticKey);
-					if (value != null) return value;
+					if (value != null)
+						return value;
 				}
 			}
 		}
 		value=getDecoratedEngine().executeQuery(context, queryReference, keyColumn, resultColumns, defaultDataSourceReference, parameterValues, parameterTypes, formatValueColumns);
-		if (key!=null&&value!=null) {
-			e = new Element(key,value);
-			cache.put(e);
+		if (key != null && value != null) {
+			cache.put(key, value);
 			if (diagnostic) {
 				putToDiagnocsticCache(diagnosticKey, value);
 				saveKeyToDiagnosticCache(diagnosticReportURI, diagnosticKey, DiagnosticItemType.INPUT_CONTROL_CACHE);
@@ -182,13 +178,12 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
     }
    
     public void clear() {
-    	cache.removeAll();
+    	cache.clear();
     }
 
 	public synchronized void removeFromDiagnosticCache(Serializable key) {
-		if (key != null && diagnosticCache.getStatus()== Status.STATUS_ALIVE) {
+		if (key != null)
 			diagnosticCache.remove(key);
-		}
 	}
 
 	public synchronized void removeDiagnosticKeys(String uri) {
@@ -196,8 +191,8 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 			return;
 		}
 
-		List keys = Collections.unmodifiableList(diagnosticCache.getKeys());
-		for (Object key : keys) {
+		for (javax.cache.Cache.Entry<Serializable, Object> entry : diagnosticCache) {
+			Object key = entry.getKey();
 			if (key instanceof DiagnosticCacheKey) {
 				DiagnosticCacheKey cacheKey = (DiagnosticCacheKey) key;
 				if (cacheKey.getUri().equals(uri)) {
@@ -208,26 +203,22 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 	}
 
 	public synchronized Serializable getFromDiagnosticCache(Serializable key) {
-		if (key != null && diagnosticCache.getStatus()== Status.STATUS_ALIVE) {
-			Element e = diagnosticCache.get(key);
-			if (e != null) {
-				return e.getValue();
-			}
-		}
-		return null;
+		if (key == null)
+			return null;
+		return (Serializable) diagnosticCache.get(key);
 	}
 
 	public synchronized void putToDiagnocsticCache(Serializable key, Object value) {
-		if (key != null && value != null && diagnosticCache.getStatus() == Status.STATUS_ALIVE) {
-			diagnosticCache.put(new Element(key,value));
+		if (key != null && value != null) {
+			diagnosticCache.put(key, value);
 		}
 	}
 
 	public synchronized void saveKeyToDiagnosticCache(String uri, Serializable key, DiagnosticItemType type) {
 		if (type == null) throw new IllegalArgumentException("type is null");
 
-		if (key != null && StringUtils.isNotBlank(uri) && diagnosticCache.getStatus() == Status.STATUS_ALIVE) {
-			diagnosticCache.put(new Element(new DiagnosticCacheKey(key, uri, type), ""));
+		if (key != null && StringUtils.isNotBlank(uri)) {
+			diagnosticCache.put(new DiagnosticCacheKey(key, uri, type), "");
 		}
 	}
 
@@ -237,11 +228,11 @@ public class EhcacheEngineServiceImpl extends EngineBaseDecorator implements Ehc
 			return result;
 		}
 
-		List keys = diagnosticCache.getKeys();
-		for (Object key : keys) {
+		for (javax.cache.Cache.Entry<Serializable, Object> entry : diagnosticCache) {
+			Object key = entry.getKey();
 			if (key instanceof DiagnosticCacheKey) {
 				DiagnosticCacheKey cacheKey = (DiagnosticCacheKey) key;
-				if (cacheKey.getUri().equals(uri) && cacheKey.getType().equals(type)) {
+				if (cacheKey.getUri().equals(uri)) {
 					result.add(cacheKey.getKey());
 				}
 			}

@@ -1,4 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -19,26 +23,39 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<ehcache name="dataSnapshots">
+<config
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns='http://www.ehcache.org/v3'
+        xmlns:jcache="http://www.ehcache.org/v3/jsr107"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+        					http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
 
-    <diskStore path="${ehcache.disk.store.dir}/dataSnapshots"/>
+	<service>
+		<jcache:defaults default-template="defaultCacheTemplate" enable-management="true" enable-statistics="true">
+		</jcache:defaults>
+	</service>
 
-	<cache name="snapshotMetadata"
-		maxElementsInMemory="1000"
-		eternal="false" 
-		overflowToDisk="false"
-		timeToIdleSeconds="600"
-		timeToLiveSeconds="7200"
-		diskPersistent="false"
-        statistics="true"/>
+    <persistence directory="${ehcache.disk.store.dir}/dataSnapshots"/>
 
-	<cache name="snapshotContents"
-		maxElementsInMemory="20"
-		eternal="false" 
-		overflowToDisk="false"
-		timeToIdleSeconds="600"
-		timeToLiveSeconds="7200"
-		diskPersistent="false"
-        statistics="true"/>
+	<cache-template name="defaultCacheTemplate">
+		<expiry>
+            <ttl unit="seconds">120</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache-template>
 
-</ehcache>
+    <cache alias="snapshotMetadataCache">
+		<expiry>
+            <ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
+
+    <cache alias="snapshotContentsCache">
+		<expiry>
+            <ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">20</heap>
+	</cache>
+
+</config>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -163,48 +163,101 @@ public class DiagnosticAttributeBuilder {
     public final static String HIBERNATE_OPTIMISTIC_FAILURE_COUNT = "OptimisticFailureCount";
     public final static String HIBERNATE_QUERY_EXECUTION_MAX_TIME_QUERY_STRING = "QueryExecutionMaxTimeQueryString";
 
-    //Diagnostic EhCache Statistics Section
-    public final static String EHCACHE_STAT_CACHEHIT_PERCENTAGE = "CacheHitPercentage";
-    public final static String EHCACHE_STAT_CACHEHITS = "CacheHits";
-    public final static String EHCACHE_STAT_CACHEMISS_PERCENTAGE = "CacheMissPercentage";
-    public final static String EHCACHE_STAT_CACHEMISSES = "CacheMisses";
+    //Diagnostic JCache Statistics Section
+    public final static String JCACHE_STAT_CACHEHITS = "CacheHits";
+    public final static String JCACHE_STAT_CACHEHITPERCENTAGE = "CacheHitPercentage";
+    public final static String JCACHE_STAT_CACHEMISSES = "CacheMisses";
+    public final static String JCACHE_STAT_CACHEMISSPERCENTAGE = "CacheMissPercentage";
+    public final static String JCACHE_STAT_CACHEGETS = "CacheGets";
+    public final static String JCACHE_STAT_CACHEPUTS = "CachePuts";
+    public final static String JCACHE_STAT_CACHEREMOVALS = "CacheRemovals";
+    public final static String JCACHE_STAT_CACHEEVICTIONS = "CacheEvictions";
+    public final static String JCACHE_STAT_AVERAGEGETTIME = "AverageGetTime";
+    public final static String JCACHE_STAT_AVERAGEPUTTIME = "AveragePutTime";
+    /** @deprecated @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_DISKSTORECOUNT = "DiskStoreObjectCount";
+    /** @deprecated @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_DISKHITT_PERCENTAGE = "OnDiskHitPercentage";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_DISKHITS = "OnDiskHits";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_DISKMISSES = "OnDiskMisses";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_MEMORYSTORECOUNT = "MemoryStoreObjectCount";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_MEMORYHITS = "InMemoryHits";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_MEMORYHITT_PERCENTAGE = "InMemoryHitPercentage";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_MEMORYMISSES = "InMemoryMisses";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_OFFHEAPSTORECOUNT = "OffHeapStoreObjectCount";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_OFFHEAPHITS = "OffHeapHits";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_OFFHEAPHITT_PERCENTAGE = "OffHeapHitPercentage";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_OFFHEAPMISSES = "OffHeapMisses";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_OBJECTCOUNT = "ObjectCount";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_WRITEMAXQUEUE = "WriteMaxQueueSize";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_WRITEQUEUELENGTH = "WriteQueueLength";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_ACCURACY = "StatisticsAccuracy";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_STAT_ACCURACYDESCR = "StatisticsAccuracyDescription";
 
-    //Diagnostic EhCache Configuration Section
+    // Diagnostic JCache Configuration Section
+    public final static String JCACHE_CONF_KEYTYPE = "KeyType";
+    public final static String JCACHE_CONF_VALUETYPE = "ValueType";
+    public final static String JCACHE_CONF_READTHROUGH = "ReadThrough";
+    public final static String JCACHE_CONF_WRITETHROUGH = "WriteThrough";
+    public final static String JCACHE_CONF_STOREBYVALUE = "StoreByValue";
+    public final static String JCACHE_CONF_STATISTICSENABLED = "StatisticsEnabled";
+    public final static String JCACHE_CONF_MANAGEMENTENABLED = "ManagementEnabled";
+    // Ehcache specific configuration attributes
+    public final static String EHCACHE_CONF_HEAPSIZE = "Ehcache.HeapSize";
+    public final static String EHCACHE_CONF_HEAPUNIT = "Ehcache.HeapUnit";
+    public final static String EHCACHE_CONF_OFFHEAPSIZE = "Ehcache.OffHeapSize";
+    public final static String EHCACHE_CONF_OFFHEAPUNIT = "Ehcache.OffHeapUnit";
+    public final static String EHCACHE_CONF_DISKSIZE = "Ehcache.DiskSize";
+    public final static String EHCACHE_CONF_DISKUNIT = "Ehcache.DiskUnit";
+    public final static String EHCACHE_CONF_TIME_IDLE = "Ehcache.TimeToIdle";
+    public final static String EHCACHE_CONF_TIME_LIVE = "Ehcache.TimeToLive";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_STATISTICS = "Conf.Statistics";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_DISKEXPIRYTHREAD = "Conf.DiskExpiryThreadIntervalSeconds";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_DISKEPERSISTENT = "DiskPersistent";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_DISKSPOOL = "Conf.DiskSpoolBufferSizeMB";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_ETERNAL = "Eternal";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_LOGGING = "Conf.LoggingEnabled";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_MBYTE_LOCALDISK = "Conf.MaxBytesLocalDisk";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_MBYTE_LOCALHEAP = "Conf.MaxBytesLocalHeap";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_MBYTE_LOCALOFFHEAP = "Conf.MaxBytesLocalOffHeap";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_MELEMENTS_LOCALDISK = "Conf.MaxElementsOnDisk";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_MELEMENTS_MEMORY = "Conf.MaxElementsInMemory";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_MENTRYES_MEMORY = "Conf.MaxEntriesLocalDisk";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_MENTRYES_LOCALHEAP = "Conf.MaxEntriesLocalHeap";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_MEMORYSTORE_POLICY = "Conf.MemoryStoreEvictionPolicy";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_OVERFLOW_DISK = "OverflowToDisk";
+    /** @deprecated No longer supported in Ehcache 3 */
     public final static String EHCACHE_CONF_OVERFLOW_OFFHEAP = "OverflowToOffHeap";
-    public final static String EHCACHE_CONF_TIME_IDLE = "Conf.TimeToIdleSeconds";
-    public final static String EHCACHE_CONF_TIME_LIVE = "Conf.TimeToLiveSeconds";
 
     public final static String DIAGNOSTIC_ATTRIBUTE_MESSAGES_PREFIX ="diagnosticAttribute.desc.";
 

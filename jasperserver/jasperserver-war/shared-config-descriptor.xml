@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary.
   ~ Licensed pursuant to commercial Cloud Software Group, Inc End User License Agreement.
   -->
@@ -15,7 +17,7 @@
     <fileSets>
         <fileSet>
             <directory>${project.basedir}/shared-config</directory>
-            <outputDirectory></outputDirectory>
+            <outputDirectory>classes</outputDirectory>
             <includes>
                 <include>**/ehcache-data-snapshots.xml</include>
             </includes>

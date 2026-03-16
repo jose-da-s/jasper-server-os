@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,11 +23,9 @@
 package com.jaspersoft.jasperserver.api.security;
 
 import com.jaspersoft.jasperserver.api.metadata.security.JasperServerAclImpl;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import javax.cache.Cache;
 import org.springframework.security.acls.model.Acl;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.PermissionGrantingStrategy;
@@ -38,10 +38,10 @@ import org.springframework.util.Assert;
 
 public class EhCacheBasedJasperServerAclCache implements NonMutableAclCache {
     private static final Log log = LogFactory.getLog(EhCacheBasedJasperServerAclCache.class);
-    private final Ehcache cache;
+    private final Cache<String, Acl> cache;
     private PermissionGrantingStrategy permissionGrantingStrategy;
 
-    public EhCacheBasedJasperServerAclCache(Ehcache cache, PermissionGrantingStrategy permissionGrantingStrategy) {
+    public EhCacheBasedJasperServerAclCache(Cache<String, Acl> cache, PermissionGrantingStrategy permissionGrantingStrategy) {
         Assert.notNull(cache, "Cache required");
         Assert.notNull(permissionGrantingStrategy, "PermissionGrantingStrategy required");
         this.cache = cache;
@@ -52,11 +52,13 @@ public class EhCacheBasedJasperServerAclCache implements NonMutableAclCache {
     @Override
     public void evictFromCache(ObjectIdentity objectIdentity) {
         Assert.notNull(objectIdentity, "ObjectIdentity required");
-        Boolean result=cache.remove(objectIdentity.getIdentifier().toString());
+        String key = objectIdentity.getIdentifier().toString();
+        Acl value = cache.get(key);
+        boolean existed = (value != null);
+        cache.remove(key);
 
         // Alarm when we try to evict root permissions - this means we was changing them
-        if (result && (objectIdentity.getIdentifier().toString().equals("/") ||
-                objectIdentity.getIdentifier().toString().equals("repo:/"))) {
+        if (existed && (key.equals("/") || key.equals("repo:/"))) {
             log.warn("Clearing permission cache for root !!!");
         }
 
@@ -66,21 +68,18 @@ public class EhCacheBasedJasperServerAclCache implements NonMutableAclCache {
     public Acl getFromCache(ObjectIdentity objectIdentity) {
         Assert.notNull(objectIdentity, "ObjectIdentity required");
 
-        Element element = null;
+        Acl value = null;
 
         try {
-            element = cache.get(objectIdentity.getIdentifier().toString());
-        } catch (CacheException ignored) {
+        	value = cache.get(objectIdentity.getIdentifier().toString());
+        } catch (RuntimeException ignored) {
             log.error("**** Error getting ACL from cache for " + objectIdentity.getIdentifier().toString(), ignored);
         }
 
-        if (element == null) {
+        if (value == null)
             return null;
-        }
 
-
-
-        Acl toreturn = initializeTransientFields((Acl)element.getValue());
+        Acl toreturn = initializeTransientFields(value);
         return toreturn;
     }
 
@@ -110,9 +109,7 @@ public class EhCacheBasedJasperServerAclCache implements NonMutableAclCache {
             }
         }
 
-        cache.put(new Element(acl.getObjectIdentity().getIdentifier().toString(), acl));
-
-
+        cache.put(acl.getObjectIdentity().getIdentifier().toString(), acl);
     }
 
     private Acl initializeTransientFields(Acl value) {
@@ -143,7 +140,6 @@ public class EhCacheBasedJasperServerAclCache implements NonMutableAclCache {
 
     @Override
     public void clearCache() {
-        cache.removeAll();
-
+        cache.clear();
     }
 }

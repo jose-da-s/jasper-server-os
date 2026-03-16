@@ -62,8 +62,6 @@ import com.jaspersoft.jasperserver.remote.services.*;
 import com.jaspersoft.jasperserver.remote.services.impl.reportinfo.ReportInfo;
 import com.jaspersoft.jasperserver.remote.utils.AuditHelper;
 import com.jaspersoft.jasperserver.war.action.JSController;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.GenericElementReportTransformer;
 import net.sf.jasperreports.engine.export.type.ZoomTypeEnum;
@@ -98,6 +96,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+
+import javax.cache.Cache;
 
 import javax.annotation.Resource;
 import javax.ws.rs.core.Response;
@@ -179,15 +179,14 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
     @Autowired
     private ApplicationContext applicationContext;
 
-    private Ehcache getExecutionsCache() {
+    private Cache<String, Pair<String, ReportExecution>> getExecutionsCache() {
         return cacheFactoryBean.getObject();
     }
 
     private ReportExecution getReportExecutionFromCache(final String requestId) {
-        final Element element = getExecutionsCache().get(requestId);
-        if (missesExecution(element)) return null;
+    	Pair<String, ReportExecution> value = getExecutionsCache().get(requestId);
+        if (value == null) return null;
 
-        Pair<String, ReportExecution> value = (Pair<String, ReportExecution>) element.getObjectValue();
         if (!isSameUser(value.getKey())) return null;
 
         return value.getValue();
@@ -201,15 +200,14 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
      * @return a report execution that might belong to another user
      */
     private ReportExecution getReportExecutionFromCacheNoUserCheck(final String requestId) {
-        final Element element = getExecutionsCache().get(requestId);
-        return (!missesExecution(element)) ? ((Pair<String, ReportExecution>) element.getObjectValue()).getValue() : null;
+    	Pair<String, ReportExecution> value = getExecutionsCache().get(requestId);
+        return (value != null) ? value.getValue() : null;
     }
 
     private void putReportExecutionToCache(final String requestId, final ReportExecution reportExecution) {
-        final Element element = new Element(requestId, Pair.of(
+        getExecutionsCache().put(requestId, Pair.of(
                 getCurrentUserQualifiedName(), reportExecution
         ));
-        getExecutionsCache().put(element);
     }
 
     public ReportExecution getReportExecution(String requestId) throws ResourceNotFoundException {
@@ -1292,7 +1290,8 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
                         virtualizerFactory.disposeReport(execution.getReportUnitResult());
                     }
                 }
-                return getExecutionsCache().remove(requestId);
+                getExecutionsCache().remove(requestId);
+                return true;
             }
             return false;
         } catch (RuntimeException e) {
@@ -1306,22 +1305,21 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
 
     @Override
     public void destroy() {
-        List<?> keys = getExecutionsCache().getKeys();
-        keys.stream()
-                .map(Object::toString)
-                .forEach(requestId -> {
-                    ReportExecution execution = getReportExecutionFromCache(requestId);
-                    try {
-                        cancelReportExecution(requestId, unsecuredEngine);
-                        if (execution != null && execution.getStatus() == ExecutionStatus.ready) {
-                            virtualizerFactory.disposeReport(execution.getFinalReportUnitResult());
-                        }
-                    } catch (RuntimeException ex) {
-                        log.warn("Report execution cleanup failed: ", ex);
-                    }
-                });
-        getExecutionsCache().removeAll(keys);
-        getExecutionsCache().evictExpiredElements();
+    	Cache<String, Pair<String, ReportExecution>> cache = getExecutionsCache();
+
+		for (javax.cache.Cache.Entry<String, Pair<String, ReportExecution>> entry : cache) {
+			String requestId = entry.getKey().toString();
+	        ReportExecution execution = getReportExecutionFromCache(requestId);
+	        try {
+	            cancelReportExecution(requestId, unsecuredEngine);
+	            if (execution != null && execution.getStatus() == ExecutionStatus.ready) {
+	                virtualizerFactory.disposeReport(execution.getFinalReportUnitResult());
+	            }
+	        } catch (RuntimeException ex) {
+	            log.warn("Report execution cleanup failed: ", ex);
+	        }
+	        cache.remove(entry.getKey());
+		}
     }
 
     private boolean isSameUser(String userName) {
@@ -1331,10 +1329,6 @@ public class RunReportServiceImpl implements RunReportService, Serializable, Dis
         return new EqualsBuilder()
                 .append(userName, currentUserName)
                 .isEquals();
-    }
-
-    private boolean missesExecution(Element element) {
-        return element == null || element.getObjectValue() == null;
     }
 
 

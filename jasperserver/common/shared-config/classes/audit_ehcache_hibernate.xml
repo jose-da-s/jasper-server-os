@@ -1,4 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -19,279 +23,34 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<ehcache name="audit_hibernate">
+<config
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns='http://www.ehcache.org/v3'
+        xmlns:jcache="http://www.ehcache.org/v3/jsr107"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+        					http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
 
-    <diskStore path="${ehcache.disk.store.dir}/audit_hibernate"/>
+	<service>
+		<jcache:defaults default-template="defaultCacheTemplate" enable-management="true" enable-statistics="true">
+			<jcache:cache name="defaultRepoCache" template="defaultRepoCacheTemplate"/>
+		</jcache:defaults>
+	</service>
 
-<!-- Below are four configurations:
-1. No clustering (default)
-2. RMI distribution with autodiscovery based on multicast
-   - For this to work IP-Multicasting must be enabled on all nodes 
-3. JMS distribution based on ActiveMQ JMS server
-   - Make sure you have correct IP:PORT for each providerURL property
-4. AWS distribution utilizing Amazon SNS/SQS services. Using this option might incurr additional costs as Amazon charges customers per API call.
-   - note that this is experimental support and that ActiveMQ JMS option also works for AWS and is a preferred method of distribution.
+    <persistence directory="${ehcache.disk.store.dir}/audit_hibernate"/>
 
-********************************************************************************
-* If you have clustering environment comment or remove default "NO CLUSTERING" * 
-* segment and uncomment ONE of the options provided                            *
-* by removing "START" and "END" lines inside the corresponding block           *
-* (RMI, JMS or AWS)                                                            *
-********************************************************************************
---> 
-	<defaultCache 
-		maxElementsInMemory="10000" 
-		eternal="false" 
-		overflowToDisk="false" 
-		timeToIdleSeconds="3600" 
-		timeToLiveSeconds="18000" 
-		diskPersistent="false" 
-		diskExpiryThreadIntervalSeconds="120"/>
+	<cache-template name="defaultCacheTemplate">
+		<expiry>
+            <ttl unit="seconds">10800</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache-template>
 
-<!-- ******************************************************************** NO CLUSTERING *************************************************** -->
-      <cache name="defaultRepoCache"
-                maxElementsInMemory="10000"
-                eternal="false"
-                overflowToDisk="false"
-                timeToIdleSeconds="36000"
-                timeToLiveSeconds="180000"
-                diskPersistent="false"
-                diskExpiryThreadIntervalSeconds="120"
-                statistics="true">
-        </cache>
+	<cache-template name="defaultRepoCacheTemplate">
+		<expiry>
+            <ttl unit="days">2</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache-template>
 
-<!-- ******************************************************************** END of NO CLUSTERING ******************************************** -->
-
-<!-- ********************************************************************   RMI  ********************************************************** -->
-     <!-- START 
-	<cacheManagerPeerProviderFactory
-		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
-		properties="peerDiscovery=automatic,multicastGroupAddress=228.0.0.1,multicastGroupPort=4446,timeToLive=1"/>
-	<cacheManagerPeerListenerFactory
-		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
-		properties="port=40011,remoteObjectPort=40012,socketTimeoutMillis=120000"/>
-
-	<cache name="org.hibernate.cache.internal.StandardQueryCache"
-		maxEntriesLocalHeap="5000"
-		maxElementsInMemory="5000"
-		eternal="false"
-		timeToLiveSeconds="120">
-               
-		<cacheEventListenerFactory
-                        class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
-                        properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
-        	<bootstrapCacheLoaderFactory
-            		class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"
-            		properties="bootstrapAsynchronously=true, maximumChunkSizeBytes=5000000"/>
-
-	</cache>
-
-	<cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
-		maxEntriesLocalHeap="5000"
-		eternal="true">
-               
-		<cacheEventListenerFactory
-                        class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
-                        properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=true, replicateRemovals=true "/>
-        	<bootstrapCacheLoaderFactory
-            		class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"
-            		properties="bootstrapAsynchronously=true, maximumChunkSizeBytes=5000000"/>
-	</cache>
-	
-	<cache name="defaultRepoCache" 
-		maxElementsInMemory="10000" 
-		eternal="false" 
-		overflowToDisk="false" 
-		timeToIdleSeconds="36000" 
-		timeToLiveSeconds="180000" 
-		diskPersistent="false" 
-		diskExpiryThreadIntervalSeconds="120"
-        	statistics="true">
-        	
-		<cacheEventListenerFactory
-			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
-			properties="replicateAsynchronously=true, replicatePuts=false, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
-	        <bootstrapCacheLoaderFactory
-        		class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"
-			properties="bootstrapAsynchronously=true, maximumChunkSizeBytes=5000000"/>
-	</cache>
-
-     END -->
-<!-- ********************************************  END of  RMI   ************************************************ -->	
-
-<!-- ***************************************************   JMS   ************************************************ -->
-     <!-- START 
-        <cacheManagerPeerProviderFactory
-                class="net.sf.ehcache.distribution.jms.JMSCacheManagerPeerProviderFactory"
-                properties="initialContextFactoryName=com.jaspersoft.jasperserver.api.engine.replication.JRSActiveMQInitialContextFactory,
-                providerURL=tcp://localhost:61616,
-                replicationTopicConnectionFactoryBindingName=topicConnectionFactory,
-                replicationTopicBindingName=ehcache,
-                getQueueConnectionFactoryBindingName=queueConnectionFactory,
-                getQueueBindingName=ehcacheQueue,
-                topicConnectionFactoryBindingName=topicConnectionFactory,
-                topicBindingName=ehcache"
-                propertySeparator=","/>
-	
-
-        <cache name="org.hibernate.cache.internal.StandardQueryCache"
-                maxEntriesLocalHeap="5000"
-                maxElementsInMemory="5000"
-                eternal="false"
-                timeToLiveSeconds="120">
-
-                <cacheEventListenerFactory
-                        class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory"
-                        properties="replicateAsynchronously=true,
-                        replicatePuts=true,
-                        replicateUpdates=true,
-                        replicateUpdatesViaCopy=false,
-                        replicateRemovals=true,
-                        asynchronousReplicationIntervalMillis=1000"
-                        propertySeparator=","/>
-
-                <cacheLoaderFactory
-                        class="net.sf.ehcache.distribution.jms.JMSCacheLoaderFactory"
-                        properties="initialContextFactoryName=com.jaspersoft.jasperserver.api.engine.replication.JRSActiveMQInitialContextFactory,
-                        providerURL=tcp://localhost:61616,
-                        replicationTopicConnectionFactoryBindingName=topicConnectionFactory,
-                        replicationTopicBindingName=ehcache,
-                        getQueueConnectionFactoryBindingName=queueConnectionFactory,
-                        getQueueBindingName=ehcacheQueue,
-                        topicConnectionFactoryBindingName=topicConnectionFactory,
-                        topicBindingName=ehcache"
-                        propertySeparator=","/>
-
-        </cache>
-
-        <cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
-                maxEntriesLocalHeap="5000"
-                eternal="true">
-
-                <cacheEventListenerFactory
-                        class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory"
-                        properties="replicateAsynchronously=true,
-                        replicatePuts=true,
-                        replicateUpdates=true,
-                        replicateUpdatesViaCopy=true,
-                        replicateRemovals=true,
-                        asynchronousReplicationIntervalMillis=1000"
-                        propertySeparator=","/>
-
-                <cacheLoaderFactory
-                        class="net.sf.ehcache.distribution.jms.JMSCacheLoaderFactory"
-                        properties="initialContextFactoryName=com.jaspersoft.jasperserver.api.engine.replication.JRSActiveMQInitialContextFactory,
-                        providerURL=tcp://localhost:61616,
-                        replicationTopicConnectionFactoryBindingName=topicConnectionFactory,
-                        replicationTopicBindingName=ehcache,
-                        getQueueConnectionFactoryBindingName=queueConnectionFactory,
-                        getQueueBindingName=ehcacheQueue,
-                        topicConnectionFactoryBindingName=topicConnectionFactory,
-                        topicBindingName=ehcache"
-                        propertySeparator=","/>
-
-        </cache>
-
-	<cache name="defaultRepoCache" 
-		maxElementsInMemory="10000" 
-		eternal="false" 
-		overflowToDisk="false" 
-		timeToIdleSeconds="36000" 
-		timeToLiveSeconds="180000" 
-		diskPersistent="false" 
-		diskExpiryThreadIntervalSeconds="120"
-        	statistics="true">
-        	
-                 <cacheEventListenerFactory
-                        class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory"
-                        properties="replicateAsynchronously=true,
-                        replicatePuts=false,
-                        replicateUpdates=true,
-                        replicateUpdatesViaCopy=false,
-                        replicateRemovals=true,
-                        asynchronousReplicationIntervalMillis=1000"
-                        propertySeparator=","/>
-
-                <cacheLoaderFactory
-                        class="net.sf.ehcache.distribution.jms.JMSCacheLoaderFactory"
-                        properties="initialContextFactoryName=com.jaspersoft.jasperserver.api.engine.replication.JRSActiveMQInitialContextFactory,
-                        providerURL=tcp://localhost:61616,
-                        replicationTopicConnectionFactoryBindingName=topicConnectionFactory,
-                        replicationTopicBindingName=ehcache,
-                        getQueueConnectionFactoryBindingName=queueConnectionFactory,
-                        getQueueBindingName=ehcacheQueue,
-                        topicConnectionFactoryBindingName=topicConnectionFactory,
-                        topicBindingName=ehcache"
-                        propertySeparator=","/>
-
-	</cache>
-
-     END -->
-<!-- ***************************************************** END of JMS   ****************************************************************************  -->
-
-<!-- **********************************************************   AWS   ****************************************************************************  -->
-     <!-- START 
-        <cacheManagerPeerProviderFactory
-                class="com.jaspersoft.jasperserver.api.engine.replication.JRSNevadoCacheManagerPeerProviderFactory"
-                properties=""
-                propertySeparator="," />
-	
-        <cache name="org.hibernate.cache.internal.StandardQueryCache"
-                maxEntriesLocalHeap="5000"
-                maxElementsInMemory="5000"
-                eternal="false"
-                timeToLiveSeconds="120">
-
-                <cacheEventListenerFactory
-                        class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory"
-                        properties="replicateAsynchronously=true,
-                        replicatePuts=false,
-                        replicateUpdates=true,
-                        replicateUpdatesViaCopy=false,
-                        replicateRemovals=true,
-                        asynchronousReplicationIntervalMillis=1000"
-                        propertySeparator=","/>
-        </cache>
-
-        <cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
-                maxEntriesLocalHeap="5000"
-                eternal="true">
-
-                <cacheEventListenerFactory
-                        class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory"
-                        properties="replicateAsynchronously=true,
-                        replicatePuts=true,
-			replicatePutsViaCopy=true,
-                        replicateUpdates=false,
-                        replicateUpdatesViaCopy=false,
-                        replicateRemovals=true,
-                        asynchronousReplicationIntervalMillis=100"
-                        propertySeparator=","/>
-        </cache>
-	
-	<cache name="defaultRepoCache" 
-		maxElementsInMemory="10000" 
-		eternal="false" 
-		overflowToDisk="false" 
-		timeToIdleSeconds="36000" 
-		timeToLiveSeconds="180000" 
-		diskPersistent="false" 
-		diskExpiryThreadIntervalSeconds="120"
-        	statistics="true">
-        	
-                <cacheEventListenerFactory
-                        class="net.sf.ehcache.distribution.jms.JMSCacheReplicatorFactory"
-                        properties="replicateAsynchronously=true,
-                        replicatePuts=false,
-                        replicateUpdates=true,
-                        replicateUpdatesViaCopy=false,
-                        replicateRemovals=true,
-                        asynchronousReplicationIntervalMillis=1000"
-                        propertySeparator=","/>
-	</cache>
-
-     END -->
-<!-- ***************************************************** END of AWS   ***************************************************************************** -->
-
-</ehcache>
+</config>
 

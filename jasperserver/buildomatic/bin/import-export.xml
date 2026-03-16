@@ -198,6 +198,7 @@ Make sure you have compiled the jasperserver source code.
                         -configResources=file:blah/import-export/dir/applicationContext*.xml
                       -->
                     <pathelement location="${importExportConfig}"/>
+                    <pathelement location="${importExportConfig}/classes"/>
                     <!-- classpath jar for lib dir --> 
                     <pathelement location="${iecpjar}"/>
                     <fileset dir="${currentDbJDBCDir}" includes="${jdbcJar}"/>
@@ -673,6 +674,7 @@ Linux Example:
                                                 -configResources=file:blah/import-export/dir/applicationContext*.xml
                                               -->
                             <pathelement location="${importExportConfig}"/>
+                            <pathelement location="${importExportConfig}/classes"/>
                             <!-- classpath jar for lib dir -->
                             <pathelement location="${iecpjar}"/>
                             <fileset dir="${currentDbJDBCDir}" includes="${jdbcJar}"/>

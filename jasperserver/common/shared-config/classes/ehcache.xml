@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
+  ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
+  ~ http://www.jaspersoft.com.
+  ~
+  ~ Unless you have purchased a commercial license agreement from Jaspersoft,
+  ~ the following license terms apply:
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<config
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns='http://www.ehcache.org/v3'
+        xmlns:jcache="http://www.ehcache.org/v3/jsr107"
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+        					http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+
+	<service>
+		<jcache:defaults default-template="defaultCacheTemplate" enable-management="true" enable-statistics="true"/>
+	</service>
+
+    <persistence directory="${ehcache.disk.store.dir}/main"/>
+
+	<cache-template name="defaultCacheTemplate">
+		<expiry>
+            <ttl unit="seconds">120</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache-template>
+
+	<cache alias="report.job.acl">
+		<expiry>
+            <ttl unit="seconds">86400</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
+
+	<cache alias="connection.descriptions">
+		<expiry>
+            <ttl unit="seconds">1200</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache>
+
+	<cache alias="hibernate_repository_ehcache">
+		<expiry>
+            <ttl unit="seconds">1200</ttl>
+		</expiry>
+		<resources>
+		    <heap unit="entries">500</heap>
+            <disk persistent="false" unit="MB">10</disk>
+		</resources>
+	</cache>
+
+	<cache alias="RRSCache">
+		<expiry>
+            <ttl unit="seconds">1200</ttl>
+		</expiry>
+		<heap unit="entries">500</heap>
+	</cache>
+
+	<cache alias="attributeCache">
+		<expiry>
+            <ttl unit="days">5</ttl>
+		</expiry>
+		<heap unit="entries">500</heap>
+	</cache>
+
+	<cache alias="inputControlCache">
+		<expiry>
+            <ttl unit="days">5</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache>
+
+	<cache alias="teiidResultsetEhCache">
+		<expiry>
+            <ttl unit="days">5</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache>
+
+	<cache alias="teiidResultsetReplEhCache">
+		<expiry>
+            <ttl unit="days">5</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache>
+
+	<cache alias="teiidPreparedPlanEhCache">
+		<expiry>
+            <ttl unit="days">5</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache>
+
+	<cache alias="systemUserStorageCache">
+		<expiry>
+            <ttl unit="days">5</ttl>
+		</expiry>
+		<heap unit="entries">10000</heap>
+	</cache>
+
+    <!-- Caches related to dashboard executions and exports.
+    They all should have exactly the same settings: maxElementsInMemory, timeToIdleSeconds, timeToLiveSeconds
+    and others -->
+
+	<cache alias="dashboardTasks">
+		<expiry>
+            <ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
+
+	<cache alias="dashboardResults">
+		<expiry>
+            <ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
+
+	<cache alias="dashboardProcesses">
+		<expiry>
+            <ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
+
+	<cache alias="dashboardIDToUsers">
+		<expiry>
+            <ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
+
+ <!-- =============================================
+       cache used by the object permission service
+      ============================================= -->
+
+	<cache alias="aclCache">
+		<expiry>
+            <ttl unit="seconds">36000</ttl>
+		</expiry>
+		<heap unit="entries">100000</heap>
+	</cache>
+
+</config>

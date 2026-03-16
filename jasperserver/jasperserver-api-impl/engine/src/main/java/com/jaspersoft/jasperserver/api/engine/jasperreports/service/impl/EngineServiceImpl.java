@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -125,8 +125,6 @@ import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 import io.opentelemetry.extension.annotations.WithSpan;
-import net.sf.ehcache.pool.SizeOfEngine;
-import net.sf.ehcache.pool.impl.DefaultSizeOfEngine;
 import net.sf.jasperreports.data.cache.DataSnapshotException;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -1053,8 +1051,38 @@ public class EngineServiceImpl implements EngineService, ReportExecuter,
 			}
 		}
 
-		SizeOfEngine getSizer() {
-		    return new DefaultSizeOfEngine(1000, false);
+		ObjectSizeOfEngine getSizer() {
+		    return new ObjectSizeOfEngine();
+		}
+
+		private class ObjectSizeOfEngine {
+			SizeOfResult sizeOf(Object obj, Object... args) {
+				return new SizeOfResult(estimateObjectSize(obj));
+			}
+		}
+
+		private long estimateObjectSize(Object obj) {
+			if (obj == null) return 0L;
+			try {
+				java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+				java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
+				oos.writeObject(obj);
+				oos.close();
+				return baos.toByteArray().length;
+			} catch (Exception e) {
+				// Fallback: estimate based on object type
+				return -1L;
+			}
+		}
+
+		private static class SizeOfResult {
+			private final long size;
+			SizeOfResult(long size) {
+				this.size = size;
+			}
+			long getCalculated() {
+				return size;
+			}
 		}
 
 		protected abstract void runReport() throws Exception;

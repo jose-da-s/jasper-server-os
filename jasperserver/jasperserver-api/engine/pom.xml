@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -36,97 +36,10 @@
         <version>${buildArtifactVersionName}</version>
     </parent>
     <dependencies>
-	<!-- JMS dependencies -->
         <dependency>
-            <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-client</artifactId>
-                <version>${activemq.version}</version>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
         </dependency>
-        <dependency>
-                <groupId>net.sf.ehcache</groupId>
-                <artifactId>ehcache</artifactId>
-                <version>${ehcache.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache-jmsreplication</artifactId>
-            <version>0.5</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>net.sf.ehcache</groupId>
-                    <artifactId>ehcache-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-          <groupId>org.skyscreamer</groupId>
-          <artifactId>nevado-jms</artifactId>
-          <version>1.3.2-JS</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.amazonaws</groupId>
-                    <artifactId>aws-java-sdk</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>joda-time</groupId>
-                    <artifactId>joda-time</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-httpclient</groupId>
-                    <artifactId>commons-httpclient</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.codehaus.jackson</groupId>
-                    <artifactId>jackson-core-asl</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>javax.jms</groupId>
-            <artifactId>javax.jms-api</artifactId>
-            <version>${jms-api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-sqs</artifactId>
-            <version>${aws-java-sdk.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>joda-time</groupId>
-                    <artifactId>joda-time</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-databind</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-sns</artifactId>
-            <version>${aws-java-sdk.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-databind</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>com.amazonaws</groupId>
-          <artifactId>amazon-sqs-java-messaging-lib</artifactId>
-          <version>1.0.0</version>
-          <type>jar</type>
-          <exclusions>
-              <exclusion>
-                  <groupId>com.amazonaws</groupId>
-                  <artifactId>aws-java-sdk-sqs</artifactId>
-              </exclusion>
-          </exclusions>
-        </dependency>
-
-	<!-- end of JMS dependencies -->
         <dependency>
             <groupId>com.jaspersoft.jasperserver.api.common</groupId>
             <artifactId>jasperserver-api-common</artifactId>

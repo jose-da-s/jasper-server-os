@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,9 +24,8 @@ package com.jaspersoft.jasperserver.api.security;
 
 import com.jaspersoft.jasperserver.api.metadata.common.service.ResourceFactory;
 import com.jaspersoft.jasperserver.api.metadata.user.domain.User;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import org.apache.commons.lang3.RandomStringUtils;
+import javax.cache.Cache;
 
 import java.io.Serializable;
 
@@ -38,7 +39,7 @@ import java.io.Serializable;
  */
 public class SystemLoggedInUserStorage {
     private ResourceFactory objectFactory;
-    private Ehcache cache;
+    private Cache<QueryCompositeKey, User> cache;
     private final String allowPasswordCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
 
     /**
@@ -56,9 +57,9 @@ public class SystemLoggedInUserStorage {
         user.setUsername(userName);
         user.setPassword(password);
 
-        Element element = new Element(key, user);
-
-        cache.put(element);
+        if (cache != null) {
+            cache.put(key, user);
+        }
 
         return user;
     }
@@ -69,21 +70,18 @@ public class SystemLoggedInUserStorage {
 
     public User loadUserByNameAndPassword(String userName, String password) {
         QueryCompositeKey key = new QueryCompositeKey(userName, password);
-        if (cache.get(key) != null) {
-            return (User)cache.get(key).getValue();
-        }
-
-        return null;
+        if (cache == null)
+            return null;
+        return cache.get(key);
     }
 
     public void removeUser(String userName, String password) {
         QueryCompositeKey key = new QueryCompositeKey(userName, password);
-        if (cache.get(key) != null) {
-            cache.remove(key);
-        }
+        if (cache != null)
+        	cache.remove(key);
     }
 
-    public void setCache(Ehcache cache) {
+    public void setCache(Cache<QueryCompositeKey, User> cache) {
         this.cache = cache;
     }
 
@@ -92,7 +90,8 @@ public class SystemLoggedInUserStorage {
     }
 
     private class QueryCompositeKey implements Serializable {
-        private String userName;
+		private static final long serialVersionUID = -7980473550467743303L;
+		private String userName;
         private String password;
 
         public QueryCompositeKey(String userName, String password) {

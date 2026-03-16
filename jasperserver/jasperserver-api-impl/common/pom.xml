@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -104,37 +104,27 @@
             <version>${hibernate.core.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>net.sf.ehcache</groupId>
-                    <artifactId>ehcache</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>com.fasterxml</groupId>
                     <artifactId>classmate</artifactId>
                 </exclusion>
-		<exclusion>
-            		<groupId>org.javassist</groupId>
-           		<artifactId>javassist</artifactId>
-		</exclusion>
-		<exclusion>
-            		<groupId>org.hibernate.common</groupId>
-                        <artifactId>hibernate-commons-annotations</artifactId>
-		</exclusion>
+				<exclusion>
+           		    <groupId>org.javassist</groupId>
+           		    <artifactId>javassist</artifactId>
+		        </exclusion>
+				<exclusion>
+            	    <groupId>org.hibernate.common</groupId>
+                    <artifactId>hibernate-commons-annotations</artifactId>
+		        </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.core.version}</version>
         </dependency>
         <dependency>
            <groupId>org.hibernate.common</groupId>
            <artifactId>hibernate-commons-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
-            <version>${hibernate.core.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>net.sf.ehcache</groupId>
-                    <artifactId>ehcache</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

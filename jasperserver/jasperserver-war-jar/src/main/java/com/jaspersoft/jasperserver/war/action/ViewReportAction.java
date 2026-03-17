@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors 
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -967,6 +967,7 @@ public class ViewReportAction extends ReportParametersAction
 
 	protected void initBinder(RequestContext context, DataBinder binder) {
 		binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+		binder.setAllowedFields();
 	}
 
     /* TODO this property may appear redundant due to changes in createWrappers */

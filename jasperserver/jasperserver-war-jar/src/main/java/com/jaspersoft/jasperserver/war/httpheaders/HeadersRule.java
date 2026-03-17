@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -47,13 +49,16 @@ public class HeadersRule {
     private List<Header> headers;
 
     static {
-        HttpMethod[] methods = HttpMethod.values();
-        int i = 0;
-
-        HTTP_METHODS = new String[methods.length];
-        for (HttpMethod method: methods) {
-            HTTP_METHODS[i++] = method.toString();
-        }
+        HTTP_METHODS = new String[] {
+            HttpMethod.GET.name(),
+            HttpMethod.HEAD.name(),
+            HttpMethod.POST.name(),
+            HttpMethod.PUT.name(),
+            HttpMethod.PATCH.name(),
+            HttpMethod.DELETE.name(),
+            HttpMethod.OPTIONS.name(),
+            HttpMethod.TRACE.name()
+        };
         Arrays.sort(HTTP_METHODS);
     }
 

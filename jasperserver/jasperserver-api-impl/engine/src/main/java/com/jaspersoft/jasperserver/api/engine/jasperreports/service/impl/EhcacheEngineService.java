@@ -1,6 +1,5 @@
 package com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl;
 
-import net.sf.ehcache.Ehcache;
 
 import java.io.Serializable;
 import java.util.Set;

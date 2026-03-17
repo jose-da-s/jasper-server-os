@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary.
   ~ Licensed pursuant to commercial Cloud Software Group, Inc End User License Agreement.
   -->
@@ -27,10 +29,6 @@
                 <include>**/applicationContext-remote-services.xml</include>
                 <include>**/applicationContext-events-logging.xml</include>
                 <include>**/applicationContext-security.xml</include>
-                <include>**/ehcache.xml</include>
-                <include>**/query-executor-ehcache.xml</include>
-                <include>**/engine-ehcache.xml</include>
-                <include>**/olap-ehcache.xml</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -38,6 +36,8 @@
             <outputDirectory></outputDirectory>
             <includes>
                 <include>**/esapi/**</include>
+                <include>**/ehcache.xml</include>
+                <include>**/engine-ehcache.xml</include>
             </includes>
         </fileSet>
     </fileSets>

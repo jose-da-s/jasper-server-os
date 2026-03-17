@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -95,12 +95,12 @@
             </if>
             <var name="maven.result" unset="true"/>
 
-            <!-- to enable remote debugging, add "-Dremote.debug=true" to command line, and attach debugger to port 8000 (address set below) -->
+            <!-- to enable remote debugging, add "-Dremote.debug=true" to command line, and attach debugger to port 8001 (address set below) -->
             <if>
                 <isset property="remote.debug"/>
                 <then>
                     <var name="remoteDebugArg"
-                        value="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000 -Xnoagent -Djava.compiler=NONE"/>
+                        value="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8001 -Xnoagent -Djava.compiler=NONE"/>
                     <echo>remoteDebugArg: ${remoteDebugArg}</echo>
                 </then>
             </if>
@@ -731,7 +731,7 @@
     <target name="run-integration-tests-ce"
            depends="init-source-paths,install-jdbc-dep"
            description="build and run the ce integration tests">
-        <!-- to enable remote debugging, add "-Dremote.debug=true" to command line, and attach debugger to port 8000 (address set in runmaven macro) -->
+        <!-- to enable remote debugging, add "-Dremote.debug=true" to command line, and attach debugger to port 8001 (address set in runmaven macro) -->
         <if>
             <isset property="remote.debug"/>
             <then><echo>remote.debug is ON</echo></then>
@@ -791,7 +791,7 @@
             />
         </java>
 
-        <!-- to enable remote debugging, add "-Dremote.debug=true" to command line, and attach debugger to port 8000 (address set in runmaven macro) -->
+        <!-- to enable remote debugging, add "-Dremote.debug=true" to command line, and attach debugger to port 8001 (address set in runmaven macro) -->
         <if>
             <isset property="remote.debug"/>
             <then><echo>remote.debug is ON</echo></then>
@@ -870,7 +870,7 @@
 
         <property name="OFFLINE_ARG" value="-V"/>
 
-        <!-- to enable remote debugging, add "-Dremote.debug=true" to command line, and attach debugger to port 8000 (address set in runmaven macro) -->
+        <!-- to enable remote debugging, add "-Dremote.debug=true" to command line, and attach debugger to port 8001 (address set in runmaven macro) -->
         <if>
             <isset property="remote.debug"/>
             <then>

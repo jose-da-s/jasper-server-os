@@ -60,7 +60,7 @@ export JAVA_OPTS="$JAVA_OPTS -Xms128m -Xmx512m -Djava.net.preferIPv4Stack=true -
 
 # Add the config folders to EXP_CLASSPATH
 
-export EXP_CLASSPATH="$CONFIG_DIR:$ADDITIONAL_CONFIG_DIR$EXP_CLASSPATH:."
+export EXP_CLASSPATH="$CONFIG_DIR:$CONFIG_DIR/classes:$ADDITIONAL_CONFIG_DIR$EXP_CLASSPATH:."
 
 # run java
 

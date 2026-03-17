@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -344,7 +344,13 @@
                         <source>17</source>
                         <target>17</target>
                         <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                        <compilerArgs>
+                            <arg>-parameters</arg>
+                            <arg>-Xlint:deprecation</arg>
+                            <arg>-Xlint:unchecked</arg>
+                        </compilerArgs>
                     </configuration>
+                   
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
@@ -547,7 +553,13 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                        <arg>-Xlint:deprecation</arg>
+                        <arg>-Xlint:unchecked</arg>
+                    </compilerArgs>
                 </configuration>
+               
             </plugin>
         </plugins>
     </build>
@@ -610,11 +622,6 @@
             <version>3.10</version> <!-- update causes errors with crypto -->
         </dependency>
         <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.4.01</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>1.10.0</version>
@@ -623,6 +630,11 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.30</version>
+            </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongo-java-driver</artifactId>
@@ -910,11 +922,6 @@
                 <groupId>org.codelibs.xerces</groupId>
                 <artifactId>xercesImpl</artifactId>
                 <version>2.12.1-sp1</version>
-            </dependency>
-            <dependency>
-                <groupId>xml-apis</groupId>
-                <artifactId>xml-apis</artifactId>
-                <version>1.4.01</version>
             </dependency>
             <dependency>
                 <groupId>org.dom4j</groupId>
@@ -1308,12 +1315,35 @@
             <dependency>
                 <groupId>org.owasp</groupId>
                 <artifactId>csrfguard</artifactId>
-                <version>3.1.0</version>
+                <version>${csrfguard.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.sf.ehcache</groupId>
+                <groupId>org.owasp</groupId>
+                <artifactId>csrfguard-extension-session</artifactId>
+                <version>${csrfguard.version}</version>
+            </dependency>
+            <!-- for some reason, Maven selects a pre-release version 2.3.0-b170127.1453 for this transitive dep of -->
+            <!-- org.ehcache:ehcache, and that depends on jaxb-core, and that in turn on jaxb-api:2.3.0-b161121.1438, -->
+            <!-- and THAT doesn't exist in Maven Central any more. -->
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>2.3.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ehcache</groupId>
                 <artifactId>ehcache</artifactId>
                 <version>${ehcache.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.cache</groupId>
+                <artifactId>cache-api</artifactId>
+                <version>${jcache.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>joda-time</groupId>
@@ -1469,7 +1499,8 @@
         <!-- last javax-based version  -->
         <hibernate.tools.version>5.6.15.Final</hibernate.tools.version>
         <!-- last javax-based version -->
-        <ehcache.version>2.10.9.2</ehcache.version>
+        <ehcache.version>3.11.1</ehcache.version>
+        <jcache.version>1.1.1</jcache.version>
         <jboss.logging.version>3.5.3.Final</jboss.logging.version>
         <quartz.version>2.3.2</quartz.version>
         <junit.version>4.13.2</junit.version>
@@ -1511,6 +1542,7 @@
         <opentelemetry.version>1.31.0</opentelemetry.version>
         <jaxen.version>2.0.0</jaxen.version>
         <javax.el.version>2.2.6</javax.el.version>
+        <csrfguard.version>4.3.0</csrfguard.version>
     </properties>
 
 </project>

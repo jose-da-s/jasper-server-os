@@ -1,11 +1,32 @@
+/*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
+ * http://www.jaspersoft.com.
+ *
+ * Unless you have purchased a commercial license agreement from Jaspersoft,
+ * the following license terms apply:
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.jaspersoft.jasperserver.api.metadata.user.service.impl;
 
 import com.jaspersoft.jasperserver.api.metadata.user.service.impl.CreateExecutionApplicationEvent.ExecutionType;
 import com.jaspersoft.jasperserver.api.common.util.spring.StaticApplicationContext;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Ehcache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import javax.cache.Cache;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -29,20 +50,20 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
 
     // Run Report Service cache
     @Resource(name = "runReportServiceCacheFactoryBean")
-    private Ehcache sharedReportExecutionsCache;
+    private Cache<String, ?> sharedReportExecutionsCache;
 
     // Dashboard caches
     @Resource(name = "dashboardTasks")
-    private Ehcache sharedDashboardTasks;
+    private Cache<String, ?> sharedDashboardTasks;
 
     @Resource(name = "dashboardResults")
-    private Ehcache sharedDashboardResults;
+    private Cache<String, ?> sharedDashboardResults;
 
     @Resource(name = "dashboardProcesses")
-    private Ehcache sharedDashboardProcesses;
+    private Cache<String, ?> sharedDashboardProcesses;
 
     @Resource(name = "dashboardIDToUsers")
-    private Ehcache sharedDashboardIDToUsers;
+    private Cache<String, ?> sharedDashboardIDToUsers;
 
     private Map<ExecutionType, Set<String>> sessionExecutionsCache;
 
@@ -74,12 +95,16 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
                 log.debug("No executions were found, skipping");
                 continue;
             }
-            Ehcache[] sharedCaches = getSharedCachesForType(type);
-            for (Ehcache sharedCache : sharedCaches) {
-                sharedCache.removeAll(cache);
+            @SuppressWarnings("unchecked")
+            Cache<String, ?>[] sharedCaches = (Cache<String, ?>[]) getSharedCachesForType(type);
+            for (Cache<String, ?> sharedCache : sharedCaches) {
+            	sharedCache.removeAll(cache);
                 if (log.isDebugEnabled()) {
+                	int size = 0;
+					for (@SuppressWarnings("unused") javax.cache.Cache.Entry<String, ?> entry : sharedCache)
+						size++;
                     log.debug("Removed {} {} executions from the {} cache. Total number of executions left: {}",
-                            cache.size(), type, sharedCache.getName(), sharedCache.getSize());
+                            cache.size(), type, sharedCache.getName(), size);
                 }
             }
             cache.clear();
@@ -94,7 +119,7 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
     @Override
     @SuppressWarnings("unchecked")
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        sharedReportExecutionsCache = (Cache) StaticApplicationContext.getApplicationContext()
+        sharedReportExecutionsCache = (Cache<String, ?>) StaticApplicationContext.getApplicationContext()
                 .getBean("runReportServiceCacheFactoryBean");
         sessionExecutionsCache = (Map<ExecutionType, Set<String>>) in.readObject();
     }
@@ -103,15 +128,15 @@ public class ExecutionsCleanupOnSessionLogout implements ApplicationListener<Cre
         return sessionExecutionsCache.computeIfAbsent(type, executionType -> new HashSet<>());
     }
 
-    private Ehcache[] getSharedCachesForType(ExecutionType type) {
+    private Cache<?, ?>[] getSharedCachesForType(ExecutionType type) {
         switch (type) {
             case REPORT:
-                return new Ehcache[]{sharedReportExecutionsCache};
+                return new Cache<?, ?>[]{sharedReportExecutionsCache};
             case DASHBOARD:
-                return new Ehcache[]{sharedDashboardTasks, sharedDashboardResults,
+                return new Cache<?, ?>[]{sharedDashboardTasks, sharedDashboardResults,
                         sharedDashboardProcesses, sharedDashboardIDToUsers};
             default:
-                return new Ehcache[0];
+                return new Cache<?, ?>[0];
         }
     }
 }

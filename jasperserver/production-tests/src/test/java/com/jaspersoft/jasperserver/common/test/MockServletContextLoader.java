@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,7 +23,6 @@
 package com.jaspersoft.jasperserver.common.test;
 
 import com.jaspersoft.jasperserver.test.ks.KeystoreUtils;
-import net.sf.ehcache.CacheManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -39,10 +40,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 import javax.servlet.ServletContext;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * User: dlitvak
@@ -54,19 +51,17 @@ public class MockServletContextLoader extends AbstractContextLoader {
 
 	public static final ServletContext SERVLET_CONTEXT = new MockServletContext();
 
-	private ExecutorService executor = Executors.newFixedThreadPool(1);
-
 	protected BeanDefinitionReader createBeanDefinitionReader(final GenericApplicationContext context) {
 		return new XmlBeanDefinitionReader(context);
 	}
 
-/*
 	@Override
 	public final ConfigurableApplicationContext loadContext(final String... locations) throws Exception {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Loading ApplicationContext for locations ["
 					+ StringUtils.arrayToCommaDelimitedString(locations) + "].");
 		}
+		KeystoreUtils.createIfNotExists(this.getClass());
 
 		final GenericWebApplicationContext webContext = new GenericWebApplicationContext();
 		SERVLET_CONTEXT.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, webContext);
@@ -76,35 +71,6 @@ public class MockServletContextLoader extends AbstractContextLoader {
 		webContext.refresh();
 		webContext.registerShutdownHook();
 		return webContext;
-	}
-*/
-
-
-	@Override
-	public final ConfigurableApplicationContext loadContext(final String... locations) throws Exception {
-
-		Callable<ConfigurableApplicationContext> callable = new Callable<ConfigurableApplicationContext>() {
-			@Override
-			public ConfigurableApplicationContext call() throws Exception {
-				if (logger.isDebugEnabled()) {
-					logger.debug("Loading ApplicationContext for locations ["
-							+ StringUtils.arrayToCommaDelimitedString(locations) + "].");
-				}
-				KeystoreUtils.createIfNotExists(this.getClass());
-
-				final GenericWebApplicationContext webContext = new GenericWebApplicationContext();
-				SERVLET_CONTEXT.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, webContext);
-				webContext.setServletContext(SERVLET_CONTEXT);
-				createBeanDefinitionReader(webContext).loadBeanDefinitions(locations);
-				AnnotationConfigUtils.registerAnnotationConfigProcessors(webContext);
-				webContext.refresh();
-				webContext.registerShutdownHook();
-				return webContext;
-			}
-		};
-
-		Future<ConfigurableApplicationContext> future = executor.submit(callable);
-		return future.get();
 	}
 
 
@@ -146,33 +112,25 @@ public class MockServletContextLoader extends AbstractContextLoader {
 	 */
 	@Override
 	public final ApplicationContext loadContext(final MergedContextConfiguration mergedConfig) throws Exception {
-		Callable<ConfigurableApplicationContext> callable = new Callable<ConfigurableApplicationContext>() {
-			@Override
-			public ConfigurableApplicationContext call() throws Exception {
-				if (logger.isDebugEnabled()) {
-					logger.debug(String.format("Loading ApplicationContext for merged context configuration [%s].",
-							mergedConfig));
-				}
-				KeystoreUtils.createIfNotExists(this.getClass());
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Loading ApplicationContext for merged context configuration [%s].",
+					mergedConfig));
+		}
+		KeystoreUtils.createIfNotExists(this.getClass());
 
-				final GenericWebApplicationContext webContext = new GenericWebApplicationContext();
-				SERVLET_CONTEXT.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, webContext);
-				webContext.setServletContext(SERVLET_CONTEXT);
+		final GenericWebApplicationContext webContext = new GenericWebApplicationContext();
+		SERVLET_CONTEXT.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, webContext);
+		webContext.setServletContext(SERVLET_CONTEXT);
 
-				webContext.getEnvironment().setActiveProfiles(mergedConfig.getActiveProfiles());
-				prepareContext(webContext);
-				customizeBeanFactory(webContext.getDefaultListableBeanFactory());
-				loadBeanDefinitions(webContext, mergedConfig);
-				AnnotationConfigUtils.registerAnnotationConfigProcessors(webContext);
-				customizeContext(webContext);
-				webContext.refresh();
-				webContext.registerShutdownHook();
-				return webContext;
-			}
-		};
-
-		Future<ConfigurableApplicationContext> future = executor.submit(callable);
-		return future.get();
+		webContext.getEnvironment().setActiveProfiles(mergedConfig.getActiveProfiles());
+		prepareContext(webContext);
+		customizeBeanFactory(webContext.getDefaultListableBeanFactory());
+		loadBeanDefinitions(webContext, mergedConfig);
+		AnnotationConfigUtils.registerAnnotationConfigProcessors(webContext);
+		customizeContext(webContext);
+		webContext.refresh();
+		webContext.registerShutdownHook();
+		return webContext;
 	}
 
 

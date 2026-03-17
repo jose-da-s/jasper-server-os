@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -27,8 +29,8 @@
        xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd"
        default-lazy-init="true" xmlns:context="http://www.springframework.org/schema/context">
 
     <context:component-scan base-package="com.jaspersoft.jasperserver.jmx" />
@@ -324,7 +326,7 @@
         <entry key="jasperserver:name=Repository" value-ref="${bean.diagnosticRepository}"/>
         <entry key="jasperserver:name=About" value-ref="${bean.diagnosticJSAbout}"/>
         <entry key="jasperserver:name=HibernateStatics" value-ref="${bean.diagnosticHibernate}"/>
-        <entry key="jasperserver:name=EhCache" value-ref="${bean.diagnosticEhCache}"/>
+        <entry key="jasperserver:name=JCache" value-ref="${bean.diagnosticEhCache}"/>
         <entry key="jasperserver:name=ExternalInfo" value-ref="${bean.diagnosticExternalInfo}"/>
         <entry key="jasperserver:name=RepositoryDatabase" value-ref="${bean.diagnosticRepositoryDatabaseInfo}"/>
     </util:map>
@@ -434,45 +436,12 @@
         <property name="hibernateStatistics" ref="hibernateStatistics"/>
     </bean>
 
-    <bean id="cacheForStatistics" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-        <property name="cacheManager" ref="cacheManager"/>
-        <property name="cacheName" value="aclCache" />
-    </bean>
-
-    <!-- Can expose one EhCache using EhCache Diagnostic wrapper-->
     <bean id="EhCacheDiagnostic_aclCache" class="com.jaspersoft.jasperserver.api.logging.diagnostic.service.impl.EhCacheDiagnosticService" lazy-init="false">
-        <property name="cacheStatistics">
-            <bean class="net.sf.ehcache.management.CacheStatistics">
-                <constructor-arg ref="cacheForStatistics"/>
+    	<property name="mBeanServer" ref="jasperJMXServer"/>
+        <property name="cache">
+        	<bean factory-bean="cacheManager" factory-method="getCache" lazy-init="true">
+                <constructor-arg value="aclCache"/>
             </bean>
-        </property>
-    </bean>
-
-    <bean id="ehCacheMBeanRegistration2" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" lazy-init="false">
-        <property name="staticMethod" value="net.sf.ehcache.management.ManagementService.registerMBeans"/>
-        <property name="arguments">
-            <list>
-                <ref bean="dataSnapshotEhCacheManager"/>
-                <ref bean="jasperJMXServer"/>
-                <value>false</value>
-                <value>false</value>
-                <value>true</value>
-                <value>true</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ehCacheMBeanRegistration" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" lazy-init="false">
-        <property name="staticMethod" value="net.sf.ehcache.management.ManagementService.registerMBeans"/>
-        <property name="arguments">
-            <list>
-                <ref bean="cacheManager"/>
-                <ref bean="jasperJMXServer"/>
-                <value>false</value>
-                <value>false</value>
-                <value>true</value>
-                <value>true</value>
-            </list>
         </property>
     </bean>
 

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors 
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -63,6 +65,11 @@ public class EditFolderAction extends FormAction
 
 	protected void initBinder(RequestContext context, DataBinder binder) {
 		binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+		binder.setAllowedFields(
+			"actualFolder.name",
+				"actualFolder.label",
+				"actualFolder.description"
+		);
 	}
 
 

@@ -1,4 +1,6 @@
 <%--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -130,6 +132,7 @@
                             <a id="main_logOut_link" tabindex="-1">
                                 <spring:message code="menu.logout"/>
                             </a>
+                            <form id="exitUser" action="/exituser.html"></form>
                         </li>
                     </ul>
                     </authz:authorize>

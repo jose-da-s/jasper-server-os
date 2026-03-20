@@ -4,7 +4,7 @@ import com.jaspersoft.jasperserver.api.common.error.handling.ExceptionOutputMana
 import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Arrays;
 @Component
 public class SecureExceptionWrapperInContextCreationFailure {

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -25,7 +27,7 @@ import org.springframework.ui.context.ThemeSource;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ThemeResolver;
 
-import javax.servlet.*;
+import jakarta.servlet.*;
 import java.io.IOException;
 
 /**
@@ -79,3 +81,4 @@ public class ThemeContextFilter implements Filter {
         this.themeSource = themeSource;
     }
 }
+

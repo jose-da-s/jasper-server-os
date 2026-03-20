@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -29,7 +31,7 @@ import com.jaspersoft.jasperserver.jaxrs.poc.hypermedia.common.representation.em
 import com.jaspersoft.jasperserver.jaxrs.poc.hypermedia.common.representation.Link;
 import com.jaspersoft.jasperserver.jaxrs.poc.hypermedia.common.provider.RequestInfoProvider;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.text.MessageFormat;
 
 /**
@@ -118,3 +120,4 @@ public class ReadAdminActivity extends AbstractActivity {
 
 
 }
+

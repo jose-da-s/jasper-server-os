@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,7 +26,7 @@ package com.jaspersoft.jasperserver.war.util;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 import org.springframework.web.context.ServletContextAware;
 
@@ -62,3 +64,4 @@ public class ServletContextWrapper implements ServletContextAware, ServletContex
 	}
 	
 }
+

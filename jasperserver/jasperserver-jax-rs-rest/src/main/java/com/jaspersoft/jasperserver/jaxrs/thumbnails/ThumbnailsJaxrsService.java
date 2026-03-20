@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -39,8 +41,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -163,7 +165,7 @@ public class ThumbnailsJaxrsService {
      * @param responseBuilder
      */
     public void cacheDefaultThumbnail(Response.ResponseBuilder responseBuilder,
-            javax.servlet.http.HttpServletResponse httpServletResponse) {
+            jakarta.servlet.http.HttpServletResponse httpServletResponse) {
         CacheControl storeCacheControl = new CacheControl();
         storeCacheControl.setMaxAge((int) this.expiresHeader.getMaxAge());
 
@@ -305,3 +307,4 @@ public class ThumbnailsJaxrsService {
     }
 
 }
+

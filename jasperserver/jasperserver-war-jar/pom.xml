@@ -2,6 +2,8 @@
 <!--
   ~ Copyright (C) 2025 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -91,7 +93,7 @@
         <dependency>
             <groupId>org.springframework.webflow</groupId>
             <artifactId>spring-webflow</artifactId>
-            <version>2.4.8.RELEASE</version>
+            <version>${spring-webflow.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -272,21 +274,21 @@
             <version>${log4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet-api.version}</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet.jsp</groupId>
+            <groupId>jakarta.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
-            <version>2.2</version>
+            <version>${jakarta.servlet.jsp.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>${jakarta.servlet.jsp.jstl.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -299,10 +301,12 @@
 		    <artifactId>taglibs-standard-jstlel</artifactId>
 		    <version>1.2.5</version>
 		</dependency> 
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-        </dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
+		    <version>2.0.0-M5</version>
+		    <scope>compile</scope>
+		</dependency>
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
@@ -689,15 +693,15 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.el</groupId>
+            <groupId>jakarta.el</groupId>
             <artifactId>el-api</artifactId>
-            <version>2.2</version>
+            <version>${jakarta.el.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>2.2.4</version>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
+            <version>${jakarta.el.version}</version>
         </dependency>
 
         <dependency>
@@ -727,3 +731,4 @@
         </dependency>
     </dependencies>
 </project>
+

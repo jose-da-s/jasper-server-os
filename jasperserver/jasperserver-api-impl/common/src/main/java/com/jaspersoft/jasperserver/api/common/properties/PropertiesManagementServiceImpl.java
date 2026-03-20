@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2025 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -35,7 +37,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -193,3 +195,4 @@ implements PropertiesManagementService, ApplicationContextAware {
 		return profileAttribute;
 	}
 }
+

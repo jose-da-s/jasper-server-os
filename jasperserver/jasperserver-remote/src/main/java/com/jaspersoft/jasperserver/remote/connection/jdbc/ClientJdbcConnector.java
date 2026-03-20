@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -39,9 +41,9 @@ import java.sql.Connection;
 @Service
 public class ClientJdbcConnector<ConnectionDescriptionType extends ClientResource<ConnectionDescriptionType>> implements Connector<Connection, ConnectionDescriptionType> {
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ResourceConverterProvider resourceConverterProvider;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private JdbcConnector jdbcConnector;
 
     @Override
@@ -64,3 +66,4 @@ public class ClientJdbcConnector<ConnectionDescriptionType extends ClientResourc
         jdbcConnector.closeConnection(connection);
     }
 }
+

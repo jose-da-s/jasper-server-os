@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,7 +26,7 @@ import com.jaspersoft.jasperserver.api.JasperServerAPI;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Wrapper class for org.springframework.security.authentication.AuthenticationDetailsSourceImpl
@@ -41,3 +43,4 @@ public class JSAuthenticationDetailsSourceImpl implements AuthenticationDetailsS
         return new WebAuthenticationDetails(context);
     }
 }
+

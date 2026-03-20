@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2025 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -30,8 +32,8 @@ import java.lang.reflect.Proxy;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 
 import net.sf.jasperreports.export.*;
 import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
@@ -62,8 +64,8 @@ import net.sf.jasperreports.engine.JasperReportsContext;
 import org.springframework.beans.factory.annotation.Autowired;
 */
 /*  2012-09-13  thorick: backout 24858 to fix build
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 */
 /*  2012-09-13  thorick: backout 24858 to fix build
 import java.util.List;
@@ -199,3 +201,4 @@ public class HtmlExporter extends AbstractExporter {
         return new SimpleHtmlExporterOutput(output);
     }
 }
+

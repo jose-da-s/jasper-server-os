@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -40,7 +42,7 @@ import static com.jaspersoft.jasperserver.remote.resources.validation.Validation
  * @version $Id$
  */
 public abstract class GenericResourceValidator<ResourceType extends Resource> implements ResourceValidator<ResourceType> {
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ProfileAttributesResolver profileAttributesResolver;
 
     @Override
@@ -86,3 +88,4 @@ public abstract class GenericResourceValidator<ResourceType extends Resource> im
 
     protected abstract void internalValidate(ExecutionContext ctx, ResourceType resource, List<Exception> errors, Map<String, String[]> additionalParameters);
 }
+

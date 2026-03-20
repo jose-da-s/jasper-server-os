@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2025 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -35,7 +37,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.owasp.esapi.errors.ValidationException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -458,3 +460,4 @@ public class ValidatorTest {
         validateSQL("DROP TABLE ';STORE'", connection);
     }
 }
+

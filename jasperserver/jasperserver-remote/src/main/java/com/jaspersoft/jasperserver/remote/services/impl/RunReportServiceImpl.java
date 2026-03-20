@@ -99,7 +99,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.cache.Cache;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,7 +23,7 @@
 
 package com.jaspersoft.jasperserver.war.util;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Lucian Chirita (lucianc@users.sourceforge.net)
@@ -32,3 +34,4 @@ public interface HttpUtils {
 	String encodeContentFilename(HttpServletRequest request, String filename);
 	
 }
+

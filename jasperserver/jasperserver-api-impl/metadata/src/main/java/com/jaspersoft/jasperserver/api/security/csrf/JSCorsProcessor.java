@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,8 +28,8 @@ import org.springframework.security.web.util.UrlUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.DefaultCorsProcessor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -73,3 +75,4 @@ public class JSCorsProcessor extends DefaultCorsProcessor {
 
     public void setHeaderValues(Map<String, List<String>> headerValues) { this.headerValues = headerValues; }
 }
+

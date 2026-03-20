@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -82,22 +84,22 @@ public class SearchServiceTestNG extends BaseServiceSetupTestNG {
         log.info("SearchServiceTestNG => constructor() called");
     }
 
-    @javax.annotation.Resource(name = "searchInitialStateResolver")
+    @jakarta.annotation.Resource(name = "searchInitialStateResolver")
     public void setSearchInitialStateResolver(InitialStateResolver initialStateResolver) {
         this.initialStateResolver = initialStateResolver;
     }
 
-    @javax.annotation.Resource(name = "searchModeSettingsResolver")
+    @jakarta.annotation.Resource(name = "searchModeSettingsResolver")
     public void setSearchModeSettingsResolver(SearchModeSettingsResolver searchModeSettingsResolver) {
         this.searchModeSettingsResolver = searchModeSettingsResolver;
     }
 
-    @javax.annotation.Resource(name = "searchCriteriaFactory")
+    @jakarta.annotation.Resource(name = "searchCriteriaFactory")
     public void setSearchCriteriaFactory(SearchCriteriaFactory searchCriteriaFactory) {
         this.searchCriteriaFactory = searchCriteriaFactory;
     }
 
-    @javax.annotation.Resource(name = "repositorySearchService")
+    @jakarta.annotation.Resource(name = "repositorySearchService")
     public void setRepositorySearchService(RepositorySearchService repositorySearchService) {
         this.repositorySearchService = repositorySearchService;
     }
@@ -416,3 +418,4 @@ public class SearchServiceTestNG extends BaseServiceSetupTestNG {
     }
 
 }
+

@@ -21,11 +21,11 @@ import java.util.Map;
  */
 @Service
 public class InputControlDataSourceResolverImpl implements InputControlDataSourceResolver {
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     protected CachedRepositoryService cachedRepositoryService;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     protected FilterResolver filterResolver;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     protected CachedEngineService cachedEngineService;
 
     @Override

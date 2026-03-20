@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,7 +25,7 @@ package com.jaspersoft.jasperserver.inputcontrols.cascade.handlers.converters;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.sql.Date;
 import java.text.ParseException;
 
@@ -45,3 +47,4 @@ public class SqlDateDataConverter implements DataConverter<Date>{
         return value != null ? dateDataConverter.valueToString(value) : "";
     }
 }
+

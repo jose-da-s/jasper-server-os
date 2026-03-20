@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,8 +24,8 @@ package com.jaspersoft.jasperserver.api.logging.filter;
 
 import com.jaspersoft.jasperserver.api.logging.context.LoggingContextProvider;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletException;
 
 /**
  * @author Sergey Prilukin
@@ -37,3 +39,4 @@ public class StandardLoggingFilter extends BasicLoggingFilter {
     protected void logException(ServletRequest request, Exception filterException) throws ServletException {        
     }
 }
+

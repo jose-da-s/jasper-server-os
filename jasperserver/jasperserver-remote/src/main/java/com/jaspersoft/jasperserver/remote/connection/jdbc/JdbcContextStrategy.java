@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -30,7 +32,7 @@ import com.jaspersoft.jasperserver.remote.connection.ContextManagementStrategy;
 import com.jaspersoft.jasperserver.remote.exception.IllegalParameterValueException;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -75,3 +77,4 @@ public class JdbcContextStrategy<ConnectionDescriptionType extends ClientResourc
         return ContextManagementStrategy.class == processorClass ? SUPPORTED_PROCESSING_CLASSES : null;
     }
 }
+

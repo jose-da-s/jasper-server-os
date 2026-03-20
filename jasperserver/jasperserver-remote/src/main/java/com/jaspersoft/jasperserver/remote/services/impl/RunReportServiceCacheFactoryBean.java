@@ -38,7 +38,7 @@ import javax.cache.Cache;
 import javax.cache.CacheManager;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.cache.event.CacheEntryEvent;
 import javax.cache.event.CacheEntryEventFilter;
 import javax.cache.configuration.CacheEntryListenerConfiguration;

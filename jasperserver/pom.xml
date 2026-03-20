@@ -185,7 +185,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>
@@ -1334,6 +1333,7 @@
                 <groupId>org.ehcache</groupId>
                 <artifactId>ehcache</artifactId>
                 <version>${ehcache.version}</version>
+            	<classifier>jakarta</classifier>
             </dependency>
             <dependency>
                 <groupId>javax.cache</groupId>
@@ -1457,16 +1457,21 @@
     </distributionManagement>
 
     <properties>
-        <jersey.version>2.39.1</jersey.version>
-        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <jersey.version>3.0.0</jersey.version>
+        <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
+        <jakarta.servlet.jsp.version>3.1.0</jakarta.servlet.jsp.version>
+        <jakarta.servlet.jsp.jstl.version>3.0.2</jakarta.servlet.jsp.jstl.version>
+        <jakarta.el.version>5.0.0</jakarta.el.version>
+        <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
         <connector-version>${project.version}</connector-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <my.build.directory>target</my.build.directory>
-        <!-- last 5.3.x version (next is 6.x) -->
-        <spring.version>5.3.39</spring.version>
+        <spring.version>6.2.17</spring.version>
+        <spring-webflow.version>3.0.1</spring-webflow.version>
+        <spring-ldap.version>3.0.0</spring-ldap.version>
         <jms-api.version>2.0.1</jms-api.version>
         <!-- last 5.8.15 (before 6.x) version causes java.lang.NullPointerException: Cannot invoke "org.springframework.security.core.Authentication.getPrincipal()" because the return value of "org.springframework.security.core.context.SecurityContext.getAuthentication()" is null at -->
-        <spring.security.version>5.7.14</spring.security.version>
+        <spring.security.version>6.5.9</spring.security.version>
         <aws-java-sdk.version>1.12.629</aws-java-sdk.version>
         <teiid.version>9.1.1</teiid.version>
         <validation.api.version>2.0.1.Final</validation.api.version>
@@ -1498,7 +1503,6 @@
         <hibernate.core.version>5.6.15.Final</hibernate.core.version>
         <!-- last javax-based version  -->
         <hibernate.tools.version>5.6.15.Final</hibernate.tools.version>
-        <!-- last javax-based version -->
         <ehcache.version>3.11.1</ehcache.version>
         <jcache.version>1.1.1</jcache.version>
         <jboss.logging.version>3.5.3.Final</jboss.logging.version>
@@ -1528,8 +1532,6 @@
         <jackson.version>2.16.0</jackson.version>
         <jackson.databind.version>2.16.0</jackson.databind.version>
         <commons.beanutils.version>1.9.4</commons.beanutils.version>
-        <!--ActiveMQ Classic 5.18.x is a transitional release—it still primarily uses javax.jms, with limited support for Jakarta via the separate module-->
-        <activemq.version>5.18.3</activemq.version>
         <js-crypto.version>3.1.2</js-crypto.version>
         <commons-codec.version>1.16.0</commons-codec.version>
         <commons-configuration.version>2.9.0</commons-configuration.version>
@@ -1541,8 +1543,7 @@
         <batik.version>1.17</batik.version>
         <opentelemetry.version>1.31.0</opentelemetry.version>
         <jaxen.version>2.0.0</jaxen.version>
-        <javax.el.version>2.2.6</javax.el.version>
-        <csrfguard.version>4.3.0</csrfguard.version>
+        <csrfguard.version>4.3.0-jakarta</csrfguard.version>
     </properties>
 
 </project>

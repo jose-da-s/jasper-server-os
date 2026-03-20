@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -27,7 +29,7 @@ import com.jaspersoft.jasperserver.api.logging.audit.domain.AuditEventType;
 import com.jaspersoft.jasperserver.remote.helpers.JacksonMapperProvider;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -135,3 +137,4 @@ public class AuditHelper {
         return stream.toString(StandardCharsets.UTF_8.name());
     }
 }
+

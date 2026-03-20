@@ -25,7 +25,7 @@ package com.jaspersoft.jasperserver.war;
 import com.jaspersoft.jasperserver.api.JasperServerAPI;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import java.util.Map;
 
 /**

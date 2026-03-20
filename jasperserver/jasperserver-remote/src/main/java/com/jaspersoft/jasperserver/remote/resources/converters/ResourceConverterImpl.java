@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -66,25 +68,25 @@ public abstract class ResourceConverterImpl<ResourceType extends Resource, Clien
 
     private static final Log log = LogFactory.getLog(ResourceConverterImpl.class);
 
-    @javax.annotation.Resource(name = "mappingResourceFactory")
+    @jakarta.annotation.Resource(name = "mappingResourceFactory")
     protected ResourceFactory objectFactory;
 
-    @javax.annotation.Resource(name = "isoCalendarFormatProvider")
+    @jakarta.annotation.Resource(name = "isoCalendarFormatProvider")
     protected CalendarFormatProvider calendarFormatProvider;
 
-    @javax.annotation.Resource(name = "concretePermissionsService")
+    @jakarta.annotation.Resource(name = "concretePermissionsService")
     private PermissionsService permissionsService;
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private GenericTypeProcessorRegistry genericTypeProcessorRegistry;
 
     private ServerResourceTypeExtractor serverResourceTypeExtractor;
 
     private ClientTypeHelper<ClientType> clientTypeHelper;
 
-    @javax.annotation.Resource(name = "basicResourceValidator")
+    @jakarta.annotation.Resource(name = "basicResourceValidator")
     private ResourceValidator defaultValidator;
-    @javax.annotation.Resource(name = "beanValidator")
+    @jakarta.annotation.Resource(name = "beanValidator")
     private Validator validator;
 
     public ResourceConverterImpl() {
@@ -289,3 +291,4 @@ public abstract class ResourceConverterImpl<ResourceType extends Resource, Clien
         return clientTypeHelper.getClientResourceType();
     }
 }
+

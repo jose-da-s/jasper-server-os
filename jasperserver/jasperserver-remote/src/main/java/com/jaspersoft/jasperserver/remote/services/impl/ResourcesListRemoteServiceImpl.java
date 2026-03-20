@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -70,15 +72,15 @@ import java.util.Set;
 public class ResourcesListRemoteServiceImpl implements ResourcesListRemoteService {
 
     private final static Log log = LogFactory.getLog(ResourcesListRemoteServiceImpl.class);
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ResourcesManagementRemoteService resourcesManagementRemoteService;
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     private RepositoryService repository;
-    @javax.annotation.Resource(name = "remoteServiceConfiguration")
+    @jakarta.annotation.Resource(name = "remoteServiceConfiguration")
     private ServicesConfiguration servicesConfiguration;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private RepositorySearchService repositorySearchService;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private FolderFilter folderFilter;
 
     /**
@@ -309,3 +311,4 @@ public class ResourcesListRemoteServiceImpl implements ResourcesListRemoteServic
         return roleNames;
     }
 }
+

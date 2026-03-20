@@ -2,6 +2,8 @@
 <!--
   ~ Copyright (C) 2025 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -197,9 +199,9 @@
             <version>${hibernate.validator.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>javax.el-api</artifactId>
-            <version>2.2.4</version>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <version>${jakarta.el.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -213,9 +215,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet-api.version}</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -307,3 +309,4 @@ In order to describe resources and objects in the server, the REST API sends and
 	  </plugins>
 	</build>
 </project>
+

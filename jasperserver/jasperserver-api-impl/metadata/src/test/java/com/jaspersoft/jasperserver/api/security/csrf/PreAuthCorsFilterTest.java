@@ -3,7 +3,7 @@ package com.jaspersoft.jasperserver.api.security.csrf;
 import org.junit.Test;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -28,9 +30,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -81,9 +83,9 @@ public class SystemErrorController extends JRBaseController {
     public ModelAndView handle500(HttpServletRequest req, HttpServletResponse res) {
         ModelAndView mav = new ModelAndView("modules/system/500");
 
-        String systemErrorDetails = (String)req.getAttribute("javax.servlet.error.message");
+        String systemErrorDetails = (String)req.getAttribute("jakarta.servlet.error.message");
 
-        Object e = req.getAttribute("javax.servlet.error.exception");
+        Object e = req.getAttribute("jakarta.servlet.error.exception");
 
         if (e != null && e instanceof Throwable) {
             logger.error("Internal server error", (Throwable)e);
@@ -97,3 +99,4 @@ public class SystemErrorController extends JRBaseController {
         return mav;
     }
 }
+

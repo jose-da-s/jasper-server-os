@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2025 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -29,9 +31,9 @@ import static org.mockito.Mockito.times;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.jaspersoft.jasperserver.api.security.EncryptionAuthenticationProcessingFilter;
 import com.jaspersoft.jasperserver.api.security.SecurityConfiguration;
@@ -149,3 +151,4 @@ public class EncryptionAuthenticationProcessingFilterTest {
     }
 
 }
+

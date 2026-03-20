@@ -115,15 +115,17 @@
             <artifactId>commons-lang</artifactId>
             <version>2.5</version>
         </dependency>
+
         <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>javax.el-api</artifactId>
-            <version>2.2.4</version>
+            <groupId>jakarta.el</groupId>
+            <artifactId>el-api</artifactId>
+            <version>${jakarta.el.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>2.2.4</version>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
+            <version>${jakarta.el.version}</version>
         </dependency>
         <!-- This artifact is a wrapper for a dynamically generated POM that contains the JDBC driver dependency.
              It replaces the dependency with property placeholders like "${repository.database.driver.groupId}"
@@ -136,22 +138,22 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
+            <groupId>jakarta.servlet</groupId>
             <artifactId>jsp-api</artifactId>
             <version>2.0</version>
             <scope>provided</scope>
             <optional>true</optional>
             <exclusions>
                 <exclusion>
-                    <groupId>javax.servlet</groupId>
+                    <groupId>jakarta.servlet</groupId>
                     <artifactId>servlet-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet-api.version}</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet-api.version}</version>
         </dependency>
         <dependency>
             <groupId>oro</groupId>

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -35,7 +37,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import javax.crypto.spec.SecretKeySpec;
 import java.lang.reflect.Constructor;
 import java.security.Key;
@@ -291,3 +293,4 @@ public class CipherFactory extends EncryptionConfiguration implements FactoryBea
         this.allowEncryption = allowEncryption;
     }
 }
+

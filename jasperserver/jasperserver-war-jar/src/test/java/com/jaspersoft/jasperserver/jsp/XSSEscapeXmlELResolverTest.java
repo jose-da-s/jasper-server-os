@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -29,11 +31,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.binding.expression.el.DefaultELContext;
 import org.springframework.web.util.JavaScriptUtils;
 
-import javax.el.ELContext;
-import javax.el.ELResolver;
-import javax.el.MapELResolver;
-import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.PageContext;
+import jakarta.el.ELContext;
+import jakarta.el.ELResolver;
+import jakarta.el.MapELResolver;
+import jakarta.servlet.jsp.JspContext;
+import jakarta.servlet.jsp.PageContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -158,3 +160,4 @@ public class XSSEscapeXmlELResolverTest {
 		}
 	}
 }
+

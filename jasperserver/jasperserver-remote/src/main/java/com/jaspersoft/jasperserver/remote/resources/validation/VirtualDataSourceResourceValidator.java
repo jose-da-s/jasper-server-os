@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -52,11 +54,11 @@ import static com.jaspersoft.jasperserver.remote.resources.validation.Validation
 public class VirtualDataSourceResourceValidator extends GenericResourceValidator<VirtualReportDataSource> {
 
     private final Pattern specCharacters = Pattern.compile("^\\d|[\\s\\*\\(\\)\\-\\+=:;\\.\\,\"\\\\/<>\\[\\]'!%]+");
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     private RepositoryService service;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private SearchCriteriaFactory searchCriteriaFactory;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     ProfileAttributesResolver profileAttributesResolver;
 
     @Override
@@ -125,3 +127,4 @@ public class VirtualDataSourceResourceValidator extends GenericResourceValidator
         return builder.toString();
     }
 }
+

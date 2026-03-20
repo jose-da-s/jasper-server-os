@@ -119,7 +119,7 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-spring5</artifactId>
+            <artifactId>jersey-spring6</artifactId>
             <version>${jersey.version}</version>
             <exclusions>
                 <!-- excluding the asm 7x version of the jar, else we can't support JDK 17+ -->

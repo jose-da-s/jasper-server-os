@@ -27,8 +27,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
-import javax.validation.MessageInterpolator;
-import javax.validation.Validation;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.Validation;
 import java.util.List;
 import java.util.Locale;
 

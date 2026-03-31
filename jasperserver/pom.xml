@@ -1474,7 +1474,8 @@
         <spring.security.version>6.5.9</spring.security.version>
         <aws-java-sdk.version>1.12.629</aws-java-sdk.version>
         <teiid.version>9.1.1</teiid.version>
-        <validation.api.version>2.0.1.Final</validation.api.version>
+        <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
+        <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
         <jasperreports.version>7.0.1</jasperreports.version>
         <jasperreports.ext.version>7.0.1</jasperreports.ext.version>
         <!-- there is no version 7 -->
@@ -1498,7 +1499,6 @@
             java.xml/com.sun.org.apache.xml.internal.serialize=ALL-UNNAMED
         </jdk17.module.opens>
         <!-- last javax-based version -->
-        <hibernate.validator.version>6.2.5.Final</hibernate.validator.version>
         <!-- last javax-based version  -->
         <hibernate.core.version>5.6.15.Final</hibernate.core.version>
         <!-- last javax-based version  -->

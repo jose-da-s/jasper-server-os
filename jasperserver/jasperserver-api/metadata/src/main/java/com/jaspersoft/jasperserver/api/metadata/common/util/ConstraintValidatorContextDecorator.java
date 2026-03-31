@@ -26,8 +26,8 @@ package com.jaspersoft.jasperserver.api.metadata.common.util;
 import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
 
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintViolation;
 import java.util.List;
 import java.util.Map;
 
@@ -109,7 +109,7 @@ public class ConstraintValidatorContextDecorator implements ConstraintValidatorC
     }
 
     @Override
-    public javax.validation.ClockProvider getClockProvider() {
+    public jakarta.validation.ClockProvider getClockProvider() {
         return context.getClockProvider();
     }
 }

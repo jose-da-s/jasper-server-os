@@ -29,5 +29,5 @@ import javax.validation.ConstraintViolation;
  * @version $Id$
  */
 public interface ValidationErrorDescriptorBuilder<T> {
-    ErrorDescriptor build(ConstraintViolation<T> violation);
+    ErrorDescriptor build(javax.validation.ConstraintViolation<T> violation);
 }

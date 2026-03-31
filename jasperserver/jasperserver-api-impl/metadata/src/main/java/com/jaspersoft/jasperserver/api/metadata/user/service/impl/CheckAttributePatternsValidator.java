@@ -44,6 +44,7 @@ import static com.jaspersoft.jasperserver.dto.common.AttributeErrorCode.ATTRIBUT
  */
 public class CheckAttributePatternsValidator implements ConstraintValidator<CheckAttributePatterns, List<String>>,
         ValidationErrorDescriptorBuilder {
+    
     @Override
     public void initialize(CheckAttributePatterns constraintAnnotation) {
 
@@ -83,9 +84,13 @@ public class CheckAttributePatternsValidator implements ConstraintValidator<Chec
         return decorator;
     }
 
+   
+
+    
     @Override
-    public ErrorDescriptor build(ConstraintViolation violation) {
+    public ErrorDescriptor build(javax.validation.ConstraintViolation violation) {
         return ATTRIBUTE_PATTERNS_INCLUDES_INVALID.
                 createDescriptor(ConstraintValidatorContextDecorator.getArgumentsArray(violation));
     }
+    
 }

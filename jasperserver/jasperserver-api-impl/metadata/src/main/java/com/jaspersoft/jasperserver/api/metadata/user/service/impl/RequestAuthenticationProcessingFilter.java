@@ -32,6 +32,7 @@ import org.springframework.security.web.PortResolverImpl;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.Assert;
 
 import jakarta.servlet.FilterChain;
@@ -49,7 +50,7 @@ public class RequestAuthenticationProcessingFilter extends AbstractAuthenticatio
 	
 	public static final String REQUEST_AUTHENTICATION_ID = "REQUEST_AUTHENTICATION_ID"; 
 
-	private PortResolver portResolver = new PortResolverImpl();
+	
 
     /**
      * @param defaultFilterProcessesUrl the default value for <tt>filterProcessesUrl</tt>.
@@ -62,7 +63,7 @@ public class RequestAuthenticationProcessingFilter extends AbstractAuthenticatio
     public void afterPropertiesSet() {
         Assert.notNull(getAuthenticationManager(),
             "authenticationManager must be specified");
-        Assert.notNull(getRememberMeServices());
+        Assert.notNull(getRememberMeServices(), "rememberMeServices must be specified");
     }
 
 	/* (non-Javadoc)
@@ -99,8 +100,8 @@ public class RequestAuthenticationProcessingFilter extends AbstractAuthenticatio
         if (logger.isDebugEnabled()) {
             logger.debug("Authentication success: " + authResult.toString());
         }
-
-        String targetUrl = (new DefaultSavedRequest(request, portResolver)).getRequestURL();
+        SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+        String targetUrl = (savedRequest != null) ? savedRequest.getRedirectUrl() : request.getRequestURI();
 
         if (logger.isDebugEnabled()) {
             logger.debug("Redirecting to target URL from HTTP Session (or default): " + targetUrl);

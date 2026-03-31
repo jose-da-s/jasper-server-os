@@ -24,7 +24,7 @@ package com.jaspersoft.jasperserver.core.util;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionContext;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -87,15 +87,7 @@ public class TolerantHttpSession implements HttpSession
         return httpSession.getMaxInactiveInterval();
     }
 
-    /**
-     * @deprecated
-     */
-    @Override
-    public HttpSessionContext getSessionContext() {
-        return httpSession.getSessionContext();
-    }
-
-
+    
 
     /*
     *Overrides the getAttribute method of HttpSession class. If the object type is MissingObject throws SessionAttribMissingException
@@ -137,26 +129,19 @@ public class TolerantHttpSession implements HttpSession
         return missingAttributeNames;
     }
 
-    /**
-     * @deprecated
-     */
-    @Override
-    public Object getValue(String s) {
-       return this.getAttribute(s);
-    }
 
     @Override
-    public Enumeration getAttributeNames() {
+    public Enumeration<String> getAttributeNames() {
         return httpSession.getAttributeNames();
     }
 
     /**
      * @deprecated
      */
-    @Override
-    public String[] getValueNames() {
-        return httpSession.getValueNames();
-    }
+    
+  
+    
+
 
 
     /*
@@ -176,28 +161,13 @@ public class TolerantHttpSession implements HttpSession
 
     }
 
-    /**
-     * @deprecated
-     */
-    @Override
-    public void putValue(String name, Object obj) {
-        this.setAttribute(name, obj);
 
-    }
 
     @Override
     public void removeAttribute(String s) {
         httpSession.removeAttribute(s);
     }
-
-    /**
-     * @deprecated
-     */
-    @Override
-    public void removeValue(String s) {
-        httpSession.removeValue(s);
-
-    }
+     
 
     @Override
     public void invalidate() {

@@ -24,9 +24,9 @@ import com.jaspersoft.jasperserver.api.metadata.common.util.ConstraintValidatorC
 import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
 import com.jaspersoft.jasperserver.dto.common.ValidationErrorDescriptorBuilder;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintViolation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,7 +88,7 @@ public class CheckAttributePatternsValidator implements ConstraintValidator<Chec
 
     
     @Override
-    public ErrorDescriptor build(javax.validation.ConstraintViolation violation) {
+    public ErrorDescriptor build(jakarta.validation.ConstraintViolation<?> violation) {
         return ATTRIBUTE_PATTERNS_INCLUDES_INVALID.
                 createDescriptor(ConstraintValidatorContextDecorator.getArgumentsArray(violation));
     }

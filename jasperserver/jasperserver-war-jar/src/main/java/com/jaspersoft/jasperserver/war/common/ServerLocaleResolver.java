@@ -28,7 +28,7 @@ import java.util.Locale;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import net.sf.jasperreports.j2ee.web.WebLocaleResolver;
+import net.sf.jasperreports.jakarta.web.WebLocaleResolver;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 

@@ -31,7 +31,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.ReportContext;
-import net.sf.jasperreports.j2ee.web.WebReportContext;
+import net.sf.jasperreports.jakarta.web.WebReportContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

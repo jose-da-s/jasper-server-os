@@ -1084,7 +1084,7 @@
             </dependency>
             <dependency>
                 <groupId>net.sf.jasperreports</groupId>
-                <artifactId>jasperreports-servlets-j2ee</artifactId>
+                <artifactId>jasperreports-servlets</artifactId>
                 <version>${jasperreports.version}</version>
             </dependency>
             <dependency>

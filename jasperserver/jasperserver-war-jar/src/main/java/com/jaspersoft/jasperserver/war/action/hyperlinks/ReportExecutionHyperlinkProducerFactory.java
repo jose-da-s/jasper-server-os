@@ -32,7 +32,7 @@ import net.sf.jasperreports.engine.JRPrintHyperlinkParameter;
 import net.sf.jasperreports.engine.JRPrintHyperlinkParameters;
 import net.sf.jasperreports.engine.export.JRHyperlinkProducer;
 import net.sf.jasperreports.engine.type.HyperlinkTargetEnum;
-import net.sf.jasperreports.j2ee.web.WebReportContext;
+import net.sf.jasperreports.jakarta.web.WebReportContext;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import jakarta.servlet.http.HttpServletRequest;

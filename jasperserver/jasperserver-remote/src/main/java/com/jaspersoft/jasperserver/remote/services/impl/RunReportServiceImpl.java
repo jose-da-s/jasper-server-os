@@ -69,7 +69,7 @@ import net.sf.jasperreports.engine.util.JRSaver;
 import net.sf.jasperreports.engine.util.PartsUtil;
 import net.sf.jasperreports.export.SimpleExporterInputItem;
 import net.sf.jasperreports.web.JRInteractiveException;
-import net.sf.jasperreports.j2ee.web.WebReportContext;
+import net.sf.jasperreports.jakarta.web.WebReportContext;
 import net.sf.jasperreports.interactivity.actions.AbstractAction;
 import net.sf.jasperreports.interactivity.actions.Action;
 import net.sf.jasperreports.interactivity.actions.MultiAction;

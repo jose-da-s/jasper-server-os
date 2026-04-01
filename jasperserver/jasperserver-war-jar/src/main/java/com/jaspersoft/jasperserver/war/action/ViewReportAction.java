@@ -54,7 +54,7 @@ import net.sf.jasperreports.json.export.GenericElementJsonHandler;
 import net.sf.jasperreports.engine.fill.JRFillInterruptedException;
 import net.sf.jasperreports.web.JRInteractiveException;
 import net.sf.jasperreports.web.JRInteractiveRuntimeException;
-import net.sf.jasperreports.j2ee.web.WebReportContext;
+import net.sf.jasperreports.jakarta.web.WebReportContext;
 import net.sf.jasperreports.interactivity.actions.AbstractAction;
 import net.sf.jasperreports.interactivity.actions.Action;
 import net.sf.jasperreports.interactivity.actions.MultiAction;

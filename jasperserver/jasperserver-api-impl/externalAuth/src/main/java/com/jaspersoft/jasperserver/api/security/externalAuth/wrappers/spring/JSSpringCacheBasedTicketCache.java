@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,14 +23,18 @@
 package com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring;
 
 import com.jaspersoft.jasperserver.api.JasperServerAPI;
-import org.springframework.security.cas.authentication.EhCacheBasedTicketCache;
+import org.springframework.security.cas.authentication.SpringCacheBasedTicketCache;
+import org.springframework.cache.Cache;
 
 /**
- * Wrapper class for org.springframework.security.cas.authentication.EhCacheBasedTicketCache
+ * Wrapper class for org.springframework.security.cas.authentication.SpringCacheBasedTicketCache
  * @author dlitvak
  * @version $Id$
  * @since 6.0
  */
 @JasperServerAPI
-public class JSEhCacheBasedTicketCache extends EhCacheBasedTicketCache {
+public class JSSpringCacheBasedTicketCache extends SpringCacheBasedTicketCache {
+	public JSSpringCacheBasedTicketCache(Cache cache) {
+		super(cache);
+	}
 }

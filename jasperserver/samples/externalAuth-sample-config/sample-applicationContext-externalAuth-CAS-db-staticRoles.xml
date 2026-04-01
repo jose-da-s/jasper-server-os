@@ -138,11 +138,14 @@
         </property>
 
         <property name="statelessTicketCache">
-            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.JSEhCacheBasedTicketCache">
+            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.SpringCacheBasedTicketCache">
                 <property name="cache">
-                    <bean id="ticketCache" class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.JSEhCacheFactoryBean">
-                        <property name="cacheManager" ref="cacheManager"/>
-                        <property name="cacheName" value="casTicketCache"/>
+                    <bean id="ticketCache" class="org.springframework.cache.JCacheCache">
+                        <constructor-arg>
+                        	<bean factory-bean="cacheManager" factory-method="getCache">
+                        		<constructor-arg value="casTicketCache"/>
+                       		</bean>
+                        </constructor-arg>
                     </bean>
                 </property>
             </bean>
@@ -176,11 +179,14 @@
         </property>
 
         <property name="statelessTicketCache">
-            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.JSEhCacheBasedTicketCache">
+            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.SpringCacheBasedTicketCache">
                 <property name="cache">
-                    <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.JSEhCacheFactoryBean">
-                        <property name="cacheManager" ref="cacheManager"/>
-                        <property name="cacheName" value="casTicketCache"/>
+                    <bean id="ticketCache" class="org.springframework.cache.JCacheCache">
+                        <constructor-arg>
+                        	<bean factory-bean="cacheManager" factory-method="getCache">
+                        		<constructor-arg value="casTicketCache"/>
+                       		</bean>
+                        </constructor-arg>
                     </bean>
                 </property>
             </bean>

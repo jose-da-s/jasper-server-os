@@ -23,7 +23,7 @@ package com.jaspersoft.jasperserver.dto.resources.domain;
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
 import com.jaspersoft.jasperserver.dto.resources.ClientResource;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;

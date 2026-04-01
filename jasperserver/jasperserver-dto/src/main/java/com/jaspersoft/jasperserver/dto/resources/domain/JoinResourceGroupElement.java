@@ -20,7 +20,7 @@
  */
 package com.jaspersoft.jasperserver.dto.resources.domain;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import static com.jaspersoft.jasperserver.dto.utils.ValueObjectUtils.copyOf;
 

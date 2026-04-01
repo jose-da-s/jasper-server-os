@@ -26,7 +26,7 @@ import com.jaspersoft.jasperserver.dto.common.ErrorDescriptorTemplate;
 import com.jaspersoft.jasperserver.dto.common.ValidationErrorDescriptorBuilder;
 import com.jaspersoft.jasperserver.dto.resources.ClientProperty;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 import static com.jaspersoft.jasperserver.dto.common.validations.ArrayUtils.objectToString;
 import static com.jaspersoft.jasperserver.dto.common.ErrorDescriptorTemplateRegistry.fromCode;

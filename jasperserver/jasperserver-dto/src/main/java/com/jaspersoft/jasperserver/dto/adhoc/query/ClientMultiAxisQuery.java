@@ -27,8 +27,8 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.order.ClientPathOrder;
 import com.jaspersoft.jasperserver.dto.adhoc.query.order.ClientTopOrBottomNOrder;
 import com.jaspersoft.jasperserver.dto.adhoc.query.select.ClientSelect;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;

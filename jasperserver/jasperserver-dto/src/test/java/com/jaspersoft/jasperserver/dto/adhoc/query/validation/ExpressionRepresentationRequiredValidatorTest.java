@@ -31,9 +31,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
-import javax.validation.Path;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Path;
 
 import static com.jaspersoft.jasperserver.dto.executions.QueryExecutionsErrorCode.EXPRESSION_REPRESENTATION_REQUIRED;
 import static org.junit.jupiter.api.Assertions.assertEquals;

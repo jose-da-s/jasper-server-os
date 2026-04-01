@@ -21,9 +21,9 @@
 
 package com.jaspersoft.jasperserver.dto.adhoc.query.validation;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-import javax.validation.ReportAsSingleViolation;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import jakarta.validation.ReportAsSingleViolation;
 import java.lang.annotation.*;
 
 import static com.jaspersoft.jasperserver.dto.executions.QueryExecutionsErrorCode.Codes.QUERY_SELECT_ILLEGAL_FIELDS_STATE;

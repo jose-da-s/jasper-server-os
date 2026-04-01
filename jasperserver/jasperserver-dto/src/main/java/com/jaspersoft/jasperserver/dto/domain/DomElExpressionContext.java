@@ -22,8 +22,8 @@ package com.jaspersoft.jasperserver.dto.domain;
 
 import com.jaspersoft.jasperserver.dto.adhoc.query.el.ClientExpressionContainer;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import static com.jaspersoft.jasperserver.dto.utils.ValueObjectUtils.copyOf;
 

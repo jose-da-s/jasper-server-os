@@ -281,13 +281,13 @@
         </dependency>
         <dependency>
             <groupId>jakarta.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
             <version>${jakarta.servlet.jsp.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <version>${jakarta.servlet.jsp.jstl.version}</version>
             <scope>test</scope>
         </dependency>
@@ -694,7 +694,7 @@
 
         <dependency>
             <groupId>jakarta.el</groupId>
-            <artifactId>el-api</artifactId>
+            <artifactId>jakarta.el-api</artifactId>
             <version>${jakarta.el.version}</version>
             <scope>provided</scope>
         </dependency>

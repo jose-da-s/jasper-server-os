@@ -22,7 +22,7 @@ package com.jaspersoft.jasperserver.dto.resources.domain;
 
 import com.jaspersoft.jasperserver.dto.adhoc.query.el.ClientExpressionContainer;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;

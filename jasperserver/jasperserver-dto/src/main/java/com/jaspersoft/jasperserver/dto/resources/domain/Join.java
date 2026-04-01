@@ -24,8 +24,8 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.el.ClientExpressionContainer;
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
 import com.jaspersoft.jasperserver.dto.resources.domain.validation.ValidEnumValueOrProfileAttribute;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 

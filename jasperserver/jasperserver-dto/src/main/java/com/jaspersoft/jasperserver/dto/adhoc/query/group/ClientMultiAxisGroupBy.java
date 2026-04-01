@@ -23,7 +23,7 @@ package com.jaspersoft.jasperserver.dto.adhoc.query.group;
 import com.jaspersoft.jasperserver.dto.adhoc.query.group.axis.ClientGroupAxisEnum;
 import com.jaspersoft.jasperserver.dto.adhoc.query.group.axis.ClientLevelAxis;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;

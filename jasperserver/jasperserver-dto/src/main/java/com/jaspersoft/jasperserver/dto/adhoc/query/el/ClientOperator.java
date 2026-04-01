@@ -50,8 +50,8 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.el.operator.membership.Client
 import com.jaspersoft.jasperserver.dto.adhoc.query.el.range.ClientRange;
 import com.jaspersoft.jasperserver.dto.adhoc.query.validation.CheckExpressionOperandsSize;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;

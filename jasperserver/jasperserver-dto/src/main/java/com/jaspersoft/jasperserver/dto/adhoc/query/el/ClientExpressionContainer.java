@@ -49,7 +49,7 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.el.range.ClientRange;
 import com.jaspersoft.jasperserver.dto.adhoc.query.validation.ExpressionRepresentationRequired;
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;

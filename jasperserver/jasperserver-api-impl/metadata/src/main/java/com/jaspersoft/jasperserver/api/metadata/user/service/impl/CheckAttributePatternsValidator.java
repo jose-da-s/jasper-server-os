@@ -88,7 +88,7 @@ public class CheckAttributePatternsValidator implements ConstraintValidator<Chec
 
     
     @Override
-    public ErrorDescriptor build(jakarta.validation.ConstraintViolation<?> violation) {
+    public ErrorDescriptor build(jakarta.validation.ConstraintViolation violation) {
         return ATTRIBUTE_PATTERNS_INCLUDES_INVALID.
                 createDescriptor(ConstraintValidatorContextDecorator.getArgumentsArray(violation));
     }

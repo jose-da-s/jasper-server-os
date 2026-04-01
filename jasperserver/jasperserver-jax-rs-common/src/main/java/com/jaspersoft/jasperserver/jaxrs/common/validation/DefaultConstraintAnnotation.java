@@ -21,7 +21,7 @@
 
 package com.jaspersoft.jasperserver.jaxrs.common.validation;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 import static com.jaspersoft.jasperserver.dto.common.CommonErrorCode.Codes.MANDATORY_PARAMETER_ERROR;
 import static java.lang.String.format;
@@ -30,7 +30,7 @@ import static java.lang.String.format;
  * @author Volodya Sabadosh
  */
 public enum DefaultConstraintAnnotation {
-    NOT_NULL(javax.validation.constraints.NotNull.class, MANDATORY_PARAMETER_ERROR),
+    NOT_NULL(jakarta.validation.constraints.NotNull.class, MANDATORY_PARAMETER_ERROR),
     NOT_EMPTY(com.jaspersoft.jasperserver.dto.adhoc.query.validation.NotEmpty.class, MANDATORY_PARAMETER_ERROR);
 
     Class clazz;

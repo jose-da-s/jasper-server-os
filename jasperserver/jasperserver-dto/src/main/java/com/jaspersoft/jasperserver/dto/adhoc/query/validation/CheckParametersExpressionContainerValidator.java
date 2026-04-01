@@ -73,7 +73,7 @@ public class CheckParametersExpressionContainerValidator
     }
 
     @Override
-    public ErrorDescriptor build(jakarta.validation.ConstraintViolation<?> violation) {
+    public ErrorDescriptor build(jakarta.validation.ConstraintViolation violation) {
         return QUERY_WHERE_PARAMETERS_EXPRESSION_NOT_VALID.createDescriptor();
     }
 }

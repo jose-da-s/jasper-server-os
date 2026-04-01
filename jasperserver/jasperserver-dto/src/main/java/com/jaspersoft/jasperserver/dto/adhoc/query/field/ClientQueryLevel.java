@@ -23,7 +23,7 @@ package com.jaspersoft.jasperserver.dto.adhoc.query.field;
 import com.jaspersoft.jasperserver.dto.adhoc.datasource.ClientDataSourceField;
 import com.jaspersoft.jasperserver.dto.adhoc.datasource.ClientDataSourceLevel;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;

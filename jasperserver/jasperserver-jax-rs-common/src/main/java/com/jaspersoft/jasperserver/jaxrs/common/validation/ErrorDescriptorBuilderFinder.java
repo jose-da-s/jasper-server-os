@@ -28,9 +28,9 @@ import com.jaspersoft.jasperserver.dto.common.ValidationErrorDescriptorBuilder;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintViolation;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.metadata.ConstraintDescriptor;
 import java.util.List;
 
 /**

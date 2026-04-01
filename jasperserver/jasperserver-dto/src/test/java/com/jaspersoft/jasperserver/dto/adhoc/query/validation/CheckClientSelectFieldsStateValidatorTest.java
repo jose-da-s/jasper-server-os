@@ -28,8 +28,8 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.select.ClientSelect;
 import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
 import org.junit.Test;
 
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintViolation;
 
 import static com.jaspersoft.jasperserver.dto.adhoc.query.MultiLevelQueryBuilder.select;
 import static com.jaspersoft.jasperserver.dto.adhoc.query.MultiLevelQueryBuilder.selectDistinct;

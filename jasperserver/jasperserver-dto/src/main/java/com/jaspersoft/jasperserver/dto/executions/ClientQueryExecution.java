@@ -22,7 +22,7 @@ package com.jaspersoft.jasperserver.dto.executions;
 
 import com.jaspersoft.jasperserver.dto.adhoc.query.ClientQuery;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @author Vasyl Spachynskyi

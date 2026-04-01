@@ -27,10 +27,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Path;
-import javax.validation.constraints.Size;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Path;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.metadata.ConstraintDescriptor;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;

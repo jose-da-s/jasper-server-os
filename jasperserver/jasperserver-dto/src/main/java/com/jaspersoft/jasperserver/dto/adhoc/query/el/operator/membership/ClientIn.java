@@ -30,7 +30,7 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.el.operator.ClientOperation;
 import com.jaspersoft.jasperserver.dto.adhoc.query.el.range.ClientRange;
 import com.jaspersoft.jasperserver.dto.adhoc.query.validation.InstanceOf;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;

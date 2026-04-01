@@ -22,7 +22,7 @@ package com.jaspersoft.jasperserver.dto.resources.domain;
 
 import com.jaspersoft.jasperserver.dto.resources.domain.validation.ConsistentReferenceName;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * <p></p>

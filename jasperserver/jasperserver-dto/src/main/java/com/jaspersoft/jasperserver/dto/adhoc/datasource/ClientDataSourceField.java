@@ -26,7 +26,7 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.ClientField;
 import com.jaspersoft.jasperserver.dto.adhoc.query.field.ClientFormattable;
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlTransient;
 
 import java.io.Serializable;

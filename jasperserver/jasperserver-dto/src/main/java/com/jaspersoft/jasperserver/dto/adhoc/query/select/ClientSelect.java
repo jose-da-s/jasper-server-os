@@ -29,7 +29,7 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.validation.CheckQueryDetailsN
 import com.jaspersoft.jasperserver.dto.adhoc.query.validation.groups.MultiAxisQueryValidationGroup;
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;

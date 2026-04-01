@@ -25,7 +25,7 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.group.ClientQueryGroupBy;
 import com.jaspersoft.jasperserver.dto.adhoc.query.order.ClientGenericOrder;
 import com.jaspersoft.jasperserver.dto.adhoc.query.select.ClientSelect;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;

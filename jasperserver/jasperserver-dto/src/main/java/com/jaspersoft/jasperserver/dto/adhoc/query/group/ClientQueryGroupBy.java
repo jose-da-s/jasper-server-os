@@ -26,7 +26,7 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.group.axis.ClientGroupAxis;
 import com.jaspersoft.jasperserver.dto.adhoc.query.group.axis.ClientGroupAxisEnum;
 import com.jaspersoft.jasperserver.dto.adhoc.query.validation.CheckAllGroupPosition;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;

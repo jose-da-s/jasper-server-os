@@ -24,11 +24,11 @@ package com.jaspersoft.jasperserver.api.security.externalAuth.cas;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jasig.cas.client.Protocol;
-import org.jasig.cas.client.configuration.ConfigurationKeys;
-import org.jasig.cas.client.session.SessionMappingStorage;
-import org.jasig.cas.client.session.SingleSignOutHandler;
-import org.jasig.cas.client.util.CommonUtils;
+import org.apereo.cas.client.Protocol;
+import org.apereo.cas.client.configuration.ConfigurationKeys;
+import org.apereo.cas.client.session.SessionMappingStorage;
+import org.apereo.cas.client.session.SingleSignOutHandler;
+import org.apereo.cas.client.util.CommonUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
@@ -77,7 +77,7 @@ public class CasSessionFixationProtectionStrategy extends SessionFixationProtect
 		super.onAuthentication(authentication, request, response);
 
 		final HttpSession newSession = request.getSession();
-		final String token = CommonUtils.safeGetParameter(request, this.artifactParameterName, this.safeParameters);
+		final String token = safeGetParameter(request, this.artifactParameterName, this.safeParameters);
 		logger.debug("Recording the new session after the previous one was destroyed to prevent session fixation (token " + token + ").");
 		if (token != null && !token.trim().isEmpty())
 			sessionMappingStorage.addSessionById(token, newSession);
@@ -104,12 +104,22 @@ public class CasSessionFixationProtectionStrategy extends SessionFixationProtect
 		Assert.notNull(this.sessionMappingStorage, "sessionMappingStorage property must be specified.  " +
 				"It should be the same sessionMappingStorage as that used by CAS SingleSignOutFilter");
 
-		//copied from org.jasig.cas.client.session.SingleSignOutHandler.init()
+		//copied from org.apereo.cas.client.session.SingleSignOutHandler.init()
 		if (this.artifactParameterOverPost) {
 			this.safeParameters = Arrays.asList(this.logoutParameterName, this.artifactParameterName);
 		} else {
 			this.safeParameters = Arrays.asList(this.logoutParameterName);
 		}
 	}
+	
+	/**
+     * Exact replica of Jasig CAS Client 3.x CommonUtils.safeGetParameter
+     */
+    private String safeGetParameter(HttpServletRequest request, String parameter, List<String> safeParameters) {
+        if ("POST".equals(request.getMethod()) && safeParameters != null && safeParameters.contains(parameter)) {
+            return request.getQueryString() == null || request.getQueryString().indexOf(parameter) == -1 ? null : request.getParameter(parameter);
+        }
+        return request.getParameter(parameter);
+    }
 }
 

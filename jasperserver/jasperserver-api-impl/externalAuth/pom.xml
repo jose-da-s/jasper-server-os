@@ -142,9 +142,9 @@
         </dependency>
         <!-- Added cas-client-core specifically as the version which is dependency from spring-security-cas has CVE -->
         <dependency>
-            <groupId>org.jasig.cas.client</groupId>
+            <groupId>org.apereo.cas.client</groupId>
             <artifactId>cas-client-core</artifactId>
-            <version>3.6.2</version>
+            <version>4.0.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>

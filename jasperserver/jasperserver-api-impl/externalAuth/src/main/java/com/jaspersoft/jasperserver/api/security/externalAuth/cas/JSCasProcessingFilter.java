@@ -28,8 +28,8 @@ import com.jaspersoft.jasperserver.api.security.UsernamePasswordAuthenticationFi
 import com.jaspersoft.jasperserver.api.security.encryption.EncryptionRequestUtils;
 import com.jaspersoft.jasperserver.api.security.externalAuth.ExternalDataSynchronizer;
 import java.util.Map;
-import org.jasig.cas.client.session.SessionMappingStorage;
-import org.jasig.cas.client.session.SingleSignOutFilter;
+import org.apereo.cas.client.session.SessionMappingStorage;
+import org.apereo.cas.client.session.SingleSignOutFilter;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
@@ -67,7 +67,7 @@ public class JSCasProcessingFilter extends CasAuthenticationFilter {
 			throws AuthenticationException, IOException {
             String password = obtainTicket(request);
 		if (password != null && password.trim().length() > 0){
-			final String username = CAS_STATEFUL_IDENTIFIER;
+			final String username = "_cas_stateful_";
 			UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
 			authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
 

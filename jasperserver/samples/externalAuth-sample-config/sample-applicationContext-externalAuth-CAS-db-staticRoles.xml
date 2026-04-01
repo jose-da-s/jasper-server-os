@@ -76,7 +76,7 @@
     authentication, with CAS SessionMappingStorage.  SessionFixationProtectionStrategy is thus able to enter the new
     session into SessionMappingStorage as a CAS ticket-session id pair.  Upon CAS sign-out request, SingleSignOutFilter
     in JasperReport Server locates the correct session SessionMappingStorage and invalidates it. -->
-    <bean name="casSingleSignOutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter">
+    <bean name="casSingleSignOutFilter" class="org.apereo.cas.client.session.SingleSignOutFilter">
         <property name="artifactParameterName"  value="ticket"/>
         <property name="sessionMappingStorage">
             <ref bean="casSessionMappingStorage"/>
@@ -89,7 +89,7 @@
         </property>
         <property name="artifactParameterName"  value="ticket"/>  <!-- MUST BE THE SAME AS artifactParameterName in casSingleSignOutFilter bean -->
     </bean>
-    <bean id="casSessionMappingStorage" class="org.jasig.cas.client.session.HashMapBackedSessionMappingStorage"/>
+    <bean id="casSessionMappingStorage" class="org.apereo.cas.client.session.HashMapBackedSessionMappingStorage"/>
     <!-- Single sign out END -->
 
     <bean id="proxyExceptionTranslationFilter" class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.JSExceptionTranslationFilter" depends-on="externalAuthProperties">
@@ -132,7 +132,7 @@
         </property>
 
         <property name="ticketValidator">
-            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.jasig.JSCas20ServiceTicketValidator">
+            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.apereo.JSCas20ServiceTicketValidator">
                 <constructor-arg index="0" value="#{externalAuthProperties.ssoServerLocation}" />
             </bean>
         </property>
@@ -173,7 +173,7 @@
         </property>
 
         <property name="ticketValidator">
-            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.jasig.JSCas20ServiceTicketValidator">
+            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.apereo.JSCas20ServiceTicketValidator">
                 <constructor-arg index="0" value="#{externalAuthProperties.ssoServerLocation}" />
             </bean>
         </property>

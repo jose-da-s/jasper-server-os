@@ -32,10 +32,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import jakarta.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.Providers;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Request;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.Providers;
 import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;

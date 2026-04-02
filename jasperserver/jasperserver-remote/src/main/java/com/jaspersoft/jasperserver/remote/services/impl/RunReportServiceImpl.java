@@ -100,7 +100,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import javax.cache.Cache;
 
 import jakarta.annotation.Resource;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;

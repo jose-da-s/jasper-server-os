@@ -27,8 +27,8 @@ import com.jaspersoft.jasperserver.remote.helpers.JacksonMapperProvider;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
-import javax.ws.rs.ext.ContextResolver;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.ext.ContextResolver;
+import jakarta.ws.rs.ext.Provider;
 
 /**
  * <p></p>

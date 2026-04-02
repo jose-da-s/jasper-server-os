@@ -26,7 +26,7 @@ import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
 import com.jaspersoft.jasperserver.remote.exception.ErrorDescriptorBuildingService;
 
 import jakarta.annotation.Resource;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 /**
  * @author Vasyl Spachynskyi

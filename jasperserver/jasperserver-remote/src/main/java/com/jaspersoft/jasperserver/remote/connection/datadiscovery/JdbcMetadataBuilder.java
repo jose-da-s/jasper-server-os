@@ -32,7 +32,7 @@ import com.jaspersoft.jasperserver.dto.resources.domain.ResourceGroupElement;
 import com.jaspersoft.jasperserver.dto.resources.domain.ResourceMetadataSingleElement;
 import com.jaspersoft.jasperserver.dto.resources.domain.SchemaElement;
 import org.apache.commons.lang3.StringUtils;
-import javax.ws.rs.BadRequestException;
+import jakarta.ws.rs.BadRequestException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

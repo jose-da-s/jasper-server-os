@@ -30,9 +30,9 @@ import org.springframework.stereotype.Component;
 import org.teiid.core.TeiidException;
 
 import jakarta.annotation.Resource;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 import java.util.ArrayList;
 import java.util.List;
 

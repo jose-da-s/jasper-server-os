@@ -328,15 +328,9 @@
             <groupId>org.jgroups</groupId>
             <artifactId>jgroups</artifactId>
         </dependency>
-		<!--  dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-            <version>3.1.2.GA</version>
-        </dependency  -->
-		<!--  ********************************  -->
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
+            <artifactId>hibernate-core-jakarta</artifactId>
             <version>${hibernate.core.version}</version>
             <exclusions>
                 <exclusion>
@@ -357,6 +351,12 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jcache</artifactId>
             <version>${hibernate.core.version}</version>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.hibernate</groupId>
+		            <artifactId>hibernate-core-jakarta</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
            <groupId>org.hibernate.common</groupId>

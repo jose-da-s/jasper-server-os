@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
-import javax.xml.bind.UnmarshalException;
+import jakarta.xml.bind.UnmarshalException;
 
 /**
  * @author Vasyl Spachynskyi

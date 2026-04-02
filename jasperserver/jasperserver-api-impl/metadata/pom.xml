@@ -404,7 +404,7 @@
         </dependency>
     </dependencies>
     <!-- This pluging showing that all found classes was succesfully enhanced,
-    but realy enhancing only classes with javax.persistence.Entity annotation-->
+    but realy enhancing only classes with jakarta.persistence.Entity annotation-->
     <build>
         <plugins>
             <plugin>

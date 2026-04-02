@@ -325,7 +325,7 @@
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
+            <artifactId>hibernate-core-jakarta</artifactId>
             <version>${hibernate.core.version}</version>
             <exclusions>
 				<exclusion>
@@ -342,6 +342,12 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jcache</artifactId>
             <version>${hibernate.core.version}</version>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.hibernate</groupId>
+		            <artifactId>hibernate-core-jakarta</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

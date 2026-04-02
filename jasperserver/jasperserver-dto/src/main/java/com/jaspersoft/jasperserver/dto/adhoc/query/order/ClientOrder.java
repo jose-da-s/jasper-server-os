@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,7 +25,7 @@ package com.jaspersoft.jasperserver.dto.adhoc.query.order;
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
 
 import jakarta.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElement;
 
 /**
  * @author Andriy Godovanets

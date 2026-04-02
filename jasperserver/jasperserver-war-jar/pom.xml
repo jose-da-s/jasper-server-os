@@ -290,15 +290,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-		    <groupId>org.apache.taglibs</groupId>
-		    <artifactId>taglibs-standard-impl</artifactId>
-		    <version>1.2.5</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.taglibs</groupId>
-		    <artifactId>taglibs-standard-jstlel</artifactId>
-		    <version>1.2.5</version>
-		</dependency> 
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>

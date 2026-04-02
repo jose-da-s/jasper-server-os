@@ -24,17 +24,13 @@
 package com.jaspersoft.jasperserver.jsp;
 
 import junit.framework.Assert;
-import org.apache.taglibs.standard.lang.jstl.test.PageContextImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
-import org.springframework.binding.expression.el.DefaultELContext;
 import org.springframework.web.util.JavaScriptUtils;
 
 import jakarta.el.ELContext;
 import jakarta.el.ELResolver;
-import jakarta.el.MapELResolver;
-import jakarta.servlet.jsp.JspContext;
 import jakarta.servlet.jsp.PageContext;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,12 +57,7 @@ public class XSSEscapeXmlELResolverTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
-		pageContext = new PageContextImpl();
 		xssElResolver = new XSSEscapeXmlELResolver();
-
-		ELResolver baseElResolver = new MapELResolver();
-		elContext = new DefaultELContext(baseElResolver,null,null);
-		elContext.putContext(JspContext.class, pageContext);
 
 		elBaseMap = new HashMap<String, String>();
 	}

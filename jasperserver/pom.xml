@@ -1470,8 +1470,8 @@
         <jakarta.servlet.jsp.jstl.version>3.0.2</jakarta.servlet.jsp.jstl.version>
         <jakarta.el.version>5.0.0</jakarta.el.version>
         <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
-        <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
-        <jaxb-runtime.version>4.0.7</jaxb-runtime.version>
+        <jakarta.xml.bind-api.version>3.0.1</jakarta.xml.bind-api.version>
+        <jaxb-runtime.version>3.0.2</jaxb-runtime.version>
         <connector-version>${project.version}</connector-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <my.build.directory>target</my.build.directory>

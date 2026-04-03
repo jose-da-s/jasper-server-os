@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,8 +26,9 @@ package com.jaspersoft.jasperserver.inputcontrols.cascade.handlers.converters;
 import com.jaspersoft.jasperserver.api.common.util.rd.DateRangeFactory;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CalendarFormatProvider;
 import net.sf.jasperreports.types.date.DateRange;
-import net.sf.jasperreports.types.date.FixedDate;
-import net.sf.jasperreports.types.date.RelativeDateRange;
+import net.sf.jasperreports.types.date.FixedTimestamp;
+import net.sf.jasperreports.types.date.RelativeTimestampRange;
+
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -46,7 +49,7 @@ public class DateRangeConverterTest {
         DateRangeDataConverter dateRangeConverter = getDateRangeConverter();
         DateRange dr = dateRangeConverter.stringToValue("WEEK-1");
         assertNotNull(dr);
-        assertEquals(RelativeDateRange.class, dr.getClass());
+        assertEquals(RelativeTimestampRange.class, dr.getClass());
     }
 
     @Test
@@ -54,15 +57,26 @@ public class DateRangeConverterTest {
         DateRangeDataConverter dateRangeConverter = getDateRangeConverter();
         DateRange dr = dateRangeConverter.stringToValue("DAY+1");
         assertNotNull(dr);
-        assertEquals(RelativeDateRange.class, dr.getClass());
+        assertEquals(RelativeTimestampRange.class, dr.getClass());
     }
 
     @Test
-    public void ensureFixedDateReturnedForDateExpressions() throws Exception {
+    public void ensureFixedTimestampReturnedForTimestampExpressions() throws Exception {
+        DateRangeDataConverter dateRangeConverter = getDateRangeConverter();
+        DateRange dr = dateRangeConverter.stringToValue("2012-07-01 00:00:00");
+        assertNotNull(dr);
+        assertEquals(FixedTimestamp.class, dr.getClass());
+
+        assertEquals(new GregorianCalendar(2012, Calendar.JULY, 1).getTime(), dr.getStart());
+        assertEquals(new GregorianCalendar(2012, Calendar.JULY, 1).getTime(), dr.getEnd());
+    }
+
+    @Test
+    public void ensureFixedTimestampReturnedForDateExpressions() throws Exception {
         DateRangeDataConverter dateRangeConverter = getDateRangeConverter();
         DateRange dr = dateRangeConverter.stringToValue("2012-07-01");
         assertNotNull(dr);
-        assertEquals(FixedDate.class, dr.getClass());
+        assertEquals(FixedTimestamp.class, dr.getClass());
 
         assertEquals(new GregorianCalendar(2012, Calendar.JULY, 1).getTime(), dr.getStart());
         assertEquals(new GregorianCalendar(2012, Calendar.JULY, 1).getTime(), dr.getEnd());
@@ -101,18 +115,18 @@ public class DateRangeConverterTest {
     @Test
     public void ensureFixedDateExpressionMatches() throws Exception {
         DateRangeDataConverter dateRangeConverter = getDateRangeConverter();
+        String dateConverterFormat = "2012-07-12 00:00:00";
         String expression = "2012-07-12";
         String str = dateRangeConverter.valueToString(DateRangeFactory.getInstance(expression));
-        assertEquals(expression, str);
+        assertEquals(dateConverterFormat, str);
     }
 
     @Test
     public void ensureFixedDatetimeExpressionMatches() throws Exception {
         DateRangeDataConverter dateRangeConverter = getDateRangeConverter();
         String expression = "2012-07-12 12:20:01";
-        String dateConverterFormat = "2012-07-12";
         String str = dateRangeConverter.valueToString(DateRangeFactory.getInstance(expression));
-        assertEquals(dateConverterFormat, str);
+        assertEquals(expression, str);
     }
 
     private DateRangeDataConverter getDateRangeConverter() {
@@ -125,7 +139,7 @@ public class DateRangeConverterTest {
     public static CalendarFormatProvider createCalendarFormatProvider() {
         CalendarFormatProvider calendarFormatProvider = mock(CalendarFormatProvider.class);
         doReturn(new SimpleDateFormat("yyyy-MM-dd")).when(calendarFormatProvider).getDateFormat();
-        doReturn(new SimpleDateFormat("yyyy-MM-dd HH:mm")).when(calendarFormatProvider).getDatetimeFormat();
+        doReturn(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).when(calendarFormatProvider).getDatetimeFormat();
         return calendarFormatProvider;
     }
 

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -31,6 +33,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Optional;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
@@ -120,8 +123,10 @@ public class DateRangeFactory {
     }
 
     private static TimeZone getTimeZoneByValueType(Class valueClass) {
-        if (getApplicationContext().getBean(ClientTimezoneFormattingRulesResolver.class)
-                .isApplyClientTimezone(valueClass)) {
+    	if (Optional.ofNullable(getApplicationContext())
+    			.map(ctx -> ctx.getBean(ClientTimezoneFormattingRulesResolver.class))
+    			.map(bean -> bean.isApplyClientTimezone(valueClass) ? true : null)
+    			.isPresent()) {
             return TimeZoneContextHolder.getTimeZone();
         }
         return null;

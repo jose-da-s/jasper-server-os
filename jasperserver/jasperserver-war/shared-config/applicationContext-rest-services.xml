@@ -32,7 +32,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.7.xsd">
+                http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-6.5.xsd">
     <!-- REST v.2-->
     <context:component-scan base-package="com.jaspersoft.jasperserver.jaxrs">
         <context:exclude-filter type="regex" expression=".*UserWorkflowStorage"/>

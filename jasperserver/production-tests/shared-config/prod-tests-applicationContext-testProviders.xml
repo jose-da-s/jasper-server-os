@@ -100,10 +100,30 @@
     </bean>
     <bean id="inMemoryDaoImpl" class="org.springframework.security.provisioning.InMemoryUserDetailsManager">
         <constructor-arg index="0">
-            <value>
-                tomcat=tomcat,ROLE_TestExternalRole0
-                springlive=living,ROLE_TestExternalRole1
-            </value>
+        	<list>
+        		<bean class="org.springframework.security.core.userdetails.User">
+        			<constructor-arg index="0" value="tomcat"/>
+        			<constructor-arg index="1" value="{noop}tomcat"/>
+        			<constructor-arg index="2">
+        				<list>
+        					<bean class="org.springframework.security.core.authority">
+        						<constructor-arg index="0" value="ROLE_TestExternalRole0"/>
+        					</bean>
+        				</list>
+        			</constructor-arg>
+        		</bean>
+        		<bean class="org.springframework.security.core.userdetails.User">
+        			<constructor-arg index="0" value="springlive"/>
+        			<constructor-arg index="1" value="{noop}living"/>
+        			<constructor-arg index="2">
+        				<list>
+        					<bean class="org.springframework.security.core.authority">
+        						<constructor-arg index="0" value="ROLE_TestExternalRole1"/>
+        					</bean>
+        				</list>
+        			</constructor-arg>
+        		</bean>
+        	</list>
         </constructor-arg>
     </bean>
 
@@ -117,7 +137,7 @@
     
     The rest of this file is other authentication services - ignored
     ================================================================
-    <bean id="jaasAuthenticationProvider" class="org.springframework.security.providers.jaas.JaasAuthenticationProvider">
+    <bean id="jaasAuthenticationProvider" class="org.springframework.security.authentication.jaas.JaasAuthenticationProvider">
         <property name="loginConfig">
             <value>/WEB-INF/login.conf</value>
         </property>
@@ -126,8 +146,8 @@
         </property>
         <property name="callbackHandlers">
             <list>
-                <bean class="org.springframework.security.providers.jaas.JaasNameCallbackHandler"/>
-                <bean class="org.springframework.security.providers.jaas.JaasPasswordCallbackHandler"/>
+                <bean class="org.springframework.security.authentication.jaas.JaasNameCallbackHandler"/>
+                <bean class="org.springframework.security.authentication.jaas.JaasPasswordCallbackHandler"/>
             </list>
         </property>
         <property name="authorityGranters">
@@ -179,7 +199,7 @@
    <!--
    For LDAP authentication
    
-   <bean id="ldapAuthenticationProvider" class="org.springframework.security.providers.ldap.LdapAuthenticationProvider">
+   <bean id="ldapAuthenticationProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
      <constructor-arg>
        <bean class="org.springframework.security.providers.ldap.authenticator.BindAuthenticator">
           <constructor-arg><ref bean="initialDirContextFactory"/></constructor-arg>

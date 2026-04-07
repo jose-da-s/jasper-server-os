@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -219,12 +221,12 @@ public class HibernateLoggingService extends HibernateDaoSupport implements Logg
         //TODO: FIXME - at the moment method returns all the events.
         String username = securityContextProvider.getContextUsername();
 
-        List result = getHibernateTemplate().execute((s)-> s.createQuery("select count(*) from RepoLogEvent where state=?1")
+        Object result = getHibernateTemplate().execute((s)-> s.createQuery("select count(*) from RepoLogEvent where state=?1")
                 .setParameter(1, new Byte(LogEvent.STATE_UNREAD))
-                .getResultList());
+                .uniqueResult());
 
         if (result != null) {
-            return (Integer) result.get(0);
+            return (Integer) result;
         }
         return 0;
     }

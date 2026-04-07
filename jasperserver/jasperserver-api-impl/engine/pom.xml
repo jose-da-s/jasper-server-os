@@ -238,12 +238,13 @@
         <dependency>
             <groupId>org.jboss.teiid.connectors</groupId>
             <artifactId>translator-jdbc</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        <!--  dependency>
-            <groupId>org.jboss.teiid.connectors</groupId>
-            <artifactId>connector-file</artifactId>
-            <classifier>lib</classifier>
-        </dependency -->
         <dependency>
             <groupId>org.apache.thrift</groupId>
             <artifactId>libthrift</artifactId>
@@ -268,21 +269,6 @@
             <artifactId>snappy-java</artifactId>
             <version>1.1.2.6</version>
         </dependency>
-        <!--  dependency>
-            <groupId>org.jboss.teiid.connectors</groupId>
-            <artifactId>translator-cassandra</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.datastax.cassandra</groupId>
-                    <artifactId>cassandra-driver-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency -->
-        <!-- dependency>
-            <groupId>org.jboss.teiid.connectors</groupId>
-            <artifactId>connector-cassandra</artifactId>
-            <classifier>lib</classifier>
-        </dependency -->
         <!-- HIVE CONNECTOR  -->
         <dependency>
             <groupId>org.jboss.teiid.connectors</groupId>
@@ -354,7 +340,7 @@
             <exclusions>
             	<exclusion>
 		            <groupId>org.hibernate</groupId>
-		            <artifactId>hibernate-core-jakarta</artifactId>
+		            <artifactId>hibernate-core</artifactId>
             	</exclusion>
             </exclusions>
         </dependency>

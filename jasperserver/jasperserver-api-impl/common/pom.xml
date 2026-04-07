@@ -124,7 +124,7 @@
             <exclusions>
             	<exclusion>
 		            <groupId>org.hibernate</groupId>
-		            <artifactId>hibernate-core-jakarta</artifactId>
+		            <artifactId>hibernate-core</artifactId>
             	</exclusion>
             </exclusions>
         </dependency>

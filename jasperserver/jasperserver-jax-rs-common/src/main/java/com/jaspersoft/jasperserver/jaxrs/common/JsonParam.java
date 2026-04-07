@@ -23,7 +23,7 @@
 package com.jaspersoft.jasperserver.jaxrs.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
 
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
@@ -48,7 +48,7 @@ public class JsonParam<T> {
             Class<?> targetClass = (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
             ObjectMapper mapper = new ObjectMapper();
-            mapper.setAnnotationIntrospector(new JaxbAnnotationIntrospector());
+            mapper.setAnnotationIntrospector(new JakartaXmlBindAnnotationIntrospector());
 
             object = (T) mapper.readValue(json, targetClass);
         } catch (Exception e) {

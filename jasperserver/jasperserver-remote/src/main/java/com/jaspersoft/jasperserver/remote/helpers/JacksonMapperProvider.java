@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.jakarta.rs.cfg.Annotations;
 import com.fasterxml.jackson.jakarta.rs.json.JacksonXmlBindJsonProvider;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
 import org.springframework.stereotype.Service;
 
 /**
@@ -63,7 +63,7 @@ public class JacksonMapperProvider extends JacksonXmlBindJsonProvider {
             synchronized (JacksonMapperProvider.class) {
                 if (mapper == null) {
                     mapper = new ObjectMapper();
-                    AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
+                    AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
                     AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
                     AnnotationIntrospector pair = AnnotationIntrospector.pair(primary, secondary);
                     mapper.setAnnotationIntrospector(pair);

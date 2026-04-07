@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationModule;
 import com.jaspersoft.jasperserver.dto.adhoc.query.ClientMultiLevelQuery;
 import com.jaspersoft.jasperserver.dto.adhoc.query.ClientQuery;
 import com.jaspersoft.jasperserver.dto.adhoc.query.ClientWhere;
@@ -80,7 +80,7 @@ public class FilterTest {
 
     private static ObjectMapper configure(ObjectMapper mapper) {
 
-        JaxbAnnotationModule jaxbModule = new JaxbAnnotationModule();
+    	JakartaXmlBindAnnotationModule jaxbModule = new JakartaXmlBindAnnotationModule();
         mapper.registerModule(jaxbModule);
         mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
         mapper.configure(MapperFeature.USE_WRAPPER_NAME_AS_PROPERTY_NAME, true);

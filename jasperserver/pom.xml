@@ -1318,6 +1318,11 @@
                 <artifactId>jakarta.resource-api</artifactId>
                 <version>${jakarta.resource-api.version}</version>
             </dependency>
+	        <dependency>
+			    <groupId>jakarta.inject</groupId>
+			    <artifactId>jakarta.inject-api</artifactId>
+                <version>${jakarta.inject-api.version}</version>
+			</dependency>
             <dependency>
                 <groupId>org.jboss.logging</groupId>
                 <artifactId>jboss-logging</artifactId>
@@ -1490,6 +1495,7 @@
         <jakarta.xml.bind-api.version>3.0.1</jakarta.xml.bind-api.version>
         <jakarta.transaction-api.version>2.0.0</jakarta.transaction-api.version>
         <jakarta.resource-api.version>2.0.0</jakarta.resource-api.version>
+        <jakarta.inject-api.version>2.0.1</jakarta.inject-api.version>
         <jaxb-runtime.version>3.0.2</jaxb-runtime.version>
         <connector-version>${project.version}</connector-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

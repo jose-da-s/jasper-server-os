@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -150,17 +152,17 @@ public interface TransactionManagerConfiguration {
      */
     public boolean isDisableJmx();
     /**
-     * Get the name the {@link javax.transaction.UserTransaction} should be bound under in the
+     * Get the name the {@link jakarta.transaction.UserTransaction} should be bound under in the
      * {@link bitronix.tm.jndi.BitronixContext}.
-     * @return the name the {@link javax.transaction.UserTransaction} should
+     * @return the name the {@link jakarta.transaction.UserTransaction} should
      *         be bound under in the {@link bitronix.tm.jndi.BitronixContext}.
      */
     public String getJndiUserTransactionName();
 
     /**
-     * Get the name the {@link javax.transaction.TransactionSynchronizationRegistry} should be bound under in the
+     * Get the name the {@link jakarta.transaction.TransactionSynchronizationRegistry} should be bound under in the
      * {@link bitronix.tm.jndi.BitronixContext}.
-     * @return the name the {@link javax.transaction.TransactionSynchronizationRegistry} should
+     * @return the name the {@link jakarta.transaction.TransactionSynchronizationRegistry} should
      *         be bound under in the {@link bitronix.tm.jndi.BitronixContext}.
      */
     public String getJndiTransactionSynchronizationRegistryName();

@@ -887,7 +887,7 @@
 
 	<bean id="engineCacheManager" factory-bean="cachingProvider" factory-method="getCacheManager">
 		<constructor-arg name="uri" value="classpath:engine-ehcache.xml"/>
-		<constructor-arg name="classLoader"><null/></constructor-arg>
+		<constructor-arg name="classLoader" type="java.lang.ClassLoader"><null/></constructor-arg>
 	</bean>
 
 	<bean id="engineCache" factory-bean="engineCacheManager" factory-method="getCache" lazy-init="true">
@@ -1211,7 +1211,7 @@
 
 	<bean id="cacheManager" factory-bean="cachingProvider" factory-method="getCacheManager">
 		<constructor-arg name="uri" value="classpath:ehcache.xml"/>
-		<constructor-arg name="classLoader"><null/></constructor-arg>
+		<constructor-arg name="classLoader" type="java.lang.ClassLoader"><null/></constructor-arg>
 	</bean>
 
     <!-- Cache Manager Validator - validates required caches exist at startup -->
@@ -1413,7 +1413,7 @@
                         <bean class="com.jaspersoft.jasperserver.api.engine.jasperreports.util.FtpRepositoryService"/>
                	    </list>
                 </entry>
-                <entry key="net.sf.jasperreports.j2ee.web.WebLocaleResolver">
+                <entry key="net.sf.jasperreports.jakarta.web.WebLocaleResolver">
                 	<list>
                 		<bean class="com.jaspersoft.jasperserver.war.common.ServerLocaleResolver"/>
                 	</list>

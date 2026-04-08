@@ -106,7 +106,7 @@
         			<constructor-arg index="1" value="{noop}tomcat"/>
         			<constructor-arg index="2">
         				<list>
-        					<bean class="org.springframework.security.core.authority">
+        					<bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
         						<constructor-arg index="0" value="ROLE_TestExternalRole0"/>
         					</bean>
         				</list>
@@ -117,7 +117,7 @@
         			<constructor-arg index="1" value="{noop}living"/>
         			<constructor-arg index="2">
         				<list>
-        					<bean class="org.springframework.security.core.authority">
+        					<bean class="org.springframework.security.core.authority.SimpleGrantedAuthority">
         						<constructor-arg index="0" value="ROLE_TestExternalRole1"/>
         					</bean>
         				</list>

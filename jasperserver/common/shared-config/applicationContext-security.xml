@@ -51,13 +51,12 @@
         </bean>
 
         <bean id="anonymousUserDescriptor" class="org.springframework.security.core.userdetails.memory.UserAttribute">
-            <property name="password" value="{noop}anonymousUser"/>
+            <property name="password" value="anonymousUser"/>
             <property name="authoritiesAsString">
                 <list>
                     <value type="java.lang.String">ROLE_ANONYMOUS</value>
                 </list>
             </property>
-
         </bean>
 
         <!-- anonymousAuthenticationProvider only needed if filterInvocationInterceptor.alwaysReauthenticate is set to true

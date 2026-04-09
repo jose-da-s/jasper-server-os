@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -163,6 +165,7 @@ public class ProfileAttributeServiceTestTestNG extends BaseServiceSetupTestNG {
 
     @Test
     public void doGetProfileAttributesForPrincipalTest() {
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
         AttributesSearchCriteria searchCriteria = new AttributesSearchCriteria.Builder().build();
         AttributesSearchResult<ProfileAttribute> profileAttributes = getProfileAttributeService()
                 .getProfileAttributesForPrincipal(context, user, searchCriteria);
@@ -214,6 +217,7 @@ public class ProfileAttributeServiceTestTestNG extends BaseServiceSetupTestNG {
 
     @Test
     public void doPutAndDeleteProfileAttributeTest() {
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
         ProfileAttribute testProfileAttribute =
                 createTestAttr(user, PROFILE_ATTRIBUTE_NAME, PROFILE_ATTRIBUTE_VALUE, CUSTOM_GROUP);
         getProfileAttributeService().putProfileAttribute(context, testProfileAttribute);
@@ -359,6 +363,7 @@ public class ProfileAttributeServiceTestTestNG extends BaseServiceSetupTestNG {
     @AfterClass
     public void onTearDown() {
         log.info("Deleting all attributes");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
         for (ProfileAttribute profileAttribute : allProfileAttributesWithoutServerSettings) {
             getProfileAttributeService().deleteProfileAttribute(context, profileAttribute);
         }

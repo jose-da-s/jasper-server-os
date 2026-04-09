@@ -114,6 +114,7 @@ public class SearchServiceTestNG extends BaseServiceSetupTestNG {
         rootTestFolder.setLabel("Root Search Test Folder");
         rootTestFolder.setDescription("Root search test folder which stores all testing resources");
         getUnsecureRepositoryService().saveFolder(null, rootTestFolder);
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
         addHibernateRepositoryDataSourceResources();
         addHibernateRepositoryReportResources();
@@ -158,6 +159,7 @@ public class SearchServiceTestNG extends BaseServiceSetupTestNG {
 
     @Test()
     public void textBasedSearch() throws Exception {
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
         // Searching for resources with 'JNDI' text.
         SearchMode mode = SearchMode.SEARCH;
         
@@ -199,6 +201,7 @@ public class SearchServiceTestNG extends BaseServiceSetupTestNG {
 
     @Test()
     public void resourceTypeBasedSearch() throws Exception {
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
         SearchMode mode = SearchMode.SEARCH;
         
         State currentState = createDefaultSearchState(mode);

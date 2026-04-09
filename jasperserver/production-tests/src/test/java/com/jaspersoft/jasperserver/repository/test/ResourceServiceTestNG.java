@@ -124,12 +124,16 @@ public class ResourceServiceTestNG extends BaseServiceSetupTestNG {
 
     @Test()
     public void shouldCheckDependentReportsForNonDataSource() throws Exception {
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+
         List<ResourceDetails> results = resourceService.check(null, testResources("/reports/samples/AllAccounts"));
         AssertJUnit.assertEquals("Should find zero dependent reports.", 0, results.size());
     }
 
     @Test()
     public void shouldCheckDependentReportsForMixedResources() throws Exception {
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+
         List<ResourceDetails> results = resourceService.check(null,
                 testResources("/datasources/JServerJNDIDS", "/reports/samples/AllAccounts"));
 

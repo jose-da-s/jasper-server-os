@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -37,6 +39,8 @@ import com.jaspersoft.jasperserver.api.metadata.common.domain.ResourceReference;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JndiJdbcReportDataSource;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit;
 import com.jaspersoft.jasperserver.api.metadata.security.JasperServerPermission;
+import com.jaspersoft.jasperserver.util.test.BaseServiceSetupTestNG;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.Test;
@@ -151,6 +155,7 @@ public class RepositoryMoveAndCopyTestsTestNG extends BaseRepositoryTestTestNG {
 		m_logger.info("doFolderCopyTest() called");
 		executeInTempFolder(new Callback() {
 			public void execute() {
+				setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 				Folder folder = saveNewFolder("m");
 				
 				JndiJdbcReportDataSource ds = (JndiJdbcReportDataSource) 
@@ -586,6 +591,7 @@ public class RepositoryMoveAndCopyTestsTestNG extends BaseRepositoryTestTestNG {
 		m_logger.info("doFolderPermissionsTest() called");
 		executeInTempFolder(new Callback() {
 			public void execute() {
+				setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 				Folder folder = saveNewFolder("f");
 				setUserPermission(JasperServerPermission.ADMINISTRATION.getMask(), folder.getURIString(), USER_JOE);
 				
@@ -623,6 +629,7 @@ public class RepositoryMoveAndCopyTestsTestNG extends BaseRepositoryTestTestNG {
 		m_logger.info("doFolderCopyAncestorTest() called");
 		executeInTempFolder(new Callback() {
 			public void execute() {
+				setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 				Folder folder = saveNewFolder("m");
 				
 				JndiJdbcReportDataSource ds = (JndiJdbcReportDataSource) 

@@ -141,9 +141,8 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
      */
   @Test()
 	public void doPersistenceTest() {
-
         m_logger.info("ReportSchedulingTestTestNG => doPersistenceTest() called");
-
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
         // REPORT JOB 1
  
@@ -492,6 +491,7 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
   @Test()
   public void doBasicFindByNextFireTimePersistenceTest() {
     m_logger.info("\n\nReportSchedulingTestTestNG => doBasicFindByNextFireTimePersistenceTest() called");
+    setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 
     // REPORT JOB 1  The Job that we want out query to find 
@@ -712,6 +712,7 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
   @Test()
   public void doPauseResumeIndividualTest() {
     m_logger.info("\n\nReportSchedulingTestTestNG => doPauseResumeIndividualTest() called");
+    setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 
     // REPORT JOB 1  The Job that we want out query to find
@@ -916,7 +917,8 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
       */
   @Test()
   public void doPauseResumeAllTest() {
-    m_logger.info("\n\nReportSchedulingTestTestNG => doBasicFindByNextFireTimePersistenceTest() called");
+    m_logger.info("\n\nReportSchedulingTestTestNG => doPauseResumeAllTest() called");
+    setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 
     // REPORT JOB 1  The Job that we want out query to find
@@ -1148,6 +1150,7 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
   @Test()
   public void doScheduleJobsOnceNowTest() {
     m_logger.info("\n\nReportSchedulingTestTestNG => doScheduleJobsOnceNowTest() called");
+    setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 
     // REPORT JOB 1  The Job that we want to execute 'onceNow' at a later time

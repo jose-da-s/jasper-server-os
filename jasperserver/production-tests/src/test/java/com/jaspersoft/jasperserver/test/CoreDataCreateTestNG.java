@@ -60,6 +60,7 @@ import java.util.*;
 import static java.lang.System.getenv;
 import static org.springframework.util.ResourceUtils.getFile;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 /**
  * @author srosen
  *
@@ -130,9 +131,10 @@ public class CoreDataCreateTestNG extends BaseServiceSetupTestNG {
         createRootFolderIfMissing();
         createTenantForRootIfMissing();
         createUsersAndRoles();
+        // set the authenticated user to be jasperadmin
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
         addSchedulerResources();
         createDefaultTheme();
-
         addDefaultDomainWhitelist();
         addDBProfileAttributes();
 	}
@@ -165,9 +167,6 @@ public class CoreDataCreateTestNG extends BaseServiceSetupTestNG {
         User anonUser = createUser(BaseServiceSetupTestNG.USER_ANONYMOUS, null, BaseServiceSetupTestNG.USER_ANONYMOUS);
         createRole(BaseServiceSetupTestNG.ROLE_ANONYMOUS);
 		addRole(anonUser, BaseServiceSetupTestNG.ROLE_ANONYMOUS);
-
-        // set the authenticated user to be jasperadmin
-        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
     }
 
     /*

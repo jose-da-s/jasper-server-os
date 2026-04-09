@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -82,6 +82,7 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
     @AfterClass()
     public void onTearDown() throws Exception {
         m_logger.info("EngineServiceTestsTestNG => onTearDown() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
         // delete resources for these Engine Service tests
         // (as usual, we delete resources in the opposite order they were created)
@@ -98,6 +99,7 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
     @Test()
 	public void doExecuteTest() throws Exception	{
         m_logger.info("EngineServiceTestsTestNG => doExecuteTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 		// make a reportunit, execute it, and delete it
 		FileResource reportRes = (FileResource) getRepositoryService().newResource(null, FileResource.class);
@@ -131,6 +133,7 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
     @Test()
 	public void doGetResourcesTest() throws Exception	{
         m_logger.info("EngineServiceTestsTestNG => doGetResourcesTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 		ReportUnit reportUnit = (ReportUnit) getRepositoryService().getResource(m_context, "/reports/samples/AllAccounts");
 		assertNotNull(reportUnit);
 		ResourceReference reportRef = reportUnit.getMainReport();
@@ -175,6 +178,7 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
     @Test()
 	public void doTrialExecuteTest() {
         m_logger.info("EngineServiceTestsTestNG => doTrialExecuteTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 		ReportUnit unit = createUnit();
 		addJar(unit);
 
@@ -196,6 +200,7 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
     @Test()
 	public void doGetMainJasperReportTest() {
         m_logger.info("EngineServiceTestsTestNG => doGetMainJasperReportTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 		JasperReport jasperReport = getEngineService().getMainJasperReport(null, "/reports/samples/AllAccounts");
 		assertNotNull(jasperReport);
 		assertEquals("AllAccounts", jasperReport.getName());
@@ -207,6 +212,7 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
     @Test()
 	public void doExecuteWithCustomDataSourceTest() throws Exception	{
         m_logger.info("EngineServiceTestsTestNG => doExecuteWithCustomDataSourceTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/DataSourceReport", new HashMap()));
 		assertNotNull(result);
 		JasperPrint jasperPrint = result.getJasperPrint();
@@ -222,6 +228,7 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
     @Test()
 	public void doExecuteWithTableModelDataSourceTest() throws Exception	{
         m_logger.info("EngineServiceTestsTestNG => doExecuteWithTableModelDataSourceTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/DataSourceTableModel", new HashMap()));
 		assertNotNull(result);
 		JasperPrint jasperPrint = result.getJasperPrint();

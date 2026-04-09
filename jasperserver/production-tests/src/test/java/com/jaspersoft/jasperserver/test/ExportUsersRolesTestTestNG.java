@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -35,6 +37,7 @@ import com.jaspersoft.jasperserver.api.metadata.user.service.UserAuthorityServic
 import com.jaspersoft.jasperserver.export.Parameters;
 
 import com.jaspersoft.jasperserver.test.BaseExportTestCaseTestNG;
+import com.jaspersoft.jasperserver.util.test.BaseServiceSetupTestNG;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -179,6 +182,7 @@ public class ExportUsersRolesTestTestNG extends BaseExportTestCaseTestNG {
     @Test()
 	public void doExportImport_AllUsers_And_FileResourceTest() {
         m_logger.info("ExportUsersRolesTestTestNG => doExportImport_AllUsers_And_FileResourceTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 		createImageResource();
 		String exportDir = createExportDir();

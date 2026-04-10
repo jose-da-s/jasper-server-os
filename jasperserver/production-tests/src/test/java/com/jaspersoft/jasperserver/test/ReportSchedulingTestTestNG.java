@@ -1311,6 +1311,7 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
   @Test()
   public void doBasicFindByNextFireTimeTriggerStatesPersistenceSanityTest() {
     m_logger.info("\n\nReportSchedulingTestTestNG => doBasicFindByNextFireTimeTriggerStatesPersistenceSanityTest() called");
+    setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 
     // REPORT JOB 1  The Job that we want out query to find

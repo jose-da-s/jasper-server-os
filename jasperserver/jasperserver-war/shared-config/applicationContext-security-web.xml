@@ -49,14 +49,6 @@
     <bean id="authenticationAuthoirizationFilterChainProxy" class="org.springframework.security.web.FilterChainProxy">
         <constructor-arg index="0">
             <list>
-                <security:filter-chain pattern="/xmla" filters="
-                	httpSessionContextIntegrationFilter,
-                	${bean.loggingFilter},
-                	${bean.basicProcessingFilter},
-                	JIAuthenticationSynchronizer,
-                	anonymousProcessingFilter,
-                	basicAuthExceptionTranslationFilter,
-                	filterInvocationInterceptor"/>
                 <security:filter-chain pattern="/services/**" filters="
                 	httpSessionContextIntegrationFilter,
                 	${bean.loggingFilter},
@@ -123,6 +115,8 @@
             </bean>
         </property>
     </bean>
+
+	<bean id="mvcHandlerMappingIntrospector" class="org.springframework.web.servlet.handler.HandlerMappingIntrospector"/>
 
     <!-- updater bean to insert a filter -->
     <bean id="insertFilter" class="com.jaspersoft.jasperserver.api.common.util.spring.GenericBeanUpdaterDefinition">

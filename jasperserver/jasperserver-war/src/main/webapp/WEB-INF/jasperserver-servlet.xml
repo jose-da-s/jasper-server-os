@@ -119,8 +119,8 @@
     </bean>
 
     <util:map id="commonProperties" scope="prototype">
-        <entry key="userId" value="#{${bean.securityContextProvider}.contextUser.username}"/>
-        <entry key="organizationId" value="#{${bean.securityContextProvider}.contextUser.tenantId}"/>
+        <entry key="userId" value="#{${bean.securityContextProvider}.contextUser?.username}"/>
+        <entry key="organizationId" value="#{${bean.securityContextProvider}.contextUser?.tenantId}"/>
         <entry key="publicFolderUri" value="#{configurationBean.publicFolderUri}"/>
         <entry key="tempFolderUri" value="#{configurationBean.tempFolderUri}"/>
         <entry key="enableAccessibility" value="#{configurationBean.enableAccessibility}"/>
@@ -260,7 +260,11 @@
     	<property name="order" value="10"/>
     </bean>
 
-    <bean id="expressionParser" class="org.springframework.webflow.expression.WebFlowOgnlExpressionParser"/>
+	<bean id="spelExpressionParser" class="org.springframework.expression.spel.standard.SpelExpressionParser"/>
+
+    <bean id="expressionParser" class="org.springframework.webflow.expression.spel.WebFlowSpringELExpressionParser">
+    	<constructor-arg ref="spelExpressionParser"/>
+   	</bean>
 
     <bean id="flowController" class="org.springframework.webflow.mvc.servlet.FlowController">
         <property name="flowExecutor"><ref bean="flowExecutor"/></property>

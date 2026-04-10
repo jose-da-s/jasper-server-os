@@ -356,7 +356,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-web</artifactId>
+            <artifactId>log4j-jakarta-web</artifactId>
             <version>${log4j.version}</version>
         </dependency>
         <dependency>

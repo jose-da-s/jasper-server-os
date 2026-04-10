@@ -1489,7 +1489,8 @@
         <jersey.version>3.1.11</jersey.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <jakarta.servlet.jsp.version>3.1.0</jakarta.servlet.jsp.version>
-        <jakarta.servlet.jsp.jstl.version>3.0.2</jakarta.servlet.jsp.jstl.version>
+        <jakarta.servlet.jsp.jstl-api.version>3.0.2</jakarta.servlet.jsp.jstl-api.version>
+        <jakarta.servlet.jsp.jstl.version>3.0.1</jakarta.servlet.jsp.jstl.version>
         <jakarta.el.version>5.0.0</jakarta.el.version>
         <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
         <jakarta.xml.bind-api.version>3.0.1</jakarta.xml.bind-api.version>
@@ -1503,6 +1504,7 @@
         <spring.version>6.2.17</spring.version>
         <spring-webflow.version>3.0.1</spring-webflow.version>
         <spring-ldap.version>3.0.0</spring-ldap.version>
+        <sitemesh.version>2.6.0</sitemesh.version>
         <jms-api.version>2.0.1</jms-api.version>
         <!-- last 5.8.15 (before 6.x) version causes java.lang.NullPointerException: Cannot invoke "org.springframework.security.core.Authentication.getPrincipal()" because the return value of "org.springframework.security.core.context.SecurityContext.getAuthentication()" is null at -->
         <spring.security.version>6.5.9</spring.security.version>

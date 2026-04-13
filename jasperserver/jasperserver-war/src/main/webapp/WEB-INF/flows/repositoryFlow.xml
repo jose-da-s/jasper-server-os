@@ -58,7 +58,7 @@
 <!--
 	<subflow-state id="viewOlapModel" flow="viewOlapModelFlow">
 		<attribute-mapper>
-			<input-mapping as="name" value="${requestParameters.resource}"/>
+			<input-mapping as="name" value="#{requestParameters.resource}"/>
 		</attribute-mapper>
 		<transition on="done" to="initAction"/>
 		<transition on="cancel" to="initAction"/>
@@ -84,7 +84,7 @@
 
 <!-- exceptions handling -->
    <decision-state id="backFromError">
-      <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="${flowScope.prevForm}" else="initAction"/>
+      <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="#{flowScope.prevForm}" else="initAction"/>
    </decision-state>
 
    <view-state id="errorPage" view="modules/system/errorPage">

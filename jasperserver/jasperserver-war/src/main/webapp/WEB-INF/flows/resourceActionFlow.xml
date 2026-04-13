@@ -27,7 +27,7 @@
       start-state="initEvent">
 
     <decision-state id="initEvent">
-        <if test="requestParameters.method != null" then="${requestParameters.method}" else="generateResourceName"/>
+        <if test="requestParameters.method != null" then="#{requestParameters.method}" else="generateResourceName"/>
     </decision-state>
 
     <action-state id="generateResourceName">

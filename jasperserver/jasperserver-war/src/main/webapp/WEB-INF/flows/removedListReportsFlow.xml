@@ -60,7 +60,7 @@
 
 <!-- exceptions handling -->
    <decision-state id="backFromError">
-      <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="${flowScope.prevForm}" else="listReports"/>
+      <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="#{flowScope.prevForm}" else="listReports"/>
    </decision-state>
 
    <view-state id="errorPage" view="modules/system/errorPage">

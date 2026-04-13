@@ -108,7 +108,7 @@
 
     <!-- exceptions handling -->
     <decision-state id="backFromError">
-        <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="${flowScope.prevForm}"
+        <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="#{flowScope.prevForm}"
             else="finish"/>
     </decision-state>
 

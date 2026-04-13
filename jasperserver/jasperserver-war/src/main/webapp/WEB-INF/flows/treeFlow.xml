@@ -25,7 +25,7 @@
 <flow xmlns="http://www.springframework.org/schema/webflow" xmlns:ns0="http://www.w3.org/2001/XMLSchema-instance" ns0:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow.xsd" start-state="processTree">
 
    <decision-state id="processTree">
-      <if test="requestParameters.method != null" then="${requestParameters.method}" else="ajaxError"/>
+      <if test="requestParameters.method != null" then="#{requestParameters.method}" else="ajaxError"/>
    </decision-state>
 
    <action-state id="getNode">

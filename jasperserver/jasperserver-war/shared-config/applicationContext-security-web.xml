@@ -255,6 +255,10 @@
         <property name="filterProcessesUrl" value="/j_spring_security_check"/>
         <property name="allowSessionCreation" value="true" />
         <property name="sessionAuthenticationStrategy" ref="sas"/>
+        <property name="securityContextHolderStrategy">
+            <bean class="org.springframework.security.core.context.SecurityContextHolder"
+                  factory-method="getContextHolderStrategy"/>
+        </property>
     </bean>
 
     <bean id="successHandler" class="com.jaspersoft.jasperserver.api.security.JrsAuthenticationSuccessHandler" >
@@ -338,7 +342,12 @@
     </bean>
      -->
     <bean id="httpSessionContextIntegrationFilter"
-          class="org.springframework.security.web.context.SecurityContextPersistenceFilter"/>
+          class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+        <property name="securityContextHolderStrategy">
+        <bean class="org.springframework.security.core.context.SecurityContextHolder"
+              factory-method="getContextHolderStrategy"/>
+        </property>
+    </bean>
 
     <bean id="multipartRequestWrapperFilter" class="com.jaspersoft.jasperserver.war.MultipartRequestWrapperFilter">
         <property name="multipartResolver">

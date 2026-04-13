@@ -61,6 +61,11 @@
         <param-value>/WEB-INF/log4j2.properties</param-value>
     </context-param>
 
+    <!-- SecurityContextHolder.setStrategyName(MODE_INHERITABLETHREADLOCAL) -->
+    <listener>
+        <listener-class>com.jaspersoft.jasperserver.war.util.SecurityContextHolderStrategyInitializer</listener-class>
+    </listener>
+
     <!-- listener to load the root application context -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -75,11 +80,6 @@
         <param-name>contextClass</param-name>
         <param-value>com.jaspersoft.jasperserver.war.util.JSWebApplicationContext</param-value>
     </context-param>
-
-    <!-- SecurityContextHolder.setStrategyName(MODE_INHERITABLETHREADLOCAL) -->
-    <listener>
-        <listener-class>com.jaspersoft.jasperserver.war.util.SecurityContextHolderStrategyInitializer</listener-class>
-    </listener>
 
     <listener>
         <display-name>Session mutex</display-name>

@@ -440,7 +440,7 @@
         <servlet-name>JerseyREST</servlet-name>
         <servlet-class>com.jaspersoft.jasperserver.jaxrs.JrsJerseyServletContainer</servlet-class>
         <init-param>
-            <param-name>javax.ws.rs.Application</param-name>
+            <param-name>jakarta.ws.rs.Application</param-name>
             <param-value>com.jaspersoft.jasperserver.jaxrs.RestSpringApplication</param-value>
         </init-param>
         <init-param>

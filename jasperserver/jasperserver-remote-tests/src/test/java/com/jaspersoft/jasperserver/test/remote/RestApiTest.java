@@ -106,7 +106,7 @@ public class RestApiTest {
                 .setDefaultCredentialsProvider(credsProvider)
                 .build();
         objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JaxbAnnotationModule());
+        objectMapper.registerModule(new JakartaXmlBindAnnotationModule());
     
         // delete our folder
         Optional<ClientFolder> testFolder = getRepositoryResourceDescriptor(

@@ -278,6 +278,7 @@
     </profiles>
 
     <modules>
+        <module>jasperserver-jakarta-libs</module>
         <module>common</module>
         <module>jasperserver-action-model</module>
         <module>jasperserver-api</module>
@@ -692,6 +693,12 @@
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
                 <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jaspersoft.jasperserver</groupId>
+                <artifactId>jasperserver-jakarta-libs</artifactId>
+            	<type>pom</type>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.jaspersoft.jasperserver.api.common.impl</groupId>

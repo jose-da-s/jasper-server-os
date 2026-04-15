@@ -58,9 +58,20 @@
             <artifactId>jasperserver-remote-services</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.jaspersoft.jasperserver</groupId>
+            <artifactId>jasperserver-jakarta-libs</artifactId>
+            <type>pom</type>
+        </dependency>
+        <dependency>
             <groupId>org.jboss.teiid</groupId>
             <artifactId>teiid-common-core</artifactId>
             <classifier>jakarta</classifier>
+            <exclusions>
+        		<exclusion>
+            		<groupId>*</groupId>
+		            <artifactId>*</artifactId>
+        		</exclusion>
+    		</exclusions>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>

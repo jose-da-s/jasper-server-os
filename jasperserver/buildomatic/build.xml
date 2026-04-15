@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -438,17 +438,17 @@
             src="${js-path}/jasperserver-export-package/target/js-export-import-tool.zip" 
             overwrite="true"/>
 
-        <copy todir="${buildBase}/conf_source/ieCe" overwrite="true">
+        <copy todir="${importExportConfigCe}" overwrite="true">
           <fileset dir="${js-path}/jasperserver-export-package/target/js-export-import/config">
             <exclude name="**/js.jdbc.properties"/>
           </fileset>
         </copy> 
 
-        <copy todir="${buildBase}/conf_source/ieCe/lib" overwrite="true">
+        <copy todir="${importExportConfigCe}/lib" overwrite="true">
           <fileset dir="${js-path}/jasperserver-export-package/target/js-export-import/lib"/>
         </copy> 
 
-        <copy toDir="${buildBase}/conf_source/ieCe/lib">
+        <copy toDir="${importExportConfigCe}/lib">
           <fileset dir="${dbDir}/app-srv-jdbc-drivers" includes="*.jar"/>
         </copy>
     </target>
@@ -474,35 +474,35 @@
             src="${js-pro-path}/export-tool/target/js-pro-export-import-tool.zip" 
             overwrite="true"/>
 
-        <copy todir="${buildBase}/conf_source/iePro" overwrite="true">
+        <copy todir="${importExportConfigPro}" overwrite="true">
           <fileset dir="${js-pro-path}/export-tool/target/js-pro-export-import/config">
             <exclude name="**/js.jdbc.properties"/>
             <exclude name="log4j-override.properties"/>
           </fileset>
         </copy>
 
-        <concat destfile="${buildBase}/conf_source/iePro/log4j2.properties" append="true">
+        <concat destfile="${importExportConfigPro}/log4j2.properties" append="true">
             <file file="${js-pro-path}/export-tool/target/js-pro-export-import/config/log4j-override.properties"/>
         </concat>
 
-        <copy todir="${buildBase}/conf_source/iePro/lib" overwrite="true">
+        <copy todir="${importExportConfigPro}/lib" overwrite="true">
           <fileset dir="${js-pro-path}/export-tool/target/js-pro-export-import/lib"/>
         </copy>
 
-        <copy todir="${buildBase}/conf_source/iePro/adhoc" overwrite="true">
+        <copy todir="${importExportConfigPro}/adhoc" overwrite="true">
           <fileset dir="${js-pro-path}/jasperserver-war/target/jasperserver-pro/WEB-INF/adhoc"/>
         </copy>
 
-        <copy todir="${buildBase}/conf_source/iePro/bundles" overwrite="true">
+        <copy todir="${importExportConfigPro}/bundles" overwrite="true">
           <fileset dir="${js-path}/jasperserver-war/target/jasperserver/WEB-INF/bundles"/>
         </copy>
 
-        <copy todir="${buildBase}/conf_source/iePro/bundles" overwrite="true">
+        <copy todir="${importExportConfigPro}/bundles" overwrite="true">
             <fileset dir="${js-pro-path}/jasperserver-war/target/jasperserver-pro/WEB-INF/bundles"/>
         </copy>
 
         <!-- 2013-09-25 bug 29095 include all the main jdbc drivers into lib folder --> 
-        <copy toDir="${buildBase}/conf_source/iePro/lib">
+        <copy toDir="${importExportConfigPro}/lib">
           <fileset dir="${dbDir}/app-srv-jdbc-drivers" includes="*.jar"/>
         </copy>
     </target>
@@ -510,14 +510,14 @@
     <target name="clean-export-files-ce"
         description="Delete all files inside the conf_source/ieCe dir">
         <delete includeEmptyDirs="true" failonerror="false">
-            <fileset dir="${buildBase}/conf_source/ieCe"/>
+            <fileset dir="${importExportConfigCe}"/>
         </delete>
     </target>
  
     <target name="clean-export-files-pro"
         description="Delete all files inside the conf_source/iePro dir">
         <delete includeEmptyDirs="true" failonerror="false">
-            <fileset dir="${buildBase}/conf_source/iePro"/>
+            <fileset dir="${importExportConfigPro}"/>
         </delete>
     </target>
 

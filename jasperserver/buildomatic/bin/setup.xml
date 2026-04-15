@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -519,10 +519,10 @@
     <property name="dbDir" value="${confSourceDir}/db"/>
 
     <!-- import/export ce config dir -->
-    <property name="importExportConfigCe" value="${confSourceDir}/ieCe"/>
+    <property name="importExportConfigCe" value="${confSourceDir}/ieCe/wrapper"/>
 
     <!-- import/export pro config dir -->
-    <property name="importExportConfigPro" value="${confSourceDir}/iePro"/>
+    <property name="importExportConfigPro" value="${confSourceDir}/iePro/wrapper"/>
 
     <!-- maven runner -->
     <property name="mvnRunner" value="${buildBase}/js-mvn"/>

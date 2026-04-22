@@ -49,7 +49,7 @@
     <bean id="authenticationAuthoirizationFilterChainProxy" class="org.springframework.security.web.FilterChainProxy">
         <constructor-arg index="0">
             <list>
-                <security:filter-chain pattern="/services/**" filters="
+                <security:filter-chain request-matcher-ref="servicesAntMatcher" filters="
                 	httpSessionContextIntegrationFilter,
                 	${bean.loggingFilter},
                 	delegatingCASSingleSignOutFilter,
@@ -61,7 +61,7 @@
                 	anonymousProcessingFilter,
                 	wsBasicAuthExceptionTranslationFilter,
                 	filterInvocationInterceptor"/>
-                <security:filter-chain pattern="/rest_v2/**" filters="
+                <security:filter-chain request-matcher-ref="restV2AntMatcher" filters="
                 	httpSessionContextIntegrationFilter,
                 	encryptionFilter,
                 	delegatingCASSingleSignOutFilter,
@@ -114,6 +114,14 @@
                 <property name="allowBackSlash" value="true"/>
             </bean>
         </property>
+    </bean>
+
+	<bean id="servicesAntMatcher" class="org.springframework.security.web.util.matcher.AntPathRequestMatcher">
+        <constructor-arg index="0" value="/services/**"/>
+    </bean>
+
+	<bean id="restV2AntMatcher" class="org.springframework.security.web.util.matcher.AntPathRequestMatcher">
+        <constructor-arg index="0" value="/rest_v2/**"/>
     </bean>
 
 	<bean id="mvcHandlerMappingIntrospector" class="org.springframework.web.servlet.handler.HandlerMappingIntrospector"/>

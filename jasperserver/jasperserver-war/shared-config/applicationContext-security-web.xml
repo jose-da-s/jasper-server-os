@@ -65,6 +65,7 @@
                 	httpSessionContextIntegrationFilter,
                 	encryptionFilter,
                 	delegatingCASSingleSignOutFilter,
+                	multipartNoParametersRequestWrapperFilter,
                 	textOnlyResponseWebAppSecurityFilter,
                 	${bean.loggingFilter},
                 	${bean.userPreferencesFilter},
@@ -88,7 +89,7 @@
                 	encryptionFilter,
                 	delegatingCASSingleSignOutFilter,
                 	delegatingCASPreAuthCORSFilter,
-                	multipartRequestWrapperFilter,
+                	multipartResolverFilter,
                 	webAppSecurityFilter,
                 	${bean.loggingFilter},
                 	${bean.userPreferencesFilter},
@@ -357,10 +358,17 @@
         </property>
     </bean>
 
-    <bean id="multipartRequestWrapperFilter" class="com.jaspersoft.jasperserver.war.MultipartRequestWrapperFilter">
+	<bean id="multipartNoParametersRequestWrapperFilter" class="com.jaspersoft.jasperserver.war.MultipartNoParametersRequestWrapperFilter">
         <property name="multipartResolver">
             <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
-                
+            	<property name="resolveLazily" value="true"/>
+            </bean>
+        </property>
+	</bean>
+
+    <bean id="multipartResolverFilter" class="com.jaspersoft.jasperserver.war.MultipartResolverFilter">
+        <property name="multipartResolver">
+            <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
             </bean>
         </property>
     </bean>

@@ -1,6 +1,4 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
- * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
@@ -44,7 +42,7 @@ import java.util.Iterator;
  * User: Andrew Sokolnikov
  * Date: Nov 4, 2011
  */
-public class MultipartRequestWrapperFilter implements Filter {
+public class MultipartResolverFilter implements Filter {
 
     protected final Log log = LogFactory.getLog(this.getClass());
     private MultipartResolver multipartResolver;

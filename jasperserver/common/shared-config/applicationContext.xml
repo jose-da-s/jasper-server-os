@@ -1601,10 +1601,6 @@
 
     <alias name="${bean.calendarFormatProvider}" alias="configurableCalendarFormatProvider"/>
 
-    <!-- handle file uploads using commons-fileupload
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-     -->
-
     <bean id="engineCacheDeleteListener" class="com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl.EngineCacheDeleteListener">
         <property name="engine" ref="${bean.engineCacheDeleteListener.engine}"/>
     </bean>

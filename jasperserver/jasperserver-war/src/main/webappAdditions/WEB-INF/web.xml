@@ -205,15 +205,6 @@
     </filter>
 
     <filter>
-        <filter-name>sessionDecoratorProxyFilter</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-        <init-param>
-            <param-name>targetBeanName</param-name>
-            <param-value>sessionDecoratorFilter</param-value>
-        </init-param>
-    </filter>
-
-    <filter>
         <description>
             Put the request object into a ThreadLocal variable to make it accessible
             throughout the application.
@@ -277,6 +268,15 @@
         </init-param>
     </filter>
 
+    <filter>
+        <filter-name>sessionDecoratorProxyFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>sessionDecoratorFilter</param-value>
+        </init-param>
+    </filter>
+
     <!-- Start of SiteMesh filter config -->
     <filter>
         <filter-name>sitemesh</filter-name>
@@ -332,11 +332,6 @@
     </filter-mapping>
 
     <filter-mapping>
-        <filter-name>sessionDecoratorProxyFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <filter-mapping>
         <filter-name>RequestContextFilter</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatcher>ERROR</dispatcher>
@@ -368,6 +363,12 @@
 
     <filter-mapping>
         <filter-name>SwitchUserProcessingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+	<!-- this filter must come after securityFilter, because securityFilter wraps multipart requests -->
+    <filter-mapping>
+        <filter-name>sessionDecoratorProxyFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 

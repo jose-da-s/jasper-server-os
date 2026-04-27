@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,9 +24,9 @@ package com.jaspersoft.jasperserver.war.tags;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.TagSupport;
 
 import com.jaspersoft.jasperserver.war.common.WebConfiguration;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -172,3 +174,4 @@ public class PaginatorTag extends TagSupport
 	}
 
 }
+

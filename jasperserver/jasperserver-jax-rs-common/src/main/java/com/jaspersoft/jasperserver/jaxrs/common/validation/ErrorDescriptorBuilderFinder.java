@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -25,10 +27,10 @@ import com.jaspersoft.jasperserver.core.util.type.GenericTypeProcessorRegistry;
 import com.jaspersoft.jasperserver.dto.common.ValidationErrorDescriptorBuilder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintViolation;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.annotation.Resource;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.metadata.ConstraintDescriptor;
 import java.util.List;
 
 /**
@@ -87,3 +89,4 @@ public class ErrorDescriptorBuilderFinder {
         return validationErrorDescriptorBuilder;
     }
 }
+

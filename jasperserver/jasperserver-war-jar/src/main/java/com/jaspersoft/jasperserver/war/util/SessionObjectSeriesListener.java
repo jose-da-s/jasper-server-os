@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -20,8 +22,8 @@
  */
 package com.jaspersoft.jasperserver.war.util;
 
-import javax.servlet.http.HttpSessionBindingEvent;
-import javax.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionBindingEvent;
+import jakarta.servlet.http.HttpSessionEvent;
 
 import com.jaspersoft.jasperserver.war.util.LRUSessionObjectAccessor.ObjectSerie;
 
@@ -40,3 +42,4 @@ public interface SessionObjectSeriesListener {
 	void objectSeriesWillPassivate(HttpSessionEvent event, SessionObjectSeries series);
 	
 }
+

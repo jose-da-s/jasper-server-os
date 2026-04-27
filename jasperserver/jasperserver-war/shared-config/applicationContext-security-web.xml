@@ -29,7 +29,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/security
-       http://www.springframework.org/schema/security/spring-security-5.7.xsd
+       http://www.springframework.org/schema/security/spring-security-6.5.xsd
        http://www.springframework.org/schema/util
        http://www.springframework.org/schema/util/spring-util.xsd">
 
@@ -49,15 +49,7 @@
     <bean id="authenticationAuthoirizationFilterChainProxy" class="org.springframework.security.web.FilterChainProxy">
         <constructor-arg index="0">
             <list>
-                <security:filter-chain pattern="/xmla" filters="
-                	httpSessionContextIntegrationFilter,
-                	${bean.loggingFilter},
-                	${bean.basicProcessingFilter},
-                	JIAuthenticationSynchronizer,
-                	anonymousProcessingFilter,
-                	basicAuthExceptionTranslationFilter,
-                	filterInvocationInterceptor"/>
-                <security:filter-chain pattern="/services/**" filters="
+                <security:filter-chain request-matcher-ref="servicesAntMatcher" filters="
                 	httpSessionContextIntegrationFilter,
                 	${bean.loggingFilter},
                 	delegatingCASSingleSignOutFilter,
@@ -69,10 +61,11 @@
                 	anonymousProcessingFilter,
                 	wsBasicAuthExceptionTranslationFilter,
                 	filterInvocationInterceptor"/>
-                <security:filter-chain pattern="/rest_v2/**" filters="
+                <security:filter-chain request-matcher-ref="restV2AntMatcher" filters="
                 	httpSessionContextIntegrationFilter,
                 	encryptionFilter,
                 	delegatingCASSingleSignOutFilter,
+                	multipartNoParametersRequestWrapperFilter,
                 	textOnlyResponseWebAppSecurityFilter,
                 	${bean.loggingFilter},
                 	${bean.userPreferencesFilter},
@@ -96,7 +89,7 @@
                 	encryptionFilter,
                 	delegatingCASSingleSignOutFilter,
                 	delegatingCASPreAuthCORSFilter,
-                	multipartRequestWrapperFilter,
+                	multipartResolverFilter,
                 	webAppSecurityFilter,
                 	${bean.loggingFilter},
                 	${bean.userPreferencesFilter},
@@ -123,6 +116,16 @@
             </bean>
         </property>
     </bean>
+
+	<bean id="servicesAntMatcher" class="org.springframework.security.web.util.matcher.AntPathRequestMatcher">
+        <constructor-arg index="0" value="/services/**"/>
+    </bean>
+
+	<bean id="restV2AntMatcher" class="org.springframework.security.web.util.matcher.AntPathRequestMatcher">
+        <constructor-arg index="0" value="/rest_v2/**"/>
+    </bean>
+
+	<bean id="mvcHandlerMappingIntrospector" class="org.springframework.web.servlet.handler.HandlerMappingIntrospector"/>
 
     <!-- updater bean to insert a filter -->
     <bean id="insertFilter" class="com.jaspersoft.jasperserver.api.common.util.spring.GenericBeanUpdaterDefinition">
@@ -261,6 +264,10 @@
         <property name="filterProcessesUrl" value="/j_spring_security_check"/>
         <property name="allowSessionCreation" value="true" />
         <property name="sessionAuthenticationStrategy" ref="sas"/>
+        <property name="securityContextHolderStrategy">
+            <bean class="org.springframework.security.core.context.SecurityContextHolder"
+                  factory-method="getContextHolderStrategy"/>
+        </property>
     </bean>
 
     <bean id="successHandler" class="com.jaspersoft.jasperserver.api.security.JrsAuthenticationSuccessHandler" >
@@ -344,12 +351,24 @@
     </bean>
      -->
     <bean id="httpSessionContextIntegrationFilter"
-          class="org.springframework.security.web.context.SecurityContextPersistenceFilter"/>
+          class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+        <property name="securityContextHolderStrategy">
+        <bean class="org.springframework.security.core.context.SecurityContextHolder"
+              factory-method="getContextHolderStrategy"/>
+        </property>
+    </bean>
 
-    <bean id="multipartRequestWrapperFilter" class="com.jaspersoft.jasperserver.war.MultipartRequestWrapperFilter">
+	<bean id="multipartNoParametersRequestWrapperFilter" class="com.jaspersoft.jasperserver.war.MultipartNoParametersRequestWrapperFilter">
         <property name="multipartResolver">
             <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
-                
+            	<property name="resolveLazily" value="true"/>
+            </bean>
+        </property>
+	</bean>
+
+    <bean id="multipartResolverFilter" class="com.jaspersoft.jasperserver.war.MultipartResolverFilter">
+        <property name="multipartResolver">
+            <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
             </bean>
         </property>
     </bean>

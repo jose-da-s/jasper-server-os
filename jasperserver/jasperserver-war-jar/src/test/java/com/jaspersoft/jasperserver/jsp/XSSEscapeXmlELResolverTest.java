@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,18 +24,32 @@
 package com.jaspersoft.jasperserver.jsp;
 
 import junit.framework.Assert;
-import org.apache.taglibs.standard.lang.jstl.test.PageContextImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
-import org.springframework.binding.expression.el.DefaultELContext;
 import org.springframework.web.util.JavaScriptUtils;
 
-import javax.el.ELContext;
-import javax.el.ELResolver;
-import javax.el.MapELResolver;
-import javax.servlet.jsp.JspContext;
-import javax.servlet.jsp.PageContext;
+import jakarta.el.ELContext;
+import jakarta.el.ELResolver;
+import jakarta.el.MapELResolver;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.jsp.JspContext;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.el.ExpressionEvaluator;
+import jakarta.servlet.jsp.el.VariableResolver;
+
+import org.springframework.binding.expression.el.DefaultELContext;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,17 +75,16 @@ public class XSSEscapeXmlELResolverTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
-		pageContext = new PageContextImpl();
 		xssElResolver = new XSSEscapeXmlELResolver();
 
 		ELResolver baseElResolver = new MapELResolver();
 		elContext = new DefaultELContext(baseElResolver,null,null);
+		pageContext = new SimplePageContext(elContext);
 		elContext.putContext(JspContext.class, pageContext);
-
 		elBaseMap = new HashMap<String, String>();
 	}
 
-/**
+	/**
 	 * Test that < and > are properly escaped as &lt; and &gt;
 	 */
     @Test
@@ -157,4 +172,228 @@ public class XSSEscapeXmlELResolverTest {
 			pageContext.setAttribute(SKIP_XSS_ESCAPE_REQ_ATTRIB, false);
 		}
 	}
+
+
+	private static class SimplePageContext extends PageContext  {
+
+		private ELContext elContext;
+		private final HashMap<String, Object> applicationScope = new HashMap<>();
+		private final HashMap<String, Object> sessionScope = new HashMap<>();
+		private final HashMap<String, Object> requestScope = new HashMap<>();
+		private final HashMap<String, Object> pageScope = new HashMap<>();
+
+		public SimplePageContext(ELContext elContext) {
+			this.elContext = elContext;
+		}
+
+		@Override
+		public void setAttribute(String name, Object value) {
+			setAttribute(name, value, PAGE_SCOPE);
+		}
+
+		@Override
+		public void setAttribute(String name, Object value, int scope) {
+			switch (scope) {
+				case APPLICATION_SCOPE:
+					applicationScope.put(name, value);
+					break;
+				case SESSION_SCOPE:
+					sessionScope.put(name, value);
+					break;
+				case REQUEST_SCOPE:
+					requestScope.put(name, value);
+					break;
+				case PAGE_SCOPE:
+					pageScope.put(name, value);
+					break;
+			}
+		}
+
+		@Override
+		public Object getAttribute(String name) {
+			return getAttribute(name, PAGE_SCOPE);
+		}
+
+		@Override
+		public Object getAttribute(String name, int scope) {
+			switch (scope) {
+				case APPLICATION_SCOPE:
+					return applicationScope.get(name);
+				case SESSION_SCOPE:
+					return sessionScope.get(name);
+				case REQUEST_SCOPE:
+					return requestScope.get(name);
+				case PAGE_SCOPE:
+					return pageScope.get(name);
+				default:
+					return null;
+			}
+		}
+
+		@Override
+		public Object findAttribute(String name) {
+			if (pageScope.containsKey(name)) {
+				return pageScope.get(name);
+			} else if (requestScope.containsKey(name)) {
+				return requestScope.get(name);
+			} else if (sessionScope.containsKey(name)) {
+				return sessionScope.get(name);
+			} else {
+				return applicationScope.get(name);
+			}
+		}
+
+		@Override
+		public void removeAttribute(String name) {
+			removeAttribute(name, PAGE_SCOPE);
+		}
+
+		@Override
+		public void removeAttribute(String name, int scope) {
+			switch (scope) {
+				case APPLICATION_SCOPE:
+					applicationScope.remove(name);
+					break;
+				case SESSION_SCOPE:
+					sessionScope.remove(name);
+					break;
+				case REQUEST_SCOPE:
+					requestScope.remove(name);
+					break;
+				case PAGE_SCOPE:
+					pageScope.remove(name);
+					break;
+			}
+		}
+
+		@Override
+		public int getAttributesScope(String name) {
+			if (name == null) {
+				throw new NullPointerException("name");
+			}
+			if (pageScope.get(name) != null) {
+				return PAGE_SCOPE;
+			} else if (requestScope.get(name) != null) {
+				return REQUEST_SCOPE;
+			} else if (sessionScope.get(name) != null) {
+				return APPLICATION_SCOPE;
+			} else if (applicationScope.get(name) != null) {
+				return APPLICATION_SCOPE;
+			} else {
+				return 0;
+			}
+		}
+
+		@Override
+		public Enumeration<String> getAttributeNamesInScope(int scope) {
+			HashMap<String, Object> scopeMap;
+			switch (scope) {
+				case APPLICATION_SCOPE:
+					scopeMap = applicationScope;
+					break;
+				case SESSION_SCOPE:
+					scopeMap = sessionScope;
+					break;
+				case REQUEST_SCOPE:
+					scopeMap = requestScope;
+					break;
+				case PAGE_SCOPE:
+					scopeMap = pageScope;
+					break;
+				default:
+					throw new IllegalArgumentException("unknown scope constant: " + scope);
+			}
+			return Collections.enumeration(scopeMap.keySet());
+		}
+
+		@Override
+		public ELContext getELContext() {
+			return elContext;
+		}
+
+		@Override
+		public void initialize(Servlet servlet, ServletRequest request, ServletResponse response,
+				String errorPageURL, boolean needsSession, int bufferSize, boolean autoFlush)
+				throws IOException, IllegalStateException, IllegalArgumentException {
+		}
+
+		@Override
+		public void release() {
+		}
+
+		@Override
+		public HttpSession getSession() {
+			throw new UnsupportedOperationException("getSession()");
+		}
+
+		@Override
+		public Object getPage() {
+			throw new UnsupportedOperationException("getPage()");
+		}
+
+		@Override
+		public ServletRequest getRequest() {
+			throw new UnsupportedOperationException("getRequest()");
+		}
+
+		@Override
+		public ServletResponse getResponse() {
+			throw new UnsupportedOperationException("getResponse()");
+		}
+
+		@Override
+		public Exception getException() {
+			throw new UnsupportedOperationException("getException()");
+		}
+
+		@Override
+		public ServletConfig getServletConfig() {
+			throw new UnsupportedOperationException("getServletConfig()");
+		}
+
+		@Override
+		public ServletContext getServletContext() {
+			throw new UnsupportedOperationException("getServletContext()");
+		}
+
+		@Override
+		public void forward(String relativeUrlPath) throws ServletException, IOException {
+			throw new UnsupportedOperationException("forward(String relativeUrlPath)");
+		}
+
+		@Override
+		public void include(String relativeUrlPath) throws ServletException, IOException {
+			throw new UnsupportedOperationException("include(String relativeUrlPath)");
+		}
+
+		@Override
+		public void include(String relativeUrlPath, boolean flush) throws ServletException, IOException {
+			throw new UnsupportedOperationException("include(String relativeUrlPath, boolean flush)");
+		}
+
+		@Override
+		public void handlePageException(Exception e) throws ServletException, IOException {
+			throw new UnsupportedOperationException("include(String relativeUrlPath, boolean flush)");
+		}
+
+		@Override
+		public void handlePageException(Throwable t) throws ServletException, IOException {
+			throw new UnsupportedOperationException("handlePageException(Throwable t)");
+		}
+
+		@Override
+		public JspWriter getOut() {
+			throw new UnsupportedOperationException("getOut()");
+		}
+
+		@Override
+		public ExpressionEvaluator getExpressionEvaluator() {
+			throw new UnsupportedOperationException("getExpressionEvaluator()");
+		}
+
+		@Override
+		public VariableResolver getVariableResolver() {
+			throw new UnsupportedOperationException("getVariableResolver()");
+		}
+	};
 }

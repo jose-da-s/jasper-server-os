@@ -23,7 +23,7 @@ package com.jaspersoft.jasperserver.dto.adhoc.query.group.axis;
 
 import com.jaspersoft.jasperserver.dto.adhoc.query.field.ClientQueryGroup;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 

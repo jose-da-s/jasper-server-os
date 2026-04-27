@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -32,7 +34,7 @@ public class CRUDUserValidator implements Validator {
 
 	private UserAuthorityService userService;
 
-    @javax.annotation.Resource(name = "emailInputValidator")
+    @jakarta.annotation.Resource(name = "emailInputValidator")
     private InputValidator emailValidator;
 
     public UserAuthorityService getUserService()
@@ -105,3 +107,4 @@ public class CRUDUserValidator implements Validator {
 		}
 	}
 }
+

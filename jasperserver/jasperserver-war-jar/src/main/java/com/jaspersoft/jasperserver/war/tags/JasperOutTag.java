@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,7 +24,7 @@ package com.jaspersoft.jasperserver.war.tags;
 
 import com.jaspersoft.jasperserver.jsp.XSSEscapeXmlELResolver;
 
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.jsp.tagext.TagSupport;
 
 /**
  * This jstl tag is an 'escape' hatch in case some EL's need to be left unescaped by XSSEscapeXmlELResolver.
@@ -80,4 +82,5 @@ public class JasperOutTag extends TagSupport {
 		javaScriptEscape = UTF8_ESCAPE_XSS_SCRIPT_DEFAULT;
 	}
 }
+
 

@@ -33,7 +33,7 @@ import javax.cache.Cache;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Map;
 import java.util.UUID;
 

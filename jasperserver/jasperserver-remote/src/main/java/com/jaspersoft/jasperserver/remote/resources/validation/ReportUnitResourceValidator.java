@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -33,7 +35,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
@@ -118,3 +120,4 @@ public class ReportUnitResourceValidator<T extends ReportUnit> extends GenericRe
         return JRXmlLoader.load(new ByteArrayInputStream(data));
     }
 }
+

@@ -26,9 +26,9 @@ import com.jaspersoft.jasperserver.dto.resources.ClientFile;
 import com.jaspersoft.jasperserver.dto.resources.ClientProperty;
 import com.jaspersoft.jasperserver.dto.resources.ClientReferenceableFile;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintViolation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

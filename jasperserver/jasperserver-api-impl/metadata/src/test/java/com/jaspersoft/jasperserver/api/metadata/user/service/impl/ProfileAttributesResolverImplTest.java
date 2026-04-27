@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2025 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -49,9 +51,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
+import jakarta.annotation.Resource;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -551,3 +553,4 @@ public class ProfileAttributesResolverImplTest {
         assertEquals("", fieldName);
     }
 }
+

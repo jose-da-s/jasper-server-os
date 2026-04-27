@@ -191,12 +191,13 @@ Make sure you have compiled the jasperserver source code.
                         TODO
                         we should put currentConf first so it can pick up the files generated based on
                         db settings, etc., but if you do that, beans don't get recognized because
-                        the Spring context loader uses a pattern of "applicationContext*.xml", which
+                        the Spring context loader uses a pattern of "wrapper/applicationContext*.xml", which
                         is sensitive to the order of the classpath.
                         We should use one of the args such as -configResources to pass a pattern
                         that is more explicit for Spring, doing something like this:
                         -configResources=file:blah/import-export/dir/applicationContext*.xml
                       -->
+                    <pathelement location="${importExportConfig}/.."/>
                     <pathelement location="${importExportConfig}"/>
                     <pathelement location="${importExportConfig}/classes"/>
                     <!-- classpath jar for lib dir --> 

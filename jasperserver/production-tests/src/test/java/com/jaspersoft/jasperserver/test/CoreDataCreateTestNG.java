@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -46,7 +48,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -58,6 +60,7 @@ import java.util.*;
 import static java.lang.System.getenv;
 import static org.springframework.util.ResourceUtils.getFile;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 /**
  * @author srosen
  *
@@ -128,9 +131,10 @@ public class CoreDataCreateTestNG extends BaseServiceSetupTestNG {
         createRootFolderIfMissing();
         createTenantForRootIfMissing();
         createUsersAndRoles();
+        // set the authenticated user to be jasperadmin
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
         addSchedulerResources();
         createDefaultTheme();
-
         addDefaultDomainWhitelist();
         addDBProfileAttributes();
 	}
@@ -163,9 +167,6 @@ public class CoreDataCreateTestNG extends BaseServiceSetupTestNG {
         User anonUser = createUser(BaseServiceSetupTestNG.USER_ANONYMOUS, null, BaseServiceSetupTestNG.USER_ANONYMOUS);
         createRole(BaseServiceSetupTestNG.ROLE_ANONYMOUS);
 		addRole(anonUser, BaseServiceSetupTestNG.ROLE_ANONYMOUS);
-
-        // set the authenticated user to be jasperadmin
-        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
     }
 
     /*
@@ -283,3 +284,4 @@ public class CoreDataCreateTestNG extends BaseServiceSetupTestNG {
         return type;
     }
 }
+

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -30,14 +32,14 @@ import com.jaspersoft.jasperserver.dto.resources.domain.ResourceGroupElement;
 import com.jaspersoft.jasperserver.dto.resources.domain.ResourceMetadataSingleElement;
 import com.jaspersoft.jasperserver.dto.resources.domain.SchemaElement;
 import org.apache.commons.lang3.StringUtils;
-import javax.ws.rs.BadRequestException;
+import jakarta.ws.rs.BadRequestException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.support.rowset.ResultSetWrappingSqlRowSet;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetFactory;
 import javax.sql.rowset.RowSetProvider;
@@ -401,3 +403,4 @@ public class JdbcMetadataBuilder implements MetadataBuilder<Connection>,
         return new ResultSetWrappingSqlRowSet(cachedRowSet);
     }
 }
+

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -20,10 +22,10 @@
  */
 package com.jaspersoft.jasperserver.war.tags;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.Tag;
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -151,3 +153,4 @@ public class ParametersFormTag extends TagSupport
 		this.readOnly = readOnly;
 	}
 }
+

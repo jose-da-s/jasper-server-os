@@ -22,7 +22,7 @@ package com.jaspersoft.jasperserver.remote.validation;
 
 import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 /**
  * <p></p>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -52,6 +52,8 @@ import com.jaspersoft.jasperserver.api.metadata.common.service.RepositoryService
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JndiJdbcReportDataSource;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit;
 import com.jaspersoft.jasperserver.export.Parameters;
+import com.jaspersoft.jasperserver.util.test.BaseServiceSetupTestNG;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -98,7 +100,7 @@ public class ExportCoreObjectsTestTestNG extends BaseExportTestCaseTestNG {
 
 	    m_sched = (ReportSchedulingService) getBean(REPORT_SCHEDULING_SERVICE_BEAN_NAME);
 	    m_reportSchedulerInternal = (ReportSchedulingInternalService) getBean(REPORT_SCHEDULING_INTERNAL_SERVICE_BEAN_NAME);
-
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 	}
 
     @AfterClass()
@@ -115,6 +117,7 @@ public class ExportCoreObjectsTestTestNG extends BaseExportTestCaseTestNG {
     @Test()
 	public void doCoreObject_SetOneTest() {
         m_logger.info("ExportCoreObjectsTestTestNG => doCoreObject_SetOneTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 		createResource();
 		
 		String exportDir = createExportDir();
@@ -141,6 +144,7 @@ public class ExportCoreObjectsTestTestNG extends BaseExportTestCaseTestNG {
     @Test(dependsOnMethods = "doCoreObject_SetOneTest")
 	public void doContentResourcePdf_SingleTest() {
         m_logger.info("ExportCoreObjectsTestTestNG => doContentResourcePdf_SingleTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 		createResourceSingle();
 		
 		String exportDir = createExportDir();
@@ -191,6 +195,7 @@ public class ExportCoreObjectsTestTestNG extends BaseExportTestCaseTestNG {
     @Test(dependsOnMethods = "doContentResourcePdf_SingleTest")
 	public void doContentResourceHtml_SingleTest() {
         m_logger.info("ExportCoreObjectsTestTestNG => doContentResourceHtml_SingleTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 		createResourceSingleHtml();
 
 		String exportDir = createExportDir();

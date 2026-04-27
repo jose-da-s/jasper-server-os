@@ -20,7 +20,7 @@
  */
 package com.jaspersoft.jasperserver.dto.resources.domain;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 /**
  * <p></p>

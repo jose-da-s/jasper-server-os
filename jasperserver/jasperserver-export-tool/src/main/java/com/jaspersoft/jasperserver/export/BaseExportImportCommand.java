@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -82,12 +84,18 @@ public abstract class BaseExportImportCommand {
 	protected boolean process(String[] args) throws IOException {
 		Parameters exportParameters = parseArgs(args);
 		ConfigurableApplicationContext ctx;
+		// wrapped all files in an additional dir "wrapper" because of an apparent bug in Spring: 
+		// if you load applicationContext.xml (without a folder), then the matcher class PathMatchingResourcePatternResolver
+		// caches the folder path prefix "". Then, when trying to load a classpath resource, it tries to find a path prefix
+		// matching the resource specifier "classpath*:<resource>" and, because the cached "" matches (with a naive string
+		// prefix check), it decides the resource must be a file, and then crashes because no file starts with "classpath*:"
+		// As a workaround, wrap everything in an extra dir and load these guys with a folder prefix.
         if (exportParameters.hasParameter(ARG_HELP)){
-            ctx = createSpringContext(exportParameters, "helpApplicationContext-export-import*.xml");
+            ctx = createSpringContext(exportParameters, "wrapper/helpApplicationContext-export-import*.xml");
         } else if (exportParameters.hasParameter(ARG_TRANSFER)){
-			ctx= createSpringContext(exportParameters,"applicationContext*.xml,transfer-audit-data-applicationContext.xml");
+			ctx= createSpringContext(exportParameters,"wrapper/applicationContext*.xml,wrapper/transfer-audit-data-applicationContext.xml");
 		} else {
-            ctx= createSpringContext(exportParameters, "applicationContext*.xml");
+            ctx= createSpringContext(exportParameters, "wrapper/applicationContext*.xml");
         }
 		try {
 			boolean success = true;

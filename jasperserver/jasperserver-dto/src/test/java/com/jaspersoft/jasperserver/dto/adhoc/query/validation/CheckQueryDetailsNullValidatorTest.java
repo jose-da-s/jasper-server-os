@@ -24,8 +24,8 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.field.ClientQueryField;
 import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
 import org.junit.Test;
 
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintViolation;
 import java.util.ArrayList;
 
 import static com.jaspersoft.jasperserver.dto.executions.QueryExecutionsErrorCode.Codes.QUERY_DETAILS_UNSUPPORTED;

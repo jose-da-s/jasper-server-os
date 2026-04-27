@@ -26,7 +26,7 @@ import com.jaspersoft.jasperserver.remote.exception.ResourceNotFoundException;
 import javax.cache.Cache;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.UUID;
 
 /**

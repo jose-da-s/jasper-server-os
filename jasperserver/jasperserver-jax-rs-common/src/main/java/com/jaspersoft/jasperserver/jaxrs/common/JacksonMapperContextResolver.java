@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,9 +26,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jaspersoft.jasperserver.remote.helpers.JacksonMapperProvider;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import javax.ws.rs.ext.ContextResolver;
-import javax.ws.rs.ext.Provider;
+import jakarta.annotation.Resource;
+import jakarta.ws.rs.ext.ContextResolver;
+import jakarta.ws.rs.ext.Provider;
 
 /**
  * <p></p>
@@ -44,3 +46,4 @@ public class JacksonMapperContextResolver implements ContextResolver<ObjectMappe
         return provider.getObjectMapper();
     }
 }
+

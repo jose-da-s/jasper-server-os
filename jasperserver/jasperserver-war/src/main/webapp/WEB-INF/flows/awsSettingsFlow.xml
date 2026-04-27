@@ -33,7 +33,7 @@
         <on-entry>
             <evaluate expression="awsSettingsAction.init"/>
         </on-entry>
-        <transition on="${currentEvent.id == 'saveSingleProperty' and externalContext.nativeRequest.method == 'POST'}" to="saveSingleProperty"/>
+        <transition on="#{currentEvent.id == 'saveSingleProperty' and externalContext.nativeRequest.method == 'POST'}" to="saveSingleProperty"/>
     </view-state>
 
     <action-state id="saveSingleProperty">

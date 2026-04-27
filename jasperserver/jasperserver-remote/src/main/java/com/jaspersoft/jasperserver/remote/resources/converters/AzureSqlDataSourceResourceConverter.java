@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -20,7 +22,7 @@
  */
 package com.jaspersoft.jasperserver.remote.resources.converters;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import com.jaspersoft.jasperserver.api.common.domain.ExecutionContext;
 import org.springframework.stereotype.Service;
@@ -87,3 +89,4 @@ public class AzureSqlDataSourceResourceConverter extends GenericJdbcDataSourceRe
     }
 
 }
+

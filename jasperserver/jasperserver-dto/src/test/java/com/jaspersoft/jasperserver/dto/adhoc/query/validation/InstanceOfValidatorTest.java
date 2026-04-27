@@ -31,9 +31,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.metadata.ConstraintDescriptor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

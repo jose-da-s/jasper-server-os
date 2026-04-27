@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2025 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -85,7 +87,7 @@ public class DefaultReportJobValidator implements ReportJobValidator, Applicatio
     private String engineServiceBeanName;
     private ApplicationContext applicationContext;
 
-    @javax.annotation.Resource(name = "emailInputValidator")
+    @jakarta.annotation.Resource(name = "emailInputValidator")
     private InputValidator emailValidator;
 
     public void setEngineServiceBeanName(String engineServiceBeanName) {
@@ -411,3 +413,4 @@ public class DefaultReportJobValidator implements ReportJobValidator, Applicatio
         this.emailValidator = emailValidator;
     }
 }
+

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,9 +28,9 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.group.axis.ClientGroupAxis;
 import com.jaspersoft.jasperserver.dto.adhoc.query.group.axis.ClientGroupAxisEnum;
 import com.jaspersoft.jasperserver.dto.adhoc.query.validation.CheckAllGroupPosition;
 
-import javax.validation.Valid;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.validation.Valid;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;

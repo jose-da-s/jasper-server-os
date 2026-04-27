@@ -69,7 +69,7 @@
         <dependency>
             <groupId>org.springframework.webflow</groupId>
             <artifactId>spring-webflow</artifactId>
-            <version>2.4.8.RELEASE</version>
+            <version>${spring-webflow.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -161,9 +161,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax.servlet-api.version}</version>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

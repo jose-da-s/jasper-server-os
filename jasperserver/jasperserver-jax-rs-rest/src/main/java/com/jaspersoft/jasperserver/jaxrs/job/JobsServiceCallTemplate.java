@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -37,7 +39,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.access.AccessDeniedException;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 
 /**
@@ -47,12 +49,12 @@ import javax.ws.rs.core.Response;
 public class JobsServiceCallTemplate implements RemoteServiceCallTemplate<JobsService> {
     private static final Log log = LogFactory.getLog(JobsServiceCallTemplate.class);
 
-    // in case of JobsJaxrsService ResponseType is always of type javax.ws.rs.core.Response
+    // in case of JobsJaxrsService ResponseType is always of type jakarta.ws.rs.core.Response
     @SuppressWarnings("unchecked")
     public <ResponseType> ResponseType callRemoteService(RemoteServiceInTemplateCaller<ResponseType, JobsService> caller, JobsService service) {
         Response response = null;
         Exception exceptionToLog = null;
-        javax.ws.rs.core.Response.Status status = Response.Status.BAD_REQUEST;
+        jakarta.ws.rs.core.Response.Status status = Response.Status.BAD_REQUEST;
         Object entity = null;
         try {
             response = (Response) caller.call(service);

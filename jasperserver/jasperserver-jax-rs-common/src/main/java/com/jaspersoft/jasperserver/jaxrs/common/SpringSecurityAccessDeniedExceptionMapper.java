@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,10 +26,10 @@ import com.jaspersoft.jasperserver.remote.exception.SpringSecurityAccessDeniedEr
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import jakarta.annotation.Resource;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
 /**
  * @author: Zakhar.Tomchenco
@@ -43,3 +45,4 @@ public class SpringSecurityAccessDeniedExceptionMapper implements ExceptionMappe
                 .entity(springSecurityAccessDeniedErrorDescriptorBuilder.build(exception)).build();
     }
 }
+

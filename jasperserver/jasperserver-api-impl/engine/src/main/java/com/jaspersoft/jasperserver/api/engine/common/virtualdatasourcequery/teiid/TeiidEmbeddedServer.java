@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -34,8 +36,8 @@ import org.teiid.runtime.EmbeddedConfiguration;
 import org.teiid.runtime.EmbeddedServer;
 
 import javax.naming.InitialContext;
-import javax.resource.spi.XATerminator;
-import javax.transaction.TransactionManager;
+import jakarta.resource.spi.XATerminator;
+import jakarta.transaction.TransactionManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -105,7 +107,7 @@ public class TeiidEmbeddedServer extends EmbeddedServer {
 		start(config);
 	}
 
-    private javax.transaction.TransactionManager createTransactionManager(TransactionManagerConfiguration userConfig) {
+    private TransactionManager createTransactionManager(TransactionManagerConfiguration userConfig) {
         if (userConfig != null) {
             userConfig.setUpConfig();
         }

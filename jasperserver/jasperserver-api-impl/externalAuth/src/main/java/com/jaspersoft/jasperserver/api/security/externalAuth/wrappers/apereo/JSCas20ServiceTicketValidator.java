@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,29 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-//
-//package com.jaspersoft.jasperserver.war.tiles2;
-//
-//import org.apache.tiles.Attribute;
-//import org.apache.tiles.AttributeContext;
-//import org.apache.tiles.context.TilesRequestContext;
-//import org.apache.tiles.preparer.PreparerException;
-//import org.apache.tiles.preparer.ViewPreparer;
-//
-//import java.util.ArrayList;
-//
-//public class JSDecoratorPreparer implements ViewPreparer {
-//
-//    private static final String DECORATOR = "decorator";
-//
-//    public void execute(TilesRequestContext context, AttributeContext attributeContext)
-//            throws PreparerException {
-//
-//        Attribute attr = attributeContext.getAttribute(DECORATOR);
-//
-//        if (attr != null) {
-//            context.getRequestScope().put(DECORATOR, attr.getValue());
-//        }
-//    }
-//
-//}
+package com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.apereo;
+
+import com.jaspersoft.jasperserver.api.JasperServerAPI;
+import org.apereo.cas.client.validation.Cas20ServiceTicketValidator;
+
+/**
+ * Wrapper class for org.apereo.cas.client.validation.Cas20ServiceTicketValidator
+ * @author dlitvak
+ * @version $Id$
+ * @since 6.0
+ */
+@JasperServerAPI
+public class JSCas20ServiceTicketValidator extends Cas20ServiceTicketValidator {
+	/**
+	 * Constructs an instance of the CAS 2.0 Service Ticket Validator with the supplied
+	 * CAS server url prefix.
+	 *
+	 * @param casServerUrlPrefix the CAS Server URL prefix.
+	 */
+	public JSCas20ServiceTicketValidator(String casServerUrlPrefix) {
+		super(casServerUrlPrefix);
+	}
+}

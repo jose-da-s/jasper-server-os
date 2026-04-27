@@ -26,7 +26,7 @@
       ns0:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow.xsd"
       start-state="enter">
 
-    <view-state id="renderPage" view="${requestParameters.page}">
+    <view-state id="renderPage" view="#{requestParameters.page}">
     </view-state>
 
     <view-state id="enter" view="modules/sample/tiles2/enter">

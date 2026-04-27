@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -28,7 +30,7 @@ import net.sf.jasperreports.crosstabs.fill.calculation.BucketingService;
 import net.sf.jasperreports.engine.JRRuntimeException;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * <p></p>
@@ -51,3 +53,4 @@ public class JRRuntimeExceptionErrorDescriptorBuilder implements ErrorDescriptor
         return secureExceptionHandler.handleException(e);
     }
 }
+

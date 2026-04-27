@@ -59,8 +59,8 @@ import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.FlowExecutionContext;
 import org.springframework.webflow.execution.RequestContext;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 

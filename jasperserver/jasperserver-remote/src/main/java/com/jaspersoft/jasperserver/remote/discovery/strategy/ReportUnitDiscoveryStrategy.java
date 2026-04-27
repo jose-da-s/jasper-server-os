@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -53,7 +55,7 @@ public class ReportUnitDiscoveryStrategy implements DiscoveryStrategy<ReportUnit
             "hyperlinkType", "hyperlinkTarget"
             )));
 
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     protected RepositoryService repositoryService;
 
     protected final ExecutionContext executionContext = ExecutionContextImpl.getRuntimeExecutionContext();
@@ -239,3 +241,4 @@ public class ReportUnitDiscoveryStrategy implements DiscoveryStrategy<ReportUnit
         }
     }
 }
+

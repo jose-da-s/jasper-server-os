@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -44,11 +46,11 @@ import java.util.Set;
  */
 @Component
 public class BinaryDataResourceConverter implements ResourceConverter<Resource, ClientFile> {
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private Set<String> fileResourceTypes;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ResourceConverter<Resource, ClientFile> fileResourceConverter;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ResourceConverter<Resource, ClientFile> contentResourceConverter;
 
     @Override
@@ -91,3 +93,4 @@ public class BinaryDataResourceConverter implements ResourceConverter<Resource, 
         return null;
     }
 }
+

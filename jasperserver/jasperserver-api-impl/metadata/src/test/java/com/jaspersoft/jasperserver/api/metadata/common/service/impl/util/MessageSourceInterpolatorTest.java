@@ -31,7 +31,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.MessageSource;
 
-import javax.validation.MessageInterpolator;
+import jakarta.validation.MessageInterpolator;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

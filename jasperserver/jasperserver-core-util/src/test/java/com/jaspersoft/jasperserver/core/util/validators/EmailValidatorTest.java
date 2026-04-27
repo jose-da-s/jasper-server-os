@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -39,7 +41,7 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(locations={"classpath:context.xml"})
 public class EmailValidatorTest {
 
-    @javax.annotation.Resource(name="emailValidator")
+    @jakarta.annotation.Resource(name="emailValidator")
     private InputValidator<String> validator;
 
     @Test
@@ -128,3 +130,4 @@ public class EmailValidatorTest {
         assertFalse(validator.isValid("a\"b(c)d,e:f;g<h>i[j\\k]l@example.com"));
     }
 }
+

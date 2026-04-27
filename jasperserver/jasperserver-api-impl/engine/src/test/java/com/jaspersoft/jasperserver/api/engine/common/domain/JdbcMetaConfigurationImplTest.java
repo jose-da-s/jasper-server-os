@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,7 +28,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
@@ -94,3 +96,4 @@ public class JdbcMetaConfigurationImplTest {
         assertEquals(null, javaType);
     }
 }
+

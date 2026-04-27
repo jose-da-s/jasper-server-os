@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,9 +28,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -138,3 +140,4 @@ public class FormatDateTag extends TagSupport {
 	
 	
 }
+

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -35,7 +37,7 @@ import com.jaspersoft.jasperserver.remote.resources.converters.ResourceConverter
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -48,9 +50,9 @@ import java.util.Map;
 public class ContentNegotiationHandler {
     @Autowired
     private HttpServletRequest request;
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     private RepositoryService repository;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ResourceConverterProvider resourceConverterProvider;
 
     public boolean isAcceptable(Object sourceObject, String sourceMimeType, String targetMimeType){
@@ -118,3 +120,4 @@ public class ContentNegotiationHandler {
                 sourceMimeType.equalsIgnoreCase(targetMimeTypee));
     }
 }
+

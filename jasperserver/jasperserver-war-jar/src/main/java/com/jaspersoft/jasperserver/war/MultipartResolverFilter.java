@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -30,8 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartResolver;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -42,7 +42,7 @@ import java.util.Iterator;
  * User: Andrew Sokolnikov
  * Date: Nov 4, 2011
  */
-public class MultipartRequestWrapperFilter implements Filter {
+public class MultipartResolverFilter implements Filter {
 
     protected final Log log = LogFactory.getLog(this.getClass());
     private MultipartResolver multipartResolver;
@@ -102,3 +102,4 @@ public class MultipartRequestWrapperFilter implements Filter {
     }
 
 }
+

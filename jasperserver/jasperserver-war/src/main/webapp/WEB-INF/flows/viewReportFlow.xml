@@ -40,31 +40,31 @@
 	</on-start>
 
     <action-state id="checkForParams">
-        <evaluate expression="viewReportActionBean"/>
+        <evaluate expression="viewReportAction"/>
         <transition on="success" to="chooseExportMode"/>
     </action-state>
 
     <action-state id="chooseExportMode">
-        <evaluate expression="viewReportActionBean"/>
+        <evaluate expression="viewReportAction"/>
         <transition on="viewReport" to="viewReport"/>
         <transition on="showInputControlsByExport" to="showInputControlsByExport"/>
         <transition on="exportReport" to="exportReport"/>
     </action-state>
     
-    <view-state id="showInputControlsByExport" view="${reportViewPage}">
+    <view-state id="showInputControlsByExport" view="#{reportViewPage}">
         <on-entry>
             <set name="flowScope.reportControlsLayout" value="2"/>
             <set name="flowScope.prevForm" value="'viewReport'"/>
-            <evaluate expression="viewReportActionBean.prepareReportView"/>
-            <evaluate expression="viewReportActionBean.initFlowScope"/>
+            <evaluate expression="viewReportAction.prepareReportView"/>
+            <evaluate expression="viewReportAction.initFlowScope"/>
         </on-entry>
     </view-state>
 
-    <view-state id="viewReport" view="${reportViewPage}">
+    <view-state id="viewReport" view="#{reportViewPage}">
         <on-entry>
             <set name="flowScope.prevForm" value="'viewReport'"/>
-            <evaluate expression="viewReportActionBean.prepareReportView"/>
-            <evaluate expression="viewReportActionBean.initFlowScope"/>
+            <evaluate expression="viewReportAction.prepareReportView"/>
+            <evaluate expression="viewReportAction.initFlowScope"/>
         </on-entry>
         <transition on="refreshReport" to="runReport"/>
         <transition on="back" to="done"/>
@@ -74,26 +74,26 @@
 
 	<view-state id="reportOutput" view="modules/viewReport/reportOutput">
         <on-entry>
-            <evaluate expression="viewReportActionBean.prepareReportView"/>
+            <evaluate expression="viewReportAction.prepareReportView"/>
         </on-entry>
     </view-state>
 
     <action-state id="runReport">
-        <evaluate expression="viewReportActionBean"/>
+        <evaluate expression="viewReportAction"/>
         <transition on="success" to="reportOutput"/>
     </action-state>
 
     <action-state id="exportReport">
         <on-entry>
-            <evaluate expression="viewReportActionBean.initFlowScope"/>
+            <evaluate expression="viewReportAction.initFlowScope"/>
             <evaluate expression="reportExporter.exportStart"/>            
         </on-entry>
-        <evaluate expression="viewReportActionBean.runReport"/>
+        <evaluate expression="viewReportAction.runReport"/>
         <transition on="success" to="exportOptions"/>
     </action-state>
 
     <action-state id="navigate">
-        <evaluate expression="viewReportActionBean"/>
+        <evaluate expression="viewReportAction"/>
         <transition on="ajaxPaginator" to="reportOutput"/>
         <transition on="directPaginator" to="viewReport"/>
     </action-state>
@@ -102,16 +102,16 @@
           <if test="not (flowScope.controlsDisplayView == null)" then="customControlsView" else="inputControlsView"/>
     </decision-state>
 
-    <view-state id="customControlsView" view="${controlsDisplayView}"/>
+    <view-state id="customControlsView" view="#{controlsDisplayView}"/>
 
     <view-state id="inputControlsView" view="modules/inputControls/DefaultParametersForm"/>
 
     <action-state id="exportOptions">
        <evaluate expression="reportExporter.exportOptions"/>
-       <transition on="success" to="${flowScope.exportOption}"/>
+       <transition on="success" to="#{flowScope.exportOption}"/>
     </action-state>
 
-    <view-state id="exportParams" view="modules/exporters/${flowScope.parameterDialogName}">
+    <view-state id="exportParams" view="modules/exporters/#{flowScope.parameterDialogName}">
        <on-entry>
           <set name="flowScope.prevForm" value="'exportParams'"/>
        </on-entry>
@@ -124,7 +124,7 @@
        <on-entry>
           <set name="flowScope.prevForm" value="'viewReport'"/>
           <evaluate expression="reportExporter.export"/>
-          <evaluate expression="viewReportActionBean.cleanAfterExport"/>
+          <evaluate expression="viewReportAction.cleanAfterExport"/>
        </on-entry>
        <transition on="success" to="done"/>
     </view-state>
@@ -148,7 +148,7 @@
 
 <!-- exceptions handling -->
     <decision-state id="backFromError">
-        <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="${flowScope.prevForm}" else="done"/>
+        <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="#{flowScope.prevForm}" else="done"/>
     </decision-state>
 
     <view-state id="errorPage" view="modules/system/errorPage">
@@ -170,9 +170,9 @@
        <transition on="backFromErrorPage" to="backFromError"/>
        
        <transition on="refreshReport" to="runReport">
-       		<evaluate expression="viewReportActionBean.initFlowScope"/>
-       		<evaluate expression="viewReportActionBean.initInputControls"/>       		
-       		<evaluate expression="viewReportActionBean.resetSearchCache"/>
+       		<evaluate expression="viewReportAction.initFlowScope"/>
+       		<evaluate expression="viewReportAction.initInputControls"/>       		
+       		<evaluate expression="viewReportAction.resetSearchCache"/>
        </transition>
 
        <!--<transition on-exception="org.springframework.security.access.AccessDeniedException" to="accessDeniedPage"/>-->
@@ -182,7 +182,7 @@
 
 <!-- end exceptions handling -->
    <on-end>
-      <evaluate expression="viewReportActionBean.cleanSession"/>
+      <evaluate expression="viewReportAction.cleanSession"/>
    </on-end>
 
    <bean-import resource="spring-config.xml"/>

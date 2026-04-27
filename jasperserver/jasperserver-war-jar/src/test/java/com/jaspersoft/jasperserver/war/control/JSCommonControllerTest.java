@@ -9,8 +9,8 @@ import org.springframework.security.web.authentication.switchuser.SwitchUserGran
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;

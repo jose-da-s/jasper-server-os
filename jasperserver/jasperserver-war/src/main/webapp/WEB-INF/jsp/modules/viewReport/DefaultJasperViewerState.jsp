@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -25,7 +27,7 @@
  It fixes all pagination issues, exporters issues in all browsers including IE.
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="js" uri="/WEB-INF/jasperserver.tld" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 

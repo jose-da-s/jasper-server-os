@@ -61,12 +61,12 @@ Linux/MacOS:
 ```
 Windows: 
 ```shell script
-js-ant.bat build-ce
-js-ant.bat build-init-js-db-ce
-js-ant.bat run-production-data-ce
-js-ant.bat prepare-foodmart-db
-js-ant.bat prepare-sugarcrm-db
-js-ant.bat deploy-webapp-ce
+./js-ant.bat build-ce
+./js-ant.bat build-init-js-db-ce
+./js-ant.bat run-production-data-ce
+./js-ant.bat prepare-foodmart-db
+./js-ant.bat prepare-sugarcrm-db
+./js-ant.bat deploy-webapp-ce
 ```
 
 >After successful build the Jasper Server OS will be deployed as a **jasperserver** WAR file to the specified Application Server (_appServerDir_ location). In our case it will be _/opt/tomcat/webapps/jasperserver_

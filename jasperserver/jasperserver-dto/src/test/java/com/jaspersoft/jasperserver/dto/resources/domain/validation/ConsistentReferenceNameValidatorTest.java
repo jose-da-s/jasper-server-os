@@ -30,8 +30,8 @@ import com.jaspersoft.jasperserver.dto.resources.domain.ResourceGroupElement;
 import com.jaspersoft.jasperserver.dto.resources.domain.Schema;
 import org.junit.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Path;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Path;
 import java.util.Arrays;
 import java.util.List;
 

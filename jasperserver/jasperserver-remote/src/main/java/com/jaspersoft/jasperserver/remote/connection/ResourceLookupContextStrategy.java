@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -55,13 +57,13 @@ public class ResourceLookupContextStrategy implements
         ContextQueryExecutor<Object, ClientResourceLookup>, GenericTypeMetadataBuilder<ClientResourceLookup>,
         ContextParametrizedMetadataBuilder<ClientResourceLookup, Object> {
     private static final String INNER_UUID = "innerUuid";
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     private RepositoryService repository;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ResourceConverterProvider resourceConverterProvider;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ContextsManager contextsManager;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ProfileAttributesResolver profileAttributesResolver;
 
     protected ClientResource getFullClientResource(ClientResourceLookup resourceLookup){
@@ -176,3 +178,4 @@ public class ResourceLookupContextStrategy implements
         return contextsManager.executeQueryForMetadata(getInnerUuid(data), query);
     }
 }
+

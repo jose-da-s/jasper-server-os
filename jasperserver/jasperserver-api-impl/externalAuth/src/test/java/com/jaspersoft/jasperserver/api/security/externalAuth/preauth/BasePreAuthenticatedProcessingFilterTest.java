@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,7 +24,7 @@ package com.jaspersoft.jasperserver.api.security.externalAuth.preauth;
 
 import org.junit.Test;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -43,3 +45,4 @@ public class BasePreAuthenticatedProcessingFilterTest {
         assertTrue(filter.isJsonResponseRequested(request));
     }
 }
+

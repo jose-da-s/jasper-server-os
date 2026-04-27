@@ -30,9 +30,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
-import javax.validation.Path;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Path;
 
 import static com.jaspersoft.jasperserver.dto.executions.QueryExecutionsErrorCode.QUERY_IN_MEMORY_DATASOURCE_TYPE_NOT_SUPPORTED;
 import static com.jaspersoft.jasperserver.dto.resources.ResourceMediaType.SEMANTIC_LAYER_DATA_SOURCE_CLIENT_TYPE;

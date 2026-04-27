@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -27,8 +29,8 @@ import com.jaspersoft.jasperserver.remote.exception.IllegalParameterValueExcepti
 import com.jaspersoft.jasperserver.remote.exception.MandatoryParameterNotFoundException;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -134,3 +136,4 @@ public class InputControlResourceValidator extends GenericResourceValidator<Inpu
     }
 
 }
+

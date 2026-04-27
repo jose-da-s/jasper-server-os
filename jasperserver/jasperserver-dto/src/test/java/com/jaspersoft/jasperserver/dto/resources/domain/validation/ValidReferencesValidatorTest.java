@@ -33,7 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

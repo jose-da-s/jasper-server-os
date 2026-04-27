@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,9 +26,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
-import javax.persistence.spi.PersistenceProvider;
-import javax.persistence.spi.PersistenceProviderResolver;
-import javax.persistence.spi.PersistenceProviderResolverHolder;
+import jakarta.persistence.spi.PersistenceProvider;
+import jakarta.persistence.spi.PersistenceProviderResolver;
+import jakarta.persistence.spi.PersistenceProviderResolverHolder;
 import java.util.Collections;
 import java.util.List;
 

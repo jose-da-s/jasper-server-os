@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,8 +25,8 @@ package com.jaspersoft.jasperserver.jaxrs.report;
 import com.jaspersoft.jasperserver.api.engine.common.service.ReportExecutionStatusInformation;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.service.impl.EngineServiceImpl;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.Set;
 
 /**

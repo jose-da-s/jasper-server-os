@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -63,7 +65,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import static org.testng.AssertJUnit.*;
 
@@ -86,7 +88,7 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
 		return m_loggingService;
 	}
 
-    @javax.annotation.Resource(name = "loggingService")
+    @jakarta.annotation.Resource(name = "loggingService")
 	public void setLoggingService(LoggingService loggingService) {
         m_logger.info("setLoggingService() called");
 		this.m_loggingService = loggingService;
@@ -96,7 +98,7 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
 		return m_reportJobsPersistenceService;
 	}
 
-    @javax.annotation.Resource(name = "securedReportJobsPersistenceService")
+    @jakarta.annotation.Resource(name = "securedReportJobsPersistenceService")
 	public void setReportJobsPersistenceService(
 		ReportJobsPersistenceService reportJobsPersistenceService) {
 		m_logger.info("setReportJobsPersistenceService() called");
@@ -139,9 +141,8 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
      */
   @Test()
 	public void doPersistenceTest() {
-
         m_logger.info("ReportSchedulingTestTestNG => doPersistenceTest() called");
-
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
         // REPORT JOB 1
  
@@ -490,6 +491,7 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
   @Test()
   public void doBasicFindByNextFireTimePersistenceTest() {
     m_logger.info("\n\nReportSchedulingTestTestNG => doBasicFindByNextFireTimePersistenceTest() called");
+    setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 
     // REPORT JOB 1  The Job that we want out query to find 
@@ -710,6 +712,7 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
   @Test()
   public void doPauseResumeIndividualTest() {
     m_logger.info("\n\nReportSchedulingTestTestNG => doPauseResumeIndividualTest() called");
+    setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 
     // REPORT JOB 1  The Job that we want out query to find
@@ -914,7 +917,8 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
       */
   @Test()
   public void doPauseResumeAllTest() {
-    m_logger.info("\n\nReportSchedulingTestTestNG => doBasicFindByNextFireTimePersistenceTest() called");
+    m_logger.info("\n\nReportSchedulingTestTestNG => doPauseResumeAllTest() called");
+    setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 
     // REPORT JOB 1  The Job that we want out query to find
@@ -1146,6 +1150,7 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
   @Test()
   public void doScheduleJobsOnceNowTest() {
     m_logger.info("\n\nReportSchedulingTestTestNG => doScheduleJobsOnceNowTest() called");
+    setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 
     // REPORT JOB 1  The Job that we want to execute 'onceNow' at a later time
@@ -1306,6 +1311,7 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
   @Test()
   public void doBasicFindByNextFireTimeTriggerStatesPersistenceSanityTest() {
     m_logger.info("\n\nReportSchedulingTestTestNG => doBasicFindByNextFireTimeTriggerStatesPersistenceSanityTest() called");
+    setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 
     // REPORT JOB 1  The Job that we want out query to find
@@ -1703,3 +1709,4 @@ public class ReportSchedulingTestTestNG extends BaseServiceSetupTestNG
         eventId = event.getId();
     }
 }
+

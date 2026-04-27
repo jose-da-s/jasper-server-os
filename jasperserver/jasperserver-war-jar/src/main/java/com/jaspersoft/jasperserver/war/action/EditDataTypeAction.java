@@ -46,7 +46,7 @@ import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 import org.springframework.webflow.execution.ScopeType;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -39,14 +41,14 @@ import com.jaspersoft.jasperserver.remote.exception.MandatoryParameterNotFoundEx
  */
 public abstract class DataSourceHolderResourceConverter<ResourceType extends Resource, ClientType extends AbstractClientDataSourceHolder<ClientType>>
         extends ResourceConverterImpl<ResourceType, ClientType> {
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     protected ResourceReferenceConverterProvider resourceReferenceConverterProvider;
 
     protected abstract void setDataSourceToResource(ResourceReference dataSourceReference, ResourceType resource);
 
     protected abstract ResourceReference getDataSourceFromResource(ResourceType resource);
 
-    @javax.annotation.Resource(name = "${bean.repositoryService}")
+    @jakarta.annotation.Resource(name = "${bean.repositoryService}")
     protected RepositoryService repositoryService;
 
     @Override
@@ -68,3 +70,4 @@ public abstract class DataSourceHolderResourceConverter<ResourceType extends Res
         return super.genericFieldsToClient(client, serverObject, options);
     }
 }
+

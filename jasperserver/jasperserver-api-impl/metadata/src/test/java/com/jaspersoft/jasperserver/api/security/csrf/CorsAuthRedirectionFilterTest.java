@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,9 +25,9 @@ package com.jaspersoft.jasperserver.api.security.csrf;
 
 import static org.mockito.Mockito.times;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -76,3 +78,4 @@ public class CorsAuthRedirectionFilterTest {
     }
 
 }
+

@@ -35,7 +35,7 @@
 
     <!-- Repository search configurations. -->
     <bean id="defaultRepositorySearchConfiguration" class="com.jaspersoft.jasperserver.search.common.RepositorySearchConfiguration">
-        <aop:scoped-proxy/>
+        <aop:scoped-proxy/> <!-- does this even do anything here? isn't this bean singleton-scoped? -->
         <property name="customSorters" ref="customSorters"/>
         <property name="customFilters" ref="customFilters"/>
         <property name="itemsPerPage" value="40"/>
@@ -53,7 +53,7 @@
     <alias name="defaultRepositorySearchConfiguration" alias="browseModeRepositorySearchConfiguration"/>
 
     <bean id="libraryModeRepositorySearchConfiguration" class="com.jaspersoft.jasperserver.search.common.RepositorySearchConfiguration">
-        <aop:scoped-proxy/>
+        <aop:scoped-proxy/> <!-- does this even do anything here? isn't this bean singleton-scoped? -->
         <property name="customSorters" ref="customSorters"/>
         <property name="customFilters" ref="libraryFilters"/>
         <property name="itemsPerPage" value="40"/>

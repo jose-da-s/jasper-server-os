@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,10 +23,10 @@
 package com.jaspersoft.jasperserver.jaxrs.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 import java.lang.reflect.ParameterizedType;
 
 /**
@@ -46,7 +48,7 @@ public class JsonParam<T> {
             Class<?> targetClass = (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
             ObjectMapper mapper = new ObjectMapper();
-            mapper.setAnnotationIntrospector(new JaxbAnnotationIntrospector());
+            mapper.setAnnotationIntrospector(new JakartaXmlBindAnnotationIntrospector());
 
             object = (T) mapper.readValue(json, targetClass);
         } catch (Exception e) {

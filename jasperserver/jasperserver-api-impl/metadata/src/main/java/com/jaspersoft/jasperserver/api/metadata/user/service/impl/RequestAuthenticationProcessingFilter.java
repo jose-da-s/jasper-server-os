@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -30,12 +32,13 @@ import org.springframework.security.web.PortResolverImpl;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.Assert;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -47,7 +50,7 @@ public class RequestAuthenticationProcessingFilter extends AbstractAuthenticatio
 	
 	public static final String REQUEST_AUTHENTICATION_ID = "REQUEST_AUTHENTICATION_ID"; 
 
-	private PortResolver portResolver = new PortResolverImpl();
+	
 
     /**
      * @param defaultFilterProcessesUrl the default value for <tt>filterProcessesUrl</tt>.
@@ -60,11 +63,11 @@ public class RequestAuthenticationProcessingFilter extends AbstractAuthenticatio
     public void afterPropertiesSet() {
         Assert.notNull(getAuthenticationManager(),
             "authenticationManager must be specified");
-        Assert.notNull(getRememberMeServices());
+        Assert.notNull(getRememberMeServices(), "rememberMeServices must be specified");
     }
 
 	/* (non-Javadoc)
-	 * @see org.springframework.security.ui.AbstractProcessingFilter#attemptAuthentication(javax.servlet.http.HttpServletRequest)
+	 * @see org.springframework.security.ui.AbstractProcessingFilter#attemptAuthentication(jakarta.servlet.http.HttpServletRequest)
 	 */
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -97,8 +100,8 @@ public class RequestAuthenticationProcessingFilter extends AbstractAuthenticatio
         if (logger.isDebugEnabled()) {
             logger.debug("Authentication success: " + authResult.toString());
         }
-
-        String targetUrl = (new DefaultSavedRequest(request, portResolver)).getRequestURL();
+        SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
+        String targetUrl = (savedRequest != null) ? savedRequest.getRedirectUrl() : request.getRequestURI();
 
         if (logger.isDebugEnabled()) {
             logger.debug("Redirecting to target URL from HTTP Session (or default): " + targetUrl);
@@ -131,3 +134,4 @@ public class RequestAuthenticationProcessingFilter extends AbstractAuthenticatio
         return "/requestAuthentication";
 	}
 }
+

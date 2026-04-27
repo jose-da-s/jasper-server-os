@@ -18,7 +18,7 @@ if test -d $BASEDIR/conf_source/iePro
 then
     echo "Executing Pro version"
     export CONFIG_DIR=$BASEDIR/conf_source/iePro
-    for i in $CONFIG_DIR/lib/*.jar
+    for i in $CONFIG_BASE_DIR/lib/*.jar
     do
         EXP_CLASSPATH="$EXP_CLASSPATH:$i"
     done
@@ -26,11 +26,13 @@ then
 else
     echo "Executing CE version"
     export CONFIG_DIR=$BASEDIR/conf_source/ieCe
-    for i in $CONFIG_DIR/lib/*.jar
+    for i in $CONFIG_BASE_DIR/lib/*.jar
     do
         EXP_CLASSPATH="$EXP_CLASSPATH:$i"
     done
 fi
+
+CONFIG_DIR=$CONFIG_BASE_DIR/wrapper
 
 # Additional config folder. This will be used to 
 # get js.jdbc.properties from buildomatic setup
@@ -60,7 +62,7 @@ export JAVA_OPTS="$JAVA_OPTS -Xms128m -Xmx512m -Djava.net.preferIPv4Stack=true -
 
 # Add the config folders to EXP_CLASSPATH
 
-export EXP_CLASSPATH="$CONFIG_DIR:$CONFIG_DIR/classes:$ADDITIONAL_CONFIG_DIR$EXP_CLASSPATH:."
+export EXP_CLASSPATH="$CONFIG_BASE_DIR:$CONFIG_DIR:$CONFIG_DIR/classes:$ADDITIONAL_CONFIG_DIR$EXP_CLASSPATH:."
 
 # run java
 

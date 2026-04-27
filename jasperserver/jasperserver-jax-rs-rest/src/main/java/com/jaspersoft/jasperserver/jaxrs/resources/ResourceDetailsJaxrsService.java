@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -59,9 +61,9 @@ import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -80,20 +82,20 @@ public class ResourceDetailsJaxrsService {
 
     private static Logger log = LogManager.getLogger(ResourceDetailsJaxrsService.class);
     public static final String PATH_PARAM_URI = "uri";
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ResourceConverterProvider resourceConverterProvider;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private SingleRepositoryService singleRepositoryService;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private Map<String, String> contentTypeMapping;
-    @javax.annotation.Resource(name = "resourceDetailsIncludesVoter")
+    @jakarta.annotation.Resource(name = "resourceDetailsIncludesVoter")
     private ResourceIncludesVoter includesVoter;
 
     @Value("${enable.secretData.forProducts:scalable-query-engine}")
     private  String[] allowSecretDataForProducts;
 
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ContextsManager contextsManager;
 
     public Response getResourceDetails(String uri, String accept, Boolean _expanded, Set<String> expandTypes, List<String> includes,
@@ -549,3 +551,4 @@ public class ResourceDetailsJaxrsService {
         return type == null ? ContentResource.TYPE_UNSPECIFIED : type;
     }
 }
+

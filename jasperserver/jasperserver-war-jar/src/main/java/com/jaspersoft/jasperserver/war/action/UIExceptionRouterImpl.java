@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,7 +25,7 @@ package com.jaspersoft.jasperserver.war.action;
 import com.jaspersoft.jasperserver.api.JSShowOnlyErrorMessage;
 import com.jaspersoft.jasperserver.core.util.type.GenericTypeProcessorRegistry;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * Base implementation of {@link UIExceptionRouter}
@@ -47,3 +49,4 @@ public class UIExceptionRouterImpl implements UIExceptionRouter {
         return exceptionProcessor != null ? exceptionProcessor.getUIException(cause) : null;
     }
 }
+

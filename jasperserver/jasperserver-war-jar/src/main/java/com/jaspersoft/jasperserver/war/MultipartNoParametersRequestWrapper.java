@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -18,27 +20,38 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.jaspersoft.jasperserver.war.tiles2;
+package com.jaspersoft.jasperserver.war;
 
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+public class MultipartNoParametersRequestWrapper extends HttpServletRequestWrapper {
 
-/**
- */
-public class Tiles2TestController implements Controller {
+	public MultipartNoParametersRequestWrapper(HttpServletRequest request) {
+		super(request);
+	}
 
-    private static Log log = LogFactory.getLog(Tiles2TestController.class);
+	@Override
+	public String getParameter(String name) {
+		return null;
+	}
 
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@Override
+	public Map<String, String[]> getParameterMap() {
+		return Collections.emptyMap();
+	}
 
-        request.setAttribute("author", "Stas");
-        return new ModelAndView("tiles/about");
-    }
+	@Override
+	public Enumeration<String> getParameterNames() {
+		return Collections.enumeration(Collections.emptyList());
+	}
 
+	@Override
+	public String[] getParameterValues(String name) {
+		return new String[0];
+	}
 }

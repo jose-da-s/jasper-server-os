@@ -35,13 +35,18 @@
     <!-- This is the top level ear module, which contains all the classes in the EAR's lib folder     -->
     <deployment>
 
-        <!-- http://bugzilla.jaspersoft.com/show_bug.cgi?id=44406
-                2016-08-01 sblazhyi
-                        Exclude the jboss resteasy as we use jersey
-        -->
         <exclude-subsystems>
+	        <!-- http://bugzilla.jaspersoft.com/show_bug.cgi?id=44406
+	                2016-08-01 sblazhyi
+	                        Exclude the jboss resteasy as we use jersey
+	        -->
             <subsystem name="resteasy"/>
             <subsystem name="logging"/>
+
+            <!-- 2026-04-29 weld bean validation fails on one hibernate bean. but we dont need it since we have hibernate validator -->
+            <subsystem name="weld"/>
+            <subsystem name="jsf"/>
+
         </exclude-subsystems>
 
         <!-- Exclusions allow you to prevent the server from automatically adding some dependencies

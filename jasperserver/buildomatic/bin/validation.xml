@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -594,8 +594,7 @@
         <or>
           <equals arg1="${appServerType}" arg2="skipAppServerCheck" />
           <equals arg1="${appServerType}" arg2="tomcat" />
-          <equals arg1="${appServerType}" arg2="jboss-eap-6" />
-          <equals arg1="${appServerType}" arg2="jboss-eap-7" />
+          <equals arg1="${appServerType}" arg2="jboss-eap-8" />
           <equals arg1="${appServerType}" arg2="wildfly" />
           <equals arg1="${appServerType}" arg2="glassfish" />
         </or>
@@ -613,8 +612,7 @@
         <or>
           <equals arg1="${appServerType}" arg2="skipAppServerCheck" />
           <equals arg1="${appServerType}" arg2="tomcat" />
-          <equals arg1="${appServerType}" arg2="jboss-eap-6" />
-          <equals arg1="${appServerType}" arg2="jboss-eap-7" />
+          <equals arg1="${appServerType}" arg2="jboss-eap-8" />
           <equals arg1="${appServerType}" arg2="wildfly" />
           <equals arg1="${appServerType}" arg2="glassfish" />
         </or>

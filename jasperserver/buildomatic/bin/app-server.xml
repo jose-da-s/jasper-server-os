@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -234,16 +234,12 @@
                     <var name="warTargetDirDel" value="${fixedAppServerDir}/webapps/${webAppNameDel}"/>
                 </case>
                 <case value="wildfly">
-                    <var name="warTargetDir" value="${fixedAppServerDir}/${jboss7.profile}/deployments/${webAppName}.war"/>
-                    <var name="warTargetDirDel" value="${fixedAppServerDir}/${jboss7.profile}/deployments/${webAppNameDel}.war"/>
+                    <var name="warTargetDir" value="${fixedAppServerDir}/${jboss.profile}/deployments/${webAppName}.war"/>
+                    <var name="warTargetDirDel" value="${fixedAppServerDir}/${jboss.profile}/deployments/${webAppNameDel}.war"/>
                 </case>
-                <case value="jboss-eap-6">
-                    <var name="warTargetDir" value="${fixedAppServerDir}/${jboss7.profile}/deployments/${webAppName}.war"/>
-                    <var name="warTargetDirDel" value="${fixedAppServerDir}/${jboss7.profile}/deployments/${webAppNameDel}.war"/>
-                </case>
-                <case value="jboss-eap-7">
-                    <var name="warTargetDir" value="${fixedAppServerDir}/${jboss7.profile}/deployments/${webAppName}.war"/>
-                    <var name="warTargetDirDel" value="${fixedAppServerDir}/${jboss7.profile}/deployments/${webAppNameDel}.war"/>
+                <case value="jboss-eap-8">
+                    <var name="warTargetDir" value="${fixedAppServerDir}/${jboss.profile}/deployments/${webAppName}.war"/>
+                    <var name="warTargetDirDel" value="${fixedAppServerDir}/${jboss.profile}/deployments/${webAppNameDel}.war"/>
                 </case>
                 <case value="glassfish">
                     <var name="warTargetDir" value="${fixedAppServerDir}/glassfish/domains/${glassfishDomain}/autodeploy/${webAppName}.war"/>
@@ -642,8 +638,7 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
         <if>
             <or>
                  <equals arg1="${appServerType}" arg2="wildfly"/>
-                 <equals arg1="${appServerType}" arg2="jboss-eap-6"/>
-                 <equals arg1="${appServerType}" arg2="jboss-eap-7"/>
+                 <equals arg1="${appServerType}" arg2="jboss-eap-8"/>
              </or>
             <then>
                 <!--  Handle the different flavors of jboss-deployment-structure.xml for the different versions of JBoss
@@ -653,20 +648,14 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
                 <if>
                     <equals arg1="${appServerType}" arg2="wildfly"/>
                     <then>
-                        <copy file="${currentConf}/../../install_resources/jboss7/wildfly/jboss-deployment-structure.xml" toDir="${warTargetDir}/META-INF" overwrite="true"/>
-                        <copy file="${currentConf}/../../install_resources/jboss7/wildfly/undertow-handlers.conf" toDir="${warTargetDir}/WEB-INF" overwrite="true"/>
+                        <copy file="${currentConf}/../../install_resources/jboss/wildfly/jboss-deployment-structure.xml" toDir="${warTargetDir}/META-INF" overwrite="true"/>
+                        <copy file="${currentConf}/../../install_resources/jboss/wildfly/undertow-handlers.conf" toDir="${warTargetDir}/WEB-INF" overwrite="true"/>
                     </then>
                 </if>
                 <if>
-                    <equals arg1="${appServerType}" arg2="jboss-eap-6"/>
+                    <equals arg1="${appServerType}" arg2="jboss-eap-8"/>
                     <then>
-                        <copy file="${currentConf}/../../install_resources/jboss7/jboss-eap-6/jboss-deployment-structure.xml" toDir="${warTargetDir}/META-INF" overwrite="true"/>
-                    </then>
-                </if>
-                <if>
-                    <equals arg1="${appServerType}" arg2="jboss-eap-7"/>
-                    <then>
-                        <copy file="${currentConf}/../../install_resources/jboss7/jboss-eap-7/jboss-deployment-structure.xml" toDir="${warTargetDir}/META-INF" overwrite="true"/>
+                        <copy file="${currentConf}/../../install_resources/jboss/jboss-eap-8/jboss-deployment-structure.xml" toDir="${warTargetDir}/META-INF" overwrite="true"/>
                     </then>
                  </if>
 
@@ -674,12 +663,12 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
                 <if>
                     <equals arg1="${driverAsJbossModule}" arg2="true"/>
                     <then>
-                        <copy file="${currentConf}/js-jboss7-ds-module.xml"
-                              tofile="${warTargetDir}/WEB-INF/js-jboss7-ds.xml"
+                        <copy file="${currentConf}/js-jboss8-ds-module.xml"
+                              tofile="${warTargetDir}/WEB-INF/js-jboss8-ds.xml"
                               overwrite="true"/>
                     </then>
                     <else>
-                        <copy file="${currentConf}/js-jboss7-ds.xml"
+                        <copy file="${currentConf}/js-jboss8-ds.xml"
                               toDir="${warTargetDir}/WEB-INF"
                               overwrite="true"/>
                     </else>
@@ -699,9 +688,6 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
                         <copy toDir="${warTargetDir}/WEB-INF/lib" verbose="true">
                             <fileset dir="${currentDbJDBCDir}" includes="${jdbcJar}"/>
                         </copy>
-
-
-
                         <!--  http://bugzilla.jaspersoft.com/show_bug.cgi?id=31907
 
                                  install org.apache.batik module for server side svg chart exports
@@ -727,18 +713,18 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
                             </else>
                         </if>
 
-                        <copy file="${currentConf}/../../install_resources/jboss7/module_descriptors/module_org_apache_batik.xml"
+                        <copy file="${currentConf}/../../install_resources/jboss/module_descriptors/module_org_apache_batik.xml"
                               tofile="${fixedAppServerDir}/modules/jaspersoft/org/apache/batik/main/module.xml"
                               overwrite="true"/>
                         <copy toDir="${fixedAppServerDir}/modules/jaspersoft/org/apache/batik/main">
                               <fileset dir="${warTargetDir}/WEB-INF/lib" includes="batik-anim-1.17.jar, batik-awt-util-1.17.jar, batik-bridge-1.17.jar, batik-constants-1.17.jar, batik-css-1.17.jar, batik-dom-1.17.jar, batik-ext-1.17.jar, batik-gvt-1.17.jar, batik-i18n-1.17.jar, batik-parser-1.17.jar, batik-script-1.17.jar, batik-svg-dom-1.17.jar, batik-svggen-1.17.jar, batik-transcoder-1.17.jar, batik-util-1.17.jar, batik-xml-1.17.jar, batik-shared-resources-1.17.jar, xml-apis-ext-1.3.04.jar, xmlgraphics-commons-2.7.jar"/>
                         </copy>
 
-                        <copy file="${currentConf}/../../install_resources/jboss7/module_descriptors/module_javax_validation_api.xml"
-                              tofile="${fixedAppServerDir}/modules/jaspersoft/javax/validation/api/1.1/module.xml"
+                        <copy file="${currentConf}/../../install_resources/jboss/module_descriptors/module_jakarta_validation_api.xml"
+                              tofile="${fixedAppServerDir}/modules/jaspersoft/jakarta/validation/api/3.0.2/module.xml"
                               overwrite="true"/>
-                        <copy toDir="${fixedAppServerDir}/modules/jaspersoft/javax/validation/api/1.1">
-                            <fileset dir="${warTargetDir}/WEB-INF/lib" includes="validation-api-2.0.1.Final.jar"/>
+                        <copy toDir="${fixedAppServerDir}/modules/jaspersoft/jakarta/validation/api/3.0.2">
+                            <fileset dir="${warTargetDir}/WEB-INF/lib" includes="jakarta.validation-api-3.0.2.jar"/>
                         </copy>
 
                         <!--  http://bugzilla.jaspersoft.com/show_bug.cgi?id=33391
@@ -769,7 +755,7 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
                                     </else>
                                 </if>
 
-                                <copy file="${currentConf}/../../install_resources/jboss7/module_descriptors/module_tibcosoftware.xml"
+                                <copy file="${currentConf}/../../install_resources/jboss/module_descriptors/module_tibcosoftware.xml"
                                       tofile="${fixedAppServerDir}/modules/jaspersoft/tibcosoftware/main/module.xml"
                                       overwrite="true"/>
                                 <copy toDir="${fixedAppServerDir}/modules/jaspersoft/tibcosoftware/main">
@@ -786,15 +772,14 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
 
                                 <!-- copy Tibco JDBC Driver -->
 
-                                <mkdir dir="${fixedAppServerDir}/${jboss7.profile}/deployments/${maven.jdbc.artifactId}-${maven.jdbc.version}.jar"/>
+                                <mkdir dir="${fixedAppServerDir}/${jboss.profile}/deployments/${maven.jdbc.artifactId}-${maven.jdbc.version}.jar"/>
 
-                                <copy todir="${fixedAppServerDir}/${jboss7.profile}/deployments/${maven.jdbc.artifactId}-${maven.jdbc.version}.jar" >
-                                    <fileset dir="${currentConf}/../../install_resources/jboss7/TibcoDrivers/TibcoJDBCDriver" includes="**"/>
+                                <copy todir="${fixedAppServerDir}/${jboss.profile}/deployments/${maven.jdbc.artifactId}-${maven.jdbc.version}.jar" >
+                                    <fileset dir="${currentConf}/../../install_resources/jboss/TibcoDrivers/TibcoJDBCDriver" includes="**"/>
                                 </copy>
 
-
-                                <copy file="${currentConf}/../../install_resources/jboss7/TibcoDrivers/${dbType}_java.sql.Driver"
-                                      tofile="${fixedAppServerDir}/${jboss7.profile}/deployments/${maven.jdbc.artifactId}-${maven.jdbc.version}.jar/META-INF/services/java.sql.Driver"
+                                <copy file="${currentConf}/../../install_resources/jboss/TibcoDrivers/${dbType}_java.sql.Driver"
+                                      tofile="${fixedAppServerDir}/${jboss.profile}/deployments/${maven.jdbc.artifactId}-${maven.jdbc.version}.jar/META-INF/services/java.sql.Driver"
                                       overwrite="true"/>
                                 <touch file="${jbossDeployDir}/${maven.jdbc.artifactId}-${maven.jdbc.version}.jar.dodeploy"/>
                             </then>
@@ -879,13 +864,6 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
 
                         <delete>
                             <fileset dir="${warTargetDir}/WEB-INF/lib" includes="stax-api-1.0.1.jar"/>
-                        </delete>
-
-
-                        <!--  JRS jars that overlap JBoss Modules -->
-                        <delete>
-                            <fileset dir="${warTargetDir}/WEB-INF/lib"
-                                     includes="commons-io-1.4.jar, serializer-2.7.2.jar, xalan-2.7.2.jar, xercesImpl-2.12.1-sp1.jar, xml-apis-1.4.01.jar, narayana-jta-5.2.12.Final.jar"/>
                         </delete>
 
                         <!-- http://bugzilla.jaspersoft.com/show_bug.cgi?id=31907
@@ -1014,10 +992,10 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
 
             <!-- http://bugzilla.jaspersoft.com/show_bug.cgi?id=32933
                  2013-06-24  thorick
-                             For JBoss7 you can't just put the drivers the deploy dir.
+                             For JBoss 7 you can't just put the drivers the deploy dir.
                              Instead put them in WEB-INF/lib and set the JBoss
                              module deployer to load the classes from there.
-                             For JBoss7 this has to be done in the
+                             For JBoss 7 this has to be done in the
                              'deploy-web-app' target because WEB-INF/lib doesn't
                              exist yet when we're here
             -->
@@ -1032,8 +1010,7 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
                     <if>
                         <or>
                             <equals arg1="${appServerType}" arg2="wildfly"/>
-                            <equals arg1="${appServerType}" arg2="jboss-eap-6"/>
-                            <equals arg1="${appServerType}" arg2="jboss-eap-7"/>
+                            <equals arg1="${appServerType}" arg2="jboss-eap-8"/>
                         </or>
                         <then>
                             <var name="deployJDBCDriver" value="false"/>
@@ -1049,8 +1026,7 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
                     <if>
                         <or>
                             <equals arg1="${appServerType}" arg2="wildfly"/>
-                            <equals arg1="${appServerType}" arg2="jboss-eap-6"/>
-                            <equals arg1="${appServerType}" arg2="jboss-eap-7"/>
+                            <equals arg1="${appServerType}" arg2="jboss-eap-8"/>
                         </or>
                     <then>
                         <echo message="JBoss7 JDBC Drivers for the Create DataSource UI are installed during the deploy-webapp phase."/>

@@ -418,23 +418,14 @@
 
     <!-- mapping  appServerType property values to currently supported ones-->
     <switch value="${appServerType}">
-      <case value="tomcat7">
-          <var name="appServerType" value="tomcat"/>
-      </case>
-      <case value="tomcat8">
-          <var name="appServerType" value="tomcat"/>
-      </case>
       <case value="tomcat">
           <var name="appServerType" value="tomcat"/>
       </case>
-      <case value="jboss-as-7">
-          <var name="appServerType" value="wildfly"/>
+	  <case value="jboss-eap">
+          <var name="appServerType" value="jboss-eap-8"/>
       </case>
-      <case value="jboss-eap-6">
-          <var name="appServerType" value="jboss-eap-6"/>
-      </case>
-      <case value="jboss-eap-7">
-          <var name="appServerType" value="jboss-eap-7"/>
+      <case value="jboss-eap-8">
+          <var name="appServerType" value="jboss-eap-8"/>
       </case>
       <case value="wildfly">
           <var name="appServerType" value="wildfly"/>
@@ -1128,14 +1119,13 @@
     <if>
         <or>
             <equals arg1="${appServerType}" arg2="wildfly"/>
-            <equals arg1="${appServerType}" arg2="jboss-eap-6"/>
-            <equals arg1="${appServerType}" arg2="jboss-eap-7"/>
+            <equals arg1="${appServerType}" arg2="jboss-eap-8"/>
         </or>
         <then>
             <!-- set the profile/configuration to use from the jboss.profile property -->
-            <property name="appServerJdbcDir" value="${fixedAppServerDir}/${jboss7.profile}/deployments"/>
+            <property name="appServerJdbcDir" value="${fixedAppServerDir}/${jboss.profile}/deployments"/>
             <!-- destination for the war distributive -->
-            <property name="jbossDeployDir" value="${fixedAppServerDir}/${jboss7.profile}/deployments"/>
+            <property name="jbossDeployDir" value="${fixedAppServerDir}/${jboss.profile}/deployments"/>
         </then>
     </if>
 

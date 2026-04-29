@@ -649,7 +649,6 @@ tomcat copies to this location from the jasperserver war file META-INF/context.x
                     <equals arg1="${appServerType}" arg2="wildfly"/>
                     <then>
                         <copy file="${currentConf}/../../install_resources/jboss/wildfly/jboss-deployment-structure.xml" toDir="${warTargetDir}/META-INF" overwrite="true"/>
-                        <copy file="${currentConf}/../../install_resources/jboss/wildfly/undertow-handlers.conf" toDir="${warTargetDir}/WEB-INF" overwrite="true"/>
                     </then>
                 </if>
                 <if>

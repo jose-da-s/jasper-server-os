@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -21,28 +21,32 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-
-<!--
-      2016-10-31   thorick  per the work on:
-           https://jira.tibco.com/browse/JS-30422
-      This configuration is targeted specifically at
-      JBoss Wildfly 8, 9, 10  which will HAVE the feature:
-      use JRS mail-1.4.jar instead of EAP mail-1.4.4.jar
-      per this configuration
- -->
+    <!--
+         2016-10-31   thorick  per the work on:
+              https://jira.tibco.com/browse/JS-30422
+         This configuration is targeted specifically at
+         JBoss EAP 7   which does NOT have the feature:
+         use JRS mail-1.4.jar instead of EAP mail-1.4.4.jar
+         per this configuration
+    -->
 
 <jboss-deployment-structure>
     <!-- This corresponds to the top level deployment. For a war this is the war's module, for an ear -->
     <!-- This is the top level ear module, which contains all the classes in the EAR's lib folder     -->
     <deployment>
 
-        <!-- http://bugzilla.jaspersoft.com/show_bug.cgi?id=44406
-                2016-08-01 sblazhyi
-                        Exclude the jboss resteasy as we use jersey
-        -->
         <exclude-subsystems>
+	        <!-- http://bugzilla.jaspersoft.com/show_bug.cgi?id=44406
+	                2016-08-01 sblazhyi
+	                        Exclude the jboss resteasy as we use jersey
+	        -->
             <subsystem name="resteasy"/>
             <subsystem name="logging"/>
+
+            <!-- 2026-04-29 weld bean validation fails on one hibernate bean. but we dont need it since we have hibernate validator -->
+            <subsystem name="weld"/>
+            <subsystem name="jsf"/>
+
         </exclude-subsystems>
 
         <!-- Exclusions allow you to prevent the server from automatically adding some dependencies
@@ -101,9 +105,9 @@
             <!-- 2013-02-01 thorick
                             Exclude the jboss jsf/jstl packages
             -->
-            <module name="javax.faces.api"/>
-            <module name="javax.servlet.jstl.api"/>
-            <module name="javax.xml.bind.api"/>
+            <module name="jakarta.faces.api"/>
+            <module name="jakarta.servlet.jstl.api"/>
+            <module name="jakarta.xml.bind.api"/>
 
             <!-- http://bugzilla.jaspersoft.com/show_bug.cgi?id=44406
                     2016-08-01 sblazhyi
@@ -122,17 +126,17 @@
             <module name="org.codehaus.jackson.jackson-mapper-asl"/>
             <module name="org.codehaus.jackson.jackson-xc"/>
             <module name="org.codehaus.jettison"/>
-            <module name="javax.ws.rs.api"/>
-
-
+            <module name="jakarta.ws.rs.api"/>
+            
             <!-- http://jira.jaspersoft.com/browse/JRS-20321
             JRS-20321 WildFly 16: Error dialog appears while creating filter in adhoc view
             -->
             <module name="com.fasterxml.jackson.datatype.jackson-datatype-jdk8"/>
             <module name="com.fasterxml.jackson.datatype.jackson-datatype-jsr310"/>
 
+
             <!--  http://bugzilla.jaspersoft.com/show_bug.cgi?id=44994 -->
-            <module name="javax.annotation"/>
+            <module name="jakarta.annotation"/>
         </exclusions>
 
 
@@ -154,7 +158,7 @@
                   Declaring a dependency on this jaspserver created module makes them available.
 			-->
             <module name="jaspersoft.org.apache.batik"/>
-            <module name="jaspersoft.javax.validation.api" slot="1.1" export="true"/>
+            <module name="jaspersoft.jakarta.validation.api" slot="3.0.2" export="true"/>
 
             <!--
                 2013-03-26  thorick
@@ -184,19 +188,11 @@
                		would be searched in reseources section following this section.
             		
             -->
-            <module name="javax.faces.api"/>
-            <module name="javax.servlet.jstl.api"/>
-			<module name="javax.xml.bind.api"/>
-			
-
-            <!--  http://bugzilla.jaspersoft.com/show_bug.cgi?id=31844 jboss7-->
-            <module name="org.apache.xalan"/>
+            <module name="jakarta.servlet.jstl.api"/>
+            <module name="jakarta.xml.bind.api"/>
 
             <!--  http://bugzilla.jaspersoft.com/show_bug.cgi?id=31700 -->
             <module name="org.apache.commons.io"/>
-
-            <!-- http://bugzilla.jaspersoft.com/show_bug.cgi?id=31845  -->
-            <module name="org.apache.xerces"/>
 
             <!--  per Volodya:  this is required to workaround a JBoss problem (not including the module) -->
             <module name="org.jboss.as.jmx"/>
@@ -207,7 +203,7 @@
                     <path name="com/sun/management"/>
 
                     <!--  http://bugzilla.jaspersoft.com/show_bug.cgi?id=44994 -->
-                    <path name="javax/annotation"/>
+                    <path name="jakarta/annotation"/>
                 </paths>
             </system>
         </dependencies>
@@ -230,13 +226,12 @@
                		http://bugzilla.jaspersoft.com/show_bug.cgi?id=33207
                		This forces jboss to read the jar from WEB-INF/lib folder. These are the jars used for the modules under dependencies.               				
             -->
-            <!--   thorick remove as part of the 3rd party lib security upgrade
+            <!--   thorick  2016-12-07
+                    remove as part of the 3rd party lib security upgrade
             <resource-root path="WEB-INF/lib/jsf-api-1.1.jar" use-physical-code-source="true"/>
             -->
+            <resource-root path="WEB-INF/lib/jakarta.xml.bind-api-3.0.1" use-physical-code-source="true"/> 
 
-            <resource-root path="WEB-INF/lib/jaxb-api-2.1.jar" use-physical-code-source="true"/> 
-            
-            
             <!--
                2014-03-17 nirmal
                		http://bugzilla.jaspersoft.com/show_bug.cgi?id=36566
@@ -245,8 +240,8 @@
                		https://jira.tibco.com/browse/JS-55716, https://jira.tibco.com/browse/JS-55746
                		changed from 1.62 to 1.64
             -->
-            <resource-root path="WEB-INF/lib/bcprov-jdk15on-1.68.jar" use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/bcpkix-jdk15on-1.68.jar" use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/bcprov-jdk15on-1.70.jar" use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/bcpkix-jdk15on-1.70.jar" use-physical-code-source="true"/>
 
             <!--
                2013-01-22 thorick
@@ -287,17 +282,17 @@
                             http://bugzilla.jaspersoft.com/show_bug.cgi?id=33137
                             do not use JBoss logging, positively use JRS logging classes instead
                             -->
-            <resource-root path="WEB-INF/lib/log4j-web-2.20.0.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-slf4j-impl-2.20.0.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-jul-2.20.0.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-jcl-2.20.0.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-core-2.20.0.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-api-2.20.0.jar"  use-physical-code-source="true"/>
-            <resource-root path="WEB-INF/lib/log4j-1.2-api-2.20.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-web-2.22.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-slf4j2-impl-2.22.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-jul-2.22.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-jcl-2.22.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-core-2.22.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-api-2.22.0.jar"  use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/log4j-1.2-api-2.22.0.jar"  use-physical-code-source="true"/>
             <resource-root path="WEB-INF/lib/slf4j-api-1.7.30.jar"  use-physical-code-source="true"/>
             <resource-root path="WEB-INF/lib/commons-logging-1.2.jar" use-physical-code-source="true"/>
 
-            <resource-root path="WEB-INF/lib/javax.ws.rs-api-2.0.1.jar" use-physical-code-source="true"/>
+            <resource-root path="WEB-INF/lib/jakarta.ws.rs-api-3.1.0.jar" use-physical-code-source="true"/>
         </resources>
     </deployment>
 

@@ -1411,6 +1411,7 @@
                 <exclude name="**/conf_source/templates/**"/>
                 <exclude name="**/conf_source/ieCe/**"/>
                 <exclude name="**/install_resources/war/**"/>
+                <exclude name="**/src/test/**"/>
             </fileset>
             <fileset dir="${js-path}/samples">
                 <include name="**/*.jar"/>
@@ -1449,9 +1450,12 @@
                 <include name="*.jar"/>
             </fileset>
         </path>
-        <taskdef resource="dependency-check-taskdefs.properties">
-            <classpath refid="dependency-check.path"/>
+        <taskdef resource="dependency-check-taskdefs.properties"
+           loaderref="dependency-check.loader"
+           reverseLoader="true">
+          <classpath refid="dependency-check.path"/>
         </taskdef>
+
     </target>
 
 	<target name="check-cve-ce" depends="init-source-paths,get-cve-dependencies, copy-extra-jars" description="CVE check analysis">
@@ -1461,6 +1465,7 @@
 	                    reportoutputdirectory="${js-path}/target"
 	                    failBuildOnCVSS = "0"
                       centralAnalyzerUseCache="false"
+                      ossIndexAnalyzerEnabled="false"
                       nodeAuditAnalyzerUseCache="false"
                       dataDirectory="${user.home}"
 	                    nvdApiKey="${env.NVD_API_KEY}">

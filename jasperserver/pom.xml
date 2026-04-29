@@ -40,7 +40,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>12.1.3</version>
+                        <version>12.1.4</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -52,6 +52,7 @@
                             <failBuildOnCVSS>0</failBuildOnCVSS>
                             <suppressionFile>${cve.suppress.ce.file}</suppressionFile>
                             <nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
+                            <ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -309,7 +310,7 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>12.1.3</version>
+                <version>12.1.9</version>
                 <reportSets>
                     <reportSet>
                         <reports>

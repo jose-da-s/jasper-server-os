@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -39,7 +41,7 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRElementsVisitor;
 import net.sf.jasperreports.engine.util.JRVisitorSupport;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoader;
 
 import com.jaspersoft.jasperserver.api.JSExceptionWrapper;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource;
@@ -75,7 +77,7 @@ public class ResourceCollector extends JRVisitorSupport
 		try
 		{
 			// check for XXE vulnerability first and then load
-			jasperDesign = JRXmlLoader.load(XMLUtil.checkForXXE(jrxmlStream));
+			jasperDesign = CustomJRXmlLoader.load(XMLUtil.checkForXXE(jrxmlStream));
 		}
 		catch (Exception e)
 		{

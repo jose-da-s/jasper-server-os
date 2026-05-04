@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -43,7 +45,7 @@
 
     <datasource jta="false" jndi-name="java:/${js.jndi}" pool-name="${js.dbName}" enabled="true" use-ccm="false">
         <connection-url>${js.jdbcUrl}</connection-url>
-        <driver>${maven.jdbc.artifactId}-${maven.jdbc.version}</driver>
+        <driver>${maven.jdbc.artifactId}-${maven.jdbc.version}.jar</driver>
         <security>
             <user-name>${js.dbUsername}</user-name>
             <password>${escapeXML:js.dbPassword}</password>
@@ -52,8 +54,8 @@
             <min-pool-size>5</min-pool-size>
             <max-pool-size>50</max-pool-size>
             <prefill>true</prefill>
-        </pool>
-        <validation>
+	</pool>
+	<validation>
             <validate-on-match>false</validate-on-match>
             <background-validation>false</background-validation>
             <check-valid-connection-sql>${jdbcTestTableQuery}</check-valid-connection-sql>
@@ -62,6 +64,7 @@
             <share-prepared-statements>false</share-prepared-statements>
         </statement>
     </datasource>
+
     <datasource jta="false" jndi-name="java:/${audit.jndi}" pool-name="${audit.dbName}" enabled="true" use-ccm="false">
         <connection-url>${audit.jdbcUrl}</connection-url>
         <driver>${maven.jdbc.artifactId}-${maven.jdbc.version}.jar</driver>
@@ -83,10 +86,9 @@
             <share-prepared-statements>false</share-prepared-statements>
         </statement>
     </datasource>
-    <datasource jta="false" jndi-name="java:/${foodmart.jndi}" pool-name="${foodmart.dbName}" enabled="true"
-                use-ccm="false">
+    <datasource jta="false" jndi-name="java:/${foodmart.jndi}" pool-name="${foodmart.dbName}" enabled="true" use-ccm="false">
         <connection-url>${foodmart.jdbcUrl}</connection-url>
-        <driver>${maven.jdbc.artifactId}-${maven.jdbc.version}</driver>
+        <driver>${maven.jdbc.artifactId}-${maven.jdbc.version}.jar</driver>
         <security>
             <user-name>${foodmart.dbUsername}</user-name>
             <password>${escapeXML:foodmart.dbPassword}</password>
@@ -95,8 +97,8 @@
             <min-pool-size>5</min-pool-size>
             <max-pool-size>50</max-pool-size>
             <prefill>true</prefill>
-        </pool>
-        <validation>
+       </pool>
+       <validation>
             <validate-on-match>false</validate-on-match>
             <background-validation>false</background-validation>
             <check-valid-connection-sql>${jdbcTestTableQuery}</check-valid-connection-sql>
@@ -105,10 +107,9 @@
             <share-prepared-statements>false</share-prepared-statements>
         </statement>
     </datasource>
-    <datasource jta="false" jndi-name="java:/${sugarcrm.jndi}" pool-name="${sugarcrm.dbName}" enabled="true"
-                use-ccm="false">
+    <datasource jta="false" jndi-name="java:/${sugarcrm.jndi}" pool-name="${sugarcrm.dbName}" enabled="true" use-ccm="false">
         <connection-url>${sugarcrm.jdbcUrl}</connection-url>
-        <driver>${maven.jdbc.artifactId}-${maven.jdbc.version}</driver>
+        <driver>${maven.jdbc.artifactId}-${maven.jdbc.version}.jar</driver>
         <security>
             <user-name>${sugarcrm.dbUsername}</user-name>
             <password>${escapeXML:sugarcrm.dbPassword}</password>
@@ -117,8 +118,8 @@
             <min-pool-size>5</min-pool-size>
             <max-pool-size>50</max-pool-size>
             <prefill>true</prefill>
-        </pool>
-        <validation>
+       </pool>
+       <validation>
             <validate-on-match>false</validate-on-match>
             <background-validation>false</background-validation>
             <check-valid-connection-sql>${jdbcTestTableQuery}</check-valid-connection-sql>

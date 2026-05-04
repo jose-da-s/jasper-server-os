@@ -1,0 +1,217 @@
+<!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
+  ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
+  ~ http://www.jaspersoft.com.
+  ~
+  ~ Unless you have purchased a commercial license agreement from Jaspersoft,
+  ~ the following license terms apply:
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="ParamMany" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="907e3e0c-e578-4386-8004-262a3d6d07ab">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
+	<property name="net.sf.jasperreports.export.pdf.tag.language" value="EN-US"/>
+	<import>net.sf.jasperreports.engine.*</import>
+	<import>java.util.*</import>
+	<import>net.sf.jasperreports.engine.data.*</import>
+	<style name="evenRow">
+		<conditionalStyle mode="Opaque" backcolor="#CCFFFF">
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 == 1)]]></conditionExpression>
+		</conditionalStyle>
+	</style>
+	<parameter name="Country" forPrompting="false" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Mexico"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="RequestDate" forPrompting="false" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new java.util.Date(97, 5, 1)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="OrderId" forPrompting="false" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new Integer(10600)]]></defaultValueExpression>
+	</parameter>
+	<query language="sql"><![CDATA[select * from ORDERS where SHIPCOUNTRY = $P{Country} and REQUIREDDATE > $P{RequestDate} and ORDERID > $P{OrderId}]]></query>
+	<field name="ORDERID" class="java.lang.Integer">
+		<description><![CDATA[Order Id]]></description>
+	</field>
+	<field name="CUSTOMERID" class="java.lang.String">
+		<description><![CDATA[Customer Id]]></description>
+	</field>
+	<field name="EMPLOYEEID" class="java.lang.Integer">
+		<description><![CDATA[Employee Id]]></description>
+	</field>
+	<field name="ORDERDATE" class="java.util.Date">
+		<description><![CDATA[Order Date]]></description>
+	</field>
+	<field name="REQUIREDDATE" class="java.util.Date">
+		<description><![CDATA[Request Date]]></description>
+	</field>
+	<field name="SHIPPEDDATE" class="java.util.Date">
+		<description><![CDATA[Ship Date]]></description>
+	</field>
+	<field name="SHIPVIA" class="java.lang.Integer">
+		<description><![CDATA[Ship Via]]></description>
+	</field>
+	<field name="FREIGHT" class="java.math.BigDecimal">
+		<description><![CDATA[Freight]]></description>
+	</field>
+	<field name="SHIPNAME" class="java.lang.String">
+		<description><![CDATA[Ship Name]]></description>
+	</field>
+	<field name="SHIPADDRESS" class="java.lang.String">
+		<description><![CDATA[Ship Address]]></description>
+	</field>
+	<field name="SHIPCITY" class="java.lang.String">
+		<description><![CDATA[Ship City]]></description>
+	</field>
+	<field name="SHIPREGION" class="java.lang.String">
+		<description><![CDATA[Ship Region]]></description>
+	</field>
+	<field name="SHIPPOSTALCODE" class="java.lang.String">
+		<description><![CDATA[Ship Postal Code]]></description>
+	</field>
+	<field name="SHIPCOUNTRY" class="java.lang.String">
+		<description><![CDATA[Ship Country]]></description>
+	</field>
+	<title height="50" splitType="Stretch">
+		<element kind="staticText" uuid="799c458f-8eaa-4970-ae70-6861af664e1e" key="staticText-1" x="17" y="10" width="501" height="35" forecolor="#3333FF" fontName="Serif" fontSize="24.0" pdfFontName="Helvetica-BoldOblique" bold="true" italic="true" hTextAlign="Center">
+			<text><![CDATA[Shipping Report]]></text>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+	</title>
+	<columnHeader height="30" splitType="Stretch">
+		<element kind="textField" uuid="f8fa0041-04cf-4eae-bfd2-0b09eac06bd8" key="textField-1" mode="Opaque" x="0" y="7" width="100" height="18" backcolor="#66CCFF" pdfFontName="Helvetica-Bold" blankWhenNull="false" bold="true">
+			<expression><![CDATA["Order Id"]]></expression>
+			<property name="net.sf.jasperreports.export.pdf.tag.table" value="start"/>
+			<property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
+			<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="0f78993b-95c2-4621-a872-6eec970baaba" key="textField-2" mode="Opaque" x="100" y="7" width="100" height="18" backcolor="#66CCFF" pdfFontName="Helvetica-Bold" blankWhenNull="false" bold="true">
+			<expression><![CDATA["Order Date"]]></expression>
+			<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="ed01f644-37bf-47e6-b7ce-f0c3cc30c6b4" key="textField-3" mode="Opaque" x="200" y="7" width="100" height="18" backcolor="#66CCFF" pdfFontName="Helvetica-Bold" blankWhenNull="false" bold="true">
+			<expression><![CDATA["Required Date"]]></expression>
+			<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="ff3a659a-99de-4ec9-9aa4-09bbc7534850" key="textField-4" mode="Opaque" x="300" y="7" width="100" height="18" backcolor="#66CCFF" pdfFontName="Helvetica-Bold" blankWhenNull="false" bold="true">
+			<expression><![CDATA["Ship Country"]]></expression>
+			<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="67651964-d84d-464c-9091-59bd4d403bde" key="textField-5" mode="Opaque" x="400" y="7" width="100" height="18" backcolor="#66CCFF" pdfFontName="Helvetica-Bold" blankWhenNull="false" bold="true">
+			<expression><![CDATA["Postal Code"]]></expression>
+			<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+			<property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<element kind="textField" uuid="82d939b3-fe89-4529-bd32-1fde1faa4948" key="textField" x="0" y="0" width="100" height="18" blankWhenNull="false" style="evenRow">
+				<expression><![CDATA[$F{ORDERID}]]></expression>
+				<property name="net.sf.jasperreports.export.pdf.tag.tr" value="start"/>
+				<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+				<box style="evenRow">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="d6f8c7e1-23ba-4024-a581-6bf9f3088ff3" key="textField" x="100" y="0" width="100" height="18" blankWhenNull="false" style="evenRow">
+				<expression><![CDATA[$F{ORDERDATE}]]></expression>
+				<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+				<box style="evenRow">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="aee20ff3-0062-496c-a39b-708dc5c8c214" key="textField" x="200" y="0" width="100" height="18" pattern="dd-MMM-yy" blankWhenNull="false" style="evenRow">
+				<expression><![CDATA[$F{REQUIREDDATE}]]></expression>
+				<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+				<box style="evenRow">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="58ff4c1b-23da-43eb-a1cb-b12a57b3d0b6" key="textField" x="300" y="0" width="100" height="18" blankWhenNull="false" style="evenRow">
+				<expression><![CDATA[$F{SHIPCOUNTRY}]]></expression>
+				<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+				<box style="evenRow">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="42c9c915-ed48-4f89-9de3-5a58dfec8e99" key="textField" x="400" y="0" width="100" height="18" blankWhenNull="false" style="evenRow">
+				<expression><![CDATA[$F{SHIPPOSTALCODE}]]></expression>
+				<property name="net.sf.jasperreports.export.pdf.tag.td" value="full"/>
+				<property name="net.sf.jasperreports.export.pdf.tag.tr" value="end"/>
+				<box style="evenRow">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="30" splitType="Stretch">
+		<element kind="frame" uuid="adab0b35-b8a8-4d20-a1c3-3e0399c96a6f" mode="Transparent" x="0" y="0" width="0" height="0">
+			<property name="net.sf.jasperreports.export.pdf.tag.table" value="end"/>
+		</element>
+	</columnFooter>
+</jasperReport>

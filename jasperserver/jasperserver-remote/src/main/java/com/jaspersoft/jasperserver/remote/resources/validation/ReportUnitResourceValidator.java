@@ -32,6 +32,7 @@ import com.jaspersoft.jasperserver.remote.exception.IllegalParameterValueExcepti
 import com.jaspersoft.jasperserver.remote.exception.MandatoryParameterNotFoundException;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JasperDesign;
+import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.springframework.stereotype.Component;
 
@@ -117,7 +118,7 @@ public class ReportUnitResourceValidator<T extends ReportUnit> extends GenericRe
     }
 
     protected JasperDesign loadJasperDesign(byte[] data) throws JRException {
-        return JRXmlLoader.load(new ByteArrayInputStream(data));
+        return CustomJRXmlLoader.load(new ByteArrayInputStream(data));
     }
 }
 

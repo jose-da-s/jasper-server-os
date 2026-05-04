@@ -634,7 +634,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.30</version>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
@@ -1352,6 +1352,12 @@
                 <version>${csrfguard.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.owasp.esapi</groupId>
+                <artifactId>esapi</artifactId>
+                <version>${esapi.version}</version>
+                <classifier>jakarta</classifier>
+            </dependency>
+            <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
                 <version>${jakarta.xml.bind-api.version}</version>
@@ -1494,6 +1500,7 @@
     </distributionManagement>
 
     <properties>
+        <slf4j.version>2.0.4</slf4j.version>
         <jersey.version>3.1.11</jersey.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <jakarta.servlet.jsp.version>3.1.0</jakarta.servlet.jsp.version>
@@ -1587,6 +1594,7 @@
         <opentelemetry.version>1.31.0</opentelemetry.version>
         <jaxen.version>2.0.0</jaxen.version>
         <csrfguard.version>4.3.0-jakarta</csrfguard.version>
+        <esapi.version>2.5.3.1</esapi.version>
     </properties>
 
 </project>

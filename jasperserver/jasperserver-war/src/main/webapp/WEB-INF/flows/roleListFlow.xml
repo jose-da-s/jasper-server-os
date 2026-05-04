@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -21,7 +23,7 @@
   -->
 
 <flow xmlns="http://www.springframework.org/schema/webflow" xmlns:ns0="http://www.w3.org/2001/XMLSchema-instance"
-      ns0:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+      ns0:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow.xsd"
       start-state="initEvent">
 
     <action-state id="initEvent">
@@ -59,19 +61,19 @@
         <transition on="nextAssigned" to="nextAssigned"/>
         <transition on="nextAvailable" to="nextAvailable"/>
 
-        <transition on="${currentEvent.id == 'delete' and externalContext.nativeRequest.method == 'POST'}" to="ajaxView">
+        <transition on="#{currentEvent.id == 'delete' and externalContext.nativeRequest.method == 'POST'}" to="ajaxView">
             <evaluate expression="roleManagerAction.delete"/>
         </transition>
-        <transition on="${currentEvent.id == 'deleteAll' and externalContext.nativeRequest.method == 'POST'}" to="ajaxView">
+        <transition on="#{currentEvent.id == 'deleteAll' and externalContext.nativeRequest.method == 'POST'}" to="ajaxView">
             <evaluate expression="roleManagerAction.deleteAll"/>
         </transition>
         <transition on="exist" to="ajaxView">
             <evaluate expression="roleManagerAction.exist"/>
         </transition>
-        <transition on="${currentEvent.id == 'update' and externalContext.nativeRequest.method == 'POST'}" to="ajaxView">
+        <transition on="#{currentEvent.id == 'update' and externalContext.nativeRequest.method == 'POST'}" to="ajaxView">
             <evaluate expression="roleManagerAction.updateRole"/>
         </transition>
-        <transition on="${currentEvent.id == 'create' and externalContext.nativeRequest.method == 'POST'}" to="ajaxView">
+        <transition on="#{currentEvent.id == 'create' and externalContext.nativeRequest.method == 'POST'}" to="ajaxView">
             <evaluate expression="roleManagerAction.create"/>
         </transition>
         <transition on="loadAssignedUsers" to="ajaxView">
@@ -80,7 +82,7 @@
         <transition on="loadAvailableUsers" to="ajaxView">
             <evaluate expression="roleManagerAction.loadAvailableUsers"/>
         </transition>
-        <transition on="${currentEvent.id == 'updateRoleUsers' and externalContext.nativeRequest.method == 'POST'}" to="ajaxView">
+        <transition on="#{currentEvent.id == 'updateRoleUsers' and externalContext.nativeRequest.method == 'POST'}" to="ajaxView">
             <evaluate expression="roleManagerAction.updateRoleUsers"/>
         </transition>
         <transition on="initEdit" to="ajaxView">
@@ -126,7 +128,7 @@
 
     <!-- exceptions handling -->
     <decision-state id="backFromError">
-        <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="${flowScope.prevForm}"
+        <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="#{flowScope.prevForm}"
             else="initEvent"/>
     </decision-state>
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -20,7 +22,7 @@
   ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<flow xmlns="http://www.springframework.org/schema/webflow" xmlns:ns0="http://www.w3.org/2001/XMLSchema-instance" ns0:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" start-state="listReports">
+<flow xmlns="http://www.springframework.org/schema/webflow" xmlns:ns0="http://www.w3.org/2001/XMLSchema-instance" ns0:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow.xsd" start-state="listReports">
 
    <view-state id="listReports" view="modules/ListReports">
       <on-entry>
@@ -58,7 +60,7 @@
 
 <!-- exceptions handling -->
    <decision-state id="backFromError">
-      <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="${flowScope.prevForm}" else="listReports"/>
+      <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="#{flowScope.prevForm}" else="listReports"/>
    </decision-state>
 
    <view-state id="errorPage" view="modules/system/errorPage">

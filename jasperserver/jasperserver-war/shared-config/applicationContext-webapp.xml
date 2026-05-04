@@ -2,6 +2,8 @@
 <!--
   ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -29,14 +31,14 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:component-scan base-package="com.jaspersoft.jasperserver.war.httpheaders"/>
   <!-- Tiles 3 integration. -->
-    <bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
-        <property name="preparerFactoryClass" value="org.springframework.web.servlet.view.tiles3.SimpleSpringPreparerFactory"/>
+    <bean class="com.jaspersoft.jasperserver.war.tiles3.JasperTilesConfigurer">
+        <property name="preparerFactoryClass" value="com.jaspersoft.jasperserver.war.tiles3.SimpleJasperPreparerFactory"/>
         <property name="useMutableTilesContainer" value="true"/>
 
     </bean>

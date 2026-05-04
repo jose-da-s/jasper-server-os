@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -29,9 +31,9 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.validation.CheckQueryDetailsN
 import com.jaspersoft.jasperserver.dto.adhoc.query.validation.groups.MultiAxisQueryValidationGroup;
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
 
-import javax.validation.Valid;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import jakarta.validation.Valid;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;

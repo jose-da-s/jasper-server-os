@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -28,10 +30,10 @@
         xmlns:util="http://www.springframework.org/schema/util"
         xmlns:context="http://www.springframework.org/schema/context"
         xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/security
-       http://www.springframework.org/schema/security/spring-security-5.7.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/security/spring-security-6.5.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <beans profile="jrs">
         <context:component-scan base-package="com.jaspersoft.jasperserver.api.common.crypto, com.jaspersoft.jasperserver.api.common.configuration"/>
@@ -55,7 +57,6 @@
                     <value type="java.lang.String">ROLE_ANONYMOUS</value>
                 </list>
             </property>
-
         </bean>
 
         <!-- anonymousAuthenticationProvider only needed if filterInvocationInterceptor.alwaysReauthenticate is set to true
@@ -119,7 +120,7 @@
         </bean>
 
         <!--
-        <bean id="jaasAuthenticationProvider" class="org.springframework.security.providers.jaas.JaasAuthenticationProvider">
+        <bean id="jaasAuthenticationProvider" class="org.springframework.security.authentication.jaas.JaasAuthenticationProvider">
             <property name="loginConfig">
                 <value>/WEB-INF/login.conf</value>
             </property>
@@ -128,8 +129,8 @@
             </property>
             <property name="callbackHandlers">
                 <list>
-                    <bean class="org.springframework.security.providers.jaas.JaasNameCallbackHandler"/>
-                    <bean class="org.springframework.security.providers.jaas.JaasPasswordCallbackHandler"/>
+                    <bean class="org.springframework.security.authentication.jaas.JaasNameCallbackHandler"/>
+                    <bean class="org.springframework.security.authentication.jaas.JaasPasswordCallbackHandler"/>
                 </list>
             </property>
             <property name="authorityGranters">
@@ -184,7 +185,7 @@
              </property>
            </bean>
 
-           <bean id="ldapAuthenticationProvider" class="org.springframework.security.providers.ldap.LdapAuthenticationProvider">
+           <bean id="ldapAuthenticationProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
              <constructor-arg>
                <bean class="org.springframework.security.providers.ldap.authenticator.BindAuthenticator">
                   <constructor-arg><ref bean="ldapContextSource"/></constructor-arg>

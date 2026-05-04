@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -28,7 +30,7 @@ import com.jaspersoft.jasperserver.dto.utils.XMLSerializer;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 
 import static com.jaspersoft.jasperserver.dto.utils.CustomAssertions.assertNodesEquals;
 import static org.junit.Assert.assertEquals;

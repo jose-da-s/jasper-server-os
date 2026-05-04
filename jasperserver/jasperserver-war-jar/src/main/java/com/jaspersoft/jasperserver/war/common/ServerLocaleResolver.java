@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2025 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,9 +26,9 @@ package com.jaspersoft.jasperserver.war.common;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-import net.sf.jasperreports.j2ee.web.WebLocaleResolver;
+import net.sf.jasperreports.jakarta.web.WebLocaleResolver;
 
 import org.springframework.context.i18n.LocaleContextHolder;
 
@@ -42,3 +44,4 @@ public class ServerLocaleResolver implements WebLocaleResolver {
 	}
 
 }
+

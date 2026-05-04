@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -25,13 +27,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationModule;
 import org.apache.commons.io.IOUtils;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -55,8 +57,8 @@ public class ServerInfoTest {
     public static Marshaller getMarshaller(Class... docClass) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(docClass);
         Marshaller m = context.createMarshaller();
-        m.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        m.setProperty(javax.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+        m.setProperty(jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        m.setProperty(jakarta.xml.bind.Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         return m;
     }
 
@@ -68,7 +70,7 @@ public class ServerInfoTest {
 
     private static ObjectMapper configure(ObjectMapper mapper) {
 
-        JaxbAnnotationModule jaxbModule = new JaxbAnnotationModule();
+    	JakartaXmlBindAnnotationModule jaxbModule = new JakartaXmlBindAnnotationModule();
         mapper.registerModule(jaxbModule);
         mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
         mapper.configure(MapperFeature.USE_WRAPPER_NAME_AS_PROPERTY_NAME, true);

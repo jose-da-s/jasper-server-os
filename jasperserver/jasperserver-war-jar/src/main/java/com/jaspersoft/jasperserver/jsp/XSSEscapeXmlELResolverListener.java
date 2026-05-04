@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -20,9 +22,9 @@
  */
 package com.jaspersoft.jasperserver.jsp;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.jsp.JspFactory;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.jsp.JspFactory;
 
 /**
  * Listener that inserts our ElResolver (XSSEscapeXmlELResolver) int EL resolution chain.
@@ -43,3 +45,4 @@ public class XSSEscapeXmlELResolverListener implements ServletContextListener {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 }
+

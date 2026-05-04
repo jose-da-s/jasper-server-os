@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,7 +26,7 @@ package com.jaspersoft.jasperserver.remote.settings;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 
 /**
@@ -32,7 +34,7 @@ import java.util.HashMap;
  */
 public class RequestSettingsProvider implements SettingsProvider {
 
-    private javax.servlet.http.HttpServletRequest getRequest() {
+    private jakarta.servlet.http.HttpServletRequest getRequest() {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attr.getRequest();
     }
@@ -46,3 +48,4 @@ public class RequestSettingsProvider implements SettingsProvider {
         return settings;
     }
 }
+

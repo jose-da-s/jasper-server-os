@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -47,13 +49,13 @@ import java.util.List;
 
 @Service("discoveryService")
 public class DiscoveryServiceImpl implements DiscoveryService {
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private DiscoveryStrategyProvider provider;
 
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     protected RepositoryService repositoryService;
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private GenericTypeProcessorRegistry genericTypeProcessorRegistry;
 
     @Override
@@ -125,3 +127,4 @@ public class DiscoveryServiceImpl implements DiscoveryService {
         return typeProcessor != null ? typeProcessor.getClientResourceType() : "unknown";
     }
 }
+

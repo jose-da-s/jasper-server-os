@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -44,7 +46,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -60,13 +62,13 @@ public class ResourcesManagementRemoteServiceImpl implements ResourcesManagement
 
     private final static Log log = LogFactory.getLog(ResourcesManagementRemoteServiceImpl.class);
 
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     private RepositoryService repository;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private AuditHelper auditHelper;
     @Autowired
     private MessageSource messageSource;
-    @javax.annotation.Resource(name = "remoteResourceHandlerRegistry")
+    @jakarta.annotation.Resource(name = "remoteResourceHandlerRegistry")
     private ResourceHandlerRegistry handlerRegistry;
 
     public ResourceHandler getHandler(Resource resource) {
@@ -419,3 +421,4 @@ public class ResourcesManagementRemoteServiceImpl implements ResourcesManagement
 
     }
 }
+

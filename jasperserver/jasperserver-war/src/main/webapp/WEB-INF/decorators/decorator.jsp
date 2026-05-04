@@ -1,4 +1,6 @@
 <%--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -25,7 +27,7 @@
     response.setHeader("P3P","CP='IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT'");
 %>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="/WEB-INF/jasperserver.tld" prefix="js" %>
@@ -130,6 +132,7 @@
                             <a id="main_logOut_link" tabindex="-1">
                                 <spring:message code="menu.logout"/>
                             </a>
+                            <form id="exitUser" action="/exituser.html"></form>
                         </li>
                     </ul>
                     </authz:authorize>

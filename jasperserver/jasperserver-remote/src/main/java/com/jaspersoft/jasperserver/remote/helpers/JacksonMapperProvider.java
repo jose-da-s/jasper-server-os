@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -28,9 +30,9 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
-import com.fasterxml.jackson.jaxrs.cfg.Annotations;
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.fasterxml.jackson.jakarta.rs.cfg.Annotations;
+import com.fasterxml.jackson.jakarta.rs.json.JacksonXmlBindJsonProvider;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationIntrospector;
 import org.springframework.stereotype.Service;
 
 /**
@@ -41,7 +43,7 @@ import org.springframework.stereotype.Service;
  * @version $Id$
  */
 @Service
-public class JacksonMapperProvider extends JacksonJaxbJsonProvider {
+public class JacksonMapperProvider extends JacksonXmlBindJsonProvider {
     private static ObjectMapper mapper;
 
     public JacksonMapperProvider(){
@@ -61,7 +63,7 @@ public class JacksonMapperProvider extends JacksonJaxbJsonProvider {
             synchronized (JacksonMapperProvider.class) {
                 if (mapper == null) {
                     mapper = new ObjectMapper();
-                    AnnotationIntrospector primary = new JaxbAnnotationIntrospector();
+                    AnnotationIntrospector primary = new JakartaXmlBindAnnotationIntrospector();
                     AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
                     AnnotationIntrospector pair = AnnotationIntrospector.pair(primary, secondary);
                     mapper.setAnnotationIntrospector(pair);

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -90,19 +92,19 @@ public class BatchRepositoryServiceImpl implements BatchRepositoryService {
         FILE_TYPES = Collections.unmodifiableSet(fileTypes);
     }
 
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     private RepositoryService service;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private RepositorySearchService repositorySearchService;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private LookupResourceConverter lookupResourceConverter;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ResourceConverterProvider resourceConverterProvider;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private UriHardModifyProtectionChecker uriHardModifyProtectionChecker;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private SearchCriteriaFactory searchCriteriaFactory;
-    @javax.annotation.Resource(name = "restSearchModeSettingsResolver")
+    @jakarta.annotation.Resource(name = "restSearchModeSettingsResolver")
     private SearchModeSettingsResolver searchModeSettingsResolver;
 
 
@@ -404,3 +406,4 @@ public class BatchRepositoryServiceImpl implements BatchRepositoryService {
             return getResourcesCountList(builder.getCriteria());
     }
 }
+

@@ -22,7 +22,7 @@ package com.jaspersoft.jasperserver.dto.domain;
 
 import com.jaspersoft.jasperserver.dto.adhoc.query.validation.ValidDomElType;
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import static com.jaspersoft.jasperserver.dto.utils.ValueObjectUtils.checkNotNull;
 

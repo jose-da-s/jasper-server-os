@@ -26,9 +26,9 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.el.ClientExpressionContainer;
 import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
 import com.jaspersoft.jasperserver.dto.common.ValidationErrorDescriptorBuilder;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintViolation;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -73,7 +73,7 @@ public class CheckParametersExpressionContainerValidator
     }
 
     @Override
-    public ErrorDescriptor build(ConstraintViolation violation) {
+    public ErrorDescriptor build(jakarta.validation.ConstraintViolation violation) {
         return QUERY_WHERE_PARAMETERS_EXPRESSION_NOT_VALID.createDescriptor();
     }
 }

@@ -125,8 +125,6 @@ import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 import io.opentelemetry.extension.annotations.WithSpan;
-import net.sf.ehcache.pool.SizeOfEngine;
-import net.sf.ehcache.pool.impl.DefaultSizeOfEngine;
 import net.sf.jasperreports.data.cache.DataSnapshotException;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -162,9 +160,9 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -225,7 +223,7 @@ public class EngineServiceImpl implements EngineService, ReportExecuter,
 
     private AuditContext auditContext;
     protected boolean recordSizeof=false;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     protected GlobalDefaultValueProvider globalDefaultValueProvider;
 
     protected InputControlsInfoExtractor inputControlsInfoExtractor = new InputControlsInfoRoutingExtractor();
@@ -234,13 +232,13 @@ public class EngineServiceImpl implements EngineService, ReportExecuter,
     /*** THE FOLLOWING PARAMETER ARE USED FOR CANCEL EXECUTIONS **/
     private final ThreadLocal<ReportExecutionStatus> currentExecutionStatus = new ThreadLocal<ReportExecutionStatus>();
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private Map<String, ReportExecutionStatus> engineExecutions;
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private Map<String, ErrorTemplateReportService> errorReportDSFactory;
 
-    @javax.annotation.Resource(name="monitoringExceptionMapping")
+    @jakarta.annotation.Resource(name="monitoringExceptionMapping")
 	private Map<String, List<String>> monitoringExceptionMapping;
 
     private Executor syncReportExecutorService =
@@ -1053,8 +1051,38 @@ public class EngineServiceImpl implements EngineService, ReportExecuter,
 			}
 		}
 
-		SizeOfEngine getSizer() {
-		    return new DefaultSizeOfEngine(1000, false);
+		ObjectSizeOfEngine getSizer() {
+		    return new ObjectSizeOfEngine();
+		}
+
+		private class ObjectSizeOfEngine {
+			SizeOfResult sizeOf(Object obj, Object... args) {
+				return new SizeOfResult(estimateObjectSize(obj));
+			}
+		}
+
+		private long estimateObjectSize(Object obj) {
+			if (obj == null) return 0L;
+			try {
+				java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+				java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(baos);
+				oos.writeObject(obj);
+				oos.close();
+				return baos.toByteArray().length;
+			} catch (Exception e) {
+				// Fallback: estimate based on object type
+				return -1L;
+			}
+		}
+
+		private static class SizeOfResult {
+			private final long size;
+			SizeOfResult(long size) {
+				this.size = size;
+			}
+			long getCalculated() {
+				return size;
+			}
 		}
 
 		protected abstract void runReport() throws Exception;

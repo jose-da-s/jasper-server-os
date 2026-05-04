@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -24,7 +26,7 @@ package com.jaspersoft.jasperserver.war.tags;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.InputControlLabelResolver;
 import org.springframework.context.MessageSource;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,3 +90,4 @@ public class LabelTag extends BaseTagSupport {
                 .getBean(BEAN_MESSAGE_SOURCE, MessageSource.class);
     }
 }
+

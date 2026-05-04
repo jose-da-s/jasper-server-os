@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -42,13 +44,13 @@ public class CachedRepositoryService {
 
     private static final String URI_RESOURCE_TYPE_MAPPING_CACHE_KEY = "uriResourceTypeMapping";
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ControlLogicCacheManager controlLogicCacheManager;
 
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     private RepositoryService repositoryService;
 
-    @javax.annotation.Resource(name = "inputControlsCachingEnabled")
+    @jakarta.annotation.Resource(name = "inputControlsCachingEnabled")
     private boolean doCache;
 
     protected Map<String, Class<? super Resource>> getUriResourceTypeMapping() {
@@ -137,3 +139,4 @@ public class CachedRepositoryService {
         this.repositoryService = repositoryService;
     }
 }
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -61,6 +61,11 @@
         <param-value>/WEB-INF/log4j2.properties</param-value>
     </context-param>
 
+    <!-- SecurityContextHolder.setStrategyName(MODE_INHERITABLETHREADLOCAL) -->
+    <listener>
+        <listener-class>com.jaspersoft.jasperserver.war.util.SecurityContextHolderStrategyInitializer</listener-class>
+    </listener>
+
     <!-- listener to load the root application context -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -75,11 +80,6 @@
         <param-name>contextClass</param-name>
         <param-value>com.jaspersoft.jasperserver.war.util.JSWebApplicationContext</param-value>
     </context-param>
-
-    <!-- SecurityContextHolder.setStrategyName(MODE_INHERITABLETHREADLOCAL) -->
-    <listener>
-        <listener-class>com.jaspersoft.jasperserver.war.util.SecurityContextHolderStrategyInitializer</listener-class>
-    </listener>
 
     <listener>
         <display-name>Session mutex</display-name>
@@ -101,7 +101,12 @@
 
     <!-- SSO -  single sign out listener -->
     <listener>
-        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+        <listener-class>org.apereo.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
+
+    <!-- CSRFGuard - create virtual session based on HttpSession -->
+    <listener>
+        <listener-class>org.owasp.csrfguard.CsrfGuardHttpSessionListener</listener-class>
     </listener>
 
     <!-- XSS jsp ELResolver -->
@@ -167,6 +172,11 @@
     </filter>
 
     <filter>
+        <filter-name>trailingSlashFilter</filter-name>
+        <filter-class>com.jaspersoft.jasperserver.war.TrailingSlashFilter</filter-class>
+    </filter>
+
+    <filter>
         <filter-name>p3pFilter</filter-name>
         <filter-class>com.jaspersoft.jasperserver.war.P3PFilter</filter-class>
     </filter>
@@ -191,15 +201,6 @@
         <init-param>
             <param-name>targetBeanName</param-name>
             <param-value>characterEncodingFilter</param-value>
-        </init-param>
-    </filter>
-
-    <filter>
-        <filter-name>sessionDecoratorProxyFilter</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-        <init-param>
-            <param-name>targetBeanName</param-name>
-            <param-value>sessionDecoratorFilter</param-value>
         </init-param>
     </filter>
 
@@ -267,6 +268,15 @@
         </init-param>
     </filter>
 
+    <filter>
+        <filter-name>sessionDecoratorProxyFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>sessionDecoratorFilter</param-value>
+        </init-param>
+    </filter>
+
     <!-- Start of SiteMesh filter config -->
     <filter>
         <filter-name>sitemesh</filter-name>
@@ -297,6 +307,11 @@
     </filter-mapping>
 
     <filter-mapping>
+       <filter-name>trailingSlashFilter</filter-name>
+       <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
         <filter-name>SessionXssNonceSetterFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
@@ -313,11 +328,6 @@
 
     <filter-mapping>
         <filter-name>characterEncodingProxyFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>sessionDecoratorProxyFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
@@ -356,6 +366,12 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+	<!-- this filter must come after securityFilter, because securityFilter wraps multipart requests -->
+    <filter-mapping>
+        <filter-name>sessionDecoratorProxyFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <filter-mapping>
         <filter-name>sitemesh</filter-name>
         <url-pattern>/*</url-pattern>
@@ -363,16 +379,7 @@
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
 
-    <!-- Filter to help parse the file name and extension of uplaoded files-->
-    <!--filter>  com.jaspersoft.jasperserver.war.MultipartRequestWrapperFilter takes over the processing
-       <filter-name>multiPartHelperFilter</filter-name>
-       <filter-class>com.jaspersoft.jasperserver.war.common.UploadMultipartFilter</filter-class>
-   </filter>
-
-   <filter-mapping>
-       <filter-name>multiPartHelperFilter</filter-name>
-       <url-pattern>/*</url-pattern>
-   </filter-mapping-->
+    
 
     <!-- dispatcher servlet for the application -->
     <servlet>
@@ -386,6 +393,13 @@
             <param-name>threadContextInheritable</param-name>
             <param-value>true</param-value>
         </init-param>
+
+        <multipart-config>
+            <max-file-size>-1</max-file-size>
+            <max-request-size>-1</max-request-size>
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
+
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -394,7 +408,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>jasperserver</servlet-name>
-        <url-pattern>/flow.html/*</url-pattern>
+        <url-pattern>/flow.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>jasperserver</servlet-name>
+        <url-pattern>/flow.html/flowFile/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>jasperserver</servlet-name>
@@ -423,7 +441,7 @@
         <servlet-name>JerseyREST</servlet-name>
         <servlet-class>com.jaspersoft.jasperserver.jaxrs.JrsJerseyServletContainer</servlet-class>
         <init-param>
-            <param-name>javax.ws.rs.Application</param-name>
+            <param-name>jakarta.ws.rs.Application</param-name>
             <param-value>com.jaspersoft.jasperserver.jaxrs.RestSpringApplication</param-value>
         </init-param>
         <init-param>
@@ -455,6 +473,11 @@
         <!--<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>-->
         <!--<param-value>com.sun.jersey.api.container.filter.LoggingFilter</param-value>-->
         <!--</init-param>-->
+        <multipart-config>
+            <max-file-size>-1</max-file-size>
+            <max-request-size>-1</max-request-size>
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -520,11 +543,12 @@
     <servlet>
         <description>
             GET: returns jrs.csrfguard.js, which injects CSRF token on the page.
-            POST: returns CSRF token when requested from jrs.csrfguard.js
+            POST: returns per-page CSRF tokens when requested from jrs.csrfguard.js
+              (disabled in JRS)
             JavaScriptServlet is further configured in jrs.csrfguard.properties
         </description>
         <servlet-name>CSRFGuard.JavaScriptServlet</servlet-name>
-        <servlet-class>com.jaspersoft.jasperserver.api.security.csrf.JSJavaScriptServlet</servlet-class>
+        <servlet-class>org.owasp.csrfguard.servlet.JavaScriptServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CSRFGuard.JavaScriptServlet</servlet-name>

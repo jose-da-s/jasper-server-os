@@ -22,8 +22,8 @@ package com.jaspersoft.jasperserver.dto.resources.domain;
 
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 

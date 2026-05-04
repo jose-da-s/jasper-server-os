@@ -2,6 +2,8 @@
 <!--
   ~ Copyright (C) 2025 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -25,7 +27,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
        xmlns:util="http://www.springframework.org/schema/util"
        default-lazy-init="true">
@@ -204,7 +206,7 @@
 
     <!-- NOTE: Only AES-128 (key size 128 bits) would be available in the default java installation: key in this bean
         should be 16 bytes.  In order to achieve AES-256, you will need to install
-        “Unlimited Strength Jurisdiction Policy Files” off the oracle site for your Java version.  To install the files:
+        â€œUnlimited Strength Jurisdiction Policy Filesâ€ off the oracle site for your Java version.  To install the files:
         AFTER backing up the old files, extract US_export_policy.jar and local_policy.jar into %JAVA_HOME%\\jre\lib\security
         directory.
 

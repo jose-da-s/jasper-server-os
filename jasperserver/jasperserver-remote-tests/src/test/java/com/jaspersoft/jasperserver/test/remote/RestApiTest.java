@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -37,7 +37,7 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.TimeZone;
 
-import javax.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 
 import org.junit.BeforeClass;
 import org.junit.AfterClass;
@@ -59,7 +59,7 @@ import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationModule;
 
 import com.jaspersoft.jasperserver.dto.resources.ClientResourceListWrapper;
 import com.jaspersoft.jasperserver.dto.common.OutputFormat;
@@ -106,7 +106,7 @@ public class RestApiTest {
                 .setDefaultCredentialsProvider(credsProvider)
                 .build();
         objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JaxbAnnotationModule());
+        objectMapper.registerModule(new JakartaXmlBindAnnotationModule());
     
         // delete our folder
         Optional<ClientFolder> testFolder = getRepositoryResourceDescriptor(

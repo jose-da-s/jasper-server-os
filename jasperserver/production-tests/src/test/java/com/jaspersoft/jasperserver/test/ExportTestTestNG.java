@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -43,6 +45,7 @@ import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JdbcReportD
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.JndiJdbcReportDataSource;
 import com.jaspersoft.jasperserver.api.metadata.jasperreports.domain.ReportUnit;
 import com.jaspersoft.jasperserver.export.Parameters;
+import com.jaspersoft.jasperserver.util.test.BaseServiceSetupTestNG;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -88,6 +91,7 @@ public class ExportTestTestNG extends BaseExportTestCaseTestNG {
     @Test()
 	public void doFolderExportTest() {
         m_logger.info("ExportTestTestNG => doFolderExportTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 		createFolderResources();
 
@@ -322,6 +326,7 @@ public class ExportTestTestNG extends BaseExportTestCaseTestNG {
     @Test()
 	public void doRandomPrependResourceTest() {
         m_logger.info("ExportTestTestNG => doRandomPrependResourceTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
         /* Performing export. */
         String exportDir = createExportDir();
@@ -458,6 +463,7 @@ public class ExportTestTestNG extends BaseExportTestCaseTestNG {
     @Test()
 	public void doSimpleFileResourceTest() {
         m_logger.info("ExportTestTestNG => doSimpleFileResourceTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
         final String MY_IMAGE_NAME = "myTestImage01E12345678";
 		final String EXTRA_DIR_NAME = "extra_45678";
@@ -528,6 +534,7 @@ public class ExportTestTestNG extends BaseExportTestCaseTestNG {
     @Test()
 	public void doInputControlTest() {
         m_logger.info("ExportTestTestNG => doInputControlTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
         /* Creating input control. */
 		createInputControlResources();
@@ -770,6 +777,7 @@ public class ExportTestTestNG extends BaseExportTestCaseTestNG {
     @Test()
 	public void doQueryExportImportTest() {
         m_logger.info("ExportTestTestNG => doQueryExportImportTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 
 		Folder folder = new FolderImpl();
 		folder.setName("tmp_export");

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -43,7 +45,7 @@ public class FolderAction extends BaseSearchAction {
     private FolderService folderService;
 
     public Event init(RequestContext context) throws Exception {
-        Assert.notNull(folderService);
+        Assert.notNull(folderService,"FolderService must be configured");
 
         return success();
     }

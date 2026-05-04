@@ -117,7 +117,7 @@ set JAVA_OPTS=%JAVA_OPTS% -Xms128m -Xmx512m -noverify
 
 REM Add config dirs to EXP_CLASSPATH
 
-set EXP_CLASSPATH=%CONFIG_DIR%;%ADDITIONAL_CONFIG_DIR%;%EXP_CLASSPATH%;.
+set EXP_CLASSPATH=%CONFIG_DIR%;%CONFIG_DIR%\classes;%ADDITIONAL_CONFIG_DIR%;%EXP_CLASSPATH%;.
 
 java -classpath "%EXP_CLASSPATH%" %JAVA_OPTS% com.jaspersoft.jasperserver.export.AuditAccessTransferCommand %JS_CMD_NAME% %CMD_LINE_ARGS%
 IF %ERRORLEVEL% == 0 ( GOTO :dropAuditTablesFromJasperDB )

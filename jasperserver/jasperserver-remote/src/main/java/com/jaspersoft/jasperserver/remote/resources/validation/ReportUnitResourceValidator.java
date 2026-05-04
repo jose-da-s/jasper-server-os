@@ -36,7 +36,7 @@ import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoad
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
@@ -121,3 +121,4 @@ public class ReportUnitResourceValidator<T extends ReportUnit> extends GenericRe
         return CustomJRXmlLoader.load(new ByteArrayInputStream(data));
     }
 }
+

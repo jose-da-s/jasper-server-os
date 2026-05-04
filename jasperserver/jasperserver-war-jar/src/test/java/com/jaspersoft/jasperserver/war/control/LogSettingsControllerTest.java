@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import static com.jaspersoft.jasperserver.war.control.LogSettingsController.LEVEL_PARAMETER;
 import static com.jaspersoft.jasperserver.war.control.LogSettingsController.LOGGER_PARAMETER;

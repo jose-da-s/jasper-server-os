@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -48,7 +48,8 @@ import net.sf.jasperreports.json.export.SimpleJsonExporterConfiguration;
 import net.sf.jasperreports.json.export.SimpleJsonExporterOutput;
 import net.sf.jasperreports.json.export.SimpleJsonReportConfiguration;
 import net.sf.jasperreports.web.JRInteractiveException;
-import net.sf.jasperreports.j2ee.web.WebReportContext;
+import net.sf.jasperreports.jakarta.web.WebReportContext;
+import net.sf.jasperreports.jakarta.web.WebUtil;
 import net.sf.jasperreports.interactivity.actions.AbstractAction;
 import net.sf.jasperreports.interactivity.actions.Action;
 import net.sf.jasperreports.interactivity.actions.MultiAction;
@@ -58,7 +59,6 @@ import net.sf.jasperreports.web.servlets.ReportPageStatus;
 import net.sf.jasperreports.jackson.util.JacksonUtil;
 import net.sf.jasperreports.interactivity.util.RequirejsModuleMapping;
 import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
-import net.sf.jasperreports.j2ee.web.WebUtil;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,9 +71,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
@@ -625,3 +625,4 @@ public class ReportExecutionController {
         this.reportContextFactory = reportContextFactory;
     }
 }
+

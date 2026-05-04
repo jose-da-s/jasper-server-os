@@ -24,9 +24,9 @@ package com.jaspersoft.jasperserver.jaxrs.common.validation;
 import com.jaspersoft.jasperserver.dto.adhoc.query.validation.NotEmpty;
 import org.junit.Test;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.constraints.NotNull;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.metadata.ConstraintDescriptor;
 
 import java.lang.annotation.Annotation;
 

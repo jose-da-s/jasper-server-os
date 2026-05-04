@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,7 +28,7 @@ import com.jaspersoft.jasperserver.api.metadata.common.service.RepositoryService
 import com.jaspersoft.jasperserver.dto.resources.ClientReference;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.InputStream;
 
 /**
@@ -64,3 +66,4 @@ public class RepositoryFileAccessor implements FileAccessor<ClientReference> {
         return resourceData;
     }
 }
+

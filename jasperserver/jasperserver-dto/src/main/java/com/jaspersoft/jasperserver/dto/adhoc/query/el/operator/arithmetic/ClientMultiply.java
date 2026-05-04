@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,8 +28,8 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.el.ClientOperator;
 import com.jaspersoft.jasperserver.dto.adhoc.query.el.ast.ClientELVisitor;
 import com.jaspersoft.jasperserver.dto.adhoc.query.el.operator.ClientOperation;
 
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -45,10 +47,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import javax.annotation.PostConstruct;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.groups.Default;
+import jakarta.annotation.PostConstruct;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+import jakarta.validation.groups.Default;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -91,7 +93,7 @@ public class ProfileAttributesResolverImpl implements ProfileAttributesResolver 
     private List<String> attributePlaceholderPatterns;
     @CheckAttributePatterns
     private List<String> parametrizedResourcePatterns;
-    @javax.annotation.Resource(name = "beanValidator")
+    @jakarta.annotation.Resource(name = "beanValidator")
     private Validator validator;
     private Pattern compiledAttributePlaceholderPattern;
     private Pattern compiledParametrizedResourcePattern;
@@ -480,3 +482,4 @@ public class ProfileAttributesResolverImpl implements ProfileAttributesResolver 
     }
 
 }
+

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -27,9 +29,9 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.util.JavaScriptUtils;
 
-import javax.el.ELContext;
-import javax.el.ELResolver;
-import javax.servlet.jsp.JspContext;
+import jakarta.el.ELContext;
+import jakarta.el.ELResolver;
+import jakarta.servlet.jsp.JspContext;
 import java.beans.FeatureDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
@@ -220,3 +222,4 @@ public class XSSEscapeXmlELResolver extends ELResolver {
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 }
+

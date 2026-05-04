@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -31,8 +33,8 @@ import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 
 
 /**
@@ -41,7 +43,7 @@ import javax.ws.rs.core.Response;
  */
 public class ReportsServiceCallTemplate<T> implements RemoteServiceCallTemplate<T> {
     private static final Log log = LogFactory.getLog(ReportsServiceCallTemplate.class);
-    // in case of RunReportsJaxrsService ResponseType is always of type javax.ws.rs.core.Response
+    // in case of RunReportsJaxrsService ResponseType is always of type jakarta.ws.rs.core.Response
     @SuppressWarnings("unchecked")
     public <ResponseType> ResponseType callRemoteService(RemoteServiceInTemplateCaller<ResponseType, T> caller, T service) {
         Response response;

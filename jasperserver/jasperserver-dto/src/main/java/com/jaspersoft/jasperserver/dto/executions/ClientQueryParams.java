@@ -22,7 +22,7 @@ package com.jaspersoft.jasperserver.dto.executions;
 
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Arrays;
 
 import static com.jaspersoft.jasperserver.dto.utils.ValueObjectUtils.checkNotNull;

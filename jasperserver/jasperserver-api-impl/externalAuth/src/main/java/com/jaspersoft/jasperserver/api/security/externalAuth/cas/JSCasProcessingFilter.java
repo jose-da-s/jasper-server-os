@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,8 +28,8 @@ import com.jaspersoft.jasperserver.api.security.UsernamePasswordAuthenticationFi
 import com.jaspersoft.jasperserver.api.security.encryption.EncryptionRequestUtils;
 import com.jaspersoft.jasperserver.api.security.externalAuth.ExternalDataSynchronizer;
 import java.util.Map;
-import org.jasig.cas.client.session.SessionMappingStorage;
-import org.jasig.cas.client.session.SingleSignOutFilter;
+import org.apereo.cas.client.session.SessionMappingStorage;
+import org.apereo.cas.client.session.SingleSignOutFilter;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
@@ -37,12 +39,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
 import org.springframework.security.authentication.AuthenticationManager;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -65,7 +67,7 @@ public class JSCasProcessingFilter extends CasAuthenticationFilter {
 			throws AuthenticationException, IOException {
             String password = obtainTicket(request);
 		if (password != null && password.trim().length() > 0){
-			final String username = CAS_STATEFUL_IDENTIFIER;
+			final String username = "_cas_stateful_";
 			UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
 			authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
 
@@ -177,3 +179,4 @@ public class JSCasProcessingFilter extends CasAuthenticationFilter {
 	protected AuthenticationManager getAuthenticationManager() {
 		return super.getAuthenticationManager();
 	}}
+

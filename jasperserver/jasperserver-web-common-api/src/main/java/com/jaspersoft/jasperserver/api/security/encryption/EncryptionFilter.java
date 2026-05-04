@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -28,8 +30,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.context.MessageSource;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.KeyPair;
 import java.security.KeyStoreException;
@@ -164,3 +166,4 @@ public class EncryptionFilter implements Filter
         this.messages = messages;
     }
 }
+

@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -62,25 +64,25 @@ import static com.jaspersoft.jasperserver.api.logging.audit.domain.AuditEventTyp
 public class UserAndRoleServiceImpl implements UserAndRoleService {
 	protected static final Log log = LogFactory.getLog(UserAndRoleServiceImpl.class);
 	
-    @javax.annotation.Resource(name = "concreteSecurityContextProvider")
+    @jakarta.annotation.Resource(name = "concreteSecurityContextProvider")
     private SecurityContextProvider securityContextProvider;
 
-    @javax.annotation.Resource(name = "concreteTenantService")
+    @jakarta.annotation.Resource(name = "concreteTenantService")
     private TenantService tenantService;
 
-    @javax.annotation.Resource(name = "concreteUserAuthorityService")
+    @jakarta.annotation.Resource(name = "concreteUserAuthorityService")
     protected UserAuthorityService userAuthorityService;
 
-    @javax.annotation.Resource(name = "concreteAuditContext")
+    @jakarta.annotation.Resource(name = "concreteAuditContext")
     private AuditContext auditContext;
 
-    @javax.annotation.Resource(name = "configurationBean")
+    @jakarta.annotation.Resource(name = "configurationBean")
     private UserAndRoleConfiguration conf;
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private List<Role> defaultRoles;
 
-    @javax.annotation.Resource(name = "emailInputValidator")
+    @jakarta.annotation.Resource(name = "emailInputValidator")
     private InputValidator emailValidator;
 
     protected void createAuditEvent(final String auditEventType) {
@@ -627,3 +629,4 @@ public class UserAndRoleServiceImpl implements UserAndRoleService {
         this.emailValidator = emailValidator;
     }
 }
+

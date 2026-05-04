@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -22,7 +24,6 @@ package com.jaspersoft.jasperserver.remote.connection.storage;
 
 import com.jaspersoft.jasperserver.api.metadata.user.domain.client.UserImpl;
 import com.jaspersoft.jasperserver.remote.exception.AccessDeniedException;
-import net.sf.ehcache.Element;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.mockito.ArgumentCaptor;
@@ -106,8 +107,7 @@ public class ContextsStorageSecurityAspectTest {
         when(joinPoint.getArgs()).thenReturn(new Object[]{uuid});
         final String expectedOwner = "someOwnerUser";
         when(aspect.getCurrentUserQualifiedName()).thenReturn(expectedOwner);
-        when(aspect.getElement(uuid)).thenReturn(new Element(uuid,
-                new ContextsStorageSecurityAspect.OwnedContextDataPair(new Object(), new HashMap(), expectedOwner)));
+        when(aspect.getElement(uuid)).thenReturn(new ContextsStorageSecurityAspect.OwnedContextDataPair(new Object(), new HashMap(), expectedOwner));
         doCallRealMethod().when(aspect).checkOwner(joinPoint);
         Exception exception = null;
 
@@ -126,8 +126,7 @@ public class ContextsStorageSecurityAspectTest {
         final UUID uuid = UUID.randomUUID();
         when(joinPoint.getArgs()).thenReturn(new Object[]{uuid});
         when(aspect.getCurrentUserQualifiedName()).thenReturn("someAnotherUser");
-        when(aspect.getElement(uuid)).thenReturn(new Element(uuid,
-                new ContextsStorageSecurityAspect.OwnedContextDataPair(new Object(), new HashMap(), "someOwnerUser")));
+        when(aspect.getElement(uuid)).thenReturn(new ContextsStorageSecurityAspect.OwnedContextDataPair(new Object(), new HashMap(), "someOwnerUser"));
         doCallRealMethod().when(aspect).checkOwner(joinPoint);
 
         aspect.checkOwner(joinPoint);

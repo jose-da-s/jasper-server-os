@@ -24,8 +24,8 @@ package com.jaspersoft.jasperserver.jaxrs.common.validation;
 import com.jaspersoft.jasperserver.dto.common.ErrorDescriptor;
 import com.jaspersoft.jasperserver.dto.common.ValidationErrorDescriptorBuilder;
 import com.jaspersoft.jasperserver.dto.resources.ClientProperty;
-import javax.validation.ConstraintViolation;
-import javax.validation.constraints.Size;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.constraints.Size;
 import org.springframework.stereotype.Service;
 
 /**

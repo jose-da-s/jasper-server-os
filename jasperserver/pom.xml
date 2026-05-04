@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -185,7 +185,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>
@@ -279,6 +278,7 @@
     </profiles>
 
     <modules>
+        <module>jasperserver-jakarta-libs</module>
         <module>common</module>
         <module>jasperserver-action-model</module>
         <module>jasperserver-api</module>
@@ -344,7 +344,13 @@
                         <source>17</source>
                         <target>17</target>
                         <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                        <compilerArgs>
+                            <arg>-parameters</arg>
+                            <arg>-Xlint:deprecation</arg>
+                            <arg>-Xlint:unchecked</arg>
+                        </compilerArgs>
                     </configuration>
+                   
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
@@ -547,7 +553,13 @@
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                        <arg>-Xlint:deprecation</arg>
+                        <arg>-Xlint:unchecked</arg>
+                    </compilerArgs>
                 </configuration>
+               
             </plugin>
         </plugins>
     </build>
@@ -610,11 +622,6 @@
             <version>3.10</version> <!-- update causes errors with crypto -->
         </dependency>
         <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.4.01</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>1.10.0</version>
@@ -623,6 +630,11 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>2.0.4</version>
+            </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
                 <artifactId>mongo-java-driver</artifactId>
@@ -681,6 +693,12 @@
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
                 <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jaspersoft.jasperserver</groupId>
+                <artifactId>jasperserver-jakarta-libs</artifactId>
+            	<type>pom</type>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.jaspersoft.jasperserver.api.common.impl</groupId>
@@ -815,7 +833,7 @@
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
+                <artifactId>hibernate-core-jakarta</artifactId>
                 <version>${hibernate.core.version}</version>
                 <exclusions>
                     <exclusion>
@@ -910,11 +928,6 @@
                 <groupId>org.codelibs.xerces</groupId>
                 <artifactId>xercesImpl</artifactId>
                 <version>2.12.1-sp1</version>
-            </dependency>
-            <dependency>
-                <groupId>xml-apis</groupId>
-                <artifactId>xml-apis</artifactId>
-                <version>1.4.01</version>
             </dependency>
             <dependency>
                 <groupId>org.dom4j</groupId>
@@ -1078,7 +1091,7 @@
             </dependency>
             <dependency>
                 <groupId>net.sf.jasperreports</groupId>
-                <artifactId>jasperreports-servlets-j2ee</artifactId>
+                <artifactId>jasperreports-servlets</artifactId>
                 <version>${jasperreports.version}</version>
             </dependency>
             <dependency>
@@ -1237,16 +1250,19 @@
             <dependency>
                 <groupId>org.jboss.teiid</groupId>
                 <artifactId>teiid-client</artifactId>
+                <classifier>jakarta</classifier>
                 <version>${teiid.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.teiid</groupId>
                 <artifactId>teiid-metadata</artifactId>
+                <classifier>jakarta</classifier>
                 <version>${teiid.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.teiid</groupId>
                 <artifactId>teiid-engine</artifactId>
+                <classifier>jakarta</classifier>
                 <version>${teiid.version}</version>
                 <exclusions>
                     <exclusion>
@@ -1262,21 +1278,25 @@
             <dependency>
                 <groupId>org.jboss.teiid</groupId>
                 <artifactId>teiid-runtime</artifactId>
+                <classifier>jakarta</classifier>
                 <version>${teiid.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.teiid</groupId>
                 <artifactId>teiid-admin</artifactId>
+                <classifier>jakarta</classifier>
                 <version>${teiid.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.teiid</groupId>
                 <artifactId>teiid-api</artifactId>
+                <classifier>jakarta</classifier>
                 <version>${teiid.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.teiid</groupId>
                 <artifactId>teiid-common-core</artifactId>
+                <classifier>jakarta</classifier>
                 <version>${teiid.version}</version>
             </dependency>
             <dependency>
@@ -1296,6 +1316,21 @@
                 <version>${teiid.version}</version>
             </dependency>
             <dependency>
+                <groupId>jakarta.transaction</groupId>
+                <artifactId>jakarta.transaction-api</artifactId>
+                <version>${jakarta.transaction-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.resource</groupId>
+                <artifactId>jakarta.resource-api</artifactId>
+                <version>${jakarta.resource-api.version}</version>
+            </dependency>
+	        <dependency>
+			    <groupId>jakarta.inject</groupId>
+			    <artifactId>jakarta.inject-api</artifactId>
+                <version>${jakarta.inject-api.version}</version>
+			</dependency>
+            <dependency>
                 <groupId>org.jboss.logging</groupId>
                 <artifactId>jboss-logging</artifactId>
                 <version>${jboss.logging.version}</version>
@@ -1308,12 +1343,44 @@
             <dependency>
                 <groupId>org.owasp</groupId>
                 <artifactId>csrfguard</artifactId>
-                <version>3.1.0</version>
+                <version>${csrfguard.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.sf.ehcache</groupId>
+                <groupId>org.owasp</groupId>
+                <artifactId>csrfguard-extension-session</artifactId>
+                <version>${csrfguard.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.owasp.esapi</groupId>
+                <artifactId>esapi</artifactId>
+                <version>${esapi.version}</version>
+                <classifier>jakarta</classifier>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jakarta.xml.bind-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb-runtime.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ehcache</groupId>
                 <artifactId>ehcache</artifactId>
                 <version>${ehcache.version}</version>
+            	<classifier>jakarta</classifier>
+            </dependency>
+            <dependency>
+                <groupId>javax.cache</groupId>
+                <artifactId>cache-api</artifactId>
+                <version>${jcache.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>joda-time</groupId>
@@ -1411,6 +1478,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+		        <groupId>jakarta.annotation</groupId>
+		        <artifactId>jakarta.annotation-api</artifactId>
+		        <version>${jakarta.annotation-api.version}</version>
+		    </dependency>
         </dependencies>
     </dependencyManagement>
     <distributionManagement>
@@ -1427,19 +1499,32 @@
     </distributionManagement>
 
     <properties>
-        <jersey.version>2.39.1</jersey.version>
-        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <jersey.version>3.1.11</jersey.version>
+        <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
+        <jakarta.servlet.jsp.version>3.1.0</jakarta.servlet.jsp.version>
+        <jakarta.servlet.jsp.jstl-api.version>3.0.2</jakarta.servlet.jsp.jstl-api.version>
+        <jakarta.servlet.jsp.jstl.version>3.0.1</jakarta.servlet.jsp.jstl.version>
+        <jakarta.el.version>5.0.0</jakarta.el.version>
+        <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
+        <jakarta.xml.bind-api.version>3.0.1</jakarta.xml.bind-api.version>
+        <jakarta.transaction-api.version>2.0.0</jakarta.transaction-api.version>
+        <jakarta.resource-api.version>2.0.0</jakarta.resource-api.version>
+        <jakarta.inject-api.version>2.0.1</jakarta.inject-api.version>
+        <jaxb-runtime.version>3.0.2</jaxb-runtime.version>
         <connector-version>${project.version}</connector-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <my.build.directory>target</my.build.directory>
-        <!-- last 5.3.x version (next is 6.x) -->
-        <spring.version>5.3.39</spring.version>
+        <spring.version>6.2.17</spring.version>
+        <spring-webflow.version>3.0.1</spring-webflow.version>
+        <spring-ldap.version>3.0.0</spring-ldap.version>
+        <sitemesh.version>2.6.0</sitemesh.version>
         <jms-api.version>2.0.1</jms-api.version>
         <!-- last 5.8.15 (before 6.x) version causes java.lang.NullPointerException: Cannot invoke "org.springframework.security.core.Authentication.getPrincipal()" because the return value of "org.springframework.security.core.context.SecurityContext.getAuthentication()" is null at -->
-        <spring.security.version>5.7.14</spring.security.version>
+        <spring.security.version>6.5.9</spring.security.version>
         <aws-java-sdk.version>1.12.629</aws-java-sdk.version>
         <teiid.version>9.1.1</teiid.version>
-        <validation.api.version>2.0.1.Final</validation.api.version>
+        <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
+        <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
         <jasperreports.version>7.0.1</jasperreports.version>
         <jasperreports.ext.version>7.0.1</jasperreports.ext.version>
         <!-- there is no version 7 -->
@@ -1463,13 +1548,12 @@
             java.xml/com.sun.org.apache.xml.internal.serialize=ALL-UNNAMED
         </jdk17.module.opens>
         <!-- last javax-based version -->
-        <hibernate.validator.version>6.2.5.Final</hibernate.validator.version>
         <!-- last javax-based version  -->
         <hibernate.core.version>5.6.15.Final</hibernate.core.version>
         <!-- last javax-based version  -->
         <hibernate.tools.version>5.6.15.Final</hibernate.tools.version>
-        <!-- last javax-based version -->
-        <ehcache.version>2.10.9.2</ehcache.version>
+        <ehcache.version>3.11.1</ehcache.version>
+        <jcache.version>1.1.1</jcache.version>
         <jboss.logging.version>3.5.3.Final</jboss.logging.version>
         <quartz.version>2.3.2</quartz.version>
         <junit.version>4.13.2</junit.version>
@@ -1491,14 +1575,11 @@
         <asm.version>9.6</asm.version>
         <cglib.version>3.3.0</cglib.version>
         <ant.version>1.10.14</ant.version>
-        <hibernate.commons.annotations.version>5.1.2.Final
-        </hibernate.commons.annotations.version> <!-- matches hiberante.tools version 5.4.2 -->
+        <hibernate.commons.annotations.version>5.1.2.Final</hibernate.commons.annotations.version> <!-- matches hiberante.tools version 5.4.2 -->
         <guava.version>32.1.3-jre</guava.version>
         <jackson.version>2.16.0</jackson.version>
         <jackson.databind.version>2.16.0</jackson.databind.version>
         <commons.beanutils.version>1.9.4</commons.beanutils.version>
-        <!--ActiveMQ Classic 5.18.x is a transitional release—it still primarily uses javax.jms, with limited support for Jakarta via the separate module-->
-        <activemq.version>5.18.3</activemq.version>
         <js-crypto.version>3.1.2</js-crypto.version>
         <commons-codec.version>1.16.0</commons-codec.version>
         <commons-configuration.version>2.9.0</commons-configuration.version>
@@ -1510,7 +1591,8 @@
         <batik.version>1.17</batik.version>
         <opentelemetry.version>1.31.0</opentelemetry.version>
         <jaxen.version>2.0.0</jaxen.version>
-        <javax.el.version>2.2.6</javax.el.version>
+        <csrfguard.version>4.3.0-jakarta</csrfguard.version>
+        <esapi.version>2.5.3.1</esapi.version>
     </properties>
 
 </project>

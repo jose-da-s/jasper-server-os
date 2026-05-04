@@ -30,8 +30,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import com.jaspersoft.jasperserver.api.metadata.common.domain.ListOfValuesItem;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.ResourceLookup;
@@ -100,15 +101,14 @@ public class TestListWrapper {
 	protected void setUp() throws Exception {
 		loadJdbcProps();
 
-		ClassPathResource resource = new ClassPathResource("viewService.xml");
-		XmlBeanFactory factory = new XmlBeanFactory(resource);
-
-		PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
-		cfg.setSystemPropertiesModeName("SYSTEM_PROPERTIES_MODE_OVERRIDE");
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(new String[] {"viewService.xml"}, false);
+		PropertySourcesPlaceholderConfigurer cfg = new PropertySourcesPlaceholderConfigurer();
+		
 		cfg.setProperties(jdbcProps);
-		cfg.postProcessBeanFactory(factory);
+		ctx.addBeanFactoryPostProcessor(cfg);
+        ctx.refresh();
 
-		repo = (RepositoryService) factory.getBean("repoService");
+        repo = ctx.getBean("repoService", RepositoryService.class);
 	}
 	
 	protected Properties loadJdbcProps() throws IOException, FileNotFoundException {

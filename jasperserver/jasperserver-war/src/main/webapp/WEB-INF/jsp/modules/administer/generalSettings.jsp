@@ -5,7 +5,7 @@
       --%>
 
     <%@ taglib prefix="t" uri="http://tiles.apache.org/tags-tiles" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+    <%@ taglib prefix="c" uri="jakarta.tags.core" %>
     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
     <%@ page import="com.jaspersoft.commons.semantic.ConfigurationObject" %>

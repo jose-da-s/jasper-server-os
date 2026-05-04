@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -26,7 +28,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -89,3 +91,4 @@ public class MultipartHttpServletRequestWrapper extends HttpServletRequestWrappe
         return ((MultipartHttpServletRequest) getRequest()).getMultipartHeaders(paramOrFileName);
     }
 }
+

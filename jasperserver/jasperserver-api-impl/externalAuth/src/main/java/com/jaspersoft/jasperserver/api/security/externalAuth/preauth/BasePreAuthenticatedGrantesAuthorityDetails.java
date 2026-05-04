@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -23,7 +25,7 @@ package com.jaspersoft.jasperserver.api.security.externalAuth.preauth;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesWebAuthenticationDetails;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 /**
@@ -39,3 +41,4 @@ public class BasePreAuthenticatedGrantesAuthorityDetails extends PreAuthenticate
 		super(request,new ArrayList<GrantedAuthority>());
 	}
 }
+

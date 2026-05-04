@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2025 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -61,7 +63,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.beans.PropertyDescriptor;
 import java.util.*;
 
@@ -460,3 +462,4 @@ public abstract class DataAdapterDefinition extends CustomDataSourceDefinition i
         throw new JRException("Please define query language or query excuter map!");
     }
 }
+

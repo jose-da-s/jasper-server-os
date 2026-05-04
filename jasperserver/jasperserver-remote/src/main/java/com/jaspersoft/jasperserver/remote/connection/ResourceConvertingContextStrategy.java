@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -55,7 +57,7 @@ public class ResourceConvertingContextStrategy implements GenericTypeContextStra
     private static final List<Class<?>> SUPPORTED_PROCESSING_CLASSES = (List) Arrays.asList(ClientDomain.class,
             ClientSemanticLayerDataSource.class, ClientReportUnit.class, ClientDomainTopic.class);
     public static final String CLIENT_TYPE_KEY = "clientType";
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ResourceConverterProvider resourceConverterProvider;
     @Override
     public Resource createContext(ExecutionContext ctx, ClientResource contextDescription, Map<String, Object> contextData) throws IllegalParameterValueException {
@@ -91,3 +93,4 @@ public class ResourceConvertingContextStrategy implements GenericTypeContextStra
         return GenericParametersHelper.getGenericTypeArgument(toServerConverter.getClass(), ToServerConverter.class, 1);
     }
 }
+

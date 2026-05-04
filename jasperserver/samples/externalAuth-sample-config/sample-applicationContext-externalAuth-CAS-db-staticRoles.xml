@@ -1,4 +1,6 @@
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -21,7 +23,7 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!--
       - Sample configuration of SSO via CAS Spring API.
@@ -74,7 +76,7 @@
     authentication, with CAS SessionMappingStorage.  SessionFixationProtectionStrategy is thus able to enter the new
     session into SessionMappingStorage as a CAS ticket-session id pair.  Upon CAS sign-out request, SingleSignOutFilter
     in JasperReport Server locates the correct session SessionMappingStorage and invalidates it. -->
-    <bean name="casSingleSignOutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter">
+    <bean name="casSingleSignOutFilter" class="org.apereo.cas.client.session.SingleSignOutFilter">
         <property name="artifactParameterName"  value="ticket"/>
         <property name="sessionMappingStorage">
             <ref bean="casSessionMappingStorage"/>
@@ -87,7 +89,7 @@
         </property>
         <property name="artifactParameterName"  value="ticket"/>  <!-- MUST BE THE SAME AS artifactParameterName in casSingleSignOutFilter bean -->
     </bean>
-    <bean id="casSessionMappingStorage" class="org.jasig.cas.client.session.HashMapBackedSessionMappingStorage"/>
+    <bean id="casSessionMappingStorage" class="org.apereo.cas.client.session.HashMapBackedSessionMappingStorage"/>
     <!-- Single sign out END -->
 
     <bean id="proxyExceptionTranslationFilter" class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.JSExceptionTranslationFilter" depends-on="externalAuthProperties">
@@ -130,17 +132,20 @@
         </property>
 
         <property name="ticketValidator">
-            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.jasig.JSCas20ServiceTicketValidator">
+            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.apereo.JSCas20ServiceTicketValidator">
                 <constructor-arg index="0" value="#{externalAuthProperties.ssoServerLocation}" />
             </bean>
         </property>
 
         <property name="statelessTicketCache">
-            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.JSEhCacheBasedTicketCache">
+            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.SpringCacheBasedTicketCache">
                 <property name="cache">
-                    <bean id="ticketCache" class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.JSEhCacheFactoryBean">
-                        <property name="cacheManager" ref="cacheManager"/>
-                        <property name="cacheName" value="casTicketCache"/>
+                    <bean id="ticketCache" class="org.springframework.cache.JCacheCache">
+                        <constructor-arg>
+                        	<bean factory-bean="cacheManager" factory-method="getCache">
+                        		<constructor-arg value="casTicketCache"/>
+                       		</bean>
+                        </constructor-arg>
                     </bean>
                 </property>
             </bean>
@@ -168,17 +173,20 @@
         </property>
 
         <property name="ticketValidator">
-            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.jasig.JSCas20ServiceTicketValidator">
+            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.apereo.JSCas20ServiceTicketValidator">
                 <constructor-arg index="0" value="#{externalAuthProperties.ssoServerLocation}" />
             </bean>
         </property>
 
         <property name="statelessTicketCache">
-            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.JSEhCacheBasedTicketCache">
+            <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.SpringCacheBasedTicketCache">
                 <property name="cache">
-                    <bean class="com.jaspersoft.jasperserver.api.security.externalAuth.wrappers.spring.JSEhCacheFactoryBean">
-                        <property name="cacheManager" ref="cacheManager"/>
-                        <property name="cacheName" value="casTicketCache"/>
+                    <bean id="ticketCache" class="org.springframework.cache.JCacheCache">
+                        <constructor-arg>
+                        	<bean factory-bean="cacheManager" factory-method="getCache">
+                        		<constructor-arg value="casTicketCache"/>
+                       		</bean>
+                        </constructor-arg>
                     </bean>
                 </property>
             </bean>

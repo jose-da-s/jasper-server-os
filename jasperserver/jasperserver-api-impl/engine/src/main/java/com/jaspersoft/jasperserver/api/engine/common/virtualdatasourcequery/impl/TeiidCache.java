@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -21,8 +23,6 @@
 
 package com.jaspersoft.jasperserver.api.engine.common.virtualdatasourcequery.impl;
 
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.teiid.cache.Cache;
@@ -36,18 +36,18 @@ import java.util.Set;
 
 public class TeiidCache<K, V> implements Cache<K, V> {
 
-    Ehcache ehcache;
+    javax.cache.Cache<K, V> cache;
     String cacheName;
     boolean transactional;
 
     static final Log log = LogFactory.getLog(TeiidCacheFactory.class);
 
-    public Ehcache getEhcache() {
-        return ehcache;
+    public javax.cache.Cache<K, V> getCache() {
+        return cache;
     }
 
-    public void setEhcache(Ehcache ehcache) {
-        this.ehcache = ehcache;
+    public void setCache(javax.cache.Cache<K, V> cache) {
+        this.cache = cache;
     }
 
     public String getCacheName() {
@@ -59,35 +59,39 @@ public class TeiidCache<K, V> implements Cache<K, V> {
     }
 
     public V get(K key) {
-        Element el = ehcache.get(key);
-        if (el != null) {
+        V value = cache.get(key);
+        if (value != null) {
             if (log.isDebugEnabled()) {
                 log.debug("element found for key:" + key.toString());
             }
-            return (V) el.getObjectValue();
+            return (V) value;
         }
         return null;
     }
 
     public V put(K var1, V var2, Long var3) {
-        ehcache.put(new Element(var1, var2));
+        cache.put(var1, var2);
         return var2;
     }
 
     public V remove(K var1) {
         V val = get(var1);
         if (val != null) {
-            ehcache.remove(var1);
+        	cache.remove(var1);
             return val;
         } else return null;
     }
 
     public int size() {
-        return ehcache.getSize();
+    	// forgive me mother
+    	int size = 0;
+    	for (javax.cache.Cache.Entry<K, V> entry : cache) 
+    		size++;
+		return size;
     }
 
     public void clear() {
-        ehcache.removeAll();
+        cache.clear();
     }
 
     public String getName() {
@@ -95,7 +99,10 @@ public class TeiidCache<K, V> implements Cache<K, V> {
     }
 
     public Set<K> keySet() {
-        return new HashSet<K>(ehcache.getKeys());
+    	Set<K> keys = new HashSet<K>();
+    	for (javax.cache.Cache.Entry<K, V> entry : cache)
+    		keys.add((K) entry.getKey());
+    	return keys;
     }
 
     @Override
@@ -109,8 +116,7 @@ public class TeiidCache<K, V> implements Cache<K, V> {
 
     public void shutdown() {
         log.warn(" -- JasperServer:  TeiidCache " + cacheName + " shutdown called.  This normal shutdown operation. ");
-        ehcache.removeAll();
-
+        cache.clear();
     }
 }
 

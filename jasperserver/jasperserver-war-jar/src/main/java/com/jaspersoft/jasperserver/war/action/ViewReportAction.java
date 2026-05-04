@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 the Jasper Server OS Authors
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors 
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
@@ -54,7 +54,7 @@ import net.sf.jasperreports.json.export.GenericElementJsonHandler;
 import net.sf.jasperreports.engine.fill.JRFillInterruptedException;
 import net.sf.jasperreports.web.JRInteractiveException;
 import net.sf.jasperreports.web.JRInteractiveRuntimeException;
-import net.sf.jasperreports.j2ee.web.WebReportContext;
+import net.sf.jasperreports.jakarta.web.WebReportContext;
 import net.sf.jasperreports.interactivity.actions.AbstractAction;
 import net.sf.jasperreports.interactivity.actions.Action;
 import net.sf.jasperreports.interactivity.actions.MultiAction;
@@ -82,9 +82,9 @@ import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.FlowExecutionKey;
 import org.springframework.webflow.execution.RequestContext;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -967,6 +967,7 @@ public class ViewReportAction extends ReportParametersAction
 
 	protected void initBinder(RequestContext context, DataBinder binder) {
 		binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+		binder.setAllowedFields();
 	}
 
     /* TODO this property may appear redundant due to changes in createWrappers */

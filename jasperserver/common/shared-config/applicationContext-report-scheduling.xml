@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -27,11 +29,11 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:security="http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/security
-       http://www.springframework.org/schema/security/spring-security-5.7.xsd
+       http://www.springframework.org/schema/security/spring-security-6.5.xsd
        http://www.springframework.org/schema/util
-       http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+       http://www.springframework.org/schema/util/spring-util.xsd">
 
 
 <!-- 2010-05-07: SPRING REFACTOR PROJECT: LIST OF CHANGES                  -->

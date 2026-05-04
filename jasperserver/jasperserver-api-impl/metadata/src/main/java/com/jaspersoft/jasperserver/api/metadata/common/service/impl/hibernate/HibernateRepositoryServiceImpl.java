@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2025 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -170,7 +172,7 @@ public class HibernateRepositoryServiceImpl extends HibernateDaoImpl implements 
 
     private ApplicationContext applicationContext; //needed for validation settings
 
-    @javax.annotation.Resource(name = "accessService")
+    @jakarta.annotation.Resource(name = "accessService")
     AccessService accessService;
 
 
@@ -2972,3 +2974,4 @@ public class HibernateRepositoryServiceImpl extends HibernateDaoImpl implements 
         this.maxStaticUriLength = maxStaticUriLength;
     }
 }
+

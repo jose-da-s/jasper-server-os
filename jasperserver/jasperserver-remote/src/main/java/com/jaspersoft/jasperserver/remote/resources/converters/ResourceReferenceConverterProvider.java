@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -34,13 +36,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ResourceReferenceConverterProvider {
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ResourceConverterProvider resourceConverterProvider;
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     private RepositoryService repositoryService;
-    @javax.annotation.Resource(name = "permissionsService")
+    @jakarta.annotation.Resource(name = "permissionsService")
     private PermissionsService permissionsService;
-    @javax.annotation.Resource(name = "configurationBean")
+    @jakarta.annotation.Resource(name = "configurationBean")
     private RepositoryConfiguration configuration;
 
     // generic type is controlled by corresponding ReferenceClassRestriction. So, cast is safe.
@@ -50,3 +52,4 @@ public class ResourceReferenceConverterProvider {
                 new ResourceReferenceConverter.ReferenceClassRestriction(referenceableClass));
     }
 }
+

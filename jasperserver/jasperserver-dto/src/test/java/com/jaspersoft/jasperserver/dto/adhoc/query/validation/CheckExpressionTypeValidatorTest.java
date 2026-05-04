@@ -31,7 +31,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 import java.util.Set;
 
 import static com.jaspersoft.jasperserver.dto.executions.QueryExecutionsErrorCode.QUERY_WHERE_EXPRESSION_TYPE_NOT_SUPPORTED;

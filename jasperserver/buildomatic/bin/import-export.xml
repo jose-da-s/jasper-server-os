@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2025 the Jasper Server OS Authors
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
   ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
@@ -184,20 +184,22 @@ Make sure you have compiled the jasperserver source code.
 
                 <!-- Uncomment to debug remotely     -->
 <!--                <jvmarg value="-Xdebug"/>
-                <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000"/>-->
+                <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8001"/>-->
 
                 <classpath>
     <!--
                         TODO
                         we should put currentConf first so it can pick up the files generated based on
                         db settings, etc., but if you do that, beans don't get recognized because
-                        the Spring context loader uses a pattern of "applicationContext*.xml", which
+                        the Spring context loader uses a pattern of "wrapper/applicationContext*.xml", which
                         is sensitive to the order of the classpath.
                         We should use one of the args such as -configResources to pass a pattern
                         that is more explicit for Spring, doing something like this:
                         -configResources=file:blah/import-export/dir/applicationContext*.xml
                       -->
+                    <pathelement location="${importExportConfig}/.."/>
                     <pathelement location="${importExportConfig}"/>
+                    <pathelement location="${importExportConfig}/classes"/>
                     <!-- classpath jar for lib dir --> 
                     <pathelement location="${iecpjar}"/>
                     <fileset dir="${currentDbJDBCDir}" includes="${jdbcJar}"/>
@@ -659,7 +661,7 @@ Linux Example:
                         <!-- Uncomment to debug remotely     -->
                         <!--
                                         <jvmarg value="-Xdebug"/>
-                                        <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000"/>
+                                        <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8001"/>
                         -->
                         <classpath>
                             <!--
@@ -673,6 +675,7 @@ Linux Example:
                                                 -configResources=file:blah/import-export/dir/applicationContext*.xml
                                               -->
                             <pathelement location="${importExportConfig}"/>
+                            <pathelement location="${importExportConfig}/classes"/>
                             <!-- classpath jar for lib dir -->
                             <pathelement location="${iecpjar}"/>
                             <fileset dir="${currentDbJDBCDir}" includes="${jdbcJar}"/>

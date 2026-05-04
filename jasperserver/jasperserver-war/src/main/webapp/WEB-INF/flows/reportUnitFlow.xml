@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
   ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
   ~ http://www.jaspersoft.com.
   ~
@@ -21,7 +23,7 @@
   -->
 
 <flow xmlns="http://www.springframework.org/schema/webflow" xmlns:ns0="http://www.w3.org/2001/XMLSchema-instance"
-      ns0:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+      ns0:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow.xsd"
       start-state="checkPermissions">
 
     <input name="parentFolder"/>
@@ -33,7 +35,7 @@
     </action-state>
 
     <decision-state id="start">
-        <if test="requestParameters.method != null" then="${requestParameters.method}" else="initAction"/>
+        <if test="requestParameters.method != null" then="#{requestParameters.method}" else="initAction"/>
     </decision-state>
 
     <decision-state id="jumpTo">
@@ -86,7 +88,7 @@
         </evaluate>
 
         <transition on="error" to="displayNameLabelDescForm"/>
-        <transition on="validateResources.success" to="${requestScope.targetState}"/>
+        <transition on="validateResources.success" to="#{requestScope.targetState}"/>
         <transition on="validateResources.error" to="listResources"/>
     </action-state>
 
@@ -270,7 +272,7 @@
 
     <action-state id="saveDataSoureBeforeProceed">
         <evaluate expression="reportUnitAction.saveDatasource"/>
-        <transition on="success" to="${requestScope.transitionAfterSaveDataSource}"/>
+        <transition on="success" to="#{requestScope.transitionAfterSaveDataSource}"/>
         <transition on="error" to="displayError"/>
     </action-state>
 
@@ -418,13 +420,13 @@
 
     <end-state id="finishReport" view="flowRedirect:searchFlow?lastMode=true"/>
     <end-state id="cancel" view="flowRedirect:searchFlow?lastMode=true"/>
-    <end-state id="cancelWithError" view="flowRedirect:searchFlow?lastMode=true&amp;errorPopupMessage=${requestScope.errorPopupMessage}"/>
+    <end-state id="cancelWithError" view="flowRedirect:searchFlow?lastMode=true&amp;errorPopupMessage=#{requestScope.errorPopupMessage}"/>
 
     <end-state id="displayError" view="reportUnitFlow/errorPage"/>
 
     <!-- exceptions handling -->
     <decision-state id="backFromError">
-        <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="${flowScope.prevForm}"
+        <if test="not (flowScope.prevForm == null or flowScope.prevForm == '')" then="#{flowScope.prevForm}"
             else="finishReport"/>
     </decision-state>
 

@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2025 the Jasper Server OS Authors
  * SPDX-License-Identifier: AGPL-3.0-or-later
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -173,7 +175,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
 		return cipherFactory;
 	}
 
-    @javax.annotation.Resource(name = "&importExport_7_2")
+    @jakarta.annotation.Resource(name = "&importExport_7_2")
 	public void setCipherFactory(CipherFactory cipherFactory) {
 		this.cipherFactory = cipherFactory;
 	}
@@ -368,7 +370,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_jdbcProps;
     }
 
-    @javax.annotation.Resource(name = "jdbcProps")
+    @jakarta.annotation.Resource(name = "jdbcProps")
     public void setJdbcProps(Properties jdbcProps) {
         m_logger.info("setJdbcProps() called");
         this.m_jdbcProps = jdbcProps;
@@ -378,7 +380,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_jasperReportsContext;
     }
 
-    @javax.annotation.Resource(name = "${bean.jasperReportsContext}")
+    @jakarta.annotation.Resource(name = "${bean.jasperReportsContext}")
     public void setJasperReportsContext(JasperReportsContext m_jasperReportsContext) {
         m_logger.info("setM_jasperReportsContext() called");
         this.m_jasperReportsContext = m_jasperReportsContext;
@@ -452,7 +454,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_jdbcDataSourceServiceFactory;
     }
 
-    @javax.annotation.Resource(name = "jdbcDataSourceServiceFactory")
+    @jakarta.annotation.Resource(name = "jdbcDataSourceServiceFactory")
     public void setJdbcDataSourceServiceFactory(ReportDataSourceServiceFactory jdbcDataSourceServiceFactory) {
         m_logger.info("setJdbcDataSourceServiceFactory() called");
         this.m_jdbcDataSourceServiceFactory = jdbcDataSourceServiceFactory;
@@ -462,7 +464,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_jndiJdbcDataSourceServiceFactory;
     }
 
-    @javax.annotation.Resource(name = "jndiJdbcDataSourceServiceFactory")
+    @jakarta.annotation.Resource(name = "jndiJdbcDataSourceServiceFactory")
     public void setJndiJdbcDataSourceServiceFactory(ReportDataSourceServiceFactory jndiJdbcDataSourceServiceFactory) {
         m_logger.info("setJndiJdbcDataSourceServiceFactory() called");
         this.m_jndiJdbcDataSourceServiceFactory = jndiJdbcDataSourceServiceFactory;
@@ -472,7 +474,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_customReportDataSourceServiceFactory;
     }
 
-    @javax.annotation.Resource(name = "customDataSourceServiceFactory")
+    @jakarta.annotation.Resource(name = "customDataSourceServiceFactory")
     public void setCustomReportDataSourceServiceFactory(CustomReportDataSourceServiceFactory customReportDataSourceServiceFactory) {
         this.m_customReportDataSourceServiceFactory = customReportDataSourceServiceFactory;
     }
@@ -950,13 +952,13 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_repositoryService;
     }
 
-    @javax.annotation.Resource(name = "repositoryService")
+    @jakarta.annotation.Resource(name = "repositoryService")
     public void setRepositoryService(RepositoryService repository) {
         m_logger.info("setRepositoryService() called");
         m_repositoryService = repository;
     }
 
-    @javax.annotation.Resource(name = "unsecureRepositoryService")
+    @jakarta.annotation.Resource(name = "unsecureRepositoryService")
     public void setUnsecureRepositoryService(RepositoryService unsecureRepositoryService) {
         m_logger.info("setUnsecureRepositoryService() called");
         this.m_unsecureRepositoryService = unsecureRepositoryService;
@@ -966,7 +968,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_unsecureRepositoryService;
     }
 
-    @javax.annotation.Resource(name = "userAuthorityService")
+    @jakarta.annotation.Resource(name = "userAuthorityService")
     public void setUserAuthorityService(UserAuthorityService userAuthorityService) {
         m_logger.info("setUserAuthorityService() called");
         this.m_userAuthorityService = userAuthorityService;
@@ -976,7 +978,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_userAuthorityService;
     }
 
-    @javax.annotation.Resource(name = "objectPermissionServiceUnsecure")
+    @jakarta.annotation.Resource(name = "objectPermissionServiceUnsecure")
     public void setObjectPermissionService(ObjectPermissionService objectPermissionService) {
         m_logger.info("setObjectPermissionService() called");
         this.m_objectPermissionService = objectPermissionService;
@@ -986,7 +988,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_objectPermissionService;
     }
 
-    @javax.annotation.Resource(name = "permissionsService")
+    @jakarta.annotation.Resource(name = "permissionsService")
     public void setPermissionsService(PermissionsService permissionsService) {
         m_logger.info("setPermissionsService() called");
         this.m_permissionsService = permissionsService;
@@ -996,7 +998,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_permissionsService;
     }
 
-    @javax.annotation.Resource(name = "reportSchedulingService")
+    @jakarta.annotation.Resource(name = "reportSchedulingService")
     public void setReportSchedulingService(ReportSchedulingService reportSchedulingService) {
         m_logger.info("setReportSchedulingService() called");
         this.m_reportSchedulingService = reportSchedulingService;
@@ -1058,7 +1060,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
 
     }
 
-    @javax.annotation.Resource(name = "tenantService")
+    @jakarta.annotation.Resource(name = "tenantService")
     public void setTenantService(TenantService tenantService) {
         m_logger.info("setTenantService() called");
         this.m_tenantService = tenantService;
@@ -1068,14 +1070,14 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return m_tenantService;
     }
 
-    @javax.annotation.Resource(name = "profileAttributeService")
+    @jakarta.annotation.Resource(name = "profileAttributeService")
     public void setProfileAttributeService(
             ProfileAttributeService profileAttributeService) {
         m_logger.info("setProfileAttributeService() called");
         this.m_profileAttributeService = profileAttributeService;
     }
 
-    @javax.annotation.Resource(name = "engineService")
+    @jakarta.annotation.Resource(name = "engineService")
     public void setEngineService(EngineService engineService) {
         m_logger.info("setEngineService() called");
         this.m_engineService = engineService;
@@ -1089,7 +1091,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return reportScheduler;
     }
 
-    @javax.annotation.Resource(name = "reportScheduler")
+    @jakarta.annotation.Resource(name = "reportScheduler")
     public void setReportScheduler(ReportJobsScheduler reportScheduler) {
         this.reportScheduler = reportScheduler;
     }
@@ -1098,7 +1100,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return messages;
     }
 
-    @javax.annotation.Resource(name = "messageSource")
+    @jakarta.annotation.Resource(name = "messageSource")
     public void setMessages(MessageSource messages) {
         this.messages = messages;
     }
@@ -1112,7 +1114,7 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
         return sb.toString();
     }
 
-    @javax.annotation.Resource(name = "${bean.propertyChangers}")
+    @jakarta.annotation.Resource(name = "${bean.propertyChangers}")
     public void setChangers(Map<String, String> changers) {
         this.changers = changers;
     }
@@ -1195,3 +1197,4 @@ public class BaseServiceSetupTestNG extends AbstractTestNGSpringContextTests {
 
     }
 }
+

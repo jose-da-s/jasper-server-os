@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -53,19 +55,19 @@ import static com.jaspersoft.jasperserver.inputcontrols.cascade.handlers.InputCo
 public class QueryValuesLoader implements ValuesLoader {
     public static final String COLUMN_VALUE_SEPARATOR = " | ";
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     protected FilterResolver filterResolver;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     protected CachedRepositoryService cachedRepositoryService;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private AuditContext concreteAuditContext;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private DataConverterService dataConverterService;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private InputControlDataSourceResolver inputControlDataSourceResolver;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ValuesLoaderStrategy queryValuesLoaderStrategy;
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private ValuesLoaderStrategy parametersValuesLoaderStrategy;
 
     @Override
@@ -224,3 +226,4 @@ public class QueryValuesLoader implements ValuesLoader {
                 : queryValuesLoaderStrategy;
     }
 }
+

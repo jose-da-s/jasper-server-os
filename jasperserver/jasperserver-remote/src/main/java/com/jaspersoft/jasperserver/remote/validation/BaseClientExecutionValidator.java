@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -56,13 +58,13 @@ import com.jaspersoft.jasperserver.remote.resources.converters.ResourceConverter
 @SuppressWarnings("rawtypes")
 @Service
 public class BaseClientExecutionValidator implements ClientValidator<AbstractClientExecution> {
-    @javax.annotation.Resource(name = "concreteRepository")
+    @jakarta.annotation.Resource(name = "concreteRepository")
     private RepositoryService repositoryService;
 
-    @javax.annotation.Resource(name = "resourceConverterProvider")
+    @jakarta.annotation.Resource(name = "resourceConverterProvider")
     private ResourceConverterProvider resourceConverterProvider;
 
-    @javax.annotation.Resource
+    @jakarta.annotation.Resource
     private DefaultMessageApplier defaultMessageApplier;
 
     @Override
@@ -130,3 +132,4 @@ public class BaseClientExecutionValidator implements ClientValidator<AbstractCli
         return new ErrorDescriptorException(defaultMessageApplier.applyDefaultMessageIfNotSet(errorDescriptor));
     }
 }
+

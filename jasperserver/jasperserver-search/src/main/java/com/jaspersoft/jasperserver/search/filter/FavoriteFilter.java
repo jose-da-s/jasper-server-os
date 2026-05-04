@@ -12,7 +12,7 @@ import com.jaspersoft.jasperserver.search.state.State;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.criterion.Restrictions;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;

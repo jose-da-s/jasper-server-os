@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors 
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -44,7 +46,7 @@ import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 import org.springframework.webflow.execution.ScopeType;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -89,6 +91,19 @@ public class EditDataTypeAction extends FormAction {
 
     protected void initBinder(RequestContext context, DataBinder binder) {
 		binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+		binder.setAllowedFields(
+				"dataType.name",
+				"dataType.label",
+				"dataType.description",
+				"dataType.dataTypeType",
+				"dataType.regularExpr",
+				"minValueText",
+				"maxValueText",
+				"dataType.minValue",
+				"dataType.maxValue",
+				"dataType.strictMin",
+				"dataType.strictMax"
+		);
 	}
 
 
@@ -287,4 +302,3 @@ private Comparable convertRestrictionValue(String restrictionValueString, DataTy
         return result;
     }
 }
-

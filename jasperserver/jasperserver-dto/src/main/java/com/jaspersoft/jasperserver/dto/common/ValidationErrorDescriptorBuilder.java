@@ -20,7 +20,7 @@
  */
 package com.jaspersoft.jasperserver.dto.common;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 /**
  * <p></p>
@@ -29,5 +29,5 @@ import javax.validation.ConstraintViolation;
  * @version $Id$
  */
 public interface ValidationErrorDescriptorBuilder<T> {
-    ErrorDescriptor build(ConstraintViolation<T> violation);
+    ErrorDescriptor build(jakarta.validation.ConstraintViolation<T> violation);
 }

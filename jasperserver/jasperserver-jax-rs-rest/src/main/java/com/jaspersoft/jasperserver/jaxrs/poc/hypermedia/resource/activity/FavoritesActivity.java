@@ -8,7 +8,7 @@ import com.jaspersoft.jasperserver.jaxrs.poc.hypermedia.common.representation.em
 import com.jaspersoft.jasperserver.jaxrs.poc.hypermedia.common.representation.embedded.PluralEmbeddedElement;
 import com.jaspersoft.jasperserver.search.mode.SearchMode;
 
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
 

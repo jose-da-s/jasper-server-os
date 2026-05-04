@@ -28,7 +28,7 @@ import com.jaspersoft.jasperserver.dto.adhoc.query.order.ClientOrder;
 import com.jaspersoft.jasperserver.dto.adhoc.query.select.ClientSelect;
 import com.jaspersoft.jasperserver.dto.common.DeepCloneable;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

@@ -156,6 +156,7 @@ public class RestApiTest {
         createRepositoryResource(dsrcPath, "folder", datasourcesFolder, ClientFolder.class);
 
         String jrsDsrcPath = dsrcPath + "/jasperserverJdbc";
+    	logger.info("creating data source " + jrsDsrcPath);
         ClientJdbcDataSource jasperserverDsrc = new ClientJdbcDataSource()
                 .setLabel("Jasper Server Data Source")
                 .setDescription("JDBC Data Source connecting to Jasper Server's repository DB")
@@ -175,6 +176,7 @@ public class RestApiTest {
         createRepositoryResource(jrxmlPath, "folder", jrxmlFolder, ClientFolder.class);
 
         String jrsUsersJrxmlPath = jrxmlPath + "/jasperserver_users.jrxml";
+    	logger.info("creating JRXML file " + jrsUsersJrxmlPath);
         String jrxml = readFileFromClasspathUnqualified(JASPERSERVER_USERS_JRXML);
         ClientFile jrxmlFile = new ClientFile()
                 .setLabel("jasperserver-users.jrxml")
@@ -194,6 +196,7 @@ public class RestApiTest {
 
         String jrsUsersReportName = "jasperserver_users";
         String jrsUsersReportPath = reportPath + "/" + jrsUsersReportName;
+    	logger.info("creating report unit " + jrsUsersReportPath);
         ClientReportUnit jrsUsersReport = new ClientReportUnit()
                 .setLabel("Jasper Server Users Report")
                 .setDescription("")
@@ -203,11 +206,13 @@ public class RestApiTest {
         createRepositoryResource(jrsUsersReportPath, "reportUnit", jrsUsersReport, ClientReportUnit.class);
 
         // run the report and export to CSV (because this format is easy to process)
+    	logger.info("exporting report unit " + jrsUsersReportPath + " to CSV");
         byte[] csv = runReportSimple(jrsUsersReportPath, "csv");
         assertThat(new String(csv)).contains("jasperadmin", "joeuser");
 
         // create report, report unit, and export with JRL 6 report
         String jrsUsers6JrxmlPath = jrxmlPath + "/jasperserver_users_6.jrxml";
+    	logger.info("creating JRXML v6 file " + jrsUsers6JrxmlPath);
         String jrxml6 = readFileFromClasspathUnqualified(JASPERSERVER_USERS_6_JRXML);
         ClientFile jrxml6File = new ClientFile()
                 .setLabel(JASPERSERVER_USERS_6_JRXML)
@@ -219,6 +224,7 @@ public class RestApiTest {
 
         String jrsUsers6ReportName = "jasperserver_users_6";
         String jrsUsers6ReportPath = reportPath + "/" + jrsUsers6ReportName;
+    	logger.info("creating v6 report unit " + jrsUsers6ReportPath);
         ClientReportUnit jrsUsers6Report = new ClientReportUnit()
                 .setLabel("Jasper Server Users Report (JRL 6)")
                 .setDescription("")
@@ -227,11 +233,11 @@ public class RestApiTest {
                 .setDataSource(new ClientReference().setUri(jrsDsrcPath));
         createRepositoryResource(jrsUsers6ReportPath, "reportUnit", jrsUsers6Report, ClientReportUnit.class);
 
+    	logger.info("exporting v6 report unit " + jrsUsers6ReportPath + " to CSV");
         byte[] csv6 = runReportSimple(jrsUsers6ReportPath, "csv");
         assertThat(new String(csv6)).contains("jasperadmin", "joeuser");
 
-        // schedule a job - not for actually running, just to test whether export/import
-        // works even with a schedule (as of 2025-08-11, this does not work on java 17)
+    	logger.info("creating report job for " + jrsUsersReportPath);
         ClientReportJob jrsUsersJob = new ClientReportJob()
                 .setLabel("Jasper Server Users Daily")
                 .setDescription("")
@@ -263,6 +269,7 @@ public class RestApiTest {
         // bodies. but it's been eight hours now and i'm not going to learn yet another
         // giant framework (of _course_ the REST API uses yet another framework, Glassfish
         // Jersey) just to get this stupid test working.
+        logger.info("starting export task");
         String exportJson = "{\"parameters\":[\"everything\"]}";
         State exportState = startExportTask(exportJson);
         String exportId = exportState.getId();
@@ -275,11 +282,12 @@ public class RestApiTest {
         }
         byte[] exportZip = getExportOutput(exportId, jrsUsersReportName + ".zip");
 
-        // Delete our report, it should be restored by the import in the next step
+        logger.info("deleting report unit " + jrsUsersReportPath);
         deleteRepositoryResource(jrsUsersReportPath);
         assertThat(getRepositoryResourceDescriptor(jrsUsersReportPath, false, ClientReportUnit.class))
                 .isEmpty();
 
+        logger.info("starting import task");
         State importState = startImportTask(exportZip);
         String importId = importState.getId();
         while ("inprogress".equals(importState.getPhase())) {
@@ -290,6 +298,7 @@ public class RestApiTest {
             throw new Exception(importState.toString());
         }
 
+        logger.info("verifying that deleted report unit " + jrsUsersReportPath + " was re-imported");
         assertThat(getRepositoryResourceDescriptor(jrsUsersReportPath, false, ClientReportUnit.class))
                 .isNotEmpty();
     }

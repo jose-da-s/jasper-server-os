@@ -24,20 +24,16 @@
 package com.jaspersoft.jasperserver.test.remote;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.TimeZone;
-
-import jakarta.xml.bind.annotation.XmlElementWrapper;
 
 import org.junit.BeforeClass;
 import org.junit.AfterClass;
@@ -64,7 +60,6 @@ import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationModu
 import com.jaspersoft.jasperserver.dto.resources.ClientResourceListWrapper;
 import com.jaspersoft.jasperserver.dto.common.OutputFormat;
 import com.jaspersoft.jasperserver.dto.importexport.ExportTask;
-import com.jaspersoft.jasperserver.dto.importexport.ImportTask;
 import com.jaspersoft.jasperserver.dto.importexport.State;
 import com.jaspersoft.jasperserver.dto.job.ClientIntervalUnitType;
 import com.jaspersoft.jasperserver.dto.job.ClientJobRepositoryDestination;
@@ -84,11 +79,12 @@ public class RestApiTest {
 
     private static final String CONTENT_TYPE = "json";
     private static final String ACCEPT_TYPE = "json";
-    private static final String TIMEZONE = "America/New_York";
+
     // All objects are created inside this one folder to avoid clashes with other tests
     // or still other uses of the Jasper Server
     private static final String REPO_FOLDER_NAME = "RestApiTest81945036";
     private static final String JASPERSERVER_USERS_JRXML = "jasperserver-users.jrxml";
+    private static final String JASPERSERVER_USERS_6_JRXML = "jasperserver-users-6.jrxml";
 
     private static JasperServerConstants constants;
     private static CloseableHttpClient httpClient;
@@ -179,7 +175,7 @@ public class RestApiTest {
         createRepositoryResource(jrxmlPath, "folder", jrxmlFolder, ClientFolder.class);
 
         String jrsUsersJrxmlPath = jrxmlPath + "/jasperserver_users.jrxml";
-        String jrxml = getJasperserverUsersJrxml();
+        String jrxml = readFileFromClasspathUnqualified(JASPERSERVER_USERS_JRXML);
         ClientFile jrxmlFile = new ClientFile()
                 .setLabel("jasperserver-users.jrxml")
                 .setDescription("List of Jasper Server users")
@@ -206,9 +202,33 @@ public class RestApiTest {
                 .setDataSource(new ClientReference().setUri(jrsDsrcPath));
         createRepositoryResource(jrsUsersReportPath, "reportUnit", jrsUsersReport, ClientReportUnit.class);
 
-        // run the report and export to CSV (because that one's easy to process)
+        // run the report and export to CSV (because this format is easy to process)
         byte[] csv = runReportSimple(jrsUsersReportPath, "csv");
         assertThat(new String(csv)).contains("jasperadmin", "joeuser");
+
+        // create report, report unit, and export with JRL 6 report
+        String jrsUsers6JrxmlPath = jrxmlPath + "/jasperserver_users_6.jrxml";
+        String jrxml6 = readFileFromClasspathUnqualified(JASPERSERVER_USERS_6_JRXML);
+        ClientFile jrxml6File = new ClientFile()
+                .setLabel(JASPERSERVER_USERS_6_JRXML)
+                .setDescription("List of Jasper Server users (JRL 6)")
+                .setPermissionMask(0)
+                .setType(ClientFile.FileType.jrxml)
+                .setContent(Base64.getEncoder().encodeToString(jrxml6.getBytes()));
+        createRepositoryResource(jrsUsers6JrxmlPath, "file", jrxml6File, ClientFile.class);
+
+        String jrsUsers6ReportName = "jasperserver_users_6";
+        String jrsUsers6ReportPath = reportPath + "/" + jrsUsers6ReportName;
+        ClientReportUnit jrsUsers6Report = new ClientReportUnit()
+                .setLabel("Jasper Server Users Report (JRL 6)")
+                .setDescription("")
+                .setPermissionMask(0)
+                .setJrxml(new ClientReference().setUri(jrsUsers6JrxmlPath))
+                .setDataSource(new ClientReference().setUri(jrsDsrcPath));
+        createRepositoryResource(jrsUsers6ReportPath, "reportUnit", jrsUsers6Report, ClientReportUnit.class);
+
+        byte[] csv6 = runReportSimple(jrsUsers6ReportPath, "csv");
+        assertThat(new String(csv6)).contains("jasperadmin", "joeuser");
 
         // schedule a job - not for actually running, just to test whether export/import
         // works even with a schedule (as of 2025-08-11, this does not work on java 17)
@@ -675,8 +695,8 @@ public class RestApiTest {
      * @return
      * @throws IOException
      */
-    private String getJasperserverUsersJrxml() throws IOException {
-        try (InputStream reportStream = this.getClass().getResourceAsStream(JASPERSERVER_USERS_JRXML)){
+    private String readFileFromClasspathUnqualified(String unqualifiedFileName) throws IOException {
+        try (InputStream reportStream = this.getClass().getResourceAsStream(unqualifiedFileName)){
             try (Scanner reportScanner = new Scanner(reportStream, StandardCharsets.UTF_8.name())){
                 return reportScanner.useDelimiter("\\A").next();
             }

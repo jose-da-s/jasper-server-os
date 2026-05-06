@@ -307,7 +307,25 @@ permanent authorization for you to choose that version for the
 Library.
 
 *
-JasperReports Library 7.0.1
+Jasper Reports Library:
+    net.sf.jasperreports:jasperreports 7.0.1
+    net.sf.jasperreports:jasperreports-chart-customizers 7.0.1
+    net.sf.jasperreports:jasperreports-chart-themes 7.0.1
+    net.sf.jasperreports:jasperreports-charts 7.0.1
+    net.sf.jasperreports:jasperreports-data-adapters 7.0.1
+    net.sf.jasperreports:jasperreports-excel-poi 7.0.1
+    net.sf.jasperreports:jasperreports-fonts 7.0.1
+    net.sf.jasperreports:jasperreports-functions 7.0.1
+    net.sf.jasperreports:jasperreports-interactivity 7.0.1
+    net.sf.jasperreports:jasperreports-javascript 7.0.1
+    net.sf.jasperreports:jasperreports-jaxen 7.0.1
+    net.sf.jasperreports:jasperreports-jdt 7.0.1
+    net.sf.jasperreports:jasperreports-json 7.0.1
+    net.sf.jasperreports:jasperreports-pdf 7.0.1
+    net.sf.jasperreports:jasperreports-servlets 7.0.1
+    net.sf.jasperreports:jasperreports-spring 7.0.1
+    net.sf.jasperreports:jasperreports-velocity 7.0.1
+
                    GNU LESSER GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 

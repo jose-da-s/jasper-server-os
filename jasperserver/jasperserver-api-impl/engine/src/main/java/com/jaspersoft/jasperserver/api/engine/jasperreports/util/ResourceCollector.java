@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.jaspersoft.jasperserver.core.util.XMLUtil;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRImage;
@@ -41,7 +40,6 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRElementsVisitor;
 import net.sf.jasperreports.engine.util.JRVisitorSupport;
-import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoader;
 
 import com.jaspersoft.jasperserver.api.JSExceptionWrapper;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource;
@@ -57,9 +55,9 @@ public class ResourceCollector extends JRVisitorSupport
 {	
 	private static final String REPO_URL_PROTOCOL = "repo:";
 	
-	private List resources = new ArrayList();
-	private Set resourceNames = new HashSet();
-	
+	private List<Resource> resources = new ArrayList<>();
+	private Set<String> resourceNames = new HashSet<>();
+
 	/**
 	 * 
 	 */
@@ -83,7 +81,7 @@ public class ResourceCollector extends JRVisitorSupport
 		{
 			throw new JSExceptionWrapper(e);
 		}
-		
+
 		ResourceCollector collector = new ResourceCollector();
 		collector.collect(jasperDesign);
 		
@@ -95,7 +93,7 @@ public class ResourceCollector extends JRVisitorSupport
 	 */
 	private Resource[] getResources()
 	{
-		return (Resource[]) resources.toArray(new Resource[resources.size()]);
+		return resources.toArray(new Resource[resources.size()]);
 	}
 
 	/**

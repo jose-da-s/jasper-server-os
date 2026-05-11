@@ -33,7 +33,6 @@ import com.jaspersoft.jasperserver.remote.exception.MandatoryParameterNotFoundEx
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoader;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;

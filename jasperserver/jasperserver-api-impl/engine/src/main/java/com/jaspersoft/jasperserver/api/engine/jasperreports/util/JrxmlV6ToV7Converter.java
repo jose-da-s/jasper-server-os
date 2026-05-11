@@ -25,7 +25,6 @@ package com.jaspersoft.jasperserver.api.engine.jasperreports.util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Attr;
-import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -228,7 +227,31 @@ public final class JrxmlV6ToV7Converter {
         stripNamespaces(doc);
         ensureAllCDATA(doc);
         propagateStyleToBox(doc);
-        stripCommentsAndUpdateStudioVersion(doc);
+        stripComments(doc);
+        updateStudioVersion(doc);
+
+        return serialize(doc);
+    }
+
+    /**
+     * Convert legacy JRTX v6 bytes into v7-compatible bytes.
+     *
+     * @param legacyData raw v6 JRTX content (UTF-8)
+     * @return converted v7 JRTX bytes
+     */
+    public static byte[] convertJrtx(byte[] legacyData)
+            throws ParserConfigurationException, SAXException, IOException, TransformerException {
+        Document doc = parseSecure(legacyData);
+
+        Element root = doc.getDocumentElement();
+        if (root == null || !"jasperTemplate".equals(root.getLocalName())) {
+            log.warn("Root element is not <jasperTemplate>; returning data unchanged");
+            return legacyData;
+        }
+
+        convertStyles(doc);
+        stripNamespaces(doc);
+        stripComments(doc);
 
         return serialize(doc);
     }
@@ -1488,8 +1511,8 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
-    /** Strip XML comment nodes and insert/update the Jaspersoft Studio version comment. */
-    private static void stripCommentsAndUpdateStudioVersion(Document doc) {
+    /** Strip XML comment nodes */
+    private static void stripComments(Document doc) {
         // Remove all comment nodes that are direct children of the document
         List<Node> toRemove = new ArrayList<>();
         NodeList docChildren = doc.getChildNodes();
@@ -1503,6 +1526,10 @@ public final class JrxmlV6ToV7Converter {
             doc.removeChild(n);
         }
 
+    }
+
+    /** insert/update the Jaspersoft Studio version comment. */
+    private static void updateStudioVersion(Document doc) {
         // Insert Studio version comment before the root element
         Comment studioComment = doc.createComment(
                 " Created with Jaspersoft Studio version 7.0.0.final"

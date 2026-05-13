@@ -91,6 +91,7 @@ public final class JrxmlV6ToV7Converter {
     private static final String ATTR_FONT_SIZE = "fontSize";
     private static final String ATTR_STRETCH_TYPE = "stretchType";
     private static final String ATTR_LANGUAGE = "language";
+    private static final String ATTR_NAME = "name";
     private static final String ATTR_SCHEMA_LOCATION = "schemaLocation";
     private static final String ATTR_XMLNS = "xmlns";
     private static final String PREFIX_XMLNS = "xmlns";
@@ -249,6 +250,7 @@ public final class JrxmlV6ToV7Converter {
             return legacyData;
         }
 
+        convertJrtxRootElement(root);
         convertStyles(doc);
         stripNamespaces(doc);
         stripComments(doc);
@@ -267,7 +269,7 @@ public final class JrxmlV6ToV7Converter {
         // Collect non-removed attributes
         List<Attr> keep = new ArrayList<>();
         Set<String> remove = new HashSet<>(Arrays.asList(
-                ATTR_XMLNS, ATTR_SCHEMA_LOCATION, ATTR_LANGUAGE
+                ATTR_XMLNS, ATTR_SCHEMA_LOCATION, ATTR_LANGUAGE, ATTR_NAME
         ));
         NamedNodeMap attrs = root.getAttributes();
         for (int i = 0; i < attrs.getLength(); i++) {
@@ -294,13 +296,37 @@ public final class JrxmlV6ToV7Converter {
 
     private static boolean shouldKeepRootAttribute(Attr a, Set<String> dropNames) {
         String localName = a.getLocalName() != null ? a.getLocalName() : a.getName();
-        if (dropNames.contains(localName) || "name".equals(localName)) {
+        if (dropNames.contains(localName)) {
             return false;
         }
         String prefix = a.getPrefix();
         return !PREFIX_XMLNS.equals(prefix)
-                && !PREFIX_XSI.equals(prefix)
-                && !ATTR_XMLNS.equals(a.getName());
+                && !PREFIX_XSI.equals(prefix);
+    }
+
+    private static void convertJrtxRootElement(Element root) {
+        // Collect non-removed attributes
+        List<Attr> keep = new ArrayList<>();
+        Set<String> remove = new HashSet<>(Arrays.asList(
+                ATTR_XMLNS, ATTR_SCHEMA_LOCATION
+        ));
+        NamedNodeMap attrs = root.getAttributes();
+        for (int i = 0; i < attrs.getLength(); i++) {
+            Attr a = (Attr) attrs.item(i);
+            if (shouldKeepRootAttribute(a, remove)) {
+                keep.add(a);
+            }
+        }
+
+        // Clear all attributes
+        while (root.getAttributes().getLength() > 0) {
+            root.removeAttributeNode((Attr) root.getAttributes().item(0));
+        }
+
+        // Restore kept attributes
+        for (Attr a : keep) {
+            root.setAttribute(a.getName(), a.getValue());
+        }
     }
 
     // ─── queryString → query ──────────────────────────────────────

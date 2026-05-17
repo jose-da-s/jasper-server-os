@@ -1386,8 +1386,7 @@
     </target>
 
 
-
-
+    <!--
 
     <target name="maven-check-cve-ce">
         <runmaven dir="${js-path}">
@@ -1395,6 +1394,20 @@
             <arg value="-PDependencyCheckProfile"/>
         </runmaven>
     </target>
+    -->
+    <target name="maven-check-cve-ce">
+    <property name="cve.formats" value="HTML"/>
+    <property name="cve.outputDirectory" value="${js-path}/target"/>
+
+     <runmaven dir="${js-path}">
+        <arg value="dependency-check:aggregate"/>
+        <arg value="-PDependencyCheckProfile"/>
+
+        <arg value="-Dformats=${cve.formats}"/>
+        <arg value="-DoutputDirectory=${cve.outputDirectory}"/>
+     </runmaven>
+    </target>
+
     <target name="maven-check-cve-pro">
         <runmaven dir="${js-pro-path}">
             <arg value="dependency-check:aggregate"/>

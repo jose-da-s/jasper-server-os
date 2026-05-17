@@ -37,6 +37,7 @@ const compareVersions = function (a, b) {
     return segmentsA.length - segmentsB.length;
 };
 
+
 function readIgnoreListFileContent() {
     let ignoreListPath = `./${CVE_IGNORE_LIST_NAME}`;
 
@@ -118,6 +119,7 @@ function writeReportToFile(report, fileName) {
     mkdirp.sync(dir);
     fs.writeFileSync(fileName, JSON.stringify(report, null, 2));
 }
+
 
 function runAudit(options) {
     const {auditGroup, ignoreList, fullReportFileName, newIssuesReportFileName} = options;
@@ -234,6 +236,7 @@ function auditDependencies() {
         console.log("CVE audit finished.");
     });
 }
+
 
 (async function () {
     try {

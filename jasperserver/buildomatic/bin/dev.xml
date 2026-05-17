@@ -1398,13 +1398,14 @@
     <target name="maven-check-cve-ce">
     <property name="cve.formats" value="HTML"/>
     <property name="cve.outputDirectory" value="${js-path}/target"/>
+    <property name="failBuildOnCVSS.cli" value="0"/>
 
      <runmaven dir="${js-path}">
         <arg value="dependency-check:aggregate"/>
         <arg value="-PDependencyCheckProfile"/>
-
         <arg value="-Dformats=${cve.formats}"/>
         <arg value="-DoutputDirectory=${cve.outputDirectory}"/>
+        <arg value="-DfailBuildOnCVSS=${failBuildOnCVSS.cli}"/>
      </runmaven>
     </target>
 
@@ -1472,11 +1473,12 @@
     </target>
 
 	<target name="check-cve-ce" depends="init-source-paths,get-cve-dependencies, copy-extra-jars" description="CVE check analysis">
+      <property name="failBuildOnCVSS.check.cli" value="0"/>
 	  <dependency-check assemblyAnalyzerEnabled="false"
                       projectname="Jasperserver-ce"
 	                    reportformat="ALL"
 	                    reportoutputdirectory="${js-path}/target"
-	                    failBuildOnCVSS = "0"
+	                    failBuildOnCVSS="${failBuildOnCVSS.check.cli}"
                       centralAnalyzerUseCache="false"
                       ossIndexAnalyzerEnabled="false"
                       nodeAuditAnalyzerUseCache="false"

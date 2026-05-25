@@ -123,7 +123,27 @@ public class JrxmlV6ToV7ConverterTest {
         assertTrue("Expected <element kind='staticText'>", foundStaticText);
     }
 
-    // ─── complex_legacy_v6 tests ─────────────────────────────────
+    // ─── complex_legacy_v6.jrtx tests ─────────────────────────────────
+
+    @Test
+    public void testConvertComplexJrtx_styleFontSizeNormalized() throws Exception {
+        byte[] converted = convertJrtxResource("jrtx/unit_test/complex_legacy_v6.jrtx");
+        Document doc = parseDom(converted);
+
+        NodeList styles = doc.getElementsByTagName("style");
+        for (int i = 0; i < styles.getLength(); i++) {
+            Element style = (Element) styles.item(i);
+            if ("addressLabel".equals(style.getAttribute("name"))) {
+                assertEquals("fontSize should be normalised to one decimal",
+                        "8.0", style.getAttribute("fontSize"));
+                // isBold → bold
+                assertFalse(style.hasAttribute("isBold"));
+                assertTrue(style.hasAttribute("bold"));
+            }
+        }
+    }
+
+    // ─── complex_legacy_v6.jrxml tests ─────────────────────────────────
 
     @Test
     public void testConvertComplex_styleFontSizeNormalized() throws Exception {
@@ -978,6 +998,11 @@ public class JrxmlV6ToV7ConverterTest {
     private byte[] convertResource(String resourcePath) throws Exception {
         byte[] data = loadResource(resourcePath);
         return JrxmlV6ToV7Converter.convert(data);
+    }
+
+    private byte[] convertJrtxResource(String resourcePath) throws Exception {
+        byte[] data = loadResource(resourcePath);
+        return JrxmlV6ToV7Converter.convertJrtx(data);
     }
 
     private byte[] loadResource(String resourcePath) throws Exception {

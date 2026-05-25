@@ -138,7 +138,7 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRSaver;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoader;
-import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
+import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlTemplateLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
 import net.sf.jasperreports.pdf.SimplePdfReportConfiguration;
@@ -1543,8 +1543,8 @@ public class EngineServiceImpl implements EngineService, ReportExecuter,
 	protected JRTemplate loadTemplate(ExecutionContext context, FileResource resource) {
 		InputStream templateDataStream = getFileResourceDataStream(context, resource);
 		try {
-			return JRXmlTemplateLoader.load(templateDataStream);
-		} catch (JRRuntimeException e) {
+			return CustomJRXmlTemplateLoader.load(templateDataStream);
+		} catch (JRException e) {
 			throw new JSExceptionWrapper(e);
 		}
 	}

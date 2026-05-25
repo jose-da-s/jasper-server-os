@@ -25,7 +25,6 @@ package com.jaspersoft.jasperserver.api.engine.jasperreports.util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Attr;
-import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -92,6 +91,7 @@ public final class JrxmlV6ToV7Converter {
     private static final String ATTR_FONT_SIZE = "fontSize";
     private static final String ATTR_STRETCH_TYPE = "stretchType";
     private static final String ATTR_LANGUAGE = "language";
+    private static final String ATTR_NAME = "name";
     private static final String ATTR_SCHEMA_LOCATION = "schemaLocation";
     private static final String ATTR_XMLNS = "xmlns";
     private static final String PREFIX_XMLNS = "xmlns";
@@ -228,7 +228,32 @@ public final class JrxmlV6ToV7Converter {
         stripNamespaces(doc);
         ensureAllCDATA(doc);
         propagateStyleToBox(doc);
-        stripCommentsAndUpdateStudioVersion(doc);
+        stripComments(doc);
+        updateStudioVersion(doc);
+
+        return serialize(doc);
+    }
+
+    /**
+     * Convert legacy JRTX v6 bytes into v7-compatible bytes.
+     *
+     * @param legacyData raw v6 JRTX content (UTF-8)
+     * @return converted v7 JRTX bytes
+     */
+    public static byte[] convertJrtx(byte[] legacyData)
+            throws ParserConfigurationException, SAXException, IOException, TransformerException {
+        Document doc = parseSecure(legacyData);
+
+        Element root = doc.getDocumentElement();
+        if (root == null || !"jasperTemplate".equals(root.getLocalName())) {
+            log.warn("Root element is not <jasperTemplate>; returning data unchanged");
+            return legacyData;
+        }
+
+        convertJrtxRootElement(root);
+        convertStyles(doc);
+        stripNamespaces(doc);
+        stripComments(doc);
 
         return serialize(doc);
     }
@@ -244,7 +269,7 @@ public final class JrxmlV6ToV7Converter {
         // Collect non-removed attributes
         List<Attr> keep = new ArrayList<>();
         Set<String> remove = new HashSet<>(Arrays.asList(
-                ATTR_XMLNS, ATTR_SCHEMA_LOCATION, ATTR_LANGUAGE
+                ATTR_XMLNS, ATTR_SCHEMA_LOCATION, ATTR_LANGUAGE, ATTR_NAME
         ));
         NamedNodeMap attrs = root.getAttributes();
         for (int i = 0; i < attrs.getLength(); i++) {
@@ -271,13 +296,37 @@ public final class JrxmlV6ToV7Converter {
 
     private static boolean shouldKeepRootAttribute(Attr a, Set<String> dropNames) {
         String localName = a.getLocalName() != null ? a.getLocalName() : a.getName();
-        if (dropNames.contains(localName) || "name".equals(localName)) {
+        if (dropNames.contains(localName)) {
             return false;
         }
         String prefix = a.getPrefix();
         return !PREFIX_XMLNS.equals(prefix)
-                && !PREFIX_XSI.equals(prefix)
-                && !ATTR_XMLNS.equals(a.getName());
+                && !PREFIX_XSI.equals(prefix);
+    }
+
+    private static void convertJrtxRootElement(Element root) {
+        // Collect non-removed attributes
+        List<Attr> keep = new ArrayList<>();
+        Set<String> remove = new HashSet<>(Arrays.asList(
+                ATTR_XMLNS, ATTR_SCHEMA_LOCATION
+        ));
+        NamedNodeMap attrs = root.getAttributes();
+        for (int i = 0; i < attrs.getLength(); i++) {
+            Attr a = (Attr) attrs.item(i);
+            if (shouldKeepRootAttribute(a, remove)) {
+                keep.add(a);
+            }
+        }
+
+        // Clear all attributes
+        while (root.getAttributes().getLength() > 0) {
+            root.removeAttributeNode((Attr) root.getAttributes().item(0));
+        }
+
+        // Restore kept attributes
+        for (Attr a : keep) {
+            root.setAttribute(a.getName(), a.getValue());
+        }
     }
 
     // ─── queryString → query ──────────────────────────────────────
@@ -1488,8 +1537,8 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
-    /** Strip XML comment nodes and insert/update the Jaspersoft Studio version comment. */
-    private static void stripCommentsAndUpdateStudioVersion(Document doc) {
+    /** Strip XML comment nodes */
+    private static void stripComments(Document doc) {
         // Remove all comment nodes that are direct children of the document
         List<Node> toRemove = new ArrayList<>();
         NodeList docChildren = doc.getChildNodes();
@@ -1503,6 +1552,10 @@ public final class JrxmlV6ToV7Converter {
             doc.removeChild(n);
         }
 
+    }
+
+    /** insert/update the Jaspersoft Studio version comment. */
+    private static void updateStudioVersion(Document doc) {
         // Insert Studio version comment before the root element
         Comment studioComment = doc.createComment(
                 " Created with Jaspersoft Studio version 7.0.0.final"

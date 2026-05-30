@@ -22,6 +22,18 @@
  */
 package com.jaspersoft.jasperserver.api.engine.jasperreports.util;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRGanttDataset;
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
+import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.JRValueDataset;
+import net.sf.jasperreports.charts.JRXyDataset;
+import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.type.ChartTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Attr;
@@ -48,6 +60,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -87,11 +100,15 @@ public final class JrxmlV6ToV7Converter {
     private static final String TAG_EXPRESSION = "expression";
     private static final String TAG_PARAGRAPH = "paragraph";
     private static final String TAG_STYLE = "style";
+    private static final String TAG_CHART = "chart";
+    private static final String TAG_PLOT = "plot";
+    private static final String TAG_DATASET = "dataset";
 
     private static final String ATTR_FONT_SIZE = "fontSize";
     private static final String ATTR_STRETCH_TYPE = "stretchType";
     private static final String ATTR_LANGUAGE = "language";
     private static final String ATTR_NAME = "name";
+    private static final String ATTR_KIND = "kind";
     private static final String ATTR_SCHEMA_LOCATION = "schemaLocation";
     private static final String ATTR_XMLNS = "xmlns";
     private static final String PREFIX_XMLNS = "xmlns";
@@ -182,6 +199,93 @@ public final class JrxmlV6ToV7Converter {
             "tabStopWidth"
     ));
 
+    // these two were defined in their respective element digester factory classes, which
+    // have been removed
+    private static final String JRXmlConstants_ELEMENT_meterPlot = "meterPlot";
+    private static final String JRXmlConstants_ELEMENT_thermometerPlot = "thermometerPlot";
+
+    private static final LinkedHashMap<String, ChartTypeEnum> CHART_ELEMENT_TYPES = new LinkedHashMap<>();
+    static {
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_pieChart, ChartTypeEnum.PIE);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_pie3DChart, ChartTypeEnum.PIE3D);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_barChart, ChartTypeEnum.BAR);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_bar3DChart, ChartTypeEnum.BAR3D);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_bubbleChart, ChartTypeEnum.BUBBLE);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_stackedBarChart, ChartTypeEnum.STACKEDBAR);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_stackedBar3DChart, ChartTypeEnum.STACKEDBAR3D);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_lineChart, ChartTypeEnum.LINE);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_highLowChart, ChartTypeEnum.HIGHLOW);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_candlestickChart, ChartTypeEnum.CANDLESTICK);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_areaChart, ChartTypeEnum.AREA);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_scatterChart, ChartTypeEnum.SCATTER);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_timeSeriesChart, ChartTypeEnum.TIMESERIES);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_xyAreaChart, ChartTypeEnum.XYAREA);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_xyBarChart, ChartTypeEnum.XYBAR);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_xyLineChart, ChartTypeEnum.XYLINE);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_meterChart, ChartTypeEnum.METER);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_thermometerChart, ChartTypeEnum.THERMOMETER);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_multiAxisChart, ChartTypeEnum.MULTI_AXIS);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_stackedAreaChart, ChartTypeEnum.STACKEDAREA);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_ganttChart, ChartTypeEnum.GANTT);
+    }
+
+    private static final Set<String> CHART_PLOT_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
+        JRXmlConstants.ELEMENT_piePlot,
+        JRXmlConstants.ELEMENT_pie3DPlot,
+        JRXmlConstants.ELEMENT_barPlot,
+        JRXmlConstants.ELEMENT_bar3DPlot,
+        JRXmlConstants.ELEMENT_bubblePlot,
+        JRXmlConstants.ELEMENT_linePlot,
+        JRXmlConstants.ELEMENT_highLowPlot,
+        JRXmlConstants.ELEMENT_candlestickPlot,
+        JRXmlConstants.ELEMENT_areaPlot,
+        JRXmlConstants.ELEMENT_scatterPlot,
+        JRXmlConstants.ELEMENT_timeSeriesPlot,
+        JRXmlConstants_ELEMENT_meterPlot,
+        JRXmlConstants_ELEMENT_thermometerPlot,
+        JRXmlConstants.ELEMENT_multiAxisPlot
+    ));
+    private static final LinkedHashMap<String, String> CHART_DATASET_ELEMENT_TYPES = new LinkedHashMap<>();
+    static {
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_categoryDataset,
+				((JsonTypeName) JRCategoryDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_timeSeriesDataset,
+				((JsonTypeName) JRTimeSeriesDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_timePeriodDataset,
+				((JsonTypeName) JRTimePeriodDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_xyzDataset,
+				((JsonTypeName) JRXyzDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_xyDataset,
+				((JsonTypeName) JRXyDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_pieDataset,
+				((JsonTypeName) JRPieDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_valueDataset,
+				((JsonTypeName) JRValueDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_highLowDataset,
+				((JsonTypeName) JRHighLowDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_ganttDataset,
+				((JsonTypeName) JRGanttDataset.class.getAnnotation(JsonTypeName.class)).value());
+    }
+
+    private static final Set<String> CHART_DATASET_SERIES_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
+    		JRXmlConstants.ELEMENT_pieSeries,
+    		JRXmlConstants.ELEMENT_categorySeries,
+    		JRXmlConstants.ELEMENT_xyzSeries,
+    		JRXmlConstants.ELEMENT_xySeries,
+    		JRXmlConstants.ELEMENT_timeSeries,
+    		JRXmlConstants.ELEMENT_timePeriodSeries,
+    		JRXmlConstants.ELEMENT_ganttSeries
+	));
+
     private JrxmlV6ToV7Converter() { }
 
     /**
@@ -209,6 +313,7 @@ public final class JrxmlV6ToV7Converter {
         convertLabelAndIcon(doc);
         convertElements(doc);
         convertCrosstab(doc);
+        convertCharts(doc);
         convertDataset(doc);
         renameExpressions(doc);
         convertGroups(doc);
@@ -730,13 +835,13 @@ public final class JrxmlV6ToV7Converter {
         for (Element el : findElements(doc.getDocumentElement(), "crosstabRowHeader")) {
             renameBooleanPrefixOnElement(el);
             Element renamed = renameElement(doc, el, "header");
-            unwrapCellContents(renamed);
+            unwrapChildContents(renamed, TAG_CELL_CONTENTS);
         }
         // crosstabTotalRowHeader → totalHeader
         for (Element el : findElements(doc.getDocumentElement(), "crosstabTotalRowHeader")) {
             renameBooleanPrefixOnElement(el);
             Element renamed = renameElement(doc, el, "totalHeader");
-            unwrapCellContents(renamed);
+            unwrapChildContents(renamed, TAG_CELL_CONTENTS);
         }
         // crosstabColumnHeader → header
         for (Element el : findElements(doc.getDocumentElement(), "crosstabColumnHeader")) {
@@ -757,6 +862,38 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
+    private static void convertCharts(Document doc) {
+    	for (String chartTag : CHART_ELEMENT_TYPES.keySet()) {
+			for (Element el : findElements(doc.getDocumentElement(), chartTag)) {
+				// <xyzChart> -> <element kind="chart" chartType="XYZ">
+				Element renamed = renameElement(doc, el, TAG_ELEMENT);
+				renamed.setAttribute(ATTR_KIND, "chart");
+				renamed.setAttribute("chartType", CHART_ELEMENT_TYPES.get(chartTag).name());
+				// move contents up from <chart>
+				unwrapChildContents(renamed, TAG_CHART);
+				// move contents up from <reportElement> (formerly <chart><reportElement>)
+				unwrapChildContents(renamed, TAG_REPORT_ELEMENT);
+				// <xyzPlot> -> <plot>, move contents up from <plot>
+				Element plot = getChildElementAny(renamed, CHART_PLOT_ELEMENT_TYPES);
+				if (plot != null) {
+					Element plotRenamed = renameElement(doc, plot, TAG_PLOT);
+					unwrapChildContents(plotRenamed, TAG_PLOT);
+				}
+				// <xyzDataset> -> <dataset kind="xyz">, move contents up from <dataset>
+				Element dataset = getChildElementAny(renamed, CHART_DATASET_ELEMENT_TYPES.keySet());
+				if (dataset != null) {
+					Element datasetRenamed = renameElement(doc, dataset, TAG_DATASET);
+					datasetRenamed.setAttribute(ATTR_KIND, CHART_DATASET_ELEMENT_TYPES.get(dataset.getLocalName()));
+					unwrapChildContents(datasetRenamed, TAG_DATASET);
+					Element series = getChildElementAny(datasetRenamed, CHART_DATASET_SERIES_ELEMENT_TYPES);
+					if (series != null) {
+						renameElement(doc, series, "series");
+					}
+				}
+			}
+		}
+    }
+
     private static void mergeCellContentsAttributes(Element parent) {
         Element cc = getChildElement(parent, TAG_CELL_CONTENTS);
         if (cc != null) {
@@ -765,8 +902,8 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
-    private static void unwrapCellContents(Element parent) {
-        Element cc = getChildElement(parent, TAG_CELL_CONTENTS);
+    private static void unwrapChildContents(Element parent, String childName) {
+        Element cc = getChildElement(parent, childName);
         if (cc != null) {
             moveAttributes(cc, parent);
             moveChildren(cc, parent);
@@ -1305,19 +1442,22 @@ public final class JrxmlV6ToV7Converter {
     }
 
     private static Element getChildElement(Element parent, String localName) {
-        NodeList children = parent.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
-            Node child = children.item(i);
-            if (child.getNodeType() == Node.ELEMENT_NODE) {
-                String ln = child.getLocalName() != null ? child.getLocalName() : child.getNodeName();
-                if (localName.equals(ln)) {
-                    return (Element) child;
-                }
-            }
-        }
-        return null;
+    	return getChildElementAny(parent, Collections.singleton(localName));
     }
 
+    private static Element getChildElementAny(Element parent, Set<String> localName) {
+		NodeList children = parent.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child.getNodeType() == Node.ELEMENT_NODE) {
+				String ln = child.getLocalName() != null ? child.getLocalName() : child.getNodeName();
+				if (localName.contains(ln)) {
+					return (Element) child;
+				}
+			}
+		}
+		return null;
+    }
     private static List<Element> getChildElements(Element parent, String localName) {
         List<Element> result = new ArrayList<>();
         NodeList children = parent.getChildNodes();

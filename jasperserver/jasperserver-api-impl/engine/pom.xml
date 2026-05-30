@@ -390,6 +390,10 @@
 
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-charts</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-pdf</artifactId>
         </dependency>
         <dependency>

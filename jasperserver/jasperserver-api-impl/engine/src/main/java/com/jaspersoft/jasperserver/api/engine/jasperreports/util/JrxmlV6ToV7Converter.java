@@ -886,42 +886,50 @@ public final class JrxmlV6ToV7Converter {
 				unwrapChildContents(renamed, TAG_CHART);
 				// move contents up from <reportElement> (formerly <chart><reportElement>)
 				unwrapChildContents(renamed, TAG_REPORT_ELEMENT);
-				// <xyzPlot> -> <plot>, move contents up from <plot>
-				Element plot = getChildElementAny(renamed, CHART_PLOT_ELEMENT_TYPES);
-				if (plot != null) {
-					Element plotRenamed = renameElement(doc, plot, TAG_PLOT);
-					unwrapChildContents(plotRenamed, TAG_PLOT);
-					// <xyzAxisFormat>: move contents up from <axisFormat> child
-					for (String axisFormatTag : CHART_PLOT_AXIS_FORMAT_ELEMENT_TYPES) {
-						Element axisFormat = getChildElement(plotRenamed, axisFormatTag);
-						if (axisFormat != null) {
-							unwrapChildContents(axisFormat, "axisFormat");
-						}
-					}
-				}
-				// <xyzDataset> -> <dataset kind="xyz">, move contents up from <dataset>
-				Element dataset = getChildElementAny(renamed, CHART_DATASET_ELEMENT_TYPES.keySet());
-				if (dataset != null) {
-					Element datasetRenamed = renameElement(doc, dataset, TAG_DATASET);
-					datasetRenamed.setAttribute(ATTR_KIND, CHART_DATASET_ELEMENT_TYPES.get(dataset.getLocalName()));
-					unwrapChildContents(datasetRenamed, TAG_DATASET);
-					Element series = getChildElementAny(datasetRenamed, CHART_DATASET_SERIES_ELEMENT_TYPES);
-					while (series != null) {
-						renameElement(doc, series, "series");
-						series = getChildElementAny(datasetRenamed, CHART_DATASET_SERIES_ELEMENT_TYPES);
-					}
-					Element datasetRun = getChildElement(datasetRenamed, "datasetRun");
-					if (datasetRun != null) {
-						Element datasetParameter = getChildElement(datasetRun, "datasetParameter");
-						while (datasetParameter != null) {
-							renameElement(doc, datasetParameter, TAG_PARAMETER);
-							datasetParameter = getChildElement(datasetRun, "datasetParameter");
-						}
-					}
-				}
+				convertChartPlot(doc, renamed);
+				convertChartDataset(doc, renamed);
 			}
 		}
     }
+
+    private static void convertChartPlot(Document doc, Element chartElement) {
+		Element plot = getChildElementAny(chartElement, CHART_PLOT_ELEMENT_TYPES);
+		if (plot == null) {
+			return;
+		}
+
+		Element plotRenamed = renameElement(doc, plot, TAG_PLOT);
+		unwrapChildContents(plotRenamed, TAG_PLOT);
+		for (String axisFormatTag : CHART_PLOT_AXIS_FORMAT_ELEMENT_TYPES) {
+			Element axisFormat = getChildElement(plotRenamed, axisFormatTag);
+			if (axisFormat != null) {
+				unwrapChildContents(axisFormat, "axisFormat");
+			}
+		}
+		for (Element seriesColor : getChildElements(plotRenamed, "seriesColor")) {
+			renameAttributeIfPresent(seriesColor, "seriesOrder", "order");
+		}
+    }
+
+    private static void convertChartDataset(Document doc, Element chartElement) {
+		Element dataset = getChildElementAny(chartElement, CHART_DATASET_ELEMENT_TYPES.keySet());
+		if (dataset == null) {
+			return;
+		}
+
+		Element datasetRenamed = renameElement(doc, dataset, TAG_DATASET);
+		datasetRenamed.setAttribute(ATTR_KIND, CHART_DATASET_ELEMENT_TYPES.get(dataset.getLocalName()));
+		unwrapChildContents(datasetRenamed, TAG_DATASET);
+		for (Element series : getChildElementsAny(datasetRenamed, CHART_DATASET_SERIES_ELEMENT_TYPES)) {
+			series = renameElement(doc, series, "series");
+		}
+		Element datasetRun = getChildElement(datasetRenamed, "datasetRun");
+		if (datasetRun != null) {
+			for (Element datasetParameter : getChildElements(datasetRun, "datasetParameter")) {
+				renameElement(doc, datasetParameter, TAG_PARAMETER);
+			}
+		}
+	}
 
     private static void mergeCellContentsAttributes(Element parent) {
         Element cc = getChildElement(parent, TAG_CELL_CONTENTS);
@@ -1502,13 +1510,17 @@ public final class JrxmlV6ToV7Converter {
 		return null;
     }
     private static List<Element> getChildElements(Element parent, String localName) {
+    	return getChildElementsAny(parent, Collections.singleton(localName));
+    }
+
+    private static List<Element> getChildElementsAny(Element parent, Set<String> localName) {
         List<Element> result = new ArrayList<>();
         NodeList children = parent.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child.getNodeType() == Node.ELEMENT_NODE) {
                 String ln = child.getLocalName() != null ? child.getLocalName() : child.getNodeName();
-                if (localName.equals(ln)) {
+                if (localName.contains(ln)) {
                     result.add((Element) child);
                 }
             }

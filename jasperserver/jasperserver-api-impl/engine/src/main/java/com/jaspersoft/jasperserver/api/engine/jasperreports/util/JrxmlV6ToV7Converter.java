@@ -235,6 +235,12 @@ public final class JrxmlV6ToV7Converter {
         CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_ganttChart, ChartTypeEnum.GANTT);
     }
 
+    private static final Set<String> CHART_LABELING_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
+    		JRXmlConstants.ELEMENT_chartTitle,
+			JRXmlConstants.ELEMENT_chartSubtitle,
+			JRXmlConstants.ELEMENT_chartLegend
+	));
+
     private static final Set<String> CHART_PLOT_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
         JRXmlConstants.ELEMENT_piePlot,
         JRXmlConstants.ELEMENT_pie3DPlot,
@@ -882,10 +888,13 @@ public final class JrxmlV6ToV7Converter {
 				Element renamed = renameElement(doc, el, TAG_ELEMENT);
 				renamed.setAttribute(ATTR_KIND, "chart");
 				renamed.setAttribute("chartType", CHART_ELEMENT_TYPES.get(chartTag).name());
-				// move contents up from <chart>
+				// move contents up from <chart>, <chart><reportElement>, <chartTitle>, <chartSubtitle>, and <chartLegend>
 				unwrapChildContents(renamed, TAG_CHART);
-				// move contents up from <reportElement> (formerly <chart><reportElement>)
 				unwrapChildContents(renamed, TAG_REPORT_ELEMENT);
+				for (String labelingTag : CHART_LABELING_ELEMENT_TYPES) {
+					unwrapChildContents(renamed, labelingTag);
+				}
+				// convert plot and dataset
 				convertChartPlot(doc, renamed);
 				convertChartDataset(doc, renamed);
 			}

@@ -103,6 +103,8 @@ public final class JrxmlV6ToV7Converter {
     private static final String TAG_CHART = "chart";
     private static final String TAG_PLOT = "plot";
     private static final String TAG_DATASET = "dataset";
+    private static final String TAG_BARBECUE = "barbecue";
+    private static final String TAG_CODEEXPRESSION = "codeExpression";
 
     private static final String ATTR_FONT_SIZE = "fontSize";
     private static final String ATTR_STRETCH_TYPE = "stretchType";
@@ -133,6 +135,10 @@ public final class JrxmlV6ToV7Converter {
             TAG_TEXT_FIELD, "staticText", "subreport", "line",
             "componentElement", "break", "image", "frame", "crosstab",
             "rectangle", "ellipse"
+    ));
+
+    private static final Set<String> CDATA_ELEMENTS = new LinkedHashSet<>(Arrays.asList(
+            TAG_EXPRESSION, "anchorNameExpression", "text", TAG_DESCRIPTION, TAG_QUERY, TAG_CODEEXPRESSION
     ));
 
     /**
@@ -950,7 +956,8 @@ public final class JrxmlV6ToV7Converter {
 
     // ─── Component conversions ───────────────────────────────────
 
-    private static final String[] BARCODE_TAGS = {
+
+    private static final String[] BARCODE4J_TAGS = {
             "Code128", "QRCode", "EAN13", "EAN128",
             "DataMatrix", "PDF417", "Code39", "Codabar", "UPCA", "UPCE",
             "Interleaved2Of5", "RoyalMailCustomer", "USPSIntelligentMail", "POSTNET"
@@ -962,7 +969,8 @@ public final class JrxmlV6ToV7Converter {
         convertListComponents(doc);
         convertSimpleNsRenames(doc);
         convertIconLabel(doc);
-        convertBarcodes(doc);
+        convertBarbecue(doc);
+        convertBarcode4j(doc);
     }
 
     private static void convertTableComponent(Document doc) {
@@ -1043,14 +1051,27 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
-    private static void convertBarcodes(Document doc) {
-        for (String barcodeTag : BARCODE_TAGS) {
+    private static void convertBarbecue(Document doc) {
+        for (Element el : findElementsNS(doc, TAG_BARBECUE)) {
+            Element renamed = renameElement(doc, el, TAG_COMPONENT);
+			renamed.setAttribute(ATTR_KIND, TAG_BARBECUE);
+            filterNamespaceAttrs(renamed, "");
+            for (Element ce : findElementsNS(renamed, TAG_CODEEXPRESSION)) {
+            	Element codeExpression = renameElement(doc, ce, TAG_CODEEXPRESSION);
+                ensureCDATA(doc, codeExpression);
+            }
+        }
+    }
+
+    private static void convertBarcode4j(Document doc) {
+        for (String barcodeTag : BARCODE4J_TAGS) {
             for (Element el : findElementsNS(doc, barcodeTag)) {
                 String saveName = el.getLocalName();
                 Element renamed = renameElement(doc, el, TAG_COMPONENT);
                 filterNamespaceAttrs(renamed, "barcode4j:" + saveName);
-                for (Element ce : findElementsNS(renamed, "codeExpression")) {
-                    renameElement(doc, ce, "codeExpression");
+                for (Element ce : findElementsNS(renamed, TAG_CODEEXPRESSION)) {
+                    Element codeExpression = renameElement(doc, ce, TAG_CODEEXPRESSION);
+                    ensureCDATA(doc, codeExpression);
                 }
             }
         }
@@ -1321,8 +1342,7 @@ public final class JrxmlV6ToV7Converter {
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS,
-                "expression anchorNameExpression text description query");
+        transformer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS, String.join(" ", CDATA_ELEMENTS));
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
         ByteArrayOutputStream out = new ByteArrayOutputStream(8192);
@@ -1674,13 +1694,10 @@ public final class JrxmlV6ToV7Converter {
             element.removeChild(n);
         }
     }
-
+ 
     /** Ensure CDATA wrapping on text-content elements that JR 7 expects. */
     private static void ensureAllCDATA(Document doc) {
-        String[] cdataElements = {
-                TAG_EXPRESSION, "anchorNameExpression", "text", TAG_DESCRIPTION, TAG_QUERY
-        };
-        for (String tag : cdataElements) {
+        for (String tag : CDATA_ELEMENTS) {
             for (Element el : findElements(doc.getDocumentElement(), tag)) {
                 ensureCDATA(doc, el);
             }

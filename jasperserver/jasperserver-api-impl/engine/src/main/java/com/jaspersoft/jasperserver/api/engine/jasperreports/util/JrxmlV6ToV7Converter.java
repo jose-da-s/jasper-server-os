@@ -285,6 +285,13 @@ public final class JrxmlV6ToV7Converter {
     		JRXmlConstants.ELEMENT_timePeriodSeries,
     		JRXmlConstants.ELEMENT_ganttSeries
 	));
+    private static final Set<String> CHART_PLOT_AXIS_FORMAT_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
+			JRXmlConstants.ELEMENT_categoryAxisFormat,
+			JRXmlConstants.ELEMENT_valueAxisFormat,
+			JRXmlConstants.ELEMENT_timeAxisFormat,
+			JRXmlConstants.ELEMENT_xAxisFormat,
+			JRXmlConstants.ELEMENT_yAxisFormat
+	));
 
     private JrxmlV6ToV7Converter() { }
 
@@ -878,6 +885,13 @@ public final class JrxmlV6ToV7Converter {
 				if (plot != null) {
 					Element plotRenamed = renameElement(doc, plot, TAG_PLOT);
 					unwrapChildContents(plotRenamed, TAG_PLOT);
+					// <xyzAxisFormat>: move contents up from <axisFormat> child
+					for (String axisFormatTag : CHART_PLOT_AXIS_FORMAT_ELEMENT_TYPES) {
+						Element axisFormat = getChildElement(plotRenamed, axisFormatTag);
+						if (axisFormat != null) {
+							unwrapChildContents(axisFormat, "axisFormat");
+						}
+					}
 				}
 				// <xyzDataset> -> <dataset kind="xyz">, move contents up from <dataset>
 				Element dataset = getChildElementAny(renamed, CHART_DATASET_ELEMENT_TYPES.keySet());
@@ -886,8 +900,17 @@ public final class JrxmlV6ToV7Converter {
 					datasetRenamed.setAttribute(ATTR_KIND, CHART_DATASET_ELEMENT_TYPES.get(dataset.getLocalName()));
 					unwrapChildContents(datasetRenamed, TAG_DATASET);
 					Element series = getChildElementAny(datasetRenamed, CHART_DATASET_SERIES_ELEMENT_TYPES);
-					if (series != null) {
+					while (series != null) {
 						renameElement(doc, series, "series");
+						series = getChildElementAny(datasetRenamed, CHART_DATASET_SERIES_ELEMENT_TYPES);
+					}
+					Element datasetRun = getChildElement(datasetRenamed, "datasetRun");
+					if (datasetRun != null) {
+						Element datasetParameter = getChildElement(datasetRun, "datasetParameter");
+						while (datasetParameter != null) {
+							renameElement(doc, datasetParameter, TAG_PARAMETER);
+							datasetParameter = getChildElement(datasetRun, "datasetParameter");
+						}
 					}
 				}
 			}

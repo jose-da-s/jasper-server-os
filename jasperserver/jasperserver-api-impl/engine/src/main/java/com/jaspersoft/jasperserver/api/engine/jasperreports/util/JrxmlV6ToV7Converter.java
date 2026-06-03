@@ -105,6 +105,13 @@ public final class JrxmlV6ToV7Converter {
     private static final String TAG_DATASET = "dataset";
     private static final String TAG_BARBECUE = "barbecue";
     private static final String TAG_CODEEXPRESSION = "codeExpression";
+    private static final String TAG_CONNECTIONEXPRESSION = "connectionExpression";
+    private static final String TAG_SERIESEXPRESSION = "seriesExpression";
+    private static final String TAG_CATEGORYEXPRESSION = "categoryExpression";
+    private static final String TAG_VALUEEXPRESSION = "valueExpression";
+    private static final String TAG_TITLEEXPRESSION = "titleExpression";
+    private static final String TAG_SUBTITLEEXPRESSION = "subtitleExpression";
+    private static final String TAG_LEGENDEXPRESSION = "legendExpression";
 
     private static final String ATTR_FONT_SIZE = "fontSize";
     private static final String ATTR_STRETCH_TYPE = "stretchType";
@@ -138,7 +145,9 @@ public final class JrxmlV6ToV7Converter {
     ));
 
     private static final Set<String> CDATA_ELEMENTS = new LinkedHashSet<>(Arrays.asList(
-            TAG_EXPRESSION, "anchorNameExpression", "text", TAG_DESCRIPTION, TAG_QUERY, TAG_CODEEXPRESSION
+            TAG_EXPRESSION, "anchorNameExpression", "text", TAG_DESCRIPTION, TAG_QUERY, TAG_CODEEXPRESSION,
+            TAG_CONNECTIONEXPRESSION, TAG_TITLEEXPRESSION, TAG_SUBTITLEEXPRESSION, TAG_LEGENDEXPRESSION,
+            TAG_SERIESEXPRESSION, TAG_CATEGORYEXPRESSION, TAG_VALUEEXPRESSION
     ));
 
     /**
@@ -209,6 +218,10 @@ public final class JrxmlV6ToV7Converter {
     // have been removed
     private static final String JRXmlConstants_ELEMENT_meterPlot = "meterPlot";
     private static final String JRXmlConstants_ELEMENT_thermometerPlot = "thermometerPlot";
+    private static final String JRXmlConstants_ELEMENT_spiderPlot = "spiderPlot";
+    private static final String JRXmlConstants_ELEMENT_spiderDataset = "spiderDataset";
+    
+    
 
     private static final LinkedHashMap<String, ChartTypeEnum> CHART_ELEMENT_TYPES = new LinkedHashMap<>();
     static {
@@ -241,6 +254,14 @@ public final class JrxmlV6ToV7Converter {
 			JRXmlConstants.ELEMENT_chartLegend
 	));
 
+    private static final Set<String> SPIDER_CHART_LABELING_SUBELEMENT_TYPES_TO_ATTACH_PREFIX = new LinkedHashSet<>(Arrays.asList(
+    		"font"
+	));
+
+    private static final Set<String> SPIDER_CHART_LABELING_ATTR_TYPES_TO_ATTACH_PREFIX = new LinkedHashSet<>(Arrays.asList(
+    		"position", "color", "textColor", "backgroundColor"
+	));
+
     private static final Set<String> CHART_PLOT_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
         JRXmlConstants.ELEMENT_piePlot,
         JRXmlConstants.ELEMENT_pie3DPlot,
@@ -255,7 +276,8 @@ public final class JrxmlV6ToV7Converter {
         JRXmlConstants.ELEMENT_timeSeriesPlot,
         JRXmlConstants_ELEMENT_meterPlot,
         JRXmlConstants_ELEMENT_thermometerPlot,
-        JRXmlConstants.ELEMENT_multiAxisPlot
+        JRXmlConstants.ELEMENT_multiAxisPlot,
+        JRXmlConstants_ELEMENT_spiderPlot
     ));
     private static final LinkedHashMap<String, String> CHART_DATASET_ELEMENT_TYPES = new LinkedHashMap<>();
     static {
@@ -286,6 +308,7 @@ public final class JrxmlV6ToV7Converter {
 		CHART_DATASET_ELEMENT_TYPES.put(
 				JRXmlConstants.ELEMENT_ganttDataset,
 				((JsonTypeName) JRGanttDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(JRXmlConstants_ELEMENT_spiderDataset, "");
     }
 
     private static final Set<String> CHART_DATASET_SERIES_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
@@ -894,10 +917,55 @@ public final class JrxmlV6ToV7Converter {
 				for (String labelingTag : CHART_LABELING_ELEMENT_TYPES) {
 					unwrapChildContents(renamed, labelingTag);
 				}
-				// convert plot and dataset
 				convertChartPlot(doc, renamed);
 				convertChartDataset(doc, renamed);
 			}
+		}
+    	// spider charts need special treatment
+    	for (Element el : findElementsNS(doc.getDocumentElement(), "spiderChart")) {
+    		Element renamed = renameElement(doc, el, TAG_COMPONENT);
+    		filterNamespaceAttrs(renamed, "");
+    		renamed.setAttribute("kind", "spiderChart");
+			convertChartPlot(doc, renamed);
+			convertChartDataset(doc, renamed);
+			Element chartSettings = getChildElement(renamed, "chartSettings");
+			for (Element spiderFont : findElements(chartSettings, "font")) {
+				renameAttributeIfPresent(spiderFont, "size", ATTR_FONT_SIZE);
+			}
+			if (chartSettings != null) {
+				Element chartTitle = getChildElement(chartSettings, "chartTitle");
+				// each of these three has children "font" and "color" so we have to rename those
+				// children to "titleFont"/"subtitleFont", etc. before unwrapping their contents
+				if (chartTitle != null) {
+					addPrefixToChildContents(doc, chartTitle, "title");
+					unwrapChildContents(chartSettings, "chartTitle");
+				}
+				Element chartSubtitle = getChildElement(chartSettings, "chartSubtitle");
+				if (chartSubtitle != null) {
+					addPrefixToChildContents(doc, chartSubtitle, "subtitle");
+					unwrapChildContents(chartSettings, "chartSubtitle");
+				}
+				Element chartLegend = getChildElement(chartSettings, "chartLegend");
+				if (chartLegend != null) {
+					renameAttributeIfPresent(chartLegend, "textColor", "color");
+					addPrefixToChildContents(doc, chartLegend, "legend");
+					unwrapChildContents(chartSettings, "chartLegend");
+				}
+			}
+    	}
+    }
+
+    private static void addPrefixToChildContents(Document doc, Element parent, String prefix) {
+    	for (String elementName : SPIDER_CHART_LABELING_SUBELEMENT_TYPES_TO_ATTACH_PREFIX) {
+			for (Element titleSetting: getChildElements(parent, elementName)) {
+				String oldTag = titleSetting.getLocalName();
+				String newTag = prefix + oldTag.substring(0, 1).toUpperCase() + oldTag.substring(1);
+				renameElement(doc, titleSetting, newTag);
+			}
+    	}
+    	for (String attrName : SPIDER_CHART_LABELING_ATTR_TYPES_TO_ATTACH_PREFIX) {
+    		String newAttrName = prefix + attrName.substring(0, 1).toUpperCase() + attrName.substring(1);
+			renameAttributeIfPresent(parent, attrName, newAttrName);
 		}
     }
 
@@ -927,7 +995,10 @@ public final class JrxmlV6ToV7Converter {
 		}
 
 		Element datasetRenamed = renameElement(doc, dataset, TAG_DATASET);
-		datasetRenamed.setAttribute(ATTR_KIND, CHART_DATASET_ELEMENT_TYPES.get(dataset.getLocalName()));
+		String datasetKind = CHART_DATASET_ELEMENT_TYPES.get(dataset.getLocalName());
+		if (!datasetKind.isEmpty()) {
+			datasetRenamed.setAttribute(ATTR_KIND, datasetKind);
+		}
 		unwrapChildContents(datasetRenamed, TAG_DATASET);
 		for (Element series : getChildElementsAny(datasetRenamed, CHART_DATASET_SERIES_ELEMENT_TYPES)) {
 			series = renameElement(doc, series, "series");
@@ -1518,6 +1589,7 @@ public final class JrxmlV6ToV7Converter {
 		}
 		return null;
     }
+
     private static List<Element> getChildElements(Element parent, String localName) {
     	return getChildElementsAny(parent, Collections.singleton(localName));
     }

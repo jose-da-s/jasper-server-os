@@ -1049,7 +1049,7 @@
             <dependency>
                 <groupId>org.jfree</groupId>
                 <artifactId>jfreechart</artifactId>
-                <version>1.0.19</version>
+                <version>${jfreechart.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.jasperreports</groupId>
@@ -1113,6 +1113,21 @@
             <dependency>
                 <groupId>net.sf.jasperreports</groupId>
                 <artifactId>jasperreports-jaxen</artifactId>
+                <version>${jasperreports.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports-charts</artifactId>
+                <version>${jasperreports.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports-barbecue</artifactId>
+                <version>${jasperreports.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports-barcode4j</artifactId>
                 <version>${jasperreports.version}</version>
             </dependency>
             <dependency>
@@ -1527,8 +1542,9 @@
         <teiid.version>9.1.1</teiid.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
-        <jasperreports.version>7.0.1</jasperreports.version>
-        <jasperreports.ext.version>7.0.1</jasperreports.ext.version>
+        <jasperreports.version>7.0.0</jasperreports.version>
+        <jasperreports.ext.version>7.0.0</jasperreports.ext.version>
+        <jfreechart.version>1.5.4</jfreechart.version>
         <!-- there is no version 7 -->
 <!--        <jasperreports-custom-visualization.version>6.21.5</jasperreports-custom-visualization.version>-->
         <!-- JDK 17+ module opening arguments -->

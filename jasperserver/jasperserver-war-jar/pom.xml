@@ -477,6 +477,18 @@
                 </exclusion>
                 <exclusion>
                     <groupId>com.github.tntim96.apache.tiles</groupId>
+                    <artifactId>tiles-compat</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.github.tntim96.apache.tiles</groupId>
+                    <artifactId>tiles-mvel</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.github.tntim96.apache.tiles</groupId>
+                    <artifactId>tiles-ognl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.github.tntim96.apache.tiles</groupId>
                     <artifactId>tiles-velocity</artifactId>
                 </exclusion>
                 <exclusion>
@@ -486,6 +498,10 @@
                 <exclusion>
                     <groupId>com.github.tntim96.apache.tiles</groupId>
                     <artifactId>tiles-mustache</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.github.tntim96.apache.tiles</groupId>
+                    <artifactId>tiles-request-mustache</artifactId>
                 </exclusion>
             </exclusions>
             <!--<scope>compile</scope>-->

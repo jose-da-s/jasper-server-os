@@ -43,7 +43,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRLoader;
 import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoader;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

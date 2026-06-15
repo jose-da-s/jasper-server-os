@@ -22,10 +22,21 @@
  */
 package com.jaspersoft.jasperserver.api.engine.jasperreports.util;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import net.sf.jasperreports.charts.JRCategoryDataset;
+import net.sf.jasperreports.charts.JRGanttDataset;
+import net.sf.jasperreports.charts.JRHighLowDataset;
+import net.sf.jasperreports.charts.JRPieDataset;
+import net.sf.jasperreports.charts.JRTimePeriodDataset;
+import net.sf.jasperreports.charts.JRTimeSeriesDataset;
+import net.sf.jasperreports.charts.JRValueDataset;
+import net.sf.jasperreports.charts.JRXyDataset;
+import net.sf.jasperreports.charts.JRXyzDataset;
+import net.sf.jasperreports.charts.type.ChartTypeEnum;
+import net.sf.jasperreports.engine.xml.JRXmlConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Attr;
-import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -49,6 +60,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -88,10 +100,24 @@ public final class JrxmlV6ToV7Converter {
     private static final String TAG_EXPRESSION = "expression";
     private static final String TAG_PARAGRAPH = "paragraph";
     private static final String TAG_STYLE = "style";
+    private static final String TAG_CHART = "chart";
+    private static final String TAG_PLOT = "plot";
+    private static final String TAG_DATASET = "dataset";
+    private static final String TAG_BARBECUE = "barbecue";
+    private static final String TAG_CODEEXPRESSION = "codeExpression";
+    private static final String TAG_CONNECTIONEXPRESSION = "connectionExpression";
+    private static final String TAG_SERIESEXPRESSION = "seriesExpression";
+    private static final String TAG_CATEGORYEXPRESSION = "categoryExpression";
+    private static final String TAG_VALUEEXPRESSION = "valueExpression";
+    private static final String TAG_TITLEEXPRESSION = "titleExpression";
+    private static final String TAG_SUBTITLEEXPRESSION = "subtitleExpression";
+    private static final String TAG_LEGENDEXPRESSION = "legendExpression";
 
     private static final String ATTR_FONT_SIZE = "fontSize";
     private static final String ATTR_STRETCH_TYPE = "stretchType";
     private static final String ATTR_LANGUAGE = "language";
+    private static final String ATTR_NAME = "name";
+    private static final String ATTR_KIND = "kind";
     private static final String ATTR_SCHEMA_LOCATION = "schemaLocation";
     private static final String ATTR_XMLNS = "xmlns";
     private static final String PREFIX_XMLNS = "xmlns";
@@ -116,6 +142,12 @@ public final class JrxmlV6ToV7Converter {
             TAG_TEXT_FIELD, "staticText", "subreport", "line",
             "componentElement", "break", "image", "frame", "crosstab",
             "rectangle", "ellipse"
+    ));
+
+    private static final Set<String> CDATA_ELEMENTS = new LinkedHashSet<>(Arrays.asList(
+            TAG_EXPRESSION, "anchorNameExpression", "text", TAG_DESCRIPTION, TAG_QUERY, TAG_CODEEXPRESSION,
+            TAG_CONNECTIONEXPRESSION, TAG_TITLEEXPRESSION, TAG_SUBTITLEEXPRESSION, TAG_LEGENDEXPRESSION,
+            TAG_SERIESEXPRESSION, TAG_CATEGORYEXPRESSION, TAG_VALUEEXPRESSION
     ));
 
     /**
@@ -182,6 +214,120 @@ public final class JrxmlV6ToV7Converter {
             "tabStopWidth"
     ));
 
+    // these two were defined in their respective element digester factory classes, which
+    // have been removed
+    private static final String JRXmlConstants_ELEMENT_meterPlot = "meterPlot";
+    private static final String JRXmlConstants_ELEMENT_thermometerPlot = "thermometerPlot";
+    private static final String JRXmlConstants_ELEMENT_spiderPlot = "spiderPlot";
+    private static final String JRXmlConstants_ELEMENT_spiderDataset = "spiderDataset";
+    
+    
+
+    private static final LinkedHashMap<String, ChartTypeEnum> CHART_ELEMENT_TYPES = new LinkedHashMap<>();
+    static {
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_pieChart, ChartTypeEnum.PIE);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_pie3DChart, ChartTypeEnum.PIE3D);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_barChart, ChartTypeEnum.BAR);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_bar3DChart, ChartTypeEnum.BAR3D);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_bubbleChart, ChartTypeEnum.BUBBLE);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_stackedBarChart, ChartTypeEnum.STACKEDBAR);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_stackedBar3DChart, ChartTypeEnum.STACKEDBAR3D);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_lineChart, ChartTypeEnum.LINE);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_highLowChart, ChartTypeEnum.HIGHLOW);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_candlestickChart, ChartTypeEnum.CANDLESTICK);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_areaChart, ChartTypeEnum.AREA);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_scatterChart, ChartTypeEnum.SCATTER);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_timeSeriesChart, ChartTypeEnum.TIMESERIES);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_xyAreaChart, ChartTypeEnum.XYAREA);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_xyBarChart, ChartTypeEnum.XYBAR);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_xyLineChart, ChartTypeEnum.XYLINE);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_meterChart, ChartTypeEnum.METER);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_thermometerChart, ChartTypeEnum.THERMOMETER);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_multiAxisChart, ChartTypeEnum.MULTI_AXIS);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_stackedAreaChart, ChartTypeEnum.STACKEDAREA);
+        CHART_ELEMENT_TYPES.put(JRXmlConstants.ELEMENT_ganttChart, ChartTypeEnum.GANTT);
+    }
+
+    private static final Set<String> CHART_LABELING_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
+    		JRXmlConstants.ELEMENT_chartTitle,
+			JRXmlConstants.ELEMENT_chartSubtitle,
+			JRXmlConstants.ELEMENT_chartLegend
+	));
+
+    private static final Set<String> SPIDER_CHART_LABELING_SUBELEMENT_TYPES_TO_ATTACH_PREFIX = new LinkedHashSet<>(Arrays.asList(
+    		"font"
+	));
+
+    private static final Set<String> SPIDER_CHART_LABELING_ATTR_TYPES_TO_ATTACH_PREFIX = new LinkedHashSet<>(Arrays.asList(
+    		"position", "color", "textColor", "backgroundColor"
+	));
+
+    private static final Set<String> CHART_PLOT_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
+        JRXmlConstants.ELEMENT_piePlot,
+        JRXmlConstants.ELEMENT_pie3DPlot,
+        JRXmlConstants.ELEMENT_barPlot,
+        JRXmlConstants.ELEMENT_bar3DPlot,
+        JRXmlConstants.ELEMENT_bubblePlot,
+        JRXmlConstants.ELEMENT_linePlot,
+        JRXmlConstants.ELEMENT_highLowPlot,
+        JRXmlConstants.ELEMENT_candlestickPlot,
+        JRXmlConstants.ELEMENT_areaPlot,
+        JRXmlConstants.ELEMENT_scatterPlot,
+        JRXmlConstants.ELEMENT_timeSeriesPlot,
+        JRXmlConstants_ELEMENT_meterPlot,
+        JRXmlConstants_ELEMENT_thermometerPlot,
+        JRXmlConstants.ELEMENT_multiAxisPlot,
+        JRXmlConstants_ELEMENT_spiderPlot
+    ));
+    private static final LinkedHashMap<String, String> CHART_DATASET_ELEMENT_TYPES = new LinkedHashMap<>();
+    static {
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_categoryDataset,
+				((JsonTypeName) JRCategoryDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_timeSeriesDataset,
+				((JsonTypeName) JRTimeSeriesDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_timePeriodDataset,
+				((JsonTypeName) JRTimePeriodDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_xyzDataset,
+				((JsonTypeName) JRXyzDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_xyDataset,
+				((JsonTypeName) JRXyDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_pieDataset,
+				((JsonTypeName) JRPieDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_valueDataset,
+				((JsonTypeName) JRValueDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_highLowDataset,
+				((JsonTypeName) JRHighLowDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(
+				JRXmlConstants.ELEMENT_ganttDataset,
+				((JsonTypeName) JRGanttDataset.class.getAnnotation(JsonTypeName.class)).value());
+		CHART_DATASET_ELEMENT_TYPES.put(JRXmlConstants_ELEMENT_spiderDataset, "");
+    }
+
+    private static final Set<String> CHART_DATASET_SERIES_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
+    		JRXmlConstants.ELEMENT_pieSeries,
+    		JRXmlConstants.ELEMENT_categorySeries,
+    		JRXmlConstants.ELEMENT_xyzSeries,
+    		JRXmlConstants.ELEMENT_xySeries,
+    		JRXmlConstants.ELEMENT_timeSeries,
+    		JRXmlConstants.ELEMENT_timePeriodSeries,
+    		JRXmlConstants.ELEMENT_ganttSeries
+	));
+    private static final Set<String> CHART_PLOT_AXIS_FORMAT_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
+			JRXmlConstants.ELEMENT_categoryAxisFormat,
+			JRXmlConstants.ELEMENT_valueAxisFormat,
+			JRXmlConstants.ELEMENT_timeAxisFormat,
+			JRXmlConstants.ELEMENT_xAxisFormat,
+			JRXmlConstants.ELEMENT_yAxisFormat
+	));
+
     private JrxmlV6ToV7Converter() { }
 
     /**
@@ -209,6 +355,7 @@ public final class JrxmlV6ToV7Converter {
         convertLabelAndIcon(doc);
         convertElements(doc);
         convertCrosstab(doc);
+        convertCharts(doc);
         convertDataset(doc);
         renameExpressions(doc);
         convertGroups(doc);
@@ -228,7 +375,32 @@ public final class JrxmlV6ToV7Converter {
         stripNamespaces(doc);
         ensureAllCDATA(doc);
         propagateStyleToBox(doc);
-        stripCommentsAndUpdateStudioVersion(doc);
+        stripComments(doc);
+        updateStudioVersion(doc);
+
+        return serialize(doc);
+    }
+
+    /**
+     * Convert legacy JRTX v6 bytes into v7-compatible bytes.
+     *
+     * @param legacyData raw v6 JRTX content (UTF-8)
+     * @return converted v7 JRTX bytes
+     */
+    public static byte[] convertJrtx(byte[] legacyData)
+            throws ParserConfigurationException, SAXException, IOException, TransformerException {
+        Document doc = parseSecure(legacyData);
+
+        Element root = doc.getDocumentElement();
+        if (root == null || !"jasperTemplate".equals(root.getLocalName())) {
+            log.warn("Root element is not <jasperTemplate>; returning data unchanged");
+            return legacyData;
+        }
+
+        convertJrtxRootElement(root);
+        convertStyles(doc);
+        stripNamespaces(doc);
+        stripComments(doc);
 
         return serialize(doc);
     }
@@ -244,7 +416,7 @@ public final class JrxmlV6ToV7Converter {
         // Collect non-removed attributes
         List<Attr> keep = new ArrayList<>();
         Set<String> remove = new HashSet<>(Arrays.asList(
-                ATTR_XMLNS, ATTR_SCHEMA_LOCATION, ATTR_LANGUAGE
+                ATTR_XMLNS, ATTR_SCHEMA_LOCATION, ATTR_LANGUAGE, ATTR_NAME
         ));
         NamedNodeMap attrs = root.getAttributes();
         for (int i = 0; i < attrs.getLength(); i++) {
@@ -271,13 +443,37 @@ public final class JrxmlV6ToV7Converter {
 
     private static boolean shouldKeepRootAttribute(Attr a, Set<String> dropNames) {
         String localName = a.getLocalName() != null ? a.getLocalName() : a.getName();
-        if (dropNames.contains(localName) || "name".equals(localName)) {
+        if (dropNames.contains(localName)) {
             return false;
         }
         String prefix = a.getPrefix();
         return !PREFIX_XMLNS.equals(prefix)
-                && !PREFIX_XSI.equals(prefix)
-                && !ATTR_XMLNS.equals(a.getName());
+                && !PREFIX_XSI.equals(prefix);
+    }
+
+    private static void convertJrtxRootElement(Element root) {
+        // Collect non-removed attributes
+        List<Attr> keep = new ArrayList<>();
+        Set<String> remove = new HashSet<>(Arrays.asList(
+                ATTR_XMLNS, ATTR_SCHEMA_LOCATION
+        ));
+        NamedNodeMap attrs = root.getAttributes();
+        for (int i = 0; i < attrs.getLength(); i++) {
+            Attr a = (Attr) attrs.item(i);
+            if (shouldKeepRootAttribute(a, remove)) {
+                keep.add(a);
+            }
+        }
+
+        // Clear all attributes
+        while (root.getAttributes().getLength() > 0) {
+            root.removeAttributeNode((Attr) root.getAttributes().item(0));
+        }
+
+        // Restore kept attributes
+        for (Attr a : keep) {
+            root.setAttribute(a.getName(), a.getValue());
+        }
     }
 
     // ─── queryString → query ──────────────────────────────────────
@@ -681,13 +877,13 @@ public final class JrxmlV6ToV7Converter {
         for (Element el : findElements(doc.getDocumentElement(), "crosstabRowHeader")) {
             renameBooleanPrefixOnElement(el);
             Element renamed = renameElement(doc, el, "header");
-            unwrapCellContents(renamed);
+            unwrapChildContents(renamed, TAG_CELL_CONTENTS);
         }
         // crosstabTotalRowHeader → totalHeader
         for (Element el : findElements(doc.getDocumentElement(), "crosstabTotalRowHeader")) {
             renameBooleanPrefixOnElement(el);
             Element renamed = renameElement(doc, el, "totalHeader");
-            unwrapCellContents(renamed);
+            unwrapChildContents(renamed, TAG_CELL_CONTENTS);
         }
         // crosstabColumnHeader → header
         for (Element el : findElements(doc.getDocumentElement(), "crosstabColumnHeader")) {
@@ -708,6 +904,113 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
+    private static void convertCharts(Document doc) {
+    	for (String chartTag : CHART_ELEMENT_TYPES.keySet()) {
+			for (Element el : findElements(doc.getDocumentElement(), chartTag)) {
+				// <xyzChart> -> <element kind="chart" chartType="XYZ">
+				Element renamed = renameElement(doc, el, TAG_ELEMENT);
+				renamed.setAttribute(ATTR_KIND, "chart");
+				renamed.setAttribute("chartType", CHART_ELEMENT_TYPES.get(chartTag).name());
+				// move contents up from <chart>, <chart><reportElement>, <chartTitle>, <chartSubtitle>, and <chartLegend>
+				unwrapChildContents(renamed, TAG_CHART);
+				unwrapChildContents(renamed, TAG_REPORT_ELEMENT);
+				for (String labelingTag : CHART_LABELING_ELEMENT_TYPES) {
+					unwrapChildContents(renamed, labelingTag);
+				}
+				convertChartPlot(doc, renamed);
+				convertChartDataset(doc, renamed);
+			}
+		}
+    	// spider charts need special treatment
+    	for (Element el : findElementsNS(doc.getDocumentElement(), "spiderChart")) {
+    		Element renamed = renameElement(doc, el, TAG_COMPONENT);
+    		filterNamespaceAttrs(renamed, "");
+    		renamed.setAttribute("kind", "spiderChart");
+			convertChartPlot(doc, renamed);
+			convertChartDataset(doc, renamed);
+			Element chartSettings = getChildElement(renamed, "chartSettings");
+			for (Element spiderFont : findElements(chartSettings, "font")) {
+				renameAttributeIfPresent(spiderFont, "size", ATTR_FONT_SIZE);
+			}
+			if (chartSettings != null) {
+				Element chartTitle = getChildElement(chartSettings, "chartTitle");
+				// each of these three has children "font" and "color" so we have to rename those
+				// children to "titleFont"/"subtitleFont", etc. before unwrapping their contents
+				if (chartTitle != null) {
+					addPrefixToChildContents(doc, chartTitle, "title");
+					unwrapChildContents(chartSettings, "chartTitle");
+				}
+				Element chartSubtitle = getChildElement(chartSettings, "chartSubtitle");
+				if (chartSubtitle != null) {
+					addPrefixToChildContents(doc, chartSubtitle, "subtitle");
+					unwrapChildContents(chartSettings, "chartSubtitle");
+				}
+				Element chartLegend = getChildElement(chartSettings, "chartLegend");
+				if (chartLegend != null) {
+					renameAttributeIfPresent(chartLegend, "textColor", "color");
+					addPrefixToChildContents(doc, chartLegend, "legend");
+					unwrapChildContents(chartSettings, "chartLegend");
+				}
+			}
+    	}
+    }
+
+    private static void addPrefixToChildContents(Document doc, Element parent, String prefix) {
+    	for (String elementName : SPIDER_CHART_LABELING_SUBELEMENT_TYPES_TO_ATTACH_PREFIX) {
+			for (Element titleSetting: getChildElements(parent, elementName)) {
+				String oldTag = titleSetting.getLocalName();
+				String newTag = prefix + oldTag.substring(0, 1).toUpperCase() + oldTag.substring(1);
+				renameElement(doc, titleSetting, newTag);
+			}
+    	}
+    	for (String attrName : SPIDER_CHART_LABELING_ATTR_TYPES_TO_ATTACH_PREFIX) {
+    		String newAttrName = prefix + attrName.substring(0, 1).toUpperCase() + attrName.substring(1);
+			renameAttributeIfPresent(parent, attrName, newAttrName);
+		}
+    }
+
+    private static void convertChartPlot(Document doc, Element chartElement) {
+		Element plot = getChildElementAny(chartElement, CHART_PLOT_ELEMENT_TYPES);
+		if (plot == null) {
+			return;
+		}
+
+		Element plotRenamed = renameElement(doc, plot, TAG_PLOT);
+		unwrapChildContents(plotRenamed, TAG_PLOT);
+		for (String axisFormatTag : CHART_PLOT_AXIS_FORMAT_ELEMENT_TYPES) {
+			Element axisFormat = getChildElement(plotRenamed, axisFormatTag);
+			if (axisFormat != null) {
+				unwrapChildContents(axisFormat, "axisFormat");
+			}
+		}
+		for (Element seriesColor : getChildElements(plotRenamed, "seriesColor")) {
+			renameAttributeIfPresent(seriesColor, "seriesOrder", "order");
+		}
+    }
+
+    private static void convertChartDataset(Document doc, Element chartElement) {
+		Element dataset = getChildElementAny(chartElement, CHART_DATASET_ELEMENT_TYPES.keySet());
+		if (dataset == null) {
+			return;
+		}
+
+		Element datasetRenamed = renameElement(doc, dataset, TAG_DATASET);
+		String datasetKind = CHART_DATASET_ELEMENT_TYPES.get(dataset.getLocalName());
+		if (!datasetKind.isEmpty()) {
+			datasetRenamed.setAttribute(ATTR_KIND, datasetKind);
+		}
+		unwrapChildContents(datasetRenamed, TAG_DATASET);
+		for (Element series : getChildElementsAny(datasetRenamed, CHART_DATASET_SERIES_ELEMENT_TYPES)) {
+			series = renameElement(doc, series, "series");
+		}
+		Element datasetRun = getChildElement(datasetRenamed, "datasetRun");
+		if (datasetRun != null) {
+			for (Element datasetParameter : getChildElements(datasetRun, "datasetParameter")) {
+				renameElement(doc, datasetParameter, TAG_PARAMETER);
+			}
+		}
+	}
+
     private static void mergeCellContentsAttributes(Element parent) {
         Element cc = getChildElement(parent, TAG_CELL_CONTENTS);
         if (cc != null) {
@@ -716,8 +1019,8 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
-    private static void unwrapCellContents(Element parent) {
-        Element cc = getChildElement(parent, TAG_CELL_CONTENTS);
+    private static void unwrapChildContents(Element parent, String childName) {
+        Element cc = getChildElement(parent, childName);
         if (cc != null) {
             moveAttributes(cc, parent);
             moveChildren(cc, parent);
@@ -741,7 +1044,8 @@ public final class JrxmlV6ToV7Converter {
 
     // ─── Component conversions ───────────────────────────────────
 
-    private static final String[] BARCODE_TAGS = {
+
+    private static final String[] BARCODE4J_TAGS = {
             "Code128", "QRCode", "EAN13", "EAN128",
             "DataMatrix", "PDF417", "Code39", "Codabar", "UPCA", "UPCE",
             "Interleaved2Of5", "RoyalMailCustomer", "USPSIntelligentMail", "POSTNET"
@@ -753,7 +1057,8 @@ public final class JrxmlV6ToV7Converter {
         convertListComponents(doc);
         convertSimpleNsRenames(doc);
         convertIconLabel(doc);
-        convertBarcodes(doc);
+        convertBarbecue(doc);
+        convertBarcode4j(doc);
     }
 
     private static void convertTableComponent(Document doc) {
@@ -834,14 +1139,27 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
-    private static void convertBarcodes(Document doc) {
-        for (String barcodeTag : BARCODE_TAGS) {
+    private static void convertBarbecue(Document doc) {
+        for (Element el : findElementsNS(doc, TAG_BARBECUE)) {
+            Element renamed = renameElement(doc, el, TAG_COMPONENT);
+			renamed.setAttribute(ATTR_KIND, TAG_BARBECUE);
+            filterNamespaceAttrs(renamed, "");
+            for (Element ce : findElementsNS(renamed, TAG_CODEEXPRESSION)) {
+            	Element codeExpression = renameElement(doc, ce, TAG_CODEEXPRESSION);
+                ensureCDATA(doc, codeExpression);
+            }
+        }
+    }
+
+    private static void convertBarcode4j(Document doc) {
+        for (String barcodeTag : BARCODE4J_TAGS) {
             for (Element el : findElementsNS(doc, barcodeTag)) {
                 String saveName = el.getLocalName();
                 Element renamed = renameElement(doc, el, TAG_COMPONENT);
                 filterNamespaceAttrs(renamed, "barcode4j:" + saveName);
-                for (Element ce : findElementsNS(renamed, "codeExpression")) {
-                    renameElement(doc, ce, "codeExpression");
+                for (Element ce : findElementsNS(renamed, TAG_CODEEXPRESSION)) {
+                    Element codeExpression = renameElement(doc, ce, TAG_CODEEXPRESSION);
+                    ensureCDATA(doc, codeExpression);
                 }
             }
         }
@@ -1112,8 +1430,7 @@ public final class JrxmlV6ToV7Converter {
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS,
-                "expression anchorNameExpression text description query");
+        transformer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS, String.join(" ", CDATA_ELEMENTS));
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
         ByteArrayOutputStream out = new ByteArrayOutputStream(8192);
@@ -1256,27 +1573,35 @@ public final class JrxmlV6ToV7Converter {
     }
 
     private static Element getChildElement(Element parent, String localName) {
-        NodeList children = parent.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
-            Node child = children.item(i);
-            if (child.getNodeType() == Node.ELEMENT_NODE) {
-                String ln = child.getLocalName() != null ? child.getLocalName() : child.getNodeName();
-                if (localName.equals(ln)) {
-                    return (Element) child;
-                }
-            }
-        }
-        return null;
+    	return getChildElementAny(parent, Collections.singleton(localName));
+    }
+
+    private static Element getChildElementAny(Element parent, Set<String> localName) {
+		NodeList children = parent.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child.getNodeType() == Node.ELEMENT_NODE) {
+				String ln = child.getLocalName() != null ? child.getLocalName() : child.getNodeName();
+				if (localName.contains(ln)) {
+					return (Element) child;
+				}
+			}
+		}
+		return null;
     }
 
     private static List<Element> getChildElements(Element parent, String localName) {
+    	return getChildElementsAny(parent, Collections.singleton(localName));
+    }
+
+    private static List<Element> getChildElementsAny(Element parent, Set<String> localName) {
         List<Element> result = new ArrayList<>();
         NodeList children = parent.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child.getNodeType() == Node.ELEMENT_NODE) {
                 String ln = child.getLocalName() != null ? child.getLocalName() : child.getNodeName();
-                if (localName.equals(ln)) {
+                if (localName.contains(ln)) {
                     result.add((Element) child);
                 }
             }
@@ -1462,13 +1787,10 @@ public final class JrxmlV6ToV7Converter {
             element.removeChild(n);
         }
     }
-
+ 
     /** Ensure CDATA wrapping on text-content elements that JR 7 expects. */
     private static void ensureAllCDATA(Document doc) {
-        String[] cdataElements = {
-                TAG_EXPRESSION, "anchorNameExpression", "text", TAG_DESCRIPTION, TAG_QUERY
-        };
-        for (String tag : cdataElements) {
+        for (String tag : CDATA_ELEMENTS) {
             for (Element el : findElements(doc.getDocumentElement(), tag)) {
                 ensureCDATA(doc, el);
             }
@@ -1488,8 +1810,8 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
-    /** Strip XML comment nodes and insert/update the Jaspersoft Studio version comment. */
-    private static void stripCommentsAndUpdateStudioVersion(Document doc) {
+    /** Strip XML comment nodes */
+    private static void stripComments(Document doc) {
         // Remove all comment nodes that are direct children of the document
         List<Node> toRemove = new ArrayList<>();
         NodeList docChildren = doc.getChildNodes();
@@ -1503,6 +1825,10 @@ public final class JrxmlV6ToV7Converter {
             doc.removeChild(n);
         }
 
+    }
+
+    /** insert/update the Jaspersoft Studio version comment. */
+    private static void updateStudioVersion(Document doc) {
         // Insert Studio version comment before the root element
         Comment studioComment = doc.createComment(
                 " Created with Jaspersoft Studio version 7.0.0.final"

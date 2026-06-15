@@ -83,9 +83,9 @@
 				<prop key="/fileview/**">jsFileViewContr</prop>
 
 
-                <!-- admin pages -->
                 <prop key="/flow.html">flowController</prop>
                 <prop key="/flow.html/">flowController</prop>
+        		<prop key="/scheduler/undefined/flow.html">flowController</prop>
                 <prop key="/flow.html/flowFile/**">flowController</prop>
 				<prop key="/reportimage">reportImageController</prop>
 				<prop key="/reportresource/**">reportResourceController</prop>

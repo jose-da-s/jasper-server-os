@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -40,6 +42,7 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JRReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.Pair;
+import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoader;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.types.date.DateRange;
 import org.apache.commons.collections.set.ListOrderedSet;
@@ -221,7 +224,7 @@ public class DefaultReportParametersTranslator implements
 		}
 
 		try {
-			JasperDesign design = JRXmlLoader.load(jrxmlStream);
+			JasperDesign design = CustomJRXmlLoader.load(jrxmlStream);
 			return design;
 		} catch (JRException e) {
 			throw new JSExceptionWrapper(e);

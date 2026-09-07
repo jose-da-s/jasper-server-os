@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -27,7 +29,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.jaspersoft.jasperserver.core.util.XMLUtil;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
 import net.sf.jasperreports.engine.JRExpressionChunk;
 import net.sf.jasperreports.engine.JRImage;
@@ -39,7 +40,6 @@ import net.sf.jasperreports.engine.JRTextField;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRElementsVisitor;
 import net.sf.jasperreports.engine.util.JRVisitorSupport;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import com.jaspersoft.jasperserver.api.JSExceptionWrapper;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource;
@@ -55,9 +55,9 @@ public class ResourceCollector extends JRVisitorSupport
 {	
 	private static final String REPO_URL_PROTOCOL = "repo:";
 	
-	private List resources = new ArrayList();
-	private Set resourceNames = new HashSet();
-	
+	private List<Resource> resources = new ArrayList<>();
+	private Set<String> resourceNames = new HashSet<>();
+
 	/**
 	 * 
 	 */
@@ -75,13 +75,13 @@ public class ResourceCollector extends JRVisitorSupport
 		try
 		{
 			// check for XXE vulnerability first and then load
-			jasperDesign = JRXmlLoader.load(XMLUtil.checkForXXE(jrxmlStream));
+			jasperDesign = CustomJRXmlLoader.load(XMLUtil.checkForXXE(jrxmlStream));
 		}
 		catch (Exception e)
 		{
 			throw new JSExceptionWrapper(e);
 		}
-		
+
 		ResourceCollector collector = new ResourceCollector();
 		collector.collect(jasperDesign);
 		
@@ -93,7 +93,7 @@ public class ResourceCollector extends JRVisitorSupport
 	 */
 	private Resource[] getResources()
 	{
-		return (Resource[]) resources.toArray(new Resource[resources.size()]);
+		return resources.toArray(new Resource[resources.size()]);
 	}
 
 	/**

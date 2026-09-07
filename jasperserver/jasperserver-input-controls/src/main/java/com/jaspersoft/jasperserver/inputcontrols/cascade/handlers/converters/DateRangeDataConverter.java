@@ -23,16 +23,17 @@
 package com.jaspersoft.jasperserver.inputcontrols.cascade.handlers.converters;
 
 import com.jaspersoft.jasperserver.api.common.util.rd.DateRangeFactory;
-import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CalendarFormatProvider;
 import net.sf.jasperreports.types.date.DateRange;
 import net.sf.jasperreports.types.date.DateRangeExpression;
+import net.sf.jasperreports.types.date.InvalidDateRangeExpressionException;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author Anton Fomin
@@ -46,8 +47,18 @@ public class DateRangeDataConverter extends BaseChronoDataConverter implements D
             return null;
         }
 
-        return DateRangeFactory.getInstance(rawData, Date.class,
-                getStringDatePattern(getDateFormat(rawData)));
+        try {
+        	return DateRangeFactory.getInstance(rawData, Timestamp.class,
+        			getStringDatePattern(getDatetimeFormat(rawData)));
+        } catch (InvalidDateRangeExpressionException e1) {
+        	// maybe it is a date without timestamp, try to add a midnight timestamp
+        	try {
+            	return DateRangeFactory.getInstance(rawData + " 00:00:00", Timestamp.class,
+            			getStringDatePattern(getDatetimeFormat(rawData)));
+        	} catch (InvalidDateRangeExpressionException e2) {
+        		throw e1;
+        	}
+        }
     }
 
     @Override
@@ -57,7 +68,7 @@ public class DateRangeDataConverter extends BaseChronoDataConverter implements D
         } else if (value instanceof DateRangeExpression) {
             return ((DateRangeExpression) value).getExpression();
         } else {
-            return getDateFormat().format(value.getStart());
+            return getDatetimeFormat().format(value.getStart());
         }
     }
 

@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.export.JRHyperlinkProducerFactory;
 import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
 import net.sf.jasperreports.json.export.GenericElementJsonHandler;
 import net.sf.jasperreports.json.export.JsonExporter;
+import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
 import net.sf.jasperreports.json.export.SimpleJsonExporterOutput;
@@ -95,6 +96,10 @@ public class EmbeddableHtmlExportStrategy extends AbstractHtmlExportStrategy {
         // Let's proxy request to forward required parameters to hyperlink producers
         HttpServletRequest requestProxy = createRequestProxy(reportExecution, contextPath);
         SimpleHtmlReportConfiguration reportConfig = new SimpleHtmlReportConfiguration();
+        ReportExportConfiguration parentConfig = exporter.getReportExportConfiguration();
+        reportConfig.setPageIndex(parentConfig.getPageIndex());
+        reportConfig.setStartPageIndex(parentConfig.getStartPageIndex());
+        reportConfig.setEndPageIndex(parentConfig.getEndPageIndex());
         JRHyperlinkProducerFactory hpFactory = hyperlinkProducerFactory.getHyperlinkProducerFactory(requestProxy, null);
         reportConfig.setHyperlinkProducerFactory(hpFactory);
 

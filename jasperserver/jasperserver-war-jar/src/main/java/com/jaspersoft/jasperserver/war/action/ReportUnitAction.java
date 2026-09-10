@@ -378,6 +378,7 @@ public class ReportUnitAction extends FormAction {
 			}catch(Exception ex){
 				//The JRXML file couldnt be parsed
 				context.getRequestScope().put(UNPARSABLE_JRXML_ATTR,UNPARSABLE_JRXML_MESSAGE_KEY);
+				log.error("The uploaded JRXML file could not be parsed", ex);
 				wrapper.setJrxmlLocated(false);
 				wrapper.setJrxmlData(null);
 				return error();

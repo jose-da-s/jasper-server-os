@@ -23,6 +23,8 @@
 
 package com.jaspersoft.jasperserver.remote.resources.validation;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import com.jaspersoft.jasperserver.api.common.domain.ExecutionContext;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.FileResource;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.ResourceReference;
@@ -32,7 +34,7 @@ import com.jaspersoft.jasperserver.remote.exception.IllegalParameterValueExcepti
 import com.jaspersoft.jasperserver.remote.exception.MandatoryParameterNotFoundException;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.design.JasperDesign;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoader;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
@@ -50,6 +52,7 @@ import static com.jaspersoft.jasperserver.remote.resources.validation.Validation
  */
 @Component
 public class ReportUnitResourceValidator<T extends ReportUnit> extends GenericResourceValidator<T> {
+	private static Log log = LogFactory.getLog(ReportUnitResourceValidator.class);
 
     @Resource(name = "concreteRepository")
     protected RepositoryService repositoryService;
@@ -111,13 +114,14 @@ public class ReportUnitResourceValidator<T extends ReportUnit> extends GenericRe
             }
             loadJasperDesign(data);
         } catch (Exception e) {
+        	log.error("Error validating JRXML resource reference", e);
             isValid = false;
         }
         return isValid;
     }
 
     protected JasperDesign loadJasperDesign(byte[] data) throws JRException {
-        return JRXmlLoader.load(new ByteArrayInputStream(data));
+        return CustomJRXmlLoader.load(new ByteArrayInputStream(data));
     }
 }
 

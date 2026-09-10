@@ -634,7 +634,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>2.0.4</version>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mongodb</groupId>
@@ -1049,7 +1049,7 @@
             <dependency>
                 <groupId>org.jfree</groupId>
                 <artifactId>jfreechart</artifactId>
-                <version>1.0.19</version>
+                <version>${jfreechart.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.jasperreports</groupId>
@@ -1113,6 +1113,11 @@
             <dependency>
                 <groupId>net.sf.jasperreports</groupId>
                 <artifactId>jasperreports-jaxen</artifactId>
+                <version>${jasperreports.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports-charts</artifactId>
                 <version>${jasperreports.version}</version>
             </dependency>
             <dependency>
@@ -1500,6 +1505,7 @@
     </distributionManagement>
 
     <properties>
+        <slf4j.version>2.0.4</slf4j.version>
         <jersey.version>3.1.11</jersey.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <jakarta.servlet.jsp.version>3.1.0</jakarta.servlet.jsp.version>
@@ -1528,6 +1534,7 @@
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
         <jasperreports.version>7.0.0</jasperreports.version>
         <jasperreports.ext.version>7.0.0</jasperreports.ext.version>
+        <jfreechart.version>1.5.4</jfreechart.version>
         <!-- there is no version 7 -->
 <!--        <jasperreports-custom-visualization.version>6.21.5</jasperreports-custom-visualization.version>-->
         <!-- JDK 17+ module opening arguments -->

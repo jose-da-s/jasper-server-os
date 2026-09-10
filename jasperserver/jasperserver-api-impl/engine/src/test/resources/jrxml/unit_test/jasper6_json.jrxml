@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
+  ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
+  ~ http://www.jaspersoft.com.
+  ~
+  ~ Unless you have purchased a commercial license agreement from Jaspersoft,
+  ~ the following license terms apply:
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<!-- Created with Jaspersoft Studio version 6.0.2.beta-v201501191618 using JasperReports Library version 6.0.2  -->
+<!-- 2015-02-04T12:01:27 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Json_Master" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e2b7fd43-5833-4565-9d1e-ca4406c75272">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <property name="ireport.jasperserver.url" value="http://192.168.101.125:8080/jasperserver-pro/"/>
+    <property name="ireport.jasperserver.user" value="jasperadmin"/>
+    <property name="ireport.jasperserver.report.resource" value="/public/Christoph/Json_files/main_jrxml"/>
+    <property name="ireport.jasperserver.reportUnit" value="/public/Christoph/Json"/>
+    <parameter name="JSON" class="java.lang.String">
+        <parameterDescription><![CDATA[]]></parameterDescription>
+        <defaultValueExpression><![CDATA["[{\"firstName\": \"John\", \"lastName\": \"Doe\", \"address\": {\"street\": \"Broadway\"}}, {\"firstName\": \"Jane\", \"lastName\": \"Smith\", \"address\": {\"street\": \"Main Street\"}}]"]]></defaultValueExpression>
+    </parameter>
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+    <title>
+        <band height="211">
+            <subreport>
+                <reportElement x="0" y="0" width="554" height="211" uuid="2541d3ec-a94a-4ac5-b9bb-9bd257209b63"/>
+                <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JsonDataSource(org.apache.commons.io.IOUtils.toInputStream($P{JSON}))]]></dataSourceExpression>
+                <subreportExpression><![CDATA["Json_Sub.jasper"]]></subreportExpression>
+            </subreport>
+        </band>
+    </title>
+</jasperReport>

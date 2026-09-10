@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -40,7 +42,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -153,7 +155,7 @@ public class ReportLoadingService {
 
     public JasperReport compileReport(InputStream jrxmlData) {
         try {
-            JasperDesign design = JRXmlLoader.load(jrxmlData);
+            JasperDesign design = CustomJRXmlLoader.load(jrxmlData);
             JasperReport report = JasperCompileManager.compileReport(design);
             return report;
         } catch (JRException e) {

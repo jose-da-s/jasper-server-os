@@ -1,4 +1,6 @@
 /*
+ * Copyright (C) 2025-2026 the Jasper Server OS Authors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
  * http://www.jaspersoft.com.
  *
@@ -27,12 +29,15 @@ import com.jaspersoft.jasperserver.api.metadata.common.domain.FileResourceData;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.Folder;
 import com.jaspersoft.jasperserver.api.metadata.common.domain.ResourceContainer;
 import com.jaspersoft.jasperserver.api.metadata.common.service.impl.hibernate.util.RepositoryUtils;
+
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.repo.PersistenceService;
 import net.sf.jasperreports.repo.Resource;
 import net.sf.jasperreports.repo.StreamRepositoryService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
@@ -120,8 +125,16 @@ public class RepoRepositoryService implements StreamRepositoryService {
                         data = repositoryContext.getCompiledReportProvider().getCompiledReport(
                                 executionContext,
                                 data);//FIXME not currently used, but should do autoUpdateJRXMLResource
+                    } else if (resource.getFileType().equals(FileResource.TYPE_STYLE_TEMPLATE)) {
+                    	InputStream rawData = data;
+                    	try {
+	                    	byte[] v7TemplateData = CustomJRXmlTemplateLoader.convertLegacyToV7(data);
+	                    	data = new ByteArrayInputStream(v7TemplateData);
+                    	} catch (JRException e) {
+                    		log.error("could not convert v6 JRTX to v7, loading raw file content", e);
+                    		data = rawData;
+                    	}
                     }
-                    
                     if (data != null) {
                     	return data;
                     }
@@ -166,6 +179,17 @@ public class RepoRepositoryService implements StreamRepositoryService {
                 } else {
                     FileResourceData resourceData = repository.getResourceData(executionContext, path);
                     data = resourceData.getDataStream();
+                }
+
+                if (fileResource.getFileType().equals(FileResource.TYPE_STYLE_TEMPLATE)) {
+                	InputStream rawData = data;
+                	try {
+                    	byte[] v7TemplateData = CustomJRXmlTemplateLoader.convertLegacyToV7(data);
+                    	data = new ByteArrayInputStream(v7TemplateData);
+                	} catch (JRException e) {
+                		log.error("could not convert v6 JRTX to v7, loading raw file content", e);
+                		data = rawData;
+                	}
                 }
 
                 if (log.isDebugEnabled()) {

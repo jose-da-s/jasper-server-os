@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2025-2026 the Jasper Server OS Authors
+  ~ SPDX-License-Identifier: AGPL-3.0-or-later
+  ~ Copyright (C) 2005-2023. Cloud Software Group, Inc. All Rights Reserved.
+  ~ http://www.jaspersoft.com.
+  ~
+  ~ Unless you have purchased a commercial license agreement from Jaspersoft,
+  ~ the following license terms apply:
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program. If not, see <http://www.gnu.org/licenses/>.
+  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="complex_legacy_report"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              isSummaryNewPage="false"
+              uuid="aabbccdd-1234-5678-9abc-def012345678">
+
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+    <property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+    <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+    <property name="net.sf.jasperreports.export.pdf.tagged" value="true"/>
+
+    <style name="BaseStyle" isDefault="true" fontSize="10" isBold="false" isItalic="false"/>
+    <style name="HeaderStyle" fontSize="14" isBold="true" forecolor="#336699"/>
+
+    <parameter name="ReportTitle" class="java.lang.String">
+        <defaultValueExpression><![CDATA["Test Report"]]></defaultValueExpression>
+    </parameter>
+
+    <field name="name" class="java.lang.String"/>
+    <field name="value" class="java.lang.Integer"/>
+
+    <variable name="totalValue" class="java.lang.Integer" calculation="Sum">
+        <variableExpression><![CDATA[$F{value}]]></variableExpression>
+    </variable>
+
+    <group name="nameGroup" isStartNewPage="false" isReprintHeaderOnEachPage="true">
+        <groupExpression><![CDATA[$F{name}]]></groupExpression>
+    </group>
+
+    <title>
+        <band height="60">
+            <staticText>
+                <reportElement x="0" y="0" width="400" height="30" uuid="11111111-1111-1111-1111-111111111111"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="20" isBold="true" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Complex Legacy Report]]></text>
+            </staticText>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="35" width="300" height="20" uuid="22222222-2222-2222-2222-222222222222">
+                    <property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+                </reportElement>
+                <textElement textAlignment="Left">
+                    <font size="12" isBold="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+            </textField>
+            <image>
+                <reportElement x="400" y="0" width="100" height="50" uuid="33333333-3333-3333-3333-333333333333"/>
+                <imageExpression><![CDATA["img/logo.png"]]></imageExpression>
+            </image>
+            <line>
+                <reportElement x="0" y="58" width="555" height="1" uuid="44444444-4444-4444-4444-444444444444"/>
+            </line>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="20">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="20" uuid="55555555-5555-5555-5555-555555555555"/>
+                <textElement>
+                    <font size="8" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Page Header]]></text>
+            </staticText>
+        </band>
+    </pageHeader>
+
+    <columnHeader>
+        <band height="25">
+            <staticText>
+                <reportElement style="HeaderStyle" x="0" y="0" width="200" height="25" uuid="66666666-6666-6666-6666-666666666666"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Name]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="HeaderStyle" x="200" y="0" width="200" height="25" uuid="77777777-7777-7777-7777-777777777777"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Value]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="20">
+            <textField isStretchWithOverflow="true">
+                <reportElement x="0" y="0" width="200" height="20" uuid="88888888-8888-8888-8888-888888888888"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="200" y="0" width="200" height="20" uuid="99999999-9999-9999-9999-999999999999"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$F{value}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <columnFooter>
+        <band height="25"/>
+    </columnFooter>
+
+    <pageFooter>
+        <band height="20">
+            <textField>
+                <reportElement x="400" y="0" width="155" height="20" uuid="aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+    <summary>
+        <band height="30">
+            <staticText>
+                <reportElement x="0" y="0" width="200" height="30" uuid="bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Total:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="200" y="0" width="200" height="30" uuid="cccccccc-cccc-cccc-cccc-cccccccccccc"/>
+                <textElement textAlignment="Right">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{totalValue}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+
+</jasperReport>
+

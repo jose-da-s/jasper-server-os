@@ -137,8 +137,8 @@ import net.sf.jasperreports.engine.query.JRQueryExecuter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRResourcesUtil;
 import net.sf.jasperreports.engine.util.JRSaver;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.engine.xml.JRXmlTemplateLoader;
+import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlLoader;
+import com.jaspersoft.jasperserver.api.engine.jasperreports.util.CustomJRXmlTemplateLoader;
 import net.sf.jasperreports.engine.xml.JRXmlWriter;
 import net.sf.jasperreports.extensions.DefaultExtensionsRegistry;
 import net.sf.jasperreports.pdf.SimplePdfReportConfiguration;
@@ -1543,8 +1543,8 @@ public class EngineServiceImpl implements EngineService, ReportExecuter,
 	protected JRTemplate loadTemplate(ExecutionContext context, FileResource resource) {
 		InputStream templateDataStream = getFileResourceDataStream(context, resource);
 		try {
-			return JRXmlTemplateLoader.load(templateDataStream);
-		} catch (JRRuntimeException e) {
+			return CustomJRXmlTemplateLoader.load(templateDataStream);
+		} catch (JRException e) {
 			throw new JSExceptionWrapper(e);
 		}
 	}
@@ -2256,7 +2256,7 @@ public class EngineServiceImpl implements EngineService, ReportExecuter,
 	protected JasperDesign loadReportDesign(InputStream jrxmlData) {
 		JasperDesign design;
 		try {
-			design = JRXmlLoader.load(jrxmlData);
+			design = CustomJRXmlLoader.load(jrxmlData);
 		} catch (JRException e) {
 			log.error("error loading JRXML", e);
 			throw new JSExceptionWrapper(e);
@@ -2630,7 +2630,7 @@ public class EngineServiceImpl implements EngineService, ReportExecuter,
 		InputStream jrxmlData = getFileResourceDataStream(context, jrxmlRes);
 		boolean close = true;
 		try {
-			jasperDesign = JRXmlLoader.load(jrxmlData);
+			jasperDesign = CustomJRXmlLoader.load(jrxmlData);
 
 			close = false;
 			jrxmlData.close();

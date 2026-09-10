@@ -420,7 +420,15 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>jasperserver</servlet-name>
+        <url-pattern>/reportimage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>jasperserver</servlet-name>
         <url-pattern>/reportimage/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>jasperserver</servlet-name>
+        <url-pattern>/reportresource</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>jasperserver</servlet-name>

@@ -436,6 +436,81 @@ public class JrxmlV6ToV7ConverterTest {
         assertEquals("column-uuid", singleColumn.getAttribute("uuid"));
     }
 
+    @Test
+    public void testConvertChart() throws Exception {
+        byte[] converted = convertResource("jrxml/unit_test/chart_v6.jrxml");
+        Document doc = parseDom(converted);
+
+        Element chartElement = findElementByKind(doc.getElementsByTagName("element"), "chart");
+        assertNotNull("Expected outer <element kind='chart'>", chartElement);
+        String chartType = chartElement.getAttribute("chartType");
+        assertEquals("bar3D", chartType);
+        // contents of <bar3DChart><chart> child moved up to parent
+        assertEquals("Report", chartElement.getAttribute("evaluationTime"));
+        assertEquals("svg", chartElement.getAttribute("renderType"));
+        // contents of <bar3DChart><chart><reportElement> moved up to grandparent
+        assertEquals("555", chartElement.getAttribute("width"));
+        assertEquals("258", chartElement.getAttribute("height"));
+        Element titleExpression = findChildElementByTag(chartElement, "titleExpression");
+        assertNotNull("Expected <titleExpression> child of <element kind='chart'>", titleExpression);
+        // <bar3DPlot> -> <plot>, contents moved up to parent, <seriesColor> property seriesOrder changed to order
+        Element plot = findChildElementByTag(chartElement, "plot");
+        assertNotNull("Expected <plot> child of <element kind='chart'>", plot);
+        String backcolor = plot.getAttribute("backcolor");
+        assertEquals("#FFFFFF", backcolor);
+        Element seriesColor = findChildElementByTag(plot, "seriesColor");
+        assertNotNull(seriesColor);
+        String seriesColorOrder = seriesColor.getAttribute("order");
+        assertEquals("0", seriesColorOrder);
+        // <categoryAxisFormat><axisFormat> contents moved up to parent;
+        // <categoryAxisFormat><prop> -> <categoryAxisProp> for all axisFormat elements
+        NodeList axisFormats = plot.getElementsByTagName("axisFormat");
+        assertEquals(0, axisFormats.getLength());
+        String categoryAxisVerticalTickLabels = plot.getAttribute("categoryAxisVerticalTickLabels");
+        assertNotEquals("Expected categoryAxisVerticalTickLabels attribute of <plot>", "", categoryAxisVerticalTickLabels);
+        Element categoryAxisTickLabelFont = findChildElementByTag(plot, "categoryAxisTickLabelFont");
+        assertNotNull("Expected <categoryAxisTickLabelFont> child of <plot>", categoryAxisTickLabelFont);
+        String categoryAxisTickLabelFontSize = categoryAxisTickLabelFont.getAttribute("fontSize");
+        assertNotEquals("Expected fontSize attribute on <categoryAxisTickLabelFont>", "", categoryAxisTickLabelFontSize);
+        // <categoryDataset> -> <dataset>, contents moved up to parent, <categorySeries> -> <series>
+        Element dataset = findChildElementByTag(chartElement, "dataset");
+        assertNotNull("Expected <dataset> child of <element kind='chart'>", dataset);
+        assertEquals("category", dataset.getAttribute("kind"));
+        Element series = findChildElementByTag(dataset, "series");
+        assertNotNull("Expected <series> child of <dataset>", series);
+    }
+
+    @Test
+    public void testConvertSpiderChart() throws Exception {
+        byte[] converted = convertResource("jrxml/unit_test/spider_chart_v6.jrxml");
+        Document doc = parseDom(converted);
+
+        Element componentElement = findElementByKind(doc.getElementsByTagName("element"), "component");
+        assertNotNull("Expected outer <element kind='component'>", componentElement);
+        // contents of <componentElement><reportElement> moved up to parent
+        assertEquals("555", componentElement.getAttribute("width"));
+        assertEquals("244", componentElement.getAttribute("height"));
+        Element chartComponent = findChildElementByTag(componentElement, "component");
+        assertNotNull("Expected inner <component kind='spiderChart'>", chartComponent);
+		String componentKind = chartComponent.getAttribute("kind");
+        assertEquals("spiderChart", componentKind);
+        // <chartSettings><chartTitle> contents moved to parent
+        Element chartSettings = findChildElementByTag(chartComponent, "chartSettings");
+        assertNotNull("Expected <chartSettings> child of <component kind='spiderChart'>", chartSettings);
+        Element titleExpression = findChildElementByTag(chartSettings, "titleExpression");
+        assertNotNull("Expected <titleExpression> child of <component kind='spiderChart'><chartSettings>", titleExpression);
+        // <bar3DPlot> -> <plot>, contents moved up to parent, <seriesColor> property seriesOrder changed to order
+        Element plot = findChildElementByTag(chartComponent, "plot");
+        assertNotNull("Expected <plot> child of <component kind='spiderChart'>", plot);
+        assertEquals("", plot.getAttribute("isWebFilled"));
+        assertEquals("true", plot.getAttribute("webFilled"));
+        // <categoryDataset> -> <dataset>, contents moved up to parent, <categorySeries> -> <series>
+        Element dataset = findChildElementByTag(chartComponent, "dataset");
+        assertNotNull("Expected <dataset> child of <element kind='chart'>", dataset);
+        Element series = findChildElementByTag(dataset, "series");
+        assertNotNull("Expected <series> child of <dataset>", series);
+    }
+
     // ─── Integration: CustomJRXmlLoader.load() ───────────────────
 
     @Test
@@ -1034,6 +1109,19 @@ public class JrxmlV6ToV7ConverterTest {
         }
         return null;
     }
+
+    private Element findChildElementByTag(Element parent, String tagName) {
+		NodeList children = parent.getChildNodes();
+		Element child = null;
+		for (int i = 0; i < children.getLength(); i++) {
+			if (children.item(i).getNodeType() == Node.ELEMENT_NODE
+					&& tagName.equals(children.item(i).getNodeName())) {
+				child = (Element) children.item(i);
+				break;
+			}
+		}
+		return child;
+	}
 
     private Map<String, Object> createUserRow(String username, String emailAddress, Boolean enabled) {
         Map<String, Object> row = new LinkedHashMap<>();

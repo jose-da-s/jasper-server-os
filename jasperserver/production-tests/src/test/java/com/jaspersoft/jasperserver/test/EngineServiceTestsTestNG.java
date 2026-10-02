@@ -77,6 +77,40 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
         createCustomDSReportTemplate();
         createCustomDSReport();
         createTableModelDSReport();
+        // the v7 reports come before the v6 ones because they're actually more fundamental, with
+        // the v6 reports requiring on-the-fly conversion and getting run as v7 reports in the end
+        createV7TableReportTemplate();
+        createV7TableReport();
+        createV6TableReportTemplate();
+        createV6TableReport();
+        createV7BarbecueReportTemplate();
+        createV7BarbecueReport();
+        createV6BarbecueReportTemplate();
+        createV6BarbecueReport();
+        createV7Barcode4JReportTemplate();
+        createV7Barcode4JReport();
+        createV6Barcode4JReportTemplate();
+        createV6Barcode4JReport();
+        createV7ChartReportTemplate();
+        createV7ChartReport();
+        createV6ChartReportTemplate();
+        createV6ChartReport();
+        createV7SpiderChartReportTemplate();
+        createV7SpiderChartReport();
+        createV6SpiderChartReportTemplate();
+        createV6SpiderChartReport();
+        createV7ElementReportTemplate();
+        createV7ElementReport();
+        createV6ElementReportTemplate();
+        createV6ElementReport();
+        createV7ScriptletReportTemplate();
+        createV7ScriptletReport();
+        createV6ScriptletReportTemplate();
+        createV6ScriptletReport();
+        createV7FunctionLibraryReportTemplate();
+        createV7FunctionLibraryReport();
+        createV6FunctionLibraryReportTemplate();
+        createV6FunctionLibraryReport();
     }
 
     @AfterClass()
@@ -86,6 +120,38 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
 
         // delete resources for these Engine Service tests
         // (as usual, we delete resources in the opposite order they were created)
+        deleteV6FunctionLibraryReport();
+        deleteV6FunctionLibraryReportTemplate();
+        deleteV7FunctionLibraryReport();
+        deleteV7FunctionLibraryReportTemplate();
+        deleteV6ScriptletReport();
+        deleteV6ScriptletReportTemplate();
+        deleteV7ScriptletReport();
+        deleteV7ScriptletReportTemplate();
+        deleteV6ElementReport();
+        deleteV6ElementReportTemplate();
+        deleteV7ElementReport();
+        deleteV7ElementReportTemplate();
+        deleteV6SpiderChartReport();
+        deleteV6SpiderChartReportTemplate();
+        deleteV7SpiderChartReport();
+        deleteV7SpiderChartReportTemplate();
+        deleteV6ChartReport();
+        deleteV6ChartReportTemplate();
+        deleteV7ChartReport();
+        deleteV7ChartReportTemplate();
+        deleteV6Barcode4JReport();
+        deleteV6Barcode4JReportTemplate();
+        deleteV7Barcode4JReport();
+        deleteV7Barcode4JReportTemplate();
+        deleteV6BarbecueReport();
+        deleteV6BarbecueReportTemplate();
+        deleteV7BarbecueReport();
+        deleteV7BarbecueReportTemplate();
+        deleteV6TableReport();
+        deleteV6TableReportTemplate();
+        deleteV7TableReport();
+        deleteV7TableReportTemplate();
         deleteTableModelDSReport();
         deleteCustomDSReport();
         deleteCustomDSReportTemplate();
@@ -93,9 +159,6 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
         deleteBeanDS();
     }
 
-    /**
-     *  doExecuteTest
-     */
     @Test()
 	public void doExecuteTest() throws Exception	{
         m_logger.info("EngineServiceTestsTestNG => doExecuteTest() called");
@@ -127,9 +190,6 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
 		getRepositoryService().deleteResource(null,"/reports/samples/Employees_JDBC");
 	}
 
-    /**
-     *  doGetResourcesTest
-     */
     @Test()
 	public void doGetResourcesTest() throws Exception	{
         m_logger.info("EngineServiceTestsTestNG => doGetResourcesTest() called");
@@ -147,9 +207,6 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
 		assertTrue(resources.length == 2);
 	}
 
-    /**
-     *  doValidateTest
-     */
     @Test()
 	public void doValidateTest() {
         m_logger.info("EngineServiceTestsTestNG => doValidateTest() called");
@@ -165,22 +222,19 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
 		assertNotNull(detail);
 		assertEquals("SalesByMonthTrialReport", detail.getName());
 
-		addJar(unit);
+		addJar(unit, "/jars/scriptlet.jar", "Scriptlet");
 
 		result = getEngineService().validate(null, unit);
 		assertNotNull(result);
 		assertEquals(ValidationResult.STATE_VALID, result.getValidationState());
 	}
 
-    /**
-     *  doTrialExecuteTest
-     */
     @Test()
 	public void doTrialExecuteTest() {
         m_logger.info("EngineServiceTestsTestNG => doTrialExecuteTest() called");
         setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 		ReportUnit unit = createUnit();
-		addJar(unit);
+		addJar(unit, "/jars/scriptlet.jar", "Scriptlet");
 
 		TrialReportUnitRequest request = new TrialReportUnitRequest(unit, null);
 		Result result = getEngineService().execute(null, request);
@@ -194,9 +248,6 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
 		assertTrue(pages.size() > 1);
 	}
 
-    /**
-     *  doGetMainJasperReportTest
-     */
     @Test()
 	public void doGetMainJasperReportTest() {
         m_logger.info("EngineServiceTestsTestNG => doGetMainJasperReportTest() called");
@@ -206,9 +257,6 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
 		assertEquals("AllAccounts", jasperReport.getName());
 	}
 
-    /**
-     *  doExecuteWithCustomDsTest
-     */
     @Test()
 	public void doExecuteWithCustomDataSourceTest() throws Exception	{
         m_logger.info("EngineServiceTestsTestNG => doExecuteWithCustomDataSourceTest() called");
@@ -222,14 +270,219 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
 		assertTrue(pages.size() > 0);
 	}
 
-    /**
-     *  doExecuteWithTableModelDataSourceTest
-     */
     @Test()
 	public void doExecuteWithTableModelDataSourceTest() throws Exception	{
         m_logger.info("EngineServiceTestsTestNG => doExecuteWithTableModelDataSourceTest() called");
         setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
 		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/DataSourceTableModel", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV7TableTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV7TableTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/table7", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV6TableTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV6TableTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/table6", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV7BarbecueTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV6BarbecueTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/barbecue7", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV6BarbecueTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV6BarbecueTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/barbecue6", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV7Barcode4JTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV7Barcode4JTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/barcode4J7", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV6Barcode4jTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV6BarbecueTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/barcode4J6", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV7ChartTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV6ChartTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/chart7", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV6ChartTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV6ChartTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/chart6", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV7SpiderChartTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV7SpiderChartTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/spiderChart7", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV6SpiderChartTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV6SpiderChartTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/spiderChart6", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV7ElementTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV7ElementTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/element7", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV6ElementTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV6TableTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/element6", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV7ScriptletTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV7ScriptletTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/scriptlet7", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV6ScriptletTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV6ScriptletTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/scriptlet6", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV7FunctionLibraryTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV7FunctionLibraryTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/functionLibrary7", new HashMap()));
+		assertNotNull(result);
+		JasperPrint jasperPrint = result.getJasperPrint();
+		assertNotNull(jasperPrint);
+		List pages = jasperPrint.getPages();
+		assertNotNull(pages);
+		assertTrue(pages.size() > 0);
+	}
+
+    @Test()
+	public void doExecuteV6FunctionLibraryTest() throws Exception	{
+        m_logger.info("EngineServiceTestsTestNG => doExecuteV6FunctionLibraryTest() called");
+        setAuthenticatedUser(BaseServiceSetupTestNG.USER_JASPERADMIN);
+		ReportUnitResult result = (ReportUnitResult) getEngineService().execute(m_context, new ReportUnitRequest("/reports/samples/functionLibrary6", new HashMap()));
 		assertNotNull(result);
 		JasperPrint jasperPrint = result.getJasperPrint();
 		assertNotNull(jasperPrint);
@@ -273,13 +526,22 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
         return unit;
     }
 
-    private void addJar(ReportUnit unit) {
+    private void addJar(ReportUnit unit, String classpathResource, String repoName) {
         FileResource jar = (FileResource) getRepositoryService().newResource(null,
                 FileResource.class);
         jar.setFileType(FileResource.TYPE_JAR);
-        jar.readData(getClass().getResourceAsStream("/jars/scriptlet.jar"));
-        setCommon(jar, "Scriptlet");
+        jar.readData(getClass().getResourceAsStream(classpathResource));
+        setCommon(jar, repoName);
         unit.addResource(jar);
+    }
+
+    private void addImage(ReportUnit unit, String classpathResource, String repoName) {
+        FileResource img = (FileResource) getRepositoryService().newResource(null,
+                FileResource.class);
+        img.setFileType(FileResource.TYPE_IMAGE);
+        img.readData(getClass().getResourceAsStream(classpathResource));
+        setCommon(img, repoName);
+        unit.addResource(img);
     }
 
     private void setCommon(Resource res, String id) {
@@ -387,6 +649,668 @@ public class EngineServiceTestsTestNG extends BaseServiceSetupTestNG  {
     private void deleteTableModelDSReport() {
         m_logger.info("EngineServiceTestsTestNG => deleteTableModelDSReport() is deleting /reports/samples/DataSourceTableModel");
         deleteResource("/reports/samples/DataSourceTableModel");
+    }
+
+    private void createV7TableReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV7TableReportTemplate() is creating /reports/samples/table7ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("table7ReportTemplate");
+        reportRes.setLabel("Jasper 7 Table Report");
+        reportRes.setDescription("Jasper 7 report with a table");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-new/table7.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV7TableReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7TableReportTemplate() is deleting /reports/samples/table7ReportTemplate");
+        deleteResource("/reports/samples/table7ReportTemplate");
+    }
+
+    private void createV7TableReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV7TableReport() is creating /reports/samples/table7");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("table7");
+        unit.setLabel("Jasper 7 Table Report");
+        unit.setDescription("Jasper 7 report with a table");
+        unit.setParentFolder("/reports/samples");
+
+		unit.setDataSourceReference("/datasources/JServerJdbcDS");
+        unit.setMainReportReference("/reports/samples/table7ReportTemplate");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV7TableReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7TableReport() is deleting /reports/samples/table7");
+        deleteResource("/reports/samples/table7");
+    }
+
+    private void createV6TableReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV6TableReportTemplate() is creating /reports/samples/table6ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("table6ReportTemplate");
+        reportRes.setLabel("Jasper 6 Table Report");
+        reportRes.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with a table");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-old/table6.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV6TableReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6TableReportTemplate() is deleting /reports/samples/table6ReportTemplate");
+        deleteResource("/reports/samples/table6ReportTemplate");
+    }
+
+    private void createV6TableReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV6TableReport() is creating /reports/samples/table6");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("table6");
+        unit.setLabel("Jasper 6 Table Report");
+        unit.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with a table");
+        unit.setParentFolder("/reports/samples");
+
+		unit.setDataSourceReference("/datasources/JServerJdbcDS");
+        unit.setMainReportReference("/reports/samples/table6ReportTemplate");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV6TableReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6TableReport() is deleting /reports/samples/table6");
+        deleteResource("/reports/samples/table6");
+    }
+
+    private void createV7BarbecueReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV7BarbecueReportTemplate() is creating /reports/samples/barbecue7ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("barbecue7ReportTemplate");
+        reportRes.setLabel("Jasper 7 Barbecue Report");
+        reportRes.setDescription("Jasper 7 report with Barbecue barcodes");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-new/barbecue7.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV7BarbecueReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7BarbecueReportTemplate() is deleting /reports/samples/barbecue7ReportTemplate");
+        deleteResource("/reports/samples/barbecue7ReportTemplate");
+    }
+
+    private void createV7BarbecueReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV7BarbecueReport() is creating /reports/samples/barbecue7");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("barbecue7");
+        unit.setLabel("Jasper 7 Barbecue Report");
+        unit.setDescription("Jasper 7 report with Barbecue barcodes");
+        unit.setParentFolder("/reports/samples");
+
+        unit.setMainReportReference("/reports/samples/barbecue7ReportTemplate");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV7BarbecueReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7BarbecueReport() is deleting /reports/samples/barbecue7");
+        deleteResource("/reports/samples/barbecue7");
+    }
+
+    private void createV6BarbecueReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV6BarbecueReportTemplate() is creating /reports/samples/barbecue6ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("barbecue6ReportTemplate");
+        reportRes.setLabel("Jasper 6 Barbecue Report");
+        reportRes.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with Barbecue barcodes");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-old/barbecue6.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV6BarbecueReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6BarbecueReportTemplate() is deleting /reports/samples/barbecue6ReportTemplate");
+        deleteResource("/reports/samples/barbecue6ReportTemplate");
+    }
+
+    private void createV6BarbecueReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV6BarbecueReport() is creating /reports/samples/barbecue6");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("barbecue6");
+        unit.setLabel("Jasper 6 Barbecue Report");
+        unit.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with Barbecue barcodes");
+        unit.setParentFolder("/reports/samples");
+
+        unit.setMainReportReference("/reports/samples/barbecue6ReportTemplate");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV6BarbecueReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6BarbecueReport() is deleting /reports/samples/barbecue6");
+        deleteResource("/reports/samples/barbecue6");
+    }
+
+    private void createV7Barcode4JReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV7Barcode4JReportTemplate() is creating /reports/samples/barcode4J7ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("barcode4J7ReportTemplate");
+        reportRes.setLabel("Jasper 7 Barcode4J Report");
+        reportRes.setDescription("Jasper 7 report with Barcode4J barcodes");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-new/barcode4j7.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV7Barcode4JReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7Barcode4JReportTemplate() is deleting /reports/samples/barcode4J7ReportTemplate");
+        deleteResource("/reports/samples/barcode4J7ReportTemplate");
+    }
+
+    private void createV7Barcode4JReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV7Barcode4JReport() is creating /reports/samples/barcode4J7");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("barcode4J7");
+        unit.setLabel("Jasper 7 Barcode4J Report");
+        unit.setDescription("Jasper 7 report with Barcode4J barcodes");
+        unit.setParentFolder("/reports/samples");
+
+        unit.setMainReportReference("/reports/samples/barcode4J7ReportTemplate");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV7Barcode4JReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7Barcode4JReport() is deleting /reports/samples/barcode4J7");
+        deleteResource("/reports/samples/barcode4J7");
+    }
+
+    private void createV6Barcode4JReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV6Barcode4JReportTemplate() is creating /reports/samples/barcode4J6ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("barcode4J6ReportTemplate");
+        reportRes.setLabel("Jasper 6 Barcode4J Report");
+        reportRes.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with Barcode4J barcodes");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-old/barcode4j6.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV6Barcode4JReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6Barcode4JReportTemplate() is deleting /reports/samples/barcode4J6ReportTemplate");
+        deleteResource("/reports/samples/barcode4J6ReportTemplate");
+    }
+
+    private void createV6Barcode4JReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV6Barcode4JReport() is creating /reports/samples/barcode4J6");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("barcode4J6");
+        unit.setLabel("Jasper 6 Barcode4J Report");
+        unit.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with Barcode4J barcodes");
+        unit.setParentFolder("/reports/samples");
+
+        unit.setMainReportReference("/reports/samples/barcode4J6ReportTemplate");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV6Barcode4JReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6Barcode4JReport() is deleting /reports/samples/barcode4J6");
+        deleteResource("/reports/samples/barcode4J6");
+    }
+
+    private void createV7ChartReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV7ChartReportTemplate() is creating /reports/samples/chart7ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("chart7ReportTemplate");
+        reportRes.setLabel("Jasper 7 Chart Report");
+        reportRes.setDescription("Jasper 7 report with a chart");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-new/chart7.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV7ChartReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7ChartReportTemplate() is deleting /reports/samples/chart7ReportTemplate");
+        deleteResource("/reports/samples/chart7ReportTemplate");
+    }
+
+    private void createV7ChartReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV7ChartReport() is creating /reports/samples/chart7");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("chart7");
+        unit.setLabel("Jasper 7 Chart Report");
+        unit.setDescription("Jasper 7 report with a chart");
+        unit.setParentFolder("/reports/samples");
+
+		unit.setDataSourceReference("/datasources/JServerJdbcDS");
+        unit.setMainReportReference("/reports/samples/chart7ReportTemplate");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV7ChartReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7ChartReport() is deleting /reports/samples/chart7");
+        deleteResource("/reports/samples/chart7");
+    }
+
+    private void createV6ChartReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV6ChartReportTemplate() is creating /reports/samples/chart6ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("chart6ReportTemplate");
+        reportRes.setLabel("Jasper 6 Chart Report");
+        reportRes.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with a chart");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-old/chart6.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV6ChartReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6ChartReportTemplate() is deleting /reports/samples/chart6ReportTemplate");
+        deleteResource("/reports/samples/chart6ReportTemplate");
+    }
+
+    private void createV6ChartReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV6ChartReport() is creating /reports/samples/chart6");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("chart6");
+        unit.setLabel("Jasper 6 Chart Report");
+        unit.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with a chart");
+        unit.setParentFolder("/reports/samples");
+
+		unit.setDataSourceReference("/datasources/JServerJdbcDS");
+        unit.setMainReportReference("/reports/samples/chart6ReportTemplate");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV6ChartReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6ChartReport() is deleting /reports/samples/chart6");
+        deleteResource("/reports/samples/chart6");
+    }
+
+    private void createV7SpiderChartReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV7SpiderChartReportTemplate() is creating /reports/samples/spiderChart7ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("spiderChart7ReportTemplate");
+        reportRes.setLabel("Jasper 7 Spider Chart Report");
+        reportRes.setDescription("Jasper 7 report with a spider chart");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-new/spiderchart7.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV7SpiderChartReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7SpiderChartReportTemplate() is deleting /reports/samples/spiderChart7ReportTemplate");
+        deleteResource("/reports/samples/spiderChart7ReportTemplate");
+    }
+
+    private void createV7SpiderChartReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV7ChartReport() is creating /reports/samples/spiderChart7");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("spiderChart7");
+        unit.setLabel("Jasper 7 Spider Chart Report");
+        unit.setDescription("Jasper 7 report with a spider chart");
+        unit.setParentFolder("/reports/samples");
+
+		unit.setDataSourceReference("/datasources/JServerJdbcDS");
+        unit.setMainReportReference("/reports/samples/spiderChart7ReportTemplate");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV7SpiderChartReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7ChartReport() is deleting /reports/samples/spiderChart7");
+        deleteResource("/reports/samples/spiderChart7");
+    }
+
+    private void createV6SpiderChartReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV6SpiderChartReportTemplate() is creating /reports/samples/spiderChart6ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("spiderChart6ReportTemplate");
+        reportRes.setLabel("Jasper 6 Spider Chart Report");
+        reportRes.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with a spider chart");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-old/spiderchart6.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV6SpiderChartReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6SpiderChartReportTemplate() is deleting /reports/samples/spiderChart6ReportTemplate");
+        deleteResource("/reports/samples/spiderChart6ReportTemplate");
+    }
+
+    private void createV6SpiderChartReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV6SpiderChartReport() is creating /reports/samples/spiderChart6");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("spiderChart6");
+        unit.setLabel("Jasper 6 Spider Chart Report");
+        unit.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with a spider chart");
+        unit.setParentFolder("/reports/samples");
+
+		unit.setDataSourceReference("/datasources/JServerJdbcDS");
+        unit.setMainReportReference("/reports/samples/spiderChart6ReportTemplate");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV6SpiderChartReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6SpiderChartReport() is deleting /reports/samples/spiderChart6");
+        deleteResource("/reports/samples/spiderChart6");
+    }
+
+    private void createV7ElementReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV7ElementReportTemplate() is creating /reports/samples/element7ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("element7ReportTemplate");
+        reportRes.setLabel("Jasper 7 Element Report");
+        reportRes.setDescription("Jasper 7 report with various elements");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-new/element7.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV7ElementReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7ElementReportTemplate() is deleting /reports/samples/element7ReportTemplate");
+        deleteResource("/reports/samples/element7ReportTemplate");
+    }
+
+    private void createV7ElementReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV7ElementReport() is creating /reports/samples/element7");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("element7");
+        unit.setLabel("Jasper 7 Element Report");
+        unit.setDescription("Jasper 7 report with various elements");
+        unit.setParentFolder("/reports/samples");
+
+        unit.setMainReportReference("/reports/samples/element7ReportTemplate");
+
+        addImage(unit, "/images/test67.jpg", "test.jpg");
+        addImage(unit, "/images/test67.png", "test.png");
+        addImage(unit, "/images/test67.svg", "test.svg");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV7ElementReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7ElementReport() is deleting /reports/samples/element7");
+        deleteResource("/reports/samples/element7");
+    }
+
+    private void createV6ElementReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV6ElementReportTemplate() is creating /reports/samples/element6ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("element6ReportTemplate");
+        reportRes.setLabel("Jasper 6 Element Report");
+        reportRes.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with various elements");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-old/element6.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV6ElementReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6ElementReportTemplate() is deleting /reports/samples/element6ReportTemplate");
+        deleteResource("/reports/samples/element6ReportTemplate");
+    }
+
+    private void createV6ElementReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV6ElementReport() is creating /reports/samples/element6");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("element6");
+        unit.setLabel("Jasper 6 Element Report");
+        unit.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with various elements");
+        unit.setParentFolder("/reports/samples");
+
+        unit.setMainReportReference("/reports/samples/element6ReportTemplate");
+
+        addImage(unit, "/images/test67.jpg", "test.jpg");
+        addImage(unit, "/images/test67.png", "test.png");
+        addImage(unit, "/images/test67.svg", "test.svg");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV6ElementReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6ElementReport() is deleting /reports/samples/element6");
+        deleteResource("/reports/samples/element6");
+    }
+
+    private void createV7ScriptletReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV7ScriptletReportTemplate() is creating /reports/samples/scriptlet7ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("scriptlet7ReportTemplate");
+        reportRes.setLabel("Jasper 7 Scriptlet Report");
+        reportRes.setDescription("Jasper 7 report with a scriptlet");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-new/scriptlet7.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV7ScriptletReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7ScriptletReportTemplate() is deleting /reports/samples/scriptlet7ReportTemplate");
+        deleteResource("/reports/samples/scriptlet7ReportTemplate");
+    }
+
+    private void createV7ScriptletReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV7ScriptletReport() is creating /reports/samples/scriptlet7");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("scriptlet7");
+        unit.setLabel("Jasper 7 Scriptlet Report");
+        unit.setDescription("Jasper 7 report with a scriptlet");
+        unit.setParentFolder("/reports/samples");
+
+        unit.setMainReportReference("/reports/samples/scriptlet7ReportTemplate");
+
+        addJar(unit, "/jars/scriptlet67.jar", "scriptlet67");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV7ScriptletReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7ScriptletReport() is deleting /reports/samples/scriptlet7");
+        deleteResource("/reports/samples/scriptlet7");
+    }
+
+    private void createV6ScriptletReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV6ScriptletReportTemplate() is creating /reports/samples/scriptlet6ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("scriptlet6ReportTemplate");
+        reportRes.setLabel("Jasper 6 Scriptlet Report");
+        reportRes.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with a scriptlet");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-old/scriptlet6.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV6ScriptletReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6ScriptletReportTemplate() is deleting /reports/samples/scriptlet6ReportTemplate");
+        deleteResource("/reports/samples/scriptlet6ReportTemplate");
+    }
+
+    private void createV6ScriptletReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV6ScriptletReport() is creating /reports/samples/scriptlet6");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("scriptlet6");
+        unit.setLabel("Jasper 6 Scriptlet Report");
+        unit.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with a scriptlet");
+        unit.setParentFolder("/reports/samples");
+
+        unit.setMainReportReference("/reports/samples/scriptlet6ReportTemplate");
+
+        addJar(unit, "/jars/scriptlet67.jar", "scriptlet67");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV6ScriptletReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6ScriptletReport() is deleting /reports/samples/scriptlet6");
+        deleteResource("/reports/samples/scriptlet6");
+    }
+
+    private void createV7FunctionLibraryReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV7FunctionLibraryReportTemplate() is creating /reports/samples/functionLibrary7ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("functionLibrary7ReportTemplate");
+        reportRes.setLabel("Jasper 7 Function Library Report");
+        reportRes.setDescription("Jasper 7 report with a function library");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-new/functionLibrary7.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV7FunctionLibraryReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7FunctionLibraryReportTemplate() is deleting /reports/samples/functionLibrary7ReportTemplate");
+        deleteResource("/reports/samples/functionLibrary7ReportTemplate");
+    }
+
+    private void createV7FunctionLibraryReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV7FunctionLibraryReport() is creating /reports/samples/functionLibrary7");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("functionLibrary7");
+        unit.setLabel("Jasper 7 Function Library Report");
+        unit.setDescription("Jasper 7 report with a function library");
+        unit.setParentFolder("/reports/samples");
+
+        unit.setMainReportReference("/reports/samples/functionLibrary7ReportTemplate");
+
+        addJar(unit, "/jars/functionLibrary67.jar", "functionLibrary67");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV7FunctionLibraryReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV7FunctionLibraryReport() is deleting /reports/samples/functionLibrary7");
+        deleteResource("/reports/samples/functionLibrary7");
+    }
+
+    private void createV6FunctionLibraryReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => createV6FunctionLibraryReportTemplate() is creating /reports/samples/functionLibrary6ReportTemplate");
+
+        FileResource reportRes = (FileResource) getUnsecureRepositoryService().newResource(null, FileResource.class);
+        reportRes.setFileType(FileResource.TYPE_JRXML);
+        reportRes.setName("functionLibrary6ReportTemplate");
+        reportRes.setLabel("Jasper 6 Function Library Report");
+        reportRes.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with a function library");
+        reportRes.setParentFolder("/reports/samples");
+
+        InputStream jrxml = getClass().getResourceAsStream("/reports/jasper67-old/functionLibrary6.jrxml");
+        reportRes.readData(jrxml);
+
+        getUnsecureRepositoryService().saveResource(null, reportRes);
+    }
+
+    private void deleteV6FunctionLibraryReportTemplate() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6FunctionLibraryReportTemplate() is deleting /reports/samples/functionLibrary6ReportTemplate");
+        deleteResource("/reports/samples/functionLibrary6ReportTemplate");
+    }
+
+    private void createV6FunctionLibraryReport() {
+        m_logger.info("EngineServiceTestsTestNG => createV6FunctionLibraryReport() is creating /reports/samples/functionLibrary6");
+
+        ReportUnit unit = (ReportUnit) getUnsecureRepositoryService().newResource(null, ReportUnit.class);
+        unit.setName("functionLibrary6");
+        unit.setLabel("Jasper 6 Function Library Report");
+        unit.setDescription("Report showing on-the-fly conversion of a Jasper 6 report with a function library");
+        unit.setParentFolder("/reports/samples");
+
+        unit.setMainReportReference("/reports/samples/functionLibrary6ReportTemplate");
+
+        addJar(unit, "/jars/functionLibrary67.jar", "functionLibrary67");
+
+        getUnsecureRepositoryService().saveResource(null, unit);
+    }
+
+    private void deleteV6FunctionLibraryReport() {
+        m_logger.info("EngineServiceTestsTestNG => deleteV6FunctionLibraryReport() is deleting /reports/samples/functionLibrary6");
+        deleteResource("/reports/samples/functionLibrary6");
     }
 
     private void deleteResource(String uri) {

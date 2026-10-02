@@ -1,0 +1,11 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.0  -->
+<jasperReport name="Barcode4j7" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8340c3d3-0341-474a-9a2b-3f07c302acb3">
+	<query language="sql"><![CDATA[]]></query>
+	<summary height="74" splitType="Stretch">
+		<element kind="component" uuid="9120dd40-2f2a-464f-952c-3e029bbf8e68" x="0" y="0" width="555" height="74">
+			<component kind="barcode4j:EAN13">
+				<codeExpression><![CDATA["123456789012"]]></codeExpression>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

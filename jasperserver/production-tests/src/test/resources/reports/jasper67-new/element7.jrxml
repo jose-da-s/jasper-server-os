@@ -1,0 +1,47 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.0  -->
+<jasperReport name="Element7" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b51ded0b-0cf7-461f-8fd2-edfe49ad1ac2">
+	<summary height="615" splitType="Stretch">
+		<element kind="image" uuid="75231eec-26af-40f6-a3f4-20094e650dc7" x="35" y="50" width="50" height="50">
+			<expression><![CDATA["test.png"]]></expression>
+		</element>
+		<element kind="image" uuid="cb060535-5080-44cd-9631-e2699bbf4b0f" x="225" y="48" width="50" height="50">
+			<expression><![CDATA["test.svg"]]></expression>
+		</element>
+		<element kind="image" uuid="b61ca4be-b159-4e60-8d5e-4147bddf3d29" x="421" y="48" width="50" height="50">
+			<expression><![CDATA["test.jpg"]]></expression>
+		</element>
+		<element kind="staticText" uuid="1f547a43-e64d-41a1-bb5e-47cf3bcd10b4" x="38" y="120" width="100" height="30">
+			<text><![CDATA[PNG]]></text>
+		</element>
+		<element kind="staticText" uuid="bcbbb3b4-2d5d-4157-a7ba-d4b0404efdd1" x="212" y="120" width="100" height="30">
+			<text><![CDATA[svg]]></text>
+		</element>
+		<element kind="staticText" uuid="fe6e9b25-1ab0-4f39-a634-ffed718917d0" x="404" y="120" width="100" height="30">
+			<text><![CDATA[JPG]]></text>
+		</element>
+		<element kind="rectangle" uuid="4977388b-1e81-4672-8fc5-50d407005529" x="60" y="181" width="252" height="44" backcolor="#CFCFFF"/>
+		<element kind="break" uuid="74de32c9-4c19-4d5c-b65b-647b5865ba51" x="0" y="569" width="99" height="1"/>
+		<element kind="staticText" uuid="7cc67451-b52e-46fb-b362-b05f4956f389" x="38" y="585" width="100" height="30">
+			<text><![CDATA[Zeile Umbruch]]></text>
+		</element>
+		<element kind="ellipse" uuid="8f0a5a31-3f26-401a-a9eb-430366d8f223" x="292" y="266" width="100" height="50" backcolor="#F9FF87"/>
+		<element kind="line" uuid="c29338e9-9530-4381-87b0-b2fa939da045" x="84" y="374" width="100" height="30"/>
+		<element kind="frame" uuid="88f588af-542b-4321-9005-6de3146bda87" mode="Opaque" x="102" y="466" width="300" height="30" backcolor="#FFB4B3">
+			<element kind="staticText" uuid="54f6cd4b-f76d-4799-81d5-b11123b19bd0" x="0" y="0" width="100" height="30">
+				<text><![CDATA[Line]]></text>
+			</element>
+			<element kind="staticText" uuid="9c2749d0-c812-4c1e-a9b3-8d6d33238d1a" x="100" y="0" width="100" height="30">
+				<text><![CDATA[Frame]]></text>
+			</element>
+			<element kind="staticText" uuid="e887861b-7c51-4dd1-a616-14fe30bc1af1" x="200" y="0" width="100" height="30">
+				<text><![CDATA[elipse]]></text>
+			</element>
+			<box>
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+	</summary>
+</jasperReport>

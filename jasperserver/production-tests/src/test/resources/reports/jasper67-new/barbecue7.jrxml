@@ -1,0 +1,11 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.0  -->
+<jasperReport name="Barbecue7" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bb4c5f0d-0096-4a46-8d04-f84c8d2beb53">
+	<query language="sql"><![CDATA[]]></query>
+	<summary height="93" splitType="Stretch">
+		<element kind="component" uuid="d28ef395-07cc-4c85-b7c8-f93e49927f93" x="0" y="0" width="555" height="93">
+			<component kind="barbecue" type="2of7" drawText="false" checksumRequired="false">
+				<codeExpression><![CDATA["1234"]]></codeExpression>
+			</component>
+		</element>
+	</summary>
+</jasperReport>

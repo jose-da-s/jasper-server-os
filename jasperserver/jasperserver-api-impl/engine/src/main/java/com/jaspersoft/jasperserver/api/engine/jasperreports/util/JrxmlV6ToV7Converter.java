@@ -910,7 +910,7 @@ public final class JrxmlV6ToV7Converter {
 				// <xyzChart> -> <element kind="chart" chartType="XYZ">
 				Element renamed = renameElement(doc, el, TAG_ELEMENT);
 				renamed.setAttribute(ATTR_KIND, "chart");
-				renamed.setAttribute("chartType", CHART_ELEMENT_TYPES.get(chartTag).name());
+				renamed.setAttribute("chartType", CHART_ELEMENT_TYPES.get(chartTag).getName());
 				// move contents up from <chart>, <chart><reportElement>, <chartTitle>, <chartSubtitle>, and <chartLegend>
 				unwrapChildContents(renamed, TAG_CHART);
 				unwrapChildContents(renamed, TAG_REPORT_ELEMENT);
@@ -981,7 +981,22 @@ public final class JrxmlV6ToV7Converter {
 			Element axisFormat = getChildElement(plotRenamed, axisFormatTag);
 			if (axisFormat != null) {
 				unwrapChildContents(axisFormat, "axisFormat");
+				renameAttributeIfPresent(axisFormat, "axisLineColor", "lineColor");
+				Element labelFont = getChildElement(axisFormat, "labelFont");
+				if (labelFont != null) {
+					unwrapChildContents(labelFont, "font");
+					renameAttributeIfPresent(labelFont, "size", ATTR_FONT_SIZE);
+				}
+				Element tickLabelFont = getChildElement(axisFormat, "tickLabelFont");
+				if (tickLabelFont != null) {
+					unwrapChildContents(tickLabelFont, "font");
+					renameAttributeIfPresent(tickLabelFont, "size", ATTR_FONT_SIZE);
+				}
 			}
+			// finally, unwrap xyzAxisFormat contents and prefix with xyz
+			// (e.g., <plot><categoryAxisFormat lineColor="#000001"> -> <plot cateogryAxisLineColor="#000001>) 
+			String axisPrefix = axisFormatTag.replace("Format", "");
+			unwrapChildContents(plotRenamed, axisFormatTag, axisPrefix);
 		}
 		for (Element seriesColor : getChildElements(plotRenamed, "seriesColor")) {
 			renameAttributeIfPresent(seriesColor, "seriesOrder", "order");
@@ -1019,11 +1034,23 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
+    // move all attributes and children of the child up to the parent, then remove the child
     private static void unwrapChildContents(Element parent, String childName) {
         Element cc = getChildElement(parent, childName);
         if (cc != null) {
             moveAttributes(cc, parent);
             moveChildren(cc, parent);
+            removeElement(cc);
+        }
+    }
+
+    // move all attributes and children of the child up to the parent, then remove the child
+    // also add the prefix prefix to attributes and tag names. (upcases the first letter of the original name)
+    private static void unwrapChildContents(Element parent, String childName, String prefix) {
+        Element cc = getChildElement(parent, childName);
+        if (cc != null) {
+            moveAttributes(cc, parent, prefix);
+            moveChildren(cc, parent, prefix);
             removeElement(cc);
         }
     }
@@ -1642,6 +1669,18 @@ public final class JrxmlV6ToV7Converter {
         }
     }
 
+    private static void moveChildren(Element from, Element to, String prefix) {
+        while (from.hasChildNodes()) {
+        	Node child = from.getFirstChild();
+        	if (child instanceof Element) {
+        		Element el = (Element) child;
+				String newName = prefix + el.getLocalName().substring(0, 1).toUpperCase() + el.getLocalName().substring(1);
+				child = renameElement(from.getOwnerDocument(), el, newName);
+        	}
+            to.appendChild(from.getFirstChild());
+        }
+    }
+
     private static void moveAttributes(Element from, Element to) {
         NamedNodeMap attrs = from.getAttributes();
         List<Attr> list = new ArrayList<>();
@@ -1650,6 +1689,19 @@ public final class JrxmlV6ToV7Converter {
         }
         for (Attr a : list) {
             String name = a.getLocalName() != null ? a.getLocalName() : a.getName();
+            to.setAttribute(name, a.getValue());
+        }
+    }
+
+    private static void moveAttributes(Element from, Element to, String prefix) {
+        NamedNodeMap attrs = from.getAttributes();
+        List<Attr> list = new ArrayList<>();
+        for (int i = 0; i < attrs.getLength(); i++) {
+            list.add((Attr) attrs.item(i));
+        }
+        for (Attr a : list) {
+            String name = a.getLocalName() != null ? a.getLocalName() : a.getName();
+            name = prefix + name.substring(0, 1).toUpperCase() + name.substring(1);
             to.setAttribute(name, a.getValue());
         }
     }

@@ -1,0 +1,14 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.0  -->
+<jasperReport name="SampleScriptlet7" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" scriptletClass="Scriptlet" uuid="09234e5f-700e-4e0f-be8f-9b25108330dd">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8081/jasperserver-os/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/SampleScriptlet7_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/SampleScriptlet7"/>
+	<query language="sql"><![CDATA[]]></query>
+	<summary height="296" splitType="Stretch">
+		<element kind="textField" uuid="024ee16e-b486-447d-8ca1-7f06c60c2105" x="238" y="126" width="100" height="30">
+			<expression><![CDATA[$P{REPORT_SCRIPTLET}.sayHello()]]></expression>
+		</element>
+	</summary>
+</jasperReport>

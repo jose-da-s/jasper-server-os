@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 6.20.6  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="chartTest" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e1af1822-bc99-472a-89a3-346bad8223c0">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[SELECT industry AS "industry", billing_address_country AS "country", count(*) AS "accounts"
+
+FROM accounts GROUP BY industry, billing_address_country]]>
+	</queryString>
+	<field name="industry" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="industry"/>
+		<property name="com.jaspersoft.studio.field.label" value="industry"/>
+	</field>
+	<field name="country" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="country"/>
+		<property name="com.jaspersoft.studio.field.label" value="country"/>
+	</field>
+	<field name="accounts" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="accounts"/>
+		<property name="com.jaspersoft.studio.field.label" value="accounts"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="258" splitType="Stretch">
+			<bar3DChart>
+				<chart evaluationTime="Report" renderType="svg">
+					<reportElement x="0" y="0" width="555" height="258" uuid="116a4a50-ad8b-416c-b2ef-c73ccfc8e459"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Accounts"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{country}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{industry}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{accounts}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot backcolor="#FFFFFF">
+						<seriesColor seriesOrder="0" color="#006080"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat verticalTickLabels="true">
+							<tickLabelFont>
+								<font fontName="Serif" size="11"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="185" height="30" uuid="4653f047-425a-42fc-88f1-a635096e123f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ebdb606-ef7b-4b43-878a-ab0177ad5b86"/>
+				</reportElement>
+				<text><![CDATA[industry]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="0" width="185" height="30" uuid="cdc0eecc-6423-40ea-8652-f85e922025f8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cd47bfca-2397-4c94-9056-af8ad0c519d8"/>
+				</reportElement>
+				<text><![CDATA[country]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="185" height="30" uuid="56bdb34a-def2-49cd-b7f5-b1e43955a105">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fce5bc34-364a-454f-9c27-ad63bc21806a"/>
+				</reportElement>
+				<text><![CDATA[accounts]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="185" height="30" uuid="9c8cef23-027f-49ee-8cdd-6d62c653e0df">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ebdb606-ef7b-4b43-878a-ab0177ad5b86"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{industry}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="0" width="185" height="30" uuid="4c430781-b967-4171-993c-e70a147fad82">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cd47bfca-2397-4c94-9056-af8ad0c519d8"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{country}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="185" height="30" uuid="b3707d94-5963-4bfe-9977-064b460bcd10">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fce5bc34-364a-454f-9c27-ad63bc21806a"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{accounts}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

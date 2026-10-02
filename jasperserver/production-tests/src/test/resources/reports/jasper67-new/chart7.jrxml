@@ -1,0 +1,72 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0  -->
+<jasperReport name="chartTest" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e1af1822-bc99-472a-89a3-346bad8223c0">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sugarcrm-jdbc"/>
+	<query language="sql"><![CDATA[SELECT industry AS "industry", billing_address_country AS "country", count(*) AS "accounts"
+
+FROM accounts GROUP BY industry, billing_address_country]]></query>
+	<field name="industry" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="industry"/>
+		<property name="com.jaspersoft.studio.field.label" value="industry"/>
+	</field>
+	<field name="country" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="country"/>
+		<property name="com.jaspersoft.studio.field.label" value="country"/>
+	</field>
+	<field name="accounts" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="accounts"/>
+		<property name="com.jaspersoft.studio.field.label" value="accounts"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="258" splitType="Stretch">
+		<element kind="chart" chartType="bar3D" uuid="116a4a50-ad8b-416c-b2ef-c73ccfc8e459" x="0" y="0" width="555" height="258" evaluationTime="Report" renderType="svg">
+			<titleExpression><![CDATA["Accounts"]]></titleExpression>
+			<dataset kind="category">
+				<series>
+					<seriesExpression><![CDATA[$F{country}]]></seriesExpression>
+					<categoryExpression><![CDATA[$F{industry}]]></categoryExpression>
+					<valueExpression><![CDATA[$F{accounts}]]></valueExpression>
+				</series>
+			</dataset>
+			<plot backcolor="#FFFFFF" categoryAxisVerticalTickLabels="true">
+				<categoryAxisTickLabelFont fontName="Serif" fontSize="11.0"/>
+				<itemLabel/>
+				<seriesColor order="0" color="#006080"/>
+			</plot>
+		</element>
+	</title>
+	<pageHeader height="50"/>
+	<columnHeader height="30" splitType="Stretch">
+		<element kind="staticText" uuid="4653f047-425a-42fc-88f1-a635096e123f" x="0" y="0" width="185" height="30">
+			<text><![CDATA[industry]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ebdb606-ef7b-4b43-878a-ab0177ad5b86"/>
+		</element>
+		<element kind="staticText" uuid="cdc0eecc-6423-40ea-8652-f85e922025f8" x="185" y="0" width="185" height="30">
+			<text><![CDATA[country]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cd47bfca-2397-4c94-9056-af8ad0c519d8"/>
+		</element>
+		<element kind="staticText" uuid="56bdb34a-def2-49cd-b7f5-b1e43955a105" x="370" y="0" width="185" height="30">
+			<text><![CDATA[accounts]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fce5bc34-364a-454f-9c27-ad63bc21806a"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<element kind="textField" uuid="9c8cef23-027f-49ee-8cdd-6d62c653e0df" x="0" y="0" width="185" height="30">
+				<expression><![CDATA[$F{industry}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ebdb606-ef7b-4b43-878a-ab0177ad5b86"/>
+			</element>
+			<element kind="textField" uuid="4c430781-b967-4171-993c-e70a147fad82" x="185" y="0" width="185" height="30">
+				<expression><![CDATA[$F{country}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cd47bfca-2397-4c94-9056-af8ad0c519d8"/>
+			</element>
+			<element kind="textField" uuid="b3707d94-5963-4bfe-9977-064b460bcd10" x="370" y="0" width="185" height="30">
+				<expression><![CDATA[$F{accounts}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fce5bc34-364a-454f-9c27-ad63bc21806a"/>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>

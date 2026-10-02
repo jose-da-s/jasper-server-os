@@ -1,0 +1,14 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.0  -->
+<jasperReport name="SampleFunctionLibrary7" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b1a0052d-f00a-4fb8-a536-62c87c5062eb">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8081/jasperserver-os/"/>
+	<property name="ireport.jasperserver.user" value="jasperadmin"/>
+	<property name="ireport.jasperserver.report.resource" value="/reports/SampleFunctionLibrary7_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/reports/SampleFunctionLibrary7"/>
+	<query language="sql"><![CDATA[]]></query>
+	<summary height="292" splitType="Stretch">
+		<element kind="textField" uuid="fbf959a7-6950-4e9b-a22d-e3bfac2ab2a4" x="248" y="127" width="100" height="30">
+			<expression><![CDATA[SAYHELLO("World")]]></expression>
+		</element>
+	</summary>
+</jasperReport>

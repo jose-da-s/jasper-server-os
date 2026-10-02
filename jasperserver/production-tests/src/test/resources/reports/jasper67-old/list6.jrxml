@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 6.20.6  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="list6" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9b3e14e1-cb89-4229-bdf8-fe99eed3e190">
+	<subDataset name="accounts" uuid="b069d93e-fcd7-4375-b095-cf8d26b9b44b">
+		<queryString language="SQL">
+			<![CDATA[SELECT "ID",
+	"DATE_ENTERED",
+	"DATE_MODIFIED",
+	"MODIFIED_USER_ID",
+	"ASSIGNED_USER_ID",
+	"CREATED_BY",
+	"NAME",
+	"PARENT_ID"
+FROM "ACCOUNTS"]]>
+		</queryString>
+		<field name="ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		</field>
+		<field name="DATE_ENTERED" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.name" value="DATE_ENTERED"/>
+			<property name="com.jaspersoft.studio.field.label" value="DATE_ENTERED"/>
+		</field>
+		<field name="DATE_MODIFIED" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.name" value="DATE_MODIFIED"/>
+			<property name="com.jaspersoft.studio.field.label" value="DATE_MODIFIED"/>
+		</field>
+		<field name="MODIFIED_USER_ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="MODIFIED_USER_ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="MODIFIED_USER_ID"/>
+		</field>
+		<field name="ASSIGNED_USER_ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ASSIGNED_USER_ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ASSIGNED_USER_ID"/>
+		</field>
+		<field name="CREATED_BY" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="CREATED_BY"/>
+			<property name="com.jaspersoft.studio.field.label" value="CREATED_BY"/>
+		</field>
+		<field name="NAME" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="NAME"/>
+			<property name="com.jaspersoft.studio.field.label" value="NAME"/>
+		</field>
+		<field name="PARENT_ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PARENT_ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="PARENT_ID"/>
+		</field>
+	</subDataset>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<summary>
+		<band height="83" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="83" uuid="bbfd9174-ad99-47e4-8eed-561b5858fd36">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+				</reportElement>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="accounts" uuid="81c2ed40-5594-4e9d-a107-4609aba35c3b">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="83" width="555">
+						<textField>
+							<reportElement x="0" y="0" width="72" height="49" uuid="6b6eeef1-f898-4404-8fdc-465adfd903e2"/>
+							<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="72" y="0" width="69" height="49" uuid="1e6245bd-5feb-4533-a76b-e23616f5b879"/>
+							<textFieldExpression><![CDATA[$F{DATE_ENTERED}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="141" y="0" width="69" height="49" uuid="72a5a4ba-688f-4004-910e-d84e69301158"/>
+							<textFieldExpression><![CDATA[$F{DATE_MODIFIED}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="210" y="0" width="69" height="49" uuid="edc7fe8d-9632-4012-a4d2-130b20bee603"/>
+							<textFieldExpression><![CDATA[$F{MODIFIED_USER_ID}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="279" y="0" width="69" height="49" uuid="49d3aaf0-2926-4f2e-9667-7faa5715b5ee"/>
+							<textFieldExpression><![CDATA[$F{ASSIGNED_USER_ID}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="348" y="0" width="69" height="49" uuid="4cd74ecf-d1a3-470d-88df-07c4435e7093"/>
+							<textFieldExpression><![CDATA[$F{CREATED_BY}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="417" y="0" width="69" height="49" uuid="ec1ac6d3-f3ee-45b6-88f1-7a3d76345e28"/>
+							<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="486" y="0" width="69" height="49" uuid="9e204a7c-0e89-40ff-a4dd-f68a103fc7a1"/>
+							<textFieldExpression><![CDATA[$F{PARENT_ID}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

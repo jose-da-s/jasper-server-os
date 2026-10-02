@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 6.20.6  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="spiderChartTest" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ea6a8ec0-a9c2-4e49-9db3-457c8fc9e9aa">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sugarcrm-jdbc"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="nb_accounts" uuid="95be4742-8117-401c-ad2c-f6fa85eb819f">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+    industry,
+    COUNT(*) AS nb_accounts
+FROM accounts
+GROUP BY industry]]>
+		</queryString>
+		<field name="INDUSTRY" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="INDUSTRY"/>
+			<property name="com.jaspersoft.studio.field.label" value="INDUSTRY"/>
+		</field>
+		<field name="NB_ACCOUNTS" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="NB_ACCOUNTS"/>
+			<property name="com.jaspersoft.studio.field.label" value="NB_ACCOUNTS"/>
+		</field>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[SELECT 1]]>
+	</queryString>
+	<summary>
+		<band height="244" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="244" uuid="121d7820-2d94-4eba-8c44-d26f5c5430b6"/>
+				<jr:spiderChart xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:chartSettings>
+						<chartTitle>
+							<titleExpression><![CDATA["Accounts"]]></titleExpression>
+						</chartTitle>
+						<chartSubtitle>
+							<font fontName="SansSerif" size="11.0"/>
+						</chartSubtitle>
+						<chartLegend/>
+					</jr:chartSettings>
+					<jr:spiderDataset>
+						<dataset>
+							<datasetRun subDataset="nb_accounts" uuid="90699ec8-af9f-4d1b-8f52-ca623466c731">
+								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA["Accounts"]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{INDUSTRY}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{NB_ACCOUNTS}]]></valueExpression>
+						</categorySeries>
+					</jr:spiderDataset>
+					<jr:spiderPlot rotation="Anticlockwise" tableOrder="Row" isWebFilled="true" startAngle="45.0" axisLineColor="#420201" axisLineWidth="1.0"/>
+				</jr:spiderChart>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

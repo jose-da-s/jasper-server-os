@@ -1,0 +1,83 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.0  -->
+<jasperReport name="list7" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f3bf3eaa-469e-4bde-b0df-82d2acebac82">
+	<dataset name="account" uuid="8d5dbafc-d2ca-4f5e-baf4-7898a5e49f75">
+		<query language="SQL"><![CDATA[SELECT "ID",
+	"DATE_ENTERED",
+	"DATE_MODIFIED",
+	"MODIFIED_USER_ID",
+	"ASSIGNED_USER_ID",
+	"CREATED_BY",
+	"NAME",
+	"PARENT_ID"
+FROM "ACCOUNTS"]]></query>
+		<field name="ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		</field>
+		<field name="DATE_ENTERED" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.name" value="DATE_ENTERED"/>
+			<property name="com.jaspersoft.studio.field.label" value="DATE_ENTERED"/>
+		</field>
+		<field name="DATE_MODIFIED" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.name" value="DATE_MODIFIED"/>
+			<property name="com.jaspersoft.studio.field.label" value="DATE_MODIFIED"/>
+		</field>
+		<field name="MODIFIED_USER_ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="MODIFIED_USER_ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="MODIFIED_USER_ID"/>
+		</field>
+		<field name="ASSIGNED_USER_ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ASSIGNED_USER_ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ASSIGNED_USER_ID"/>
+		</field>
+		<field name="CREATED_BY" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="CREATED_BY"/>
+			<property name="com.jaspersoft.studio.field.label" value="CREATED_BY"/>
+		</field>
+		<field name="NAME" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="NAME"/>
+			<property name="com.jaspersoft.studio.field.label" value="NAME"/>
+		</field>
+		<field name="PARENT_ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PARENT_ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="PARENT_ID"/>
+		</field>
+	</dataset>
+	<query language="sql"><![CDATA[]]></query>
+	<summary height="68" splitType="Stretch">
+		<element kind="component" uuid="6bfabeff-dd04-4128-9489-6f26af469650" x="0" y="0" width="555" height="68">
+			<component kind="list">
+				<datasetRun uuid="ac27cea0-f020-4770-b73e-a11070617d50" subDataset="account">
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				</datasetRun>
+				<contents height="68" width="555">
+					<element kind="textField" uuid="eadbbb9d-8427-4333-b7b0-0ce0566fd499" x="0" y="0" width="72" height="60">
+						<expression><![CDATA[$F{ID}]]></expression>
+					</element>
+					<element kind="textField" uuid="a6f6f5a9-4804-4155-a948-661909ab1c27" x="72" y="0" width="69" height="60">
+						<expression><![CDATA[$F{DATE_ENTERED}]]></expression>
+					</element>
+					<element kind="textField" uuid="e34a401a-a371-4e9d-9980-b86ca179f8e6" x="141" y="0" width="69" height="60">
+						<expression><![CDATA[$F{DATE_MODIFIED}]]></expression>
+					</element>
+					<element kind="textField" uuid="abb180e3-2e98-42fc-9cf9-8b69e488014f" x="210" y="0" width="69" height="60">
+						<expression><![CDATA[$F{MODIFIED_USER_ID}]]></expression>
+					</element>
+					<element kind="textField" uuid="f7c4b21b-6e19-4547-bf90-b28d277225ca" x="279" y="0" width="69" height="60">
+						<expression><![CDATA[$F{ASSIGNED_USER_ID}]]></expression>
+					</element>
+					<element kind="textField" uuid="d976e645-920c-4846-a755-599325ef9a10" x="348" y="0" width="69" height="60">
+						<expression><![CDATA[$F{CREATED_BY}]]></expression>
+					</element>
+					<element kind="textField" uuid="f1747067-2d16-4619-8ed1-cb5371d5f658" x="417" y="0" width="69" height="60">
+						<expression><![CDATA[$F{NAME}]]></expression>
+					</element>
+					<element kind="textField" uuid="462339e9-c9ef-4cd2-bdae-3b629cb95588" x="486" y="0" width="69" height="60">
+						<expression><![CDATA[$F{PARENT_ID}]]></expression>
+					</element>
+				</contents>
+			</component>
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+		</element>
+	</summary>
+</jasperReport>

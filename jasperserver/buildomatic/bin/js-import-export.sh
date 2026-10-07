@@ -17,22 +17,23 @@ CMD_LINE_ARGS=$*
 if test -d $BASEDIR/conf_source/iePro
 then
     echo "Executing Pro version"
-    export CONFIG_DIR=$BASEDIR/conf_source/iePro
-    for i in $CONFIG_BASE_DIR/lib/*.jar
+    export CONFIG_BASE_DIR=$BASEDIR/conf_source/iePro
+    export CONFIG_DIR=$CONFIG_BASE_DIR/wrapper
+    for i in $CONFIG_DIR/lib/*.jar
     do
         EXP_CLASSPATH="$EXP_CLASSPATH:$i"
     done
 
 else
     echo "Executing CE version"
-    export CONFIG_DIR=$BASEDIR/conf_source/ieCe
-    for i in $CONFIG_BASE_DIR/lib/*.jar
+    export CONFIG_BASE_DIR=$BASEDIR/conf_source/ieCe
+    export CONFIG_DIR=$CONFIG_BASE_DIR/wrapper
+    for i in $CONFIG_DIR/lib/*.jar
     do
         EXP_CLASSPATH="$EXP_CLASSPATH:$i"
     done
 fi
 
-CONFIG_DIR=$CONFIG_BASE_DIR/wrapper
 
 # Additional config folder. This will be used to 
 # get js.jdbc.properties from buildomatic setup

@@ -128,6 +128,27 @@ GOTO:EOF
 REM Set the java memory options
 
 set JAVA_OPTS=%JAVA_OPTS% -Xms128m -Xmx512m -noverify
+REM module opens for java 17
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.io=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.lang.ref=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.lang=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.nio.channels.spi=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.nio.channels=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.nio=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.security=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.text=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.util.concurrent.locks=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.util.regex=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/java.util=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/javax.security.auth.login=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/javax.security.auth=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/jdk.internal.access.foreign=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/sun.net.util=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+set JAVA_OPTS=%JAVA_OPTS% --add-opens=java.base/sun.util.calendar=ALL-UNNAMED
 
 REM Add config dirs to EXP_CLASSPATH
 

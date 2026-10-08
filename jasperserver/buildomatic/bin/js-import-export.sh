@@ -61,6 +61,29 @@ export BUILDOMATIC_MODE=${BUILDOMATIC_MODE:-interactive}
 export JAVA_OPTS="$JAVA_OPTS -Xms128m -Xmx512m -Djava.net.preferIPv4Stack=true -noverify"
 #export JAVA_OPTS="$JAVA_OPTS -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"
 
+# module opens for java 17
+export JAVA_OPTS="$JAVA_OPTS \
+ --add-opens=java.base/java.io=ALL-UNNAMED \
+ --add-opens=java.base/java.lang.ref=ALL-UNNAMED \
+ --add-opens=java.base/java.lang=ALL-UNNAMED \
+ --add-opens=java.base/java.nio.channels.spi=ALL-UNNAMED \
+ --add-opens=java.base/java.nio.channels=ALL-UNNAMED \
+ --add-opens=java.base/java.nio=ALL-UNNAMED \
+ --add-opens=java.base/java.security=ALL-UNNAMED \
+ --add-opens=java.base/java.text=ALL-UNNAMED \
+ --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED \
+ --add-opens=java.base/java.util.concurrent.locks=ALL-UNNAMED \
+ --add-opens=java.base/java.util.concurrent=ALL-UNNAMED \
+ --add-opens=java.base/java.util.regex=ALL-UNNAMED \
+ --add-opens=java.base/java.util=ALL-UNNAMED \
+ --add-opens=java.base/javax.security.auth.login=ALL-UNNAMED \
+ --add-opens=java.base/javax.security.auth=ALL-UNNAMED \
+ --add-opens=java.base/jdk.internal.access.foreign=ALL-UNNAMED \
+ --add-opens=java.base/sun.net.util=ALL-UNNAMED \
+ --add-opens=java.base/sun.nio.ch=ALL-UNNAMED \
+ --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED \
+ --add-opens=java.base/sun.util.calendar=ALL-UNNAMED"
+
 # Add the config folders to EXP_CLASSPATH
 
 export EXP_CLASSPATH="$CONFIG_BASE_DIR:$CONFIG_DIR:$CONFIG_DIR/classes:$ADDITIONAL_CONFIG_DIR$EXP_CLASSPATH:."

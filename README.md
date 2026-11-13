@@ -1,6 +1,6 @@
 # Jasper Server OS
 
-jasper-server-os is a fork of jasperreports-server-ce, the community version of the Business
+Fork of jasperreports-server-ce, the community version of the Business
 Intelligence and Reporting Server JasperReports Server.
 
 ## Building

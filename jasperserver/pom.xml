@@ -1121,6 +1121,16 @@
                 <version>${jasperreports.version}</version>
             </dependency>
             <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports-barbecue</artifactId>
+                <version>${jasperreports.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports-barcode4j</artifactId>
+                <version>${jasperreports.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>commons-discovery</groupId>
                 <artifactId>commons-discovery</artifactId>
                 <version>0.4</version>

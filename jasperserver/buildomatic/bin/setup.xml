@@ -1374,7 +1374,7 @@
                 </then>
             </elseif>
             <else>
-                <var name="groovy.version" value="3.0.13"/>
+                <var name="groovy.version" value="4.0.26"/>
                 <echo>Didn't find groovy JAR, downloading groovy ${groovy.version}</echo>
                 <runmaven dir="${basedir}">
                     <arg value="dependency:copy"/>

@@ -23,25 +23,36 @@
 
 package com.jaspersoft.jasperserver.api.common.properties;
 
-import com.jaspersoft.jasperserver.crypto.EncryptionEngine;
-import com.jaspersoft.jasperserver.crypto.KeystoreManager;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.ConfigurablePropertyResolver;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.io.Resource;
 
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 
-import static com.jaspersoft.jasperserver.crypto.conf.Defaults.BuildEnc;
-
 public class DecryptingPropertyPlaceholderConfigurer extends PropertySourcesPlaceholderConfigurer {
-	private static final Map<String, String> springImportedProperties = new Hashtable<String, String>();
 
+	private static final Map<String, String> springImportedProperties = new Hashtable<String, String>();
 
 	public DecryptingPropertyPlaceholderConfigurer() {
 		setLocalOverride(true);
 	}
 
+	@Override
+	protected ConfigurablePropertyResolver createPropertyResolver(MutablePropertySources propertySources) {
+		return new DecryptingPropertySourcesPropertyResolver(propertySources);
+	}
+
+	/**
+	 * It seems this one is no longer (6.2.17) used in the context of BeanFactoryPostProcessor,
+	 * but let's keep it around just in case. Its functionality is now covered by
+	 * {@link setLocations(Resource... locations)}, {@link setLocation(Resource location)},
+	 * {@link setPropertiesArray(Properties... propertiesArray)}, and {@link setProperties(Properties properties)}.
+	 * hopefully.
+	 */
 	protected void convertProperties(Properties properties) {
 		super.convertProperties(properties);
 
@@ -51,36 +62,55 @@ public class DecryptingPropertyPlaceholderConfigurer extends PropertySourcesPlac
 
 	}
 
-	/**
-	 * Convert the given property value from the properties source to the value
-	 * which should be applied.
-	 * <p>The default implementation simply returns the original value.
-	 * Can be overridden in subclasses, for example to detect
-	 * encrypted values and decrypt them accordingly.
-	 *
-	 * @param originalValue the original value from the properties source
-	 *                      (properties file or local "properties")
-	 * @return the converted value, to be used for processing
-	 * @see #setProperties
-	 * @see #setLocations
-	 * @see #setLocation
-	 * @see #convertProperty(String, String)
-	 */
-	@Override
-	protected String convertPropertyValue(String originalValue) {
-		if(originalValue == null) {
-			return null;
-		}
-		String value = originalValue.trim();
-		if (EncryptionEngine.isEncrypted(value)) {
-			KeystoreManager ksManager = KeystoreManager.getInstance();
-			value = EncryptionEngine.decrypt(ksManager.getKeystore(null).getKey(BuildEnc.getConfId()), value);
-		}
-
-		return value;
-	}
-
 	public static Map<String, String> getSpringImportedProperties() {
 		return Collections.unmodifiableMap(springImportedProperties);
+	}
+
+	@Override
+	public void setProperties(Properties properties) {
+		super.setProperties(properties);
+		for (Object propKey : properties.keySet()) {
+			springImportedProperties.put(propKey.toString(), properties.getProperty(propKey.toString()));
+		}
+	}
+
+	@Override
+	public void setPropertiesArray(Properties... propertiesArray) {
+		super.setPropertiesArray(propertiesArray);
+		for (Properties properties : propertiesArray) {
+			for (Object propKey : properties.keySet()) {
+				springImportedProperties.put(propKey.toString(), properties.getProperty(propKey.toString()));
+			}
+		}
+	}
+
+	@Override
+	public void setLocations(Resource... locations) {
+		super.setLocations(locations);
+		for (Resource location : locations) {
+			try {
+				Properties properties = new Properties();
+				properties.load(location.getInputStream());
+				for (Object propKey : properties.keySet()) {
+					springImportedProperties.put(propKey.toString(), properties.getProperty(propKey.toString()));
+				}
+			} catch (Exception e) {
+				throw new RuntimeException("Failed to load properties from location: " + location, e);
+			}
+		}
+	}
+
+	@Override
+	public void setLocation(Resource location) {
+		super.setLocation(location);
+		try {
+			Properties properties = new Properties();
+			properties.load(location.getInputStream());
+			for (Object propKey : properties.keySet()) {
+				springImportedProperties.put(propKey.toString(), properties.getProperty(propKey.toString()));
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to load properties from location: " + location, e);
+		}
 	}
 }
